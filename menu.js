@@ -27,7 +27,7 @@
   var RENAME_MAP = {
     'pdf-societe.html':        'Outils',
     'planning-webinaire.html': 'Conférences',
-    'e-state-immobilier.html': 'Immobilier',
+    'e-state-immobilier.html': 'Immobilier Numérique',
     'smart-mev-trading.html':  'Bot Trading',
     'mlm-center.html':         'Système Matriciel',
   };
