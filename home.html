@@ -122,10 +122,19 @@ const _sb = window.supabase.createClient(
     </nav>
 </header>
 
-<!-- EN DIRECT - VISIBLE EN HAUT DE PAGE -->
+<!-- BANNIERE ZOOM / EN DIRECT -->
+<div id="zoom-banner" style="display:none; padding:18px 20px; border-bottom:2px solid rgba(255,50,50,0.4); background:rgba(255,0,0,0.06);">
+  <div style="max-width:860px; margin:0 auto; text-align:center;">
+    <p id="zoom-banner-msg" style="color:#ff4444; font-size:1.3rem; font-weight:700; animation:pulse-live 1.5s infinite; margin-bottom:14px;"></p>
+    <a id="zoom-banner-btn" href="#" target="_blank" style="background:#ff4444;color:#fff;padding:10px 24px;border-radius:8px;text-decoration:none;font-weight:700;font-size:1rem;">
+      Rejoindre le Zoom
+    </a>
+  </div>
+</div>
+
 <div id="live-section" style="display:none; background:rgba(255,0,0,0.05); border-bottom:2px solid rgba(255,50,50,0.3); padding:20px 0;">
   <div style="max-width:860px; margin:0 auto; padding:0 20px;">
-    <h2 style="text-align:center; color:#ff4444; font-size:1.4rem; margin-bottom:12px; animation: pulse-live 1.5s infinite;">🔴 EN DIRECT MAINTENANT</h2>
+    <h2 style="text-align:center; color:#ff4444; font-size:1.4rem; margin-bottom:12px; animation:pulse-live 1.5s infinite;">🔴 EN DIRECT MAINTENANT</h2>
     <div style="position:relative; padding-bottom:56.25%; height:0; border-radius:12px; overflow:hidden; box-shadow:0 0 40px rgba(255,50,50,0.5);">
       <iframe id="live-iframe" src="" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"
         style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>
@@ -137,9 +146,51 @@ const _sb = window.supabase.createClient(
   @keyframes pulse-live { 0%,100%{opacity:1} 50%{opacity:0.4} }
 </style>
 <script>
-  // ▶ METTRE ICI L'ID YouTube quand tu es en direct (ex: "dQw4w9WgXcQ")
+  // ▶ METTRE ICI L'ID YouTube quand tu es en direct
   // ▶ LAISSER VIDE quand pas en direct : ""
   var YOUTUBE_LIVE_ID = "";
+
+  // Liens Zoom
+  var ZOOM_JEUDI = "https://us06web.zoom.us/j/81085168637?pwd=GF0VuD3kpQq8UPoilGrJwj9ubJVQly.1";
+  var ZOOM_SAMEDI = "https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1";
+
+  // Vérifie si on est 10 min avant un Zoom (jeudi 21h ou samedi 19h)
+  function checkZoomSoon() {
+    var now = new Date();
+    var day = now.getDay(); // 0=dim, 4=jeu, 6=sam
+    var h = now.getHours();
+    var m = now.getMinutes();
+    var totalMin = h * 60 + m;
+
+    var banner = document.getElementById('zoom-banner');
+    var msg = document.getElementById('zoom-banner-msg');
+    var btn = document.getElementById('zoom-banner-btn');
+
+    // Jeudi 21h = 1260 min, fenêtre 20h50-21h30 (1250-1290)
+    if (day === 4 && totalMin >= 1250 && totalMin < 1290) {
+      var diff = 1260 - totalMin;
+      msg.textContent = diff > 0
+        ? '🔴 Le Zoom commence dans ' + diff + ' minute' + (diff > 1 ? 's' : '') + ' !'
+        : '🔴 Le Zoom est en cours maintenant !';
+      btn.href = ZOOM_JEUDI;
+      banner.style.display = 'block';
+    }
+    // Samedi 19h = 1140 min, fenêtre 18h50-19h30 (1130-1170)
+    else if (day === 6 && totalMin >= 1130 && totalMin < 1170) {
+      var diff = 1140 - totalMin;
+      msg.textContent = diff > 0
+        ? '🔴 Le Zoom commence dans ' + diff + ' minute' + (diff > 1 ? 's' : '') + ' !'
+        : '🔴 Le Zoom est en cours maintenant !';
+      btn.href = ZOOM_SAMEDI;
+      banner.style.display = 'block';
+    } else {
+      banner.style.display = 'none';
+    }
+  }
+
+  checkZoomSoon();
+  setInterval(checkZoomSoon, 30000);
+
   if (YOUTUBE_LIVE_ID) {
     document.getElementById('live-section').style.display = 'block';
     document.getElementById('live-iframe').src = 'https://www.youtube.com/embed/' + YOUTUBE_LIVE_ID + '?autoplay=1';
