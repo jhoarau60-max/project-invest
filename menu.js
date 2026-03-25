@@ -220,7 +220,7 @@
     header nav { display: none !important; }
 
     /* Sous-menus */
-    .nav-sub { list-style:none !important; padding:0 0 4px 0 !important; display:none; }
+    .nav-sub { list-style:none !important; padding:0 0 4px 0 !important; display:none !important; }
     .nav-sub.open { display:block !important; }
     .nav-sub li a {
       padding: 8px 12px 8px 38px !important;
