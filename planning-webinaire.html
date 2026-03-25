@@ -293,7 +293,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
           if (last3Past.indexOf(i) !== -1) {
             statutHtml = '<span style="color:#aaa;font-size:0.8rem;">Bientôt disponible</span>';
           } else {
-            statutHtml = '<span style="color:rgba(255,255,255,0.25);font-size:0.8rem;">Zoom terminé</span>';
+            statutHtml = '<span style="color:#aaa;font-size:0.8rem;text-shadow:0 0 8px rgba(255,255,255,0.6);">Zoom terminé</span>';
           }
         } else {
           statutHtml = '<span class="row-cd" data-ts="' + ts + '" style="color:' + timerColor + ';font-weight:700;font-size:0.85rem;">--</span>';
