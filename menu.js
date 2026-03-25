@@ -344,9 +344,10 @@
         });
         li.appendChild(subUl);
 
-        // Clic : ouvrir/fermer le sous-menu sans naviguer
-        a.addEventListener('click', function (e) {
+        // Clic sur la flèche uniquement → ouvre/ferme le sous-menu
+        arrow.addEventListener('click', function (e) {
           e.preventDefault();
+          e.stopPropagation();
           li.classList.toggle('open');
           subUl.classList.toggle('open');
         });
