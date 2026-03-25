@@ -215,11 +215,43 @@ var POURCENTAGE = 35;
 <script src="translator.js"></script>
 
 <script>
+// ── Voix robotique ───────────────────────────────────────────────────────────
+function parlerRobot() {
+    if (!window.speechSynthesis) return;
+    var texte = "Accès autorisé. Bienvenue sur le tableau de bord Project inves T. "
+              + "Initialisation du système en cours. "
+              + "Votre progression est en cours de traitement. "
+              + "Restez connecté... une surprise de taille vous attend. "
+              + "Plus la barre avance, plus l'opportunité se précise. "
+              + "Préparez-vous.";
+    var msg = new SpeechSynthesisUtterance(texte);
+    msg.lang  = 'fr-FR';
+    msg.pitch = 0.4;   // voix grave robotique
+    msg.rate  = 0.82;  // légèrement ralenti
+    msg.volume = 1;
+    // Choisir la voix la plus robotique disponible
+    var voices = window.speechSynthesis.getVoices();
+    var robot  = voices.find(function(v) {
+        return v.lang === 'fr-FR' && /google|microsoft/i.test(v.name);
+    }) || voices.find(function(v) { return v.lang === 'fr-FR'; });
+    if (robot) msg.voice = robot;
+    window.speechSynthesis.speak(msg);
+}
+
 // Animation de la barre au chargement
 window.addEventListener('load', function() {
     var p = Math.max(0, Math.min(100, POURCENTAGE));
     var bar = document.getElementById('progress-bar');
     var pct = document.getElementById('progress-pct');
+
+    // Lancer la voix après 1.2s (laisse le temps aux voix de charger)
+    setTimeout(function() {
+        if (window.speechSynthesis.getVoices().length === 0) {
+            window.speechSynthesis.onvoiceschanged = parlerRobot;
+        } else {
+            parlerRobot();
+        }
+    }, 1200);
 
     // Compte à rebours animé du chiffre
     var start = 0;
