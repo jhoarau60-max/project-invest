@@ -265,7 +265,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         if (REPLAYS[dateKey]) {
           replayHtml = '<a href="' + REPLAYS[dateKey] + '" target="_blank" style="background:#FF0000;color:#fff;padding:5px 10px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.78rem;white-space:nowrap;display:inline-block;">▶ Voir le replay</a>';
         } else if (isPast) {
-          replayHtml = '<span style="color:rgba(255,255,255,0.35);font-size:0.8rem;">Bientôt disponible</span>';
+          replayHtml = '<span style="color:#aaa;font-size:0.8rem;">Bientôt disponible</span>';
         }
 
         var tr = '<tr style="' + r.style + '">'
