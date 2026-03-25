@@ -285,17 +285,17 @@ function parlerRobot() {
     msg.rate   = 0.75;  // lent et mécanique
     msg.volume = 1;
 
-    // Sélection de la meilleure voix masculine disponible
+    // Priorité aux voix masculines anglaises (toujours dispo dans Chrome, son robotique)
     var voices = window.speechSynthesis.getVoices();
     var voix =
-        voices.find(function(v) { return /microsoft.*paul|microsoft.*claude|microsoft.*thomas/i.test(v.name); }) ||
-        voices.find(function(v) { return v.lang === 'fr-FR' && /male|homme|thomas|paul|nicolas/i.test(v.name); }) ||
-        voices.find(function(v) { return v.lang === 'fr-FR' && !/female|femme|amelie|audrey|marie|sophie/i.test(v.name); }) ||
         voices.find(function(v) { return /google uk english male/i.test(v.name); }) ||
-        voices.find(function(v) { return v.lang === 'en-GB' && /male/i.test(v.name); }) ||
+        voices.find(function(v) { return /microsoft david/i.test(v.name); }) ||
+        voices.find(function(v) { return /microsoft george/i.test(v.name); }) ||
+        voices.find(function(v) { return v.lang === 'en-GB' && !/female/i.test(v.name); }) ||
+        voices.find(function(v) { return v.lang === 'en-US' && /male|david|mark|richard/i.test(v.name); }) ||
         voices.find(function(v) { return v.lang === 'fr-FR'; });
 
-    if (voix) msg.voice = voix;
+    if (voix) { msg.voice = voix; msg.lang = voix.lang; }
     else msg.lang = 'fr-FR';
 
     window.speechSynthesis.speak(msg);
