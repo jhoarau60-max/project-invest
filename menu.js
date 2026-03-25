@@ -35,9 +35,9 @@
   // Sous-menus
   var SUB_ITEMS = {
     'e-state-immobilier.html': [
-      { href: 'bibliotheque-immobilier.html', label: 'Bibliothèque', icon: 'fa-book' },
-      { href: 'videos-immobilier.html',       label: 'Vidéos',       icon: 'fa-video' },
-      { href: 'pdf-immobilier.html',          label: 'PDF',          icon: 'fa-file-pdf' },
+      { href: 'bibliotheque-immobilier.html', label: 'Biens Immobiliers', icon: 'fa-building' },
+      { href: 'videos-immobilier.html',       label: 'Outils Vidéo',     icon: 'fa-video' },
+      { href: 'pdf-immobilier.html',          label: 'Documents Officiels', icon: 'fa-file-pdf' },
     ],
     'smart-mev-trading.html': [
       { href: 'bibliotheque-trading.html', label: 'Bibliothèque', icon: 'fa-book' }
