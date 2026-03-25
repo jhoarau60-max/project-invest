@@ -362,3 +362,47 @@
   });
 
 })();
+
+// ─── PWA : Service Worker + Bouton Installer ─────────────────────────────────
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+
+var _pwaPrompt = null;
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  _pwaPrompt = e;
+  var btn = document.getElementById('pwa-install-btn');
+  if (btn) btn.style.display = 'inline-flex';
+});
+
+window.addEventListener('load', function() {
+  // Créer le bouton dans le header-top
+  var headerTop = document.querySelector('.header-top');
+  if (!headerTop) return;
+
+  var btn = document.createElement('a');
+  btn.id = 'pwa-install-btn';
+  btn.title = 'Installer l\'application';
+  btn.style.cssText = 'display:none;align-items:center;gap:6px;background:rgba(0,200,255,0.15);color:#00c8ff;border:1px solid rgba(0,200,255,0.4);border-radius:20px;padding:5px 12px;cursor:pointer;font-size:0.85rem;font-weight:700;text-decoration:none;flex-shrink:0;';
+  btn.innerHTML = '<i class="fa-solid fa-download"></i> Installer';
+
+  btn.addEventListener('click', function() {
+    if (_pwaPrompt) {
+      _pwaPrompt.prompt();
+      _pwaPrompt.userChoice.then(function() { _pwaPrompt = null; btn.style.display = 'none'; });
+    } else {
+      alert('Pour installer sur iPhone : appuyez sur le bouton Partager puis "Sur l\'écran d\'accueil"');
+    }
+  });
+
+  // Insérer avant le premier bouton du header
+  var firstBtn = headerTop.querySelector('a');
+  if (firstBtn) headerTop.insertBefore(btn, firstBtn);
+  else headerTop.appendChild(btn);
+
+  // Sur iOS : toujours visible car pas de beforeinstallprompt
+  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  var isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+  if (isIOS && !isStandalone) btn.style.display = 'inline-flex';
+});
