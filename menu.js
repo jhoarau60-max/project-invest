@@ -396,12 +396,14 @@ window.addEventListener('load', function() {
     }
   });
 
-  // Insérer comme premier bouton dans social-links
-  var socialLinks = headerTop.querySelector('.social-links');
-  if (socialLinks) {
-    socialLinks.insertBefore(btn, socialLinks.firstChild);
+  // Insérer juste après la barre de recherche
+  var searchEl = headerTop.querySelector('#header-search, input[type="search"], input[type="text"]');
+  if (searchEl && searchEl.parentNode) {
+    searchEl.parentNode.insertBefore(btn, searchEl.nextSibling);
   } else {
-    headerTop.appendChild(btn);
+    var socialLinks = headerTop.querySelector('.social-links');
+    if (socialLinks) socialLinks.insertBefore(btn, socialLinks.firstChild);
+    else headerTop.appendChild(btn);
   }
 
   // Sur iOS : toujours visible car pas de beforeinstallprompt
