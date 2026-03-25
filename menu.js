@@ -396,10 +396,13 @@ window.addEventListener('load', function() {
     }
   });
 
-  // Insérer avant le premier bouton du header
-  var firstBtn = headerTop.querySelector('a');
-  if (firstBtn) headerTop.insertBefore(btn, firstBtn);
-  else headerTop.appendChild(btn);
+  // Insérer comme premier bouton dans social-links
+  var socialLinks = headerTop.querySelector('.social-links');
+  if (socialLinks) {
+    socialLinks.insertBefore(btn, socialLinks.firstChild);
+  } else {
+    headerTop.appendChild(btn);
+  }
 
   // Sur iOS : toujours visible car pas de beforeinstallprompt
   var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
