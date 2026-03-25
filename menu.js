@@ -15,7 +15,7 @@
     'smart-mev-trading.html':        'fa-robot',
     'mlm-center.html':               'fa-sitemap',
     'portage-salarial.html':         'fa-briefcase',
-    'wallet-decentralise.html':      'fa-wallet',
+    'wallet-decentralise.html':      'fa-gift',
     'bibliotheque-immobilier.html':  'fa-book',
     'bibliotheque-trading.html':     'fa-robot',
     'videos-trading.html':           'fa-video',
@@ -25,7 +25,7 @@
     'strategie-mlm.html':            'fa-chess',
     'videos-immobilier.html':        'fa-video',
     'pdf-immobilier.html':           'fa-file-pdf',
-    'bibliotheque-mlm.html':         'fa-book',
+    'bibliotheque-mlm.html':         'fa-star',
   };
 
   // Renommer les onglets
@@ -35,6 +35,7 @@
     'e-state-immobilier.html': 'Immobilier Numérique',
     'smart-mev-trading.html':  'Bot Trading',
     'mlm-center.html':         'Système Matriciel',
+    'wallet-decentralise.html':'SURPRISE',
   };
 
   // Sous-menus
