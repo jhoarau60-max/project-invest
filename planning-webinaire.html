@@ -156,6 +156,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                 <th>Sujet</th>
                 <th>Intervenant</th>
                 <th>Accès</th>
+                <th>Replay</th>
             </tr>
         </thead>
         <tbody id="planning-body">
@@ -163,6 +164,11 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
     </table>
 
     <script>
+    // ─── REPLAYS (clé = "YYYY-MM-DD", valeur = lien YouTube) ────────────────────
+    var REPLAYS = {
+      // Exemple : "2026-03-26": "https://www.youtube.com/watch?v=XXXXXXX"
+    };
+
     // ─── ÉVÉNEMENTS SPÉCIAUX (à compléter au fur et à mesure) ───────────────────
     var SPECIAL_EVENTS = [
       {
@@ -244,16 +250,31 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
       });
 
       // Générer le HTML
+      var today = new Date(); today.setHours(0,0,0,0);
       var tbody = document.getElementById('planning-body');
       tbody.innerHTML = '';
       rows.forEach(function(r) {
         var label = r.special ? '<strong>' + formatDate(r.dateObj) + '</strong>' : formatDate(r.dateObj);
+
+        // Colonne replay
+        var dateKey = r.dateObj.getFullYear() + '-'
+          + String(r.dateObj.getMonth()+1).padStart(2,'0') + '-'
+          + String(r.dateObj.getDate()).padStart(2,'0');
+        var isPast = r.dateObj < today;
+        var replayHtml = '';
+        if (REPLAYS[dateKey]) {
+          replayHtml = '<a href="' + REPLAYS[dateKey] + '" target="_blank" style="background:#FF0000;color:#fff;padding:5px 10px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.78rem;white-space:nowrap;display:inline-block;">▶ Voir le replay</a>';
+        } else if (isPast) {
+          replayHtml = '<span style="color:rgba(255,255,255,0.35);font-size:0.8rem;">Bientôt disponible</span>';
+        }
+
         var tr = '<tr style="' + r.style + '">'
           + '<td>' + label + '</td>'
           + '<td>' + r.heure + '</td>'
           + '<td>' + r.sujet + '</td>'
           + '<td>' + r.intervenant + '</td>'
           + '<td><a href="' + r.lien + '" target="_blank" class="' + r.classe + '">Accéder au Zoom</a></td>'
+          + '<td>' + replayHtml + '</td>'
           + '</tr>';
         tbody.innerHTML += tr;
       });
