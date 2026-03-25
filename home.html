@@ -166,23 +166,25 @@ const _sb = window.supabase.createClient(
     var msg = document.getElementById('zoom-banner-msg');
     var btn = document.getElementById('zoom-banner-btn');
 
-    // TEST TEMPORAIRE - à supprimer après
-    if (true || (day === 4 && totalMin >= 1250 && totalMin < 1290)) {
-      var diff = 1260 - totalMin;
-      msg.textContent = diff > 0
-        ? '🔴 Le Zoom commence dans ' + diff + ' minute' + (diff > 1 ? 's' : '') + ' !'
-        : '🔴 Le Zoom est en cours maintenant !';
-      btn.href = ZOOM_JEUDI;
+    var zoomMin = -1, zoomLink = '';
+    // Jeudi 21h = 1260min → fenêtre 20h50 à 21h05
+    if (day === 4 && totalMin >= 1250 && totalMin < 1265) { zoomMin = 1260; zoomLink = ZOOM_JEUDI; }
+    // Samedi 19h = 1140min → fenêtre 18h50 à 19h05
+    else if (day === 6 && totalMin >= 1130 && totalMin < 1145) { zoomMin = 1140; zoomLink = ZOOM_SAMEDI; }
+
+    if (zoomMin > 0) {
+      var diff = zoomMin - totalMin;
       banner.style.display = 'block';
-    }
-    // Samedi 19h = 1140 min, fenêtre 18h50-19h30 (1130-1170)
-    else if (day === 6 && totalMin >= 1130 && totalMin < 1170) {
-      var diff = 1140 - totalMin;
-      msg.textContent = diff > 0
-        ? '🔴 Le Zoom commence dans ' + diff + ' minute' + (diff > 1 ? 's' : '') + ' !'
-        : '🔴 Le Zoom est en cours maintenant !';
-      btn.href = ZOOM_SAMEDI;
-      banner.style.display = 'block';
+      btn.style.display = 'inline-block';
+      btn.href = zoomLink;
+      if (diff > 0) {
+        msg.textContent = '🔴 Le Zoom commence dans ' + diff + ' minute' + (diff > 1 ? 's' : '') + ' !';
+      } else if (diff === 0) {
+        msg.textContent = '🔴 Le Zoom commence maintenant !';
+      } else {
+        // Retard : entre T+1 et T+5
+        msg.textContent = '⏳ Restez connectés — le Zoom a pris quelques minutes de retard, nous arrivons !';
+      }
     } else {
       banner.style.display = 'none';
     }
