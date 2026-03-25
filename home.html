@@ -233,6 +233,46 @@ const _sb = window.supabase.createClient(
 </div>
 
 
+<!-- EN DIRECT -->
+<div class="section">
+  <h2 class="section-title" id="live-title" style="display:none;">🔴 EN DIRECT</h2>
+  <div class="divider" id="live-divider" style="display:none;"></div>
+  <div id="live-container" style="display:none; max-width:800px; margin:0 auto;">
+    <div style="position:relative; padding-bottom:56.25%; height:0; border-radius:12px; overflow:hidden; box-shadow:0 0 30px rgba(255,50,50,0.4);">
+      <iframe id="live-iframe" src="" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"
+        style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>
+    </div>
+    <p style="text-align:center; color:#ff4444; font-weight:700; margin-top:12px; animation: pulse-live 1.5s infinite;">● Streaming en direct maintenant</p>
+  </div>
+  <div id="no-live-container" style="max-width:600px; margin:0 auto; text-align:center;">
+    <div class="card">
+      <div class="card-icon">📡</div>
+      <h3>Prochain Direct</h3>
+      <p>Aucun streaming en cours pour le moment. Rejoignez nos webinaires <strong style="color:#c9a84c;">tous les jeudis à 21h</strong> et <strong style="color:#c9a84c;">samedis à 19h</strong>.</p>
+      <br>
+      <a href="planning-webinaire.html" class="btn">Voir le planning</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes pulse-live { 0%,100%{opacity:1} 50%{opacity:0.4} }
+</style>
+
+<script>
+  // ▶ METTRE ICI L'ID YouTube quand tu es en direct (ex: "dQw4w9WgXcQ")
+  // ▶ LAISSER VIDE quand tu n'es pas en direct : ""
+  var YOUTUBE_LIVE_ID = "";
+
+  if (YOUTUBE_LIVE_ID) {
+    document.getElementById('live-title').style.display = 'block';
+    document.getElementById('live-divider').style.display = 'block';
+    document.getElementById('live-container').style.display = 'block';
+    document.getElementById('no-live-container').style.display = 'none';
+    document.getElementById('live-iframe').src = 'https://www.youtube.com/embed/' + YOUTUBE_LIVE_ID + '?autoplay=1';
+  }
+</script>
+
 <!-- WEBINAIRE -->
 <div>
 <div class="section">
@@ -240,10 +280,10 @@ const _sb = window.supabase.createClient(
     <div class="divider"></div>
     <div class="card" style="max-width:600px; margin:0 auto; text-align:center;">
         <div class="card-icon">🎥</div>
-        <h3>Webinaire Mensuel - Avril 2026</h3>
-        <p>Rejoignez notre prochain webinaire en direct pour découvrir les dernières opportunités et poser vos questions en temps réel.</p>
+        <h3>Webinaire — Tous les jeudis & samedis</h3>
+        <p>Rejoignez nos webinaires en direct sur Zoom et YouTube. Posez vos questions en temps réel.</p>
         <br>
-        <p style="color:#c9a84c; font-size:1.1rem; font-weight:700;">📅 Samedi 12 Avril 2026 à 14h00</p>
+        <p style="color:#c9a84c; font-size:1.1rem; font-weight:700;">📅 Jeudis à 21h00 — Samedis à 19h00</p>
         <br>
         <a href="planning-webinaire.html" class="btn">Voir tout le planning</a>
     </div>
