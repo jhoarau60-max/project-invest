@@ -25,28 +25,29 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         100% { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
       }
       .btn-zoom-bleu {
-        background:#00c8ff; color:#020a18; padding:7px 14px;
+        background:#00c8ff; color:#020a18; padding:6px 10px;
         border-radius:8px; text-decoration:none; font-weight:700;
-        font-size:0.85rem; transition: all 0.3s;
+        font-size:0.78rem; transition: all 0.3s; white-space:nowrap; display:inline-block;
       }
       .btn-zoom-bleu:hover {
         box-shadow: 0 0 18px rgba(0,200,255,0.9), 0 0 35px rgba(0,200,255,0.5);
         transform: translateY(-2px);
       }
       .btn-zoom-dore {
-        background:#c9a84c; color:#020a18; padding:7px 14px;
+        background:#c9a84c; color:#020a18; padding:6px 10px;
         border-radius:8px; text-decoration:none; font-weight:700;
-        font-size:0.85rem; transition: all 0.3s;
+        font-size:0.78rem; transition: all 0.3s; white-space:nowrap; display:inline-block;
       }
       .btn-zoom-dore:hover {
         box-shadow: 0 0 18px rgba(201,168,76,0.9), 0 0 35px rgba(201,168,76,0.5);
         transform: translateY(-2px);
       }
       .btn-zoom-special {
-        background: linear-gradient(90deg, #009246 0%, #009246 33%, #fff 33%, #fff 66%, #002395 66%, #002395 100%);
-        color:#fff; text-shadow: 0 1px 3px rgba(0,0,0,0.7);
-        padding:7px 14px; border-radius:8px; text-decoration:none;
-        font-weight:700; font-size:0.85rem; transition: all 0.3s;
+        background: linear-gradient(90deg, #009246 0%, #009246 45%, #002395 55%, #002395 100%);
+        color:#fff; text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        padding:6px 10px; border-radius:8px; text-decoration:none;
+        font-weight:700; font-size:0.78rem; transition: all 0.3s;
+        white-space:nowrap; display:inline-block;
         border: 1px solid rgba(255,255,255,0.3);
       }
       .btn-zoom-special:hover {
