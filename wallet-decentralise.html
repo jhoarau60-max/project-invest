@@ -231,10 +231,21 @@ function parlerRobot() {
               + "Plus la barre avance, plus l'opportunité se précise. "
               + "Préparez-vous.";
     var msg = new SpeechSynthesisUtterance(texte);
-    msg.lang   = 'fr-FR';
     msg.pitch  = 0.1;
     msg.rate   = 0.75;
     msg.volume = 1;
+
+    // Voix anglaise sur texte français = accent robotique
+    var voices = window.speechSynthesis.getVoices();
+    var voix =
+        voices.find(function(v) { return /google uk english male/i.test(v.name); }) ||
+        voices.find(function(v) { return /microsoft david/i.test(v.name); }) ||
+        voices.find(function(v) { return v.lang === 'en-GB'; }) ||
+        voices.find(function(v) { return v.lang === 'en-US'; });
+
+    if (voix) { msg.voice = voix; msg.lang = voix.lang; }
+    else msg.lang = 'en-US';
+
     window.speechSynthesis.speak(msg);
 }
 
