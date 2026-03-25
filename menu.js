@@ -344,11 +344,11 @@
         });
         li.appendChild(subUl);
 
-        // Clic : naviguer vers la page ET ouvrir le sous-menu
+        // Clic : ouvrir/fermer le sous-menu sans naviguer
         a.addEventListener('click', function (e) {
-          li.classList.add('open');
-          subUl.classList.add('open');
-          // navigation normale vers la page
+          e.preventDefault();
+          li.classList.toggle('open');
+          subUl.classList.toggle('open');
         });
       }
     });
