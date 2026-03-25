@@ -166,8 +166,8 @@ const _sb = window.supabase.createClient(
     var msg = document.getElementById('zoom-banner-msg');
     var btn = document.getElementById('zoom-banner-btn');
 
-    // Jeudi 21h = 1260 min, fenêtre 20h50-21h30 (1250-1290)
-    if (day === 4 && totalMin >= 1250 && totalMin < 1290) {
+    // TEST TEMPORAIRE - à supprimer après
+    if (true || (day === 4 && totalMin >= 1250 && totalMin < 1290)) {
       var diff = 1260 - totalMin;
       msg.textContent = diff > 0
         ? '🔴 Le Zoom commence dans ' + diff + ' minute' + (diff > 1 ? 's' : '') + ' !'
