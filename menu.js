@@ -384,7 +384,7 @@ window.addEventListener('load', function() {
   var btn = document.createElement('a');
   btn.id = 'pwa-install-btn';
   btn.title = 'Installer l\'application';
-  btn.style.cssText = 'display:none;align-items:center;gap:6px;background:rgba(0,200,255,0.15);color:#00c8ff;border:1px solid rgba(0,200,255,0.4);border-radius:20px;padding:5px 12px;cursor:pointer;font-size:0.85rem;font-weight:700;text-decoration:none;flex-shrink:0;';
+  btn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;background:rgba(0,200,255,0.15);color:#00c8ff;border:1px solid rgba(0,200,255,0.4);border-radius:20px;padding:5px 12px;cursor:pointer;font-size:0.85rem;font-weight:700;text-decoration:none;flex-shrink:0;';
   btn.innerHTML = '<i class="fa-solid fa-download"></i> Project App';
 
   btn.addEventListener('click', function() {
