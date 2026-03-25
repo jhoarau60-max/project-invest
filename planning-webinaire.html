@@ -43,13 +43,14 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         transform: translateY(-2px);
       }
       .btn-zoom-special {
-        background: linear-gradient(90deg, #009246 0%, #009246 45%, #002395 55%, #002395 100%);
-        color:#fff; text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        background: #1a1a2e;
+        color:#fff;
         padding:6px 10px; border-radius:8px; text-decoration:none;
         font-weight:700; font-size:0.78rem; transition: all 0.3s;
-        white-space:nowrap; display:inline-block;
+        white-space:nowrap; display:inline-flex; align-items:center; gap:5px;
         border: 1px solid rgba(255,255,255,0.3);
       }
+      .btn-zoom-special img { border-radius:2px; vertical-align:middle; }
       .btn-zoom-special:hover {
         box-shadow: 0 0 18px rgba(0,146,70,0.8), 0 0 35px rgba(0,35,149,0.6);
         transform: translateY(-2px);
@@ -179,7 +180,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                 <td>19h00</td>
                 <td>Présentation spéciale internationale E-estate</td>
                 <td><img src="https://flagcdn.com/fr.svg" width="20" style="vertical-align:middle;border-radius:2px;"> Hoarau Johnny &amp; <img src="https://flagcdn.com/it.svg" width="20" style="vertical-align:middle;border-radius:2px;"> Massimiliano</td>
-                <td><a href="#" class="btn-zoom-special">Accéder au Zoom</a></td>
+                <td><a href="#" class="btn-zoom-special"><img src="https://flagcdn.com/fr.svg" width="18"><img src="https://flagcdn.com/it.svg" width="18"> Accéder au Zoom</a></td>
             </tr>
             <tr>
                 <td>Jeudi 2 Avril 2026</td>
