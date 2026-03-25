@@ -238,6 +238,10 @@ function parlerRobot() {
     window.speechSynthesis.speak(msg);
 }
 
+// Stopper la voix quand on quitte la page
+window.addEventListener('beforeunload', function() { window.speechSynthesis.cancel(); });
+window.addEventListener('pagehide',     function() { window.speechSynthesis.cancel(); });
+
 // Animation de la barre au chargement
 window.addEventListener('load', function() {
     var p = Math.max(0, Math.min(100, POURCENTAGE));
