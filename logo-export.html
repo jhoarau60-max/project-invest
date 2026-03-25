@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body { background: #05122b; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; gap: 20px; }
+  button { background: #00c8ff; color: #020a18; border: none; padding: 12px 25px; font-size: 1rem; font-weight: 700; border-radius: 8px; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<canvas id="canvas" width="120" height="120"></canvas>
+
+<button onclick="telecharger()">⬇ Télécharger le logo PNG</button>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+
+// Fond
+ctx.fillStyle = '#05122b';
+ctx.fillRect(0, 0, 120, 120);
+
+// Arc extérieur
+ctx.beginPath();
+ctx.arc(60, 60, 45, 0.4, Math.PI * 2 - 0.4);
+ctx.strokeStyle = '#00c8ff';
+ctx.lineWidth = 3.5;
+ctx.shadowColor = '#00c8ff';
+ctx.shadowBlur = 12;
+ctx.stroke();
+
+// Arc intérieur
+ctx.beginPath();
+ctx.arc(60, 60, 33, 0.5, Math.PI * 2 - 0.5);
+ctx.strokeStyle = '#1a7fdb';
+ctx.lineWidth = 2;
+ctx.shadowBlur = 0;
+ctx.globalAlpha = 0.6;
+ctx.stroke();
+ctx.globalAlpha = 1;
+
+// P
+ctx.shadowColor = '#00c8ff';
+ctx.shadowBlur = 10;
+ctx.fillStyle = '#ffffff';
+ctx.font = 'bold 52px Arial Black, sans-serif';
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+ctx.fillText('P', 62, 63);
+
+function telecharger() {
+  const a = document.createElement('a');
+  a.download = 'logo-P.png';
+  a.href = canvas.toDataURL('image/png');
+  a.click();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project inves'T - Paramètres</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    .settings-wrapper { max-width: 600px; width: 100%; margin: 40px auto; padding: 0 20px; }
+    .settings-section { width: 100%; }
+    .settings-section {
+      background: rgba(10,42,94,0.35);
+      border: 1px solid rgba(0,200,255,0.2);
+      border-radius: 16px;
+      padding: 30px;
+      margin-bottom: 28px;
+    }
+    .settings-section h2 {
+      color: #00c8ff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(0,200,255,0.15);
+      padding-bottom: 12px;
+    }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; color: #7ecfef; font-size: 0.82rem; margin-bottom: 7px; letter-spacing: 1px; text-transform: uppercase; }
+    .form-group input {
+      width: 100%; background: rgba(2,10,24,0.6);
+      border: 1px solid rgba(0,200,255,0.3); border-radius: 8px;
+      padding: 12px 16px; color: #fff; font-size: 0.95rem; outline: none; transition: all 0.3s;
+      font-family: inherit;
+    }
+    .form-group input:focus { border-color: #00c8ff; box-shadow: 0 0 15px rgba(0,200,255,0.25); }
+    .form-group input::placeholder { color: rgba(255,255,255,0.3); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .btn-save {
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #1a7fdb, #00c8ff);
+      color: #020a18; font-size: 0.95rem; font-weight: 700;
+      border: none; border-radius: 8px; cursor: pointer;
+      letter-spacing: 1px; transition: all 0.3s;
+    }
+    .btn-save:hover { box-shadow: 0 0 20px rgba(0,200,255,0.5); transform: translateY(-2px); }
+    .btn-save:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .msg { display:none; border-radius: 8px; padding: 10px 14px; font-size: 0.88rem; margin-top: 14px; }
+    .msg.ok  { background: rgba(0,200,100,0.15); border: 1px solid rgba(0,200,100,0.4); color: #00c878; display:block; }
+    .msg.err { background: rgba(255,50,50,0.15);  border: 1px solid rgba(255,50,50,0.4);  color: #ff6b6b; display:block; }
+    .password-wrapper { position: relative; }
+    .password-wrapper input { padding-right: 45px; }
+    .eye-btn { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #7ecfef; font-size: 1.1rem; }
+
+    /* 2FA */
+    .twofa-status { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+    .badge-on  { background: rgba(0,200,100,0.15); border: 1px solid rgba(0,200,100,0.4); color: #00c878; padding: 4px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; }
+    .badge-off { background: rgba(255,100,50,0.15); border: 1px solid rgba(255,100,50,0.4); color: #ff8c5a; padding: 4px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; }
+    .qr-container { text-align: center; margin: 18px 0; }
+    .qr-container img { border: 2px solid rgba(0,200,255,0.3); border-radius: 10px; padding: 10px; background: #fff; }
+    .otp-input { width: 180px; text-align: center; font-size: 1.4rem; letter-spacing: 8px; font-weight: 700; }
+    .btn-danger {
+      padding: 10px 22px;
+      background: rgba(255,50,50,0.15);
+      color: #ff6b6b; font-size: 0.88rem; font-weight: 700;
+      border: 1px solid rgba(255,50,50,0.4); border-radius: 8px; cursor: pointer;
+      transition: all 0.3s; margin-top: 10px;
+    }
+    .btn-danger:hover { background: rgba(255,50,50,0.3); }
+    #qr-section { display: none; }
+    #disable-section { display: none; }
+
+    /* Crop modal */
+    #crop-modal {
+      display:none;
+      position:fixed !important;
+      top:0 !important; left:0 !important;
+      right:0 !important; bottom:0 !important;
+      width:100vw !important; height:100vh !important;
+      margin:0 !important; padding:0 !important;
+      background:rgba(0,0,20,0.93);
+      z-index:999999 !important;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+    }
+    #crop-box {
+      background:#0b1a2e;border:1px solid rgba(0,200,255,0.3);border-radius:16px;
+      padding:28px;max-width:340px;width:92%;text-align:center;
+      position:relative;z-index:100000;
+    }
+    #crop-container {
+      position:relative;width:240px;height:240px;margin:0 auto 16px;
+      overflow:hidden;border-radius:50%;border:3px solid rgba(0,200,255,0.6);
+      cursor:move;user-select:none;background:#0a2a5e;
+    }
+    #crop-canvas { display:block; }
+  </style>
+    <style>
+      .line-anim  { stroke-dasharray: 40 960; animation: snake 6s linear infinite, rainbow 5s linear infinite; }
+      .line-anim2 { stroke-dasharray: 40 960; animation: snake 8s linear infinite reverse, rainbow 5s linear infinite 1.5s; }
+      .line-anim3 { stroke-dasharray: 40 960; animation: snake 7s linear infinite, rainbow 5s linear infinite 3s; }
+      @keyframes snake { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: -1000; } }
+      @keyframes rainbow {
+        0%   { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
+        20%  { stroke: #7850ff; filter: drop-shadow(0 0 6px #7850ff); }
+        40%  { stroke: #ff3399; filter: drop-shadow(0 0 6px #ff3399); }
+        60%  { stroke: #ffaa00; filter: drop-shadow(0 0 6px #ffaa00); }
+        80%  { stroke: #00ff99; filter: drop-shadow(0 0 6px #00ff99); }
+        100% { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
+      }
+      @keyframes floatBubble {
+        0%   { transform: translateY(0px) translateX(0px); opacity: 0.6; }
+        25%  { transform: translateY(-30px) translateX(15px); opacity: 0.8; }
+        50%  { transform: translateY(-60px) translateX(-10px); opacity: 0.5; }
+        75%  { transform: translateY(-90px) translateX(20px); opacity: 0.7; }
+        100% { transform: translateY(-150px) translateX(0px); opacity: 0; }
+      }
+      @keyframes bubbleRainbow {
+        0%   { stroke: rgba(0,200,255,0.5); }
+        25%  { stroke: rgba(120,80,255,0.5); }
+        50%  { stroke: rgba(255,100,200,0.5); }
+        75%  { stroke: rgba(0,255,150,0.5); }
+        100% { stroke: rgba(0,200,255,0.5); }
+      }
+    </style>
+</head>
+<body>
+
+<div id="bg-curves">
+  <svg viewBox="0 0 1700 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="glow-line"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <path class="line-anim"  d="M-100,300 C200,100 400,500 800,250 S1200,50 1700,300"  fill="none" stroke="rgba(0,200,255,0.2)"  stroke-width="2" filter="url(#glow-line)"/>
+    <path class="line-anim2" d="M-100,600 C300,400 600,800 1000,550 S1400,300 1700,600" fill="none" stroke="rgba(26,127,219,0.25)" stroke-width="2" filter="url(#glow-line)"/>
+    <path class="line-anim3" d="M-100,150 C300,50 700,350 1100,150 S1450,0 1700,180"   fill="none" stroke="rgba(0,200,255,0.12)" stroke-width="1.5" filter="url(#glow-line)"/>
+    <circle cx="80"   cy="880" r="7"  fill="rgba(0,200,255,0.04)"   stroke="rgba(0,200,255,0.5)"   stroke-width="1" style="animation:floatBubble 6s 0s linear infinite,bubbleRainbow 4s 0s linear infinite;"/>
+    <circle cx="180"  cy="860" r="18" fill="rgba(120,80,255,0.04)"  stroke="rgba(120,80,255,0.45)" stroke-width="1" style="animation:floatBubble 8s 1s linear infinite,bubbleRainbow 5s 0s linear infinite;"/>
+    <circle cx="290"  cy="900" r="5"  fill="rgba(0,255,150,0.04)"   stroke="rgba(0,255,150,0.5)"   stroke-width="1" style="animation:floatBubble 5s 2s linear infinite,bubbleRainbow 4s 1s linear infinite;"/>
+    <circle cx="400"  cy="830" r="32" fill="rgba(0,200,255,0.02)"   stroke="rgba(0,200,255,0.3)"   stroke-width="1" style="animation:floatBubble 12s 0.5s linear infinite,bubbleRainbow 6s 2s linear infinite;"/>
+    <circle cx="500"  cy="875" r="11" fill="rgba(255,100,200,0.03)" stroke="rgba(255,100,200,0.45)" stroke-width="1" style="animation:floatBubble 7s 3s linear infinite,bubbleRainbow 5s 0.5s linear infinite;"/>
+    <circle cx="610"  cy="845" r="22" fill="rgba(0,200,255,0.03)"   stroke="rgba(0,200,255,0.4)"   stroke-width="1" style="animation:floatBubble 9s 1.5s linear infinite,bubbleRainbow 4s 3s linear infinite;"/>
+    <circle cx="720"  cy="900" r="8"  fill="rgba(120,80,255,0.04)"  stroke="rgba(120,80,255,0.5)"  stroke-width="1" style="animation:floatBubble 6s 4s linear infinite,bubbleRainbow 5s 1s linear infinite;"/>
+    <circle cx="830"  cy="865" r="40" fill="rgba(0,255,150,0.02)"   stroke="rgba(0,255,150,0.25)"  stroke-width="1" style="animation:floatBubble 14s 0.8s linear infinite,bubbleRainbow 7s 2.5s linear infinite;"/>
+    <circle cx="940"  cy="880" r="14" fill="rgba(0,200,255,0.04)"   stroke="rgba(0,200,255,0.45)"  stroke-width="1" style="animation:floatBubble 8s 2.5s linear infinite,bubbleRainbow 4s 1.5s linear infinite;"/>
+    <circle cx="1150" cy="900" r="26" fill="rgba(120,80,255,0.03)"  stroke="rgba(120,80,255,0.35)" stroke-width="1" style="animation:floatBubble 11s 3.5s linear infinite,bubbleRainbow 5s 2s linear infinite;"/>
+    <circle cx="1260" cy="845" r="13" fill="rgba(0,200,255,0.04)"   stroke="rgba(0,200,255,0.5)"   stroke-width="1" style="animation:floatBubble 7s 0s linear infinite,bubbleRainbow 4s 3s linear infinite;"/>
+    <circle cx="1370" cy="875" r="35" fill="rgba(0,200,255,0.02)"   stroke="rgba(0,200,255,0.28)"  stroke-width="1" style="animation:floatBubble 13s 2s linear infinite,bubbleRainbow 6s 1s linear infinite;"/>
+    <circle cx="1570" cy="900" r="20" fill="rgba(120,80,255,0.03)"  stroke="rgba(120,80,255,0.4)"  stroke-width="1" style="animation:floatBubble 9s 1.5s linear infinite,bubbleRainbow 5s 2s linear infinite;"/>
+    <circle cx="200"  cy="180" r="130" fill="none" stroke="rgba(0,200,255,0.15)" stroke-width="1.5"/>
+    <circle cx="1500" cy="700" r="160" fill="none" stroke="rgba(26,127,219,0.2)"  stroke-width="1.5"/>
+    <circle cx="100" cy="80"  r="2"   fill="rgba(0,200,255,0.8)"/>
+    <circle cx="500" cy="120" r="2.5" fill="rgba(0,200,255,0.9)"/>
+    <circle cx="950" cy="30"  r="2"   fill="rgba(0,200,255,0.7)"/>
+    <circle cx="1350" cy="40" r="2"   fill="rgba(0,200,255,0.6)"/>
+  </svg>
+</div>
+
+<header>
+  <div class="header-top">
+    <a href="home.html" class="logo-svg">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 75" height="50" width="220">
+        <defs><filter id="glow"><feGaussianBlur stdDeviation="2.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <path d="M 51,15 A 28,28 0 1,0 51,60" fill="none" stroke="#00c8ff" stroke-width="2.5" filter="url(#glow)"/>
+        <path d="M 46,22 A 20,20 0 1,0 46,53" fill="none" stroke="#1a7fdb" stroke-width="1.2" opacity="0.6"/>
+        <line x1="51" y1="15" x2="305" y2="15" stroke="#00c8ff" stroke-width="1.8" opacity="0.9" filter="url(#glow)"/>
+        <line x1="51" y1="60" x2="305" y2="60" stroke="#1a9fff" stroke-width="1.8" opacity="0.9" filter="url(#glow)"/>
+        <text x="20" y="44" font-family="Arial Black,sans-serif" font-size="23" font-weight="900" fill="#ffffff" filter="url(#glow)">P</text>
+        <text x="49" y="47" font-family="Arial Black,sans-serif" font-size="28" font-weight="900" fill="#ffffff" letter-spacing="1">inves<tspan fill="#00c8ff" filter="url(#glow)">'T</tspan></text>
+      </svg>
+    </a>
+    <div class="social-links">
+      <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="background:#229ED9;color:#fff;border-color:#229ED9;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-telegram" style="font-size:1rem;color:#fff;"></i> Telegram</a>
+      <a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" style="background:#FF0000;color:#fff;border-color:#FF0000;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;">▶ YouTube</a>
+      <a href="https://wa.me/320492931040" target="_blank" style="background:#25D366;color:#fff;border-color:#25D366;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-whatsapp" style="font-size:1rem;color:#fff;"></i> WhatsApp</a>
+      <a href="parametres.html" style="background:#c9a84c;color:#020a18;border-color:#c9a84c;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;font-weight:700;">⚙ Paramètres</a>
+      <a href="#" onclick="_sb.auth.signOut().then(()=>window.location.href='index.html')" style="background:#00c8ff;color:#020a18;border-color:#00c8ff;font-weight:700;">⏻ Déconnexion</a>
+    </div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="home.html">Accueil</a></li>
+      <li><a href="parametres.html">⚙ Paramètres</a></li>
+      <li><a href="investissements.html">Investissements</a></li>
+      <li><a href="pdf-societe.html">PDF de société</a></li>
+      <li><a href="planning-webinaire.html">Planning webinaire 2026</a></li>
+      <li><a href="e-state-immobilier.html">E-state Immobilier Tokénisé</a></li>
+      <li><a href="smart-mev-trading.html">SMART MEV Trading</a></li>
+      <li><a href="mlm-center.html">MLM Center</a></li>
+      <li><a href="portage-salarial.html">Portage salarial</a></li>
+      <li><a href="wallet-decentralise.html">Wallet Décentralisé</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="page-header">
+  <h1>⚙ Paramètres</h1>
+  <p>Gérez votre profil, votre mot de passe et la sécurité de votre compte</p>
+</div>
+
+<div class="settings-wrapper">
+
+  <!-- PHOTO DE PROFIL -->
+  <div class="settings-section">
+    <h2>📷 Photo de profil</h2>
+    <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+      <label for="photo-input" id="avatar-preview" style="width:90px;height:90px;border-radius:50%;background:#0a2a5e url() center/cover;border:3px solid rgba(0,200,255,0.5);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:2.2rem;color:rgba(0,200,255,0.4);cursor:pointer;overflow:hidden;" title="Cliquer pour changer la photo">
+        <i class="fa-solid fa-user"></i>
+      </label>
+      <div>
+        <p style="color:#a0d4f0;font-size:0.88rem;margin-bottom:12px;">Cliquez sur le cadre ou choisissez un fichier.<br>Image carrée recommandée (JPG/PNG).</p>
+        <input type="file" id="photo-input" accept="image/*" style="display:none" onchange="handlePhotoChange(this)">
+        <label for="photo-input" class="btn-save" style="cursor:pointer;display:inline-block;">🖼 Choisir une photo</label>
+      </div>
+    </div>
+    <div class="msg" id="msg-photo"></div>
+  </div>
+
+  <!-- PROFIL -->
+  <div class="settings-section">
+    <h2>👤 Mon Profil</h2>
+    <div class="form-group">
+      <label>Pseudo (affiché dans le header)</label>
+      <input type="text" id="pseudo" placeholder="Votre pseudo ex: JohnInvest">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Nom complet</label>
+        <input type="text" id="fullname" placeholder="Votre nom">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="votre@email.com">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Pays</label>
+        <input type="text" id="country" placeholder="France">
+      </div>
+      <div class="form-group">
+        <label>Téléphone</label>
+        <input type="text" id="phone" placeholder="+33 6 00 00 00 00">
+      </div>
+    </div>
+    <button class="btn-save" onclick="saveProfile()">💾 Enregistrer le profil</button>
+    <div class="msg" id="msg-profile"></div>
+  </div>
+
+  <!-- MOT DE PASSE -->
+  <div class="settings-section">
+    <h2>🔒 Changer le mot de passe</h2>
+    <div class="form-group">
+      <label>Nouveau mot de passe</label>
+      <div class="password-wrapper">
+        <input type="password" id="new-password" placeholder="Nouveau mot de passe">
+        <button type="button" class="eye-btn" onclick="toggleEye('new-password','eye1')">🙈</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Confirmer le mot de passe</label>
+      <div class="password-wrapper">
+        <input type="password" id="confirm-password" placeholder="Répétez le mot de passe">
+        <button type="button" class="eye-btn" onclick="toggleEye('confirm-password','eye2')">🙈</button>
+      </div>
+    </div>
+    <button class="btn-save" onclick="changePassword()">🔑 Mettre à jour le mot de passe</button>
+    <div class="msg" id="msg-password"></div>
+  </div>
+
+  <!-- 2FA -->
+  <div class="settings-section">
+    <h2>🛡 Double authentification (2FA)</h2>
+    <div class="twofa-status">
+      <span>Statut :</span>
+      <span id="twofa-badge" class="badge-off">Désactivée</span>
+    </div>
+    <p style="color:#7ecfef; font-size:0.88rem; margin-bottom:18px; line-height:1.7;">
+      La double authentification ajoute une couche de sécurité supplémentaire.
+      À chaque connexion, un code unique sera demandé via une application comme
+      <strong style="color:#00c8ff;">Google Authenticator</strong> ou <strong style="color:#00c8ff;">Authy</strong>.
+    </p>
+
+    <!-- Activer 2FA -->
+    <div id="enable-section">
+      <button class="btn-save" onclick="setup2FA()">🛡 Activer la 2FA</button>
+    </div>
+
+    <!-- QR Code + vérification -->
+    <div id="qr-section">
+      <p style="color:#c9a84c; font-size:0.88rem; margin-bottom:14px;">
+        📱 Scannez ce QR code avec <strong>Google Authenticator</strong> ou <strong>Authy</strong>, puis entrez le code à 6 chiffres pour confirmer.
+      </p>
+      <div class="qr-container">
+        <img id="qr-img" src="" alt="QR Code 2FA" width="180">
+      </div>
+      <div class="form-group" style="max-width:220px; margin:0 auto;">
+        <label>Code de vérification</label>
+        <input type="text" id="totp-code" class="otp-input" maxlength="6" placeholder="000000" inputmode="numeric">
+      </div>
+      <div style="text-align:center; margin-top:14px;">
+        <button class="btn-save" onclick="verify2FA()">✅ Confirmer et activer</button>
+        <button class="btn-danger" onclick="cancel2FA()" style="margin-left:10px;">Annuler</button>
+      </div>
+      <div class="msg" id="msg-2fa-setup"></div>
+    </div>
+
+    <!-- Désactiver 2FA -->
+    <div id="disable-section">
+      <p style="color:#7ecfef; font-size:0.88rem; margin-bottom:14px;">La 2FA est activée sur votre compte.</p>
+      <button class="btn-danger" onclick="disable2FA()">🗑 Désactiver la 2FA</button>
+      <div class="msg" id="msg-2fa-disable"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2026 Project inves'T — Site personnel, non professionnel.</p>
+</footer>
+
+<script>
+const _sb = window.supabase.createClient(
+  'https://cvggxktybzbrtskcwlxp.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Z2d4a3R5YnpicnRza2N3bHhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyODM2MjcsImV4cCI6MjA4OTg1OTYyN30.cfHsAvmgcXYvedCz1fZCHlxOApupKCxnt8t9e8KzNBs'
+);
+
+let currentUser = null;
+let totpFactorId = null;
+
+// Charger les infos utilisateur
+async function loadUser() {
+  const { data: { session } } = await _sb.auth.getSession();
+  if (!session) { window.location.href = 'index.html'; return; }
+  currentUser = session.user;
+
+  document.getElementById('email').value = currentUser.email || '';
+  const meta = currentUser.user_metadata || {};
+  if (meta.avatar) {
+    const preview = document.getElementById('avatar-preview');
+    preview.style.backgroundImage = 'url(' + meta.avatar + ')';
+    preview.innerHTML = '';
+  }
+  document.getElementById('pseudo').value   = meta.username  || '';
+  document.getElementById('fullname').value = meta.full_name || '';
+  document.getElementById('country').value  = meta.country   || '';
+  document.getElementById('phone').value    = meta.phone     || '';
+
+  await check2FAStatus();
+}
+
+// --- Crop photo ---
+var _cropImg = null, _cropScale = 1, _cropMinScale = 1;
+var _cropOffsetX = 0, _cropOffsetY = 0;
+var _cropDragging = false, _cropLastX = 0, _cropLastY = 0;
+var CROP_SIZE = 240;
+
+function handlePhotoChange(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.onload = function() {
+      _cropImg = img;
+      _cropMinScale = Math.max(CROP_SIZE / img.width, CROP_SIZE / img.height);
+      _cropScale = _cropMinScale;
+      _cropOffsetX = (CROP_SIZE - img.width * _cropScale) / 2;
+      _cropOffsetY = (CROP_SIZE - img.height * _cropScale) / 2;
+      const zoomEl = document.getElementById('crop-zoom');
+      zoomEl.min = _cropMinScale.toFixed(3);
+      zoomEl.max = (_cropMinScale * 4).toFixed(3);
+      zoomEl.value = _cropScale;
+      updateCropCanvas();
+      var modal = document.getElementById('crop-modal');
+      modal.style.cssText = 'display:flex !important; position:fixed !important; top:0 !important; left:0 !important; right:0 !important; bottom:0 !important; width:100vw !important; height:100vh !important; margin:0 !important; z-index:999999 !important; background:rgba(0,0,20,0.93); align-items:center; justify-content:center; flex-direction:column;';
+      initCropDrag();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function clampCrop() {
+  if (!_cropImg) return;
+  const w = _cropImg.width * _cropScale, h = _cropImg.height * _cropScale;
+  if (_cropOffsetX > 0) _cropOffsetX = 0;
+  if (_cropOffsetY > 0) _cropOffsetY = 0;
+  if (_cropOffsetX + w < CROP_SIZE) _cropOffsetX = CROP_SIZE - w;
+  if (_cropOffsetY + h < CROP_SIZE) _cropOffsetY = CROP_SIZE - h;
+}
+
+function updateCropCanvas() {
+  if (!_cropImg) return;
+  _cropScale = parseFloat(document.getElementById('crop-zoom').value);
+  clampCrop();
+  const ctx = document.getElementById('crop-canvas').getContext('2d');
+  ctx.clearRect(0, 0, CROP_SIZE, CROP_SIZE);
+  ctx.drawImage(_cropImg, _cropOffsetX, _cropOffsetY, _cropImg.width * _cropScale, _cropImg.height * _cropScale);
+}
+
+async function confirmCrop() {
+  if (!_cropImg) return;
+  const out = document.createElement('canvas');
+  out.width = 150; out.height = 150;
+  const r = 150 / CROP_SIZE;
+  out.getContext('2d').drawImage(_cropImg, _cropOffsetX * r, _cropOffsetY * r, _cropImg.width * _cropScale * r, _cropImg.height * _cropScale * r);
+  const dataUrl = out.toDataURL('image/jpeg', 0.8);
+
+  const preview = document.getElementById('avatar-preview');
+  preview.style.backgroundImage = 'url(' + dataUrl + ')';
+  preview.innerHTML = '';
+  document.getElementById('crop-modal').style.display = 'none';
+  _cropImg = null;
+
+  const msg = document.getElementById('msg-photo');
+  msg.style.display = 'block';
+  msg.textContent = '⏳ Enregistrement...';
+  msg.className = 'msg ok';
+  const { error } = await _sb.auth.updateUser({ data: { avatar: dataUrl } });
+  if (error) {
+    msg.textContent = '❌ ' + error.message;
+    msg.className = 'msg err';
+  } else {
+    msg.textContent = '✅ Photo enregistrée !';
+    msg.className = 'msg ok';
+  }
+}
+
+function cancelCrop() {
+  document.getElementById('crop-modal').style.display = 'none';
+  _cropImg = null;
+}
+
+// Drag souris + touch (initialisé une seule fois à la première ouverture du modal)
+var _dragReady = false;
+function initCropDrag() {
+  if (_dragReady) return;
+  _dragReady = true;
+  const cont = document.getElementById('crop-container');
+  if (!cont) return;
+  cont.addEventListener('mousedown', function(e) {
+    _cropDragging = true; _cropLastX = e.clientX; _cropLastY = e.clientY; e.preventDefault();
+  });
+  document.addEventListener('mousemove', function(e) {
+    if (!_cropDragging || !_cropImg) return;
+    _cropOffsetX += e.clientX - _cropLastX; _cropLastX = e.clientX;
+    _cropOffsetY += e.clientY - _cropLastY; _cropLastY = e.clientY;
+    clampCrop();
+    const ctx = document.getElementById('crop-canvas').getContext('2d');
+    ctx.clearRect(0, 0, CROP_SIZE, CROP_SIZE);
+    ctx.drawImage(_cropImg, _cropOffsetX, _cropOffsetY, _cropImg.width * _cropScale, _cropImg.height * _cropScale);
+  });
+  document.addEventListener('mouseup', function() { _cropDragging = false; });
+  cont.addEventListener('touchstart', function(e) {
+    _cropDragging = true; _cropLastX = e.touches[0].clientX; _cropLastY = e.touches[0].clientY; e.preventDefault();
+  }, { passive: false });
+  document.addEventListener('touchmove', function(e) {
+    if (!_cropDragging || !_cropImg) return;
+    _cropOffsetX += e.touches[0].clientX - _cropLastX; _cropLastX = e.touches[0].clientX;
+    _cropOffsetY += e.touches[0].clientY - _cropLastY; _cropLastY = e.touches[0].clientY;
+    clampCrop();
+    const ctx = document.getElementById('crop-canvas').getContext('2d');
+    ctx.clearRect(0, 0, CROP_SIZE, CROP_SIZE);
+    ctx.drawImage(_cropImg, _cropOffsetX, _cropOffsetY, _cropImg.width * _cropScale, _cropImg.height * _cropScale);
+  }, { passive: false });
+  document.addEventListener('touchend', function() { _cropDragging = false; });
+}
+
+async function saveProfile() {
+  const msg = document.getElementById('msg-profile');
+  msg.className = 'msg';
+  const pseudo   = document.getElementById('pseudo').value.trim();
+  const fullname = document.getElementById('fullname').value.trim();
+  const email    = document.getElementById('email').value.trim();
+  const country  = document.getElementById('country').value.trim();
+  const phone    = document.getElementById('phone').value.trim();
+
+  const updates = { data: { username: pseudo, full_name: fullname, country, phone } };
+  if (email !== currentUser.email) updates.email = email;
+
+  const { error } = await _sb.auth.updateUser(updates);
+  if (error) {
+    msg.textContent = '❌ ' + error.message;
+    msg.className = 'msg err';
+  } else {
+    msg.textContent = '✅ Profil mis à jour avec succès !';
+    msg.className = 'msg ok';
+  }
+}
+
+// Changer le mot de passe
+async function changePassword() {
+  const msg  = document.getElementById('msg-password');
+  msg.className = 'msg';
+  const np   = document.getElementById('new-password').value;
+  const cp   = document.getElementById('confirm-password').value;
+  if (np.length < 6) { msg.textContent = '❌ Le mot de passe doit faire au moins 6 caractères.'; msg.className = 'msg err'; return; }
+  if (np !== cp)     { msg.textContent = '❌ Les mots de passe ne correspondent pas.'; msg.className = 'msg err'; return; }
+  const { error } = await _sb.auth.updateUser({ password: np });
+  if (error) {
+    msg.textContent = '❌ ' + error.message;
+    msg.className = 'msg err';
+  } else {
+    msg.textContent = '✅ Mot de passe mis à jour !';
+    msg.className = 'msg ok';
+    document.getElementById('new-password').value = '';
+    document.getElementById('confirm-password').value = '';
+  }
+}
+
+// Vérifier le statut 2FA
+async function check2FAStatus() {
+  const { data, error } = await _sb.auth.mfa.listFactors();
+  if (error || !data) return;
+  const verified = data.totp && data.totp.find(f => f.status === 'verified');
+  if (verified) {
+    totpFactorId = verified.id;
+    document.getElementById('twofa-badge').textContent = 'Activée ✅';
+    document.getElementById('twofa-badge').className = 'badge-on';
+    document.getElementById('enable-section').style.display = 'none';
+    document.getElementById('disable-section').style.display = 'block';
+  } else {
+    document.getElementById('twofa-badge').textContent = 'Désactivée';
+    document.getElementById('twofa-badge').className = 'badge-off';
+    document.getElementById('enable-section').style.display = 'block';
+    document.getElementById('disable-section').style.display = 'none';
+  }
+}
+
+// Configurer 2FA
+async function setup2FA() {
+  const { data, error } = await _sb.auth.mfa.enroll({ factorType: 'totp', issuer: "Project inves'T" });
+  if (error) { alert('Erreur : ' + error.message); return; }
+  totpFactorId = data.id;
+  document.getElementById('qr-img').src = data.totp.qr_code;
+  document.getElementById('enable-section').style.display = 'none';
+  document.getElementById('qr-section').style.display = 'block';
+}
+
+// Vérifier et activer la 2FA
+async function verify2FA() {
+  const msg  = document.getElementById('msg-2fa-setup');
+  const code = document.getElementById('totp-code').value.trim();
+  if (code.length !== 6) { msg.textContent = '❌ Entrez un code à 6 chiffres.'; msg.className = 'msg err'; return; }
+
+  const { data: challengeData, error: challengeErr } = await _sb.auth.mfa.challenge({ factorId: totpFactorId });
+  if (challengeErr) { msg.textContent = '❌ ' + challengeErr.message; msg.className = 'msg err'; return; }
+
+  const { error: verifyErr } = await _sb.auth.mfa.verify({ factorId: totpFactorId, challengeId: challengeData.id, code });
+  if (verifyErr) {
+    msg.textContent = '❌ Code incorrect. Réessayez.';
+    msg.className = 'msg err';
+  } else {
+    msg.textContent = '✅ 2FA activée avec succès !';
+    msg.className = 'msg ok';
+    setTimeout(() => {
+      document.getElementById('qr-section').style.display = 'none';
+      check2FAStatus();
+    }, 1500);
+  }
+}
+
+// Annuler configuration 2FA
+async function cancel2FA() {
+  if (totpFactorId) await _sb.auth.mfa.unenroll({ factorId: totpFactorId });
+  document.getElementById('qr-section').style.display = 'none';
+  document.getElementById('enable-section').style.display = 'block';
+  totpFactorId = null;
+}
+
+// Désactiver 2FA
+async function disable2FA() {
+  const msg = document.getElementById('msg-2fa-disable');
+  const { error } = await _sb.auth.mfa.unenroll({ factorId: totpFactorId });
+  if (error) {
+    msg.textContent = '❌ ' + error.message;
+    msg.className = 'msg err';
+  } else {
+    msg.textContent = '✅ 2FA désactivée.';
+    msg.className = 'msg ok';
+    setTimeout(() => { check2FAStatus(); msg.className = 'msg'; }, 1500);
+  }
+}
+
+// Toggle visibilité mot de passe
+function toggleEye(inputId) {
+  const input = document.getElementById(inputId);
+  const btn = input.nextElementSibling;
+  if (input.type === 'password') { input.type = 'text'; btn.textContent = '👁'; }
+  else { input.type = 'password'; btn.textContent = '🙈'; }
+}
+
+loadUser();
+</script>
+
+<!-- Modal Recadrage Photo -->
+<div id="crop-modal">
+  <div id="crop-box">
+    <h3 style="color:#00c8ff;margin-bottom:6px;font-size:1.1rem;">📷 Recadrer la photo</h3>
+    <p style="color:#7ecfef;font-size:0.8rem;margin-bottom:16px;">Glissez pour repositionner • Slider pour zoomer</p>
+    <div id="crop-container">
+      <canvas id="crop-canvas" width="240" height="240"></canvas>
+    </div>
+    <div style="margin-bottom:20px;text-align:left;">
+      <label style="color:#7ecfef;font-size:0.78rem;display:block;margin-bottom:6px;">🔍 Zoom</label>
+      <input type="range" id="crop-zoom" min="1" max="4" step="0.01" value="1" style="width:100%;" oninput="updateCropCanvas()">
+    </div>
+    <div style="display:flex;gap:12px;justify-content:center;">
+      <button class="btn-save" onclick="confirmCrop()" style="flex:1;">✅ Confirmer</button>
+      <button onclick="cancelCrop()" style="flex:1;padding:12px;background:rgba(255,50,50,0.15);color:#ff6b6b;border:1px solid rgba(255,50,50,0.4);border-radius:8px;cursor:pointer;font-weight:700;">✕ Annuler</button>
+    </div>
+    <div class="msg" id="msg-crop"></div>
+  </div>
+</div>
+
+<script src="menu.js"></script>
+<script src="audio.js"></script>
+<script src="translator.js"></script>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/69c1c8abf9f0211c36fde03a/1jkeffnrd';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+</body>
+</html>

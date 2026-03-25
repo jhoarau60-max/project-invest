@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project inves'T - PDF de société</title>
+    <link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const _sb=window.supabase.createClient("https://cvggxktybzbrtskcwlxp.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Z2d4a3R5YnpicnRza2N3bHhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyODM2MjcsImV4cCI6MjA4OTg1OTYyN30.cfHsAvmgcXYvedCz1fZCHlxOApupKCxnt8t9e8KzNBs");
+setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window.location.href="index.html"; }); }, 800);
+</script>
+    <style>
+      .line-anim  { stroke-dasharray: 40 960; animation: snake 6s linear infinite, rainbow 5s linear infinite; }
+      .line-anim2 { stroke-dasharray: 40 960; animation: snake 8s linear infinite reverse, rainbow 5s linear infinite 1.5s; }
+      .line-anim3 { stroke-dasharray: 40 960; animation: snake 7s linear infinite, rainbow 5s linear infinite 3s; }
+      @keyframes snake { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: -1000; } }
+      @keyframes rainbow {
+        0%   { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
+        20%  { stroke: #7850ff; filter: drop-shadow(0 0 6px #7850ff); }
+        40%  { stroke: #ff3399; filter: drop-shadow(0 0 6px #ff3399); }
+        60%  { stroke: #ffaa00; filter: drop-shadow(0 0 6px #ffaa00); }
+        80%  { stroke: #00ff99; filter: drop-shadow(0 0 6px #00ff99); }
+        100% { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
+      }
+      @keyframes floatBubble {
+        0%   { transform: translateY(0px) translateX(0px); opacity: 0.6; }
+        25%  { transform: translateY(-30px) translateX(15px); opacity: 0.8; }
+        50%  { transform: translateY(-60px) translateX(-10px); opacity: 0.5; }
+        75%  { transform: translateY(-90px) translateX(20px); opacity: 0.7; }
+        100% { transform: translateY(-150px) translateX(0px); opacity: 0; }
+      }
+      @keyframes bubbleRainbow {
+        0%   { stroke: rgba(0,200,255,0.5); }
+        25%  { stroke: rgba(120,80,255,0.5); }
+        50%  { stroke: rgba(255,100,200,0.5); }
+        75%  { stroke: rgba(0,255,150,0.5); }
+        100% { stroke: rgba(0,200,255,0.5); }
+      }
+    </style>
+</head>
+<body>
+
+<!-- LIGNES COURBES ANIMÉES -->
+<div id="bg-curves">
+  <svg viewBox="0 0 1700 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="glow-line"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <path class="line-anim"  d="M-100,300 C200,100 400,500 800,250 S1200,50 1700,300"  fill="none" stroke="rgba(0,200,255,0.2)"  stroke-width="2" filter="url(#glow-line)"/>
+    <path class="line-anim2" d="M-100,600 C300,400 600,800 1000,550 S1400,300 1700,600" fill="none" stroke="rgba(26,127,219,0.25)" stroke-width="2" filter="url(#glow-line)"/>
+    <path class="line-anim3" d="M-100,150 C300,50 700,350 1100,150 S1450,0 1700,180"   fill="none" stroke="rgba(0,200,255,0.12)" stroke-width="1.5" filter="url(#glow-line)"/>
+    <circle cx="80"   cy="880" r="7"  fill="rgba(0,200,255,0.04)"   stroke="rgba(0,200,255,0.5)"   stroke-width="1" style="animation:floatBubble 6s 0s linear infinite,bubbleRainbow 4s 0s linear infinite;"/>
+    <circle cx="180"  cy="860" r="18" fill="rgba(120,80,255,0.04)"  stroke="rgba(120,80,255,0.45)" stroke-width="1" style="animation:floatBubble 8s 1s linear infinite,bubbleRainbow 5s 0s linear infinite;"/>
+    <circle cx="290"  cy="900" r="5"  fill="rgba(0,255,150,0.04)"   stroke="rgba(0,255,150,0.5)"   stroke-width="1" style="animation:floatBubble 5s 2s linear infinite,bubbleRainbow 4s 1s linear infinite;"/>
+    <circle cx="400"  cy="830" r="32" fill="rgba(0,200,255,0.02)"   stroke="rgba(0,200,255,0.3)"   stroke-width="1" style="animation:floatBubble 12s 0.5s linear infinite,bubbleRainbow 6s 2s linear infinite;"/>
+    <circle cx="500"  cy="875" r="11" fill="rgba(255,100,200,0.03)" stroke="rgba(255,100,200,0.45)" stroke-width="1" style="animation:floatBubble 7s 3s linear infinite,bubbleRainbow 5s 0.5s linear infinite;"/>
+    <circle cx="610"  cy="845" r="22" fill="rgba(0,200,255,0.03)"   stroke="rgba(0,200,255,0.4)"   stroke-width="1" style="animation:floatBubble 9s 1.5s linear infinite,bubbleRainbow 4s 3s linear infinite;"/>
+    <circle cx="720"  cy="900" r="8"  fill="rgba(120,80,255,0.04)"  stroke="rgba(120,80,255,0.5)"  stroke-width="1" style="animation:floatBubble 6s 4s linear infinite,bubbleRainbow 5s 1s linear infinite;"/>
+    <circle cx="830"  cy="865" r="40" fill="rgba(0,255,150,0.02)"   stroke="rgba(0,255,150,0.25)"  stroke-width="1" style="animation:floatBubble 14s 0.8s linear infinite,bubbleRainbow 7s 2.5s linear infinite;"/>
+    <circle cx="940"  cy="880" r="14" fill="rgba(0,200,255,0.04)"   stroke="rgba(0,200,255,0.45)"  stroke-width="1" style="animation:floatBubble 8s 2.5s linear infinite,bubbleRainbow 4s 1.5s linear infinite;"/>
+    <circle cx="1150" cy="900" r="26" fill="rgba(120,80,255,0.03)"  stroke="rgba(120,80,255,0.35)" stroke-width="1" style="animation:floatBubble 11s 3.5s linear infinite,bubbleRainbow 5s 2s linear infinite;"/>
+    <circle cx="1260" cy="845" r="13" fill="rgba(0,200,255,0.04)"   stroke="rgba(0,200,255,0.5)"   stroke-width="1" style="animation:floatBubble 7s 0s linear infinite,bubbleRainbow 4s 3s linear infinite;"/>
+    <circle cx="1370" cy="875" r="35" fill="rgba(0,200,255,0.02)"   stroke="rgba(0,200,255,0.28)"  stroke-width="1" style="animation:floatBubble 13s 2s linear infinite,bubbleRainbow 6s 1s linear infinite;"/>
+    <circle cx="1570" cy="900" r="20" fill="rgba(120,80,255,0.03)"  stroke="rgba(120,80,255,0.4)"  stroke-width="1" style="animation:floatBubble 9s 1.5s linear infinite,bubbleRainbow 5s 2s linear infinite;"/>
+    <circle cx="200"  cy="180" r="130" fill="none" stroke="rgba(0,200,255,0.15)" stroke-width="1.5"/>
+    <circle cx="1500" cy="700" r="160" fill="none" stroke="rgba(26,127,219,0.2)"  stroke-width="1.5"/>
+    <circle cx="100" cy="80"  r="2"   fill="rgba(0,200,255,0.8)"/>
+    <circle cx="500" cy="120" r="2.5" fill="rgba(0,200,255,0.9)"/>
+    <circle cx="950" cy="30"  r="2"   fill="rgba(0,200,255,0.7)"/>
+    <circle cx="1350" cy="40" r="2"   fill="rgba(0,200,255,0.6)"/>
+  </svg>
+</div>
+
+<header>
+    <div class="header-top">
+        <a href="index.html" class="logo-svg">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 75" height="70" width="310">
+    <defs><filter id="glow"><feGaussianBlur stdDeviation="2.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    <path d="M 51,15 A 28,28 0 1,0 51,60" fill="none" stroke="#00c8ff" stroke-width="2.5" filter="url(#glow)"/>
+    <path d="M 46,22 A 20,20 0 1,0 46,53" fill="none" stroke="#1a7fdb" stroke-width="1.2" opacity="0.6"/>
+    <line x1="51" y1="15" x2="305" y2="15" stroke="#00c8ff" stroke-width="1.8" opacity="0.9" filter="url(#glow)"/>
+    <line x1="51" y1="60" x2="305" y2="60" stroke="#1a9fff" stroke-width="1.8" opacity="0.9" filter="url(#glow)"/>
+    <text x="20" y="44" font-family="Arial Black,sans-serif" font-size="23" font-weight="900" fill="#ffffff" filter="url(#glow)">P</text>
+    <text x="57" y="47" font-family="Arial Black,sans-serif" font-size="28" font-weight="900" fill="#ffffff" letter-spacing="1">inves<tspan fill="#00c8ff" filter="url(#glow)">'T</tspan></text>
+  </svg>
+</a>
+        <div class="social-links">
+            <a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" style="background:#FF0000;color:#fff;border-color:#FF0000;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;">▶ YouTube</a>
+            <a href="https://wa.me/320492931040" target="_blank" style="background:#25D366;color:#fff;border-color:#25D366;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-whatsapp" style="font-size:1rem;color:#fff;"></i> WhatsApp</a>
+            <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="background:#229ED9;color:#fff;border-color:#229ED9;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-telegram" style="font-size:1rem;color:#fff;"></i> Telegram</a>
+            <a href="parametres.html" style="background:#c9a84c;color:#020a18;border-color:#c9a84c;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;font-weight:700;">⚙ Paramètres</a>
+            <a href="#" onclick="_sb.auth.signOut().then(()=>window.location.href='index.html')" style="background:#00c8ff;color:#020a18;border-color:#00c8ff;font-weight:700;">⏻ Déconnexion</a>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="parametres.html">⚙ Paramètres</a></li>
+            <li><a href="investissements.html">Investissements</a></li>
+            <li><a href="pdf-societe.html" class="active">PDF de société</a></li>
+            <li><a href="planning-webinaire.html">Planning webinaire 2026</a></li>
+            <li><a href="e-state-immobilier.html">E-state Immobilier Tokénisé</a></li>
+            <li><a href="smart-mev-trading.html">SMART MEV Trading</a></li>
+            <li><a href="mlm-center.html">MLM Center</a></li>
+            <li><a href="portage-salarial.html">Portage salarial</a></li>
+            <li><a href="wallet-decentralise.html">Wallet Décentralisé</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="page-header">
+    <h1>📄 PDF de Société</h1>
+    <p>Téléchargez les documents officiels de nos sociétés partenaires</p>
+</div>
+
+<div class="section">
+    <h2 class="section-title">Documents Disponibles</h2>
+    <div class="divider"></div>
+
+    <div class="cards-grid">
+        <div class="card" style="text-align:center;">
+            <div style="width:64px;height:64px;border-radius:50%;background:rgba(0,200,255,0.1);border:1px solid rgba(0,200,255,0.35);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 0 18px rgba(0,200,255,0.15);">
+              <i class="fa-solid fa-building" style="font-size:1.6rem;color:#00c8ff;filter:drop-shadow(0 0 6px rgba(0,200,255,0.6));"></i>
+            </div>
+            <h3>E-state Immobilier</h3>
+            <p>Présentation officielle, plan marketing, conditions générales et informations légales.</p>
+            <br>
+            <a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:88db548b-52c9-48b9-8593-904d3cd8575e" target="_blank" class="btn" style="font-size:0.85rem; padding:10px 20px;"><i class="fa-solid fa-file-arrow-down"></i> Télécharger PDF</a>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="width:64px;height:64px;border-radius:50%;background:rgba(0,200,255,0.1);border:1px solid rgba(0,200,255,0.35);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 0 18px rgba(0,200,255,0.15);">
+              <i class="fa-solid fa-robot" style="font-size:1.6rem;color:#00c8ff;filter:drop-shadow(0 0 6px rgba(0,200,255,0.6));"></i>
+            </div>
+            <h3>SMART MEV Trading</h3>
+            <p>Livre blanc, algorithme de trading, résultats historiques et conditions d'utilisation.</p>
+            <br>
+            <a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:bfe30a6a-869e-4a96-8605-e68ee4725afa" target="_blank" class="btn" style="font-size:0.85rem; padding:10px 20px;"><i class="fa-solid fa-file-arrow-down"></i> Télécharger PDF</a>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="width:64px;height:64px;border-radius:50%;background:rgba(0,200,255,0.1);border:1px solid rgba(0,200,255,0.35);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 0 18px rgba(0,200,255,0.15);">
+              <i class="fa-solid fa-sitemap" style="font-size:1.6rem;color:#00c8ff;filter:drop-shadow(0 0 6px rgba(0,200,255,0.6));"></i>
+            </div>
+            <h3>Plan de Rémunération MLM</h3>
+            <p>Structure complète du plan de compensation, niveaux, bonus et conditions de parrainage.</p>
+            <br>
+            <a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:01bb7d2d-b091-4aa0-97a9-e408b11ff9f5" target="_blank" class="btn" style="font-size:0.85rem; padding:10px 20px;"><i class="fa-solid fa-file-arrow-down"></i> Télécharger PDF</a>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="width:64px;height:64px;border-radius:50%;background:rgba(0,200,255,0.1);border:1px solid rgba(0,200,255,0.35);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 0 18px rgba(0,200,255,0.15);">
+              <i class="fa-solid fa-briefcase" style="font-size:1.6rem;color:#00c8ff;filter:drop-shadow(0 0 6px rgba(0,200,255,0.6));"></i>
+            </div>
+            <h3>Portage Salarial</h3>
+            <p>Guide complet du portage salarial, avantages fiscaux et conditions de démarrage.</p>
+            <br>
+            <a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:7c338d2d-3e84-47ba-bf13-37693e3295fd" target="_blank" class="btn" style="font-size:0.85rem; padding:10px 20px;"><i class="fa-solid fa-file-arrow-down"></i> Télécharger PDF</a>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="width:64px;height:64px;border-radius:50%;background:rgba(0,200,255,0.1);border:1px solid rgba(0,200,255,0.35);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 0 18px rgba(0,200,255,0.15);">
+              <i class="fa-solid fa-headset" style="font-size:1.6rem;color:#00c8ff;filter:drop-shadow(0 0 6px rgba(0,200,255,0.6));"></i>
+            </div>
+            <h3>Besoin d'un document spécifique ?</h3>
+            <p>Contactez-nous directement sur WhatsApp ou Telegram et nous vous enverrons les documents demandés.</p>
+            <br>
+            <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+                <a href="https://wa.me/320492931040" target="_blank" class="btn" style="font-size:0.85rem;padding:10px 20px;background:#25D366;border-color:#25D366;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+                <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" class="btn" style="font-size:0.85rem;padding:10px 20px;background:#229ED9;border-color:#229ED9;"><i class="fa-brands fa-telegram"></i> Telegram</a>
+            </div>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="width:64px;height:64px;border-radius:50%;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 0 18px rgba(201,168,76,0.15);">
+              <i class="fa-solid fa-calculator" style="font-size:1.6rem;color:#c9a84c;filter:drop-shadow(0 0 6px rgba(201,168,76,0.6));"></i>
+            </div>
+            <h3>Calculateur de Rendement</h3>
+            <p>Estimez vos gains avec le calcul simple ou à intérêt composé, par jour, mois ou année.</p>
+            <br>
+            <a href="#calculateur" class="btn" style="font-size:0.85rem; padding:10px 20px;"><i class="fa-solid fa-arrow-down"></i> Utiliser</a>
+        </div>
+    </div>
+
+    <br><br>
+    <h2 class="section-title" id="calculateur">Calculateur de Rendement</h2>
+    <div class="divider"></div>
+    <div style="background:rgba(10,42,94,0.35);border:1px solid rgba(0,200,255,0.2);border-radius:16px;padding:28px;max-width:520px;margin:0 auto;">
+
+      <div style="display:flex;gap:8px;margin-bottom:22px;">
+        <button id="calc-tab-simple" onclick="calcTab('simple')" style="flex:1;padding:9px;border-radius:8px;border:1px solid rgba(0,200,255,0.4);background:rgba(0,200,255,0.15);color:#00c8ff;font-weight:700;cursor:pointer;font-size:0.85rem;">Calcul Simple<br><span style="font-size:0.68rem;font-weight:400;opacity:0.8;">gains retirés</span></button>
+        <button id="calc-tab-compose" onclick="calcTab('compose')" style="flex:1;padding:9px;border-radius:8px;border:1px solid rgba(0,200,255,0.15);background:transparent;color:#7ecfef;font-weight:600;cursor:pointer;font-size:0.85rem;">Intérêt Composé<br><span style="font-size:0.68rem;font-weight:400;opacity:0.8;">gains réinvestis</span></button>
+      </div>
+
+      <div style="margin-bottom:12px;">
+        <label style="color:#7ecfef;font-size:0.78rem;display:block;margin-bottom:5px;">💰 Capital initial ($)</label>
+        <input id="calc-capital" type="number" value="1000" min="0" oninput="calcResult()" style="width:100%;background:rgba(2,10,24,0.6);border:1px solid rgba(0,200,255,0.3);border-radius:8px;padding:10px 12px;color:#fff;font-size:0.9rem;outline:none;box-sizing:border-box;">
+      </div>
+
+      <div style="margin-bottom:12px;">
+        <label style="color:#7ecfef;font-size:0.78rem;display:block;margin-bottom:5px;">📈 Taux journalier (%/jour)</label>
+        <input id="calc-taux" type="number" value="0.56" min="0" step="0.01" oninput="calcResult()" style="width:100%;background:rgba(2,10,24,0.6);border:1px solid rgba(0,200,255,0.3);border-radius:8px;padding:10px 12px;color:#fff;font-size:0.9rem;outline:none;box-sizing:border-box;">
+      </div>
+
+      <div style="margin-bottom:12px;">
+        <label style="color:#7ecfef;font-size:0.78rem;display:block;margin-bottom:5px;">⏱ Durée</label>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input id="calc-duree" type="number" value="18" min="1" oninput="calcResult()" style="flex:2;background:rgba(2,10,24,0.6);border:1px solid rgba(0,200,255,0.3);border-radius:8px;padding:10px 12px;color:#fff;font-size:0.9rem;outline:none;box-sizing:border-box;">
+          <select id="calc-periode" onchange="calcResult()" style="flex:2;background:rgba(2,10,24,0.6);border:1px solid rgba(0,200,255,0.3);border-radius:8px;padding:10px 12px;color:#fff;font-size:0.9rem;outline:none;box-sizing:border-box;">
+            <option value="jour">Jours</option>
+            <option value="mois" selected>Mois</option>
+            <option value="annee">Années</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-bottom:12px;">
+        <label style="color:#7ecfef;font-size:0.78rem;display:block;margin-bottom:5px;">📆 Type de jours</label>
+        <div style="display:flex;gap:8px;">
+          <button id="btn-cal" onclick="setJours('cal')" style="flex:1;padding:9px;border-radius:8px;border:1px solid rgba(0,200,255,0.4);background:rgba(0,200,255,0.15);color:#00c8ff;font-weight:700;cursor:pointer;font-size:0.8rem;">Calendaires (7j)</button>
+          <button id="btn-ouvre" onclick="setJours('ouvre')" style="flex:1;padding:9px;border-radius:8px;border:1px solid rgba(0,200,255,0.15);background:transparent;color:#7ecfef;font-weight:600;cursor:pointer;font-size:0.8rem;">Ouvrés (5j)</button>
+        </div>
+      </div>
+
+      <div style="background:rgba(0,200,255,0.06);border:1px solid rgba(0,200,255,0.2);border-radius:12px;padding:18px;text-align:center;margin-top:8px;">
+        <div style="color:#7ecfef;font-size:0.78rem;margin-bottom:6px;">Capital final</div>
+        <div id="calc-final" style="color:#00c8ff;font-size:2rem;font-weight:900;letter-spacing:1px;">—</div>
+        <div style="color:#4caf50;font-size:0.9rem;margin-top:8px;font-weight:600;">Gains totaux : <span id="calc-gains">—</span></div>
+        <div style="color:#ff9f43;font-size:0.9rem;margin-top:4px;font-weight:600;">Seuil de rentabilité : <span id="calc-seuil">—</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px;">
+          <div style="background:rgba(0,200,255,0.08);border-radius:8px;padding:10px;">
+            <div style="color:#7ecfef;font-size:0.7rem;margin-bottom:4px;">☀️ Par jour</div>
+            <div id="calc-par-jour" style="color:#c9a84c;font-size:0.88rem;font-weight:700;">—</div>
+          </div>
+          <div style="background:rgba(0,200,255,0.08);border-radius:8px;padding:10px;">
+            <div style="color:#7ecfef;font-size:0.7rem;margin-bottom:4px;">🗓 Par mois</div>
+            <div id="calc-par-mois" style="color:#c9a84c;font-size:0.88rem;font-weight:700;">—</div>
+          </div>
+          <div style="background:rgba(0,200,255,0.08);border-radius:8px;padding:10px;">
+            <div style="color:#7ecfef;font-size:0.7rem;margin-bottom:4px;">📅 Par an</div>
+            <div id="calc-par-an" style="color:#c9a84c;font-size:0.88rem;font-weight:700;">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<footer>
+    <div class="footer-links">
+        <a href="index.html">Accueil</a>
+        <a href="investissements.html">Investissements</a>
+        <a href="mlm-center.html">MLM Center</a>
+        <a href="wallet-decentralise.html">Wallet</a>
+        <a href="#">Contact</a>
+    </div>
+    <p>© 2026 Project inves'T — Site personnel, non professionnel. Les investissements comportent des risques.</p>
+</footer>
+
+<script src="menu.js"></script>
+<script src="audio.js"></script>
+<script src="translator.js"></script>
+
+<script>
+  var calcMode  = 'simple';
+  var joursMode = 'cal'; // 'cal' = calendaires, 'ouvre' = ouvrés
+  function setJours(mode) {
+    joursMode = mode;
+    var btnCal   = document.getElementById('btn-cal');
+    var btnOuvre = document.getElementById('btn-ouvre');
+    if (mode === 'cal') {
+      btnCal.style.background = 'rgba(0,200,255,0.15)'; btnCal.style.color = '#00c8ff'; btnCal.style.borderColor = 'rgba(0,200,255,0.4)';
+      btnOuvre.style.background = 'transparent'; btnOuvre.style.color = '#7ecfef'; btnOuvre.style.borderColor = 'rgba(0,200,255,0.15)';
+    } else {
+      btnOuvre.style.background = 'rgba(0,200,255,0.15)'; btnOuvre.style.color = '#00c8ff'; btnOuvre.style.borderColor = 'rgba(0,200,255,0.4)';
+      btnCal.style.background = 'transparent'; btnCal.style.color = '#7ecfef'; btnCal.style.borderColor = 'rgba(0,200,255,0.15)';
+    }
+    calcResult();
+  }
+  function calcTab(mode) {
+    calcMode = mode;
+    var btnS = document.getElementById('calc-tab-simple');
+    var btnC = document.getElementById('calc-tab-compose');
+    if (mode === 'simple') {
+      btnS.style.background = 'rgba(0,200,255,0.15)'; btnS.style.color = '#00c8ff'; btnS.style.borderColor = 'rgba(0,200,255,0.4)';
+      btnC.style.background = 'transparent'; btnC.style.color = '#7ecfef'; btnC.style.borderColor = 'rgba(0,200,255,0.15)';
+    } else {
+      btnC.style.background = 'rgba(0,200,255,0.15)'; btnC.style.color = '#00c8ff'; btnC.style.borderColor = 'rgba(0,200,255,0.4)';
+      btnS.style.background = 'transparent'; btnS.style.color = '#7ecfef'; btnS.style.borderColor = 'rgba(0,200,255,0.15)';
+    }
+    calcResult();
+  }
+  function calcResult() {
+    var capital     = parseFloat(document.getElementById('calc-capital').value) || 0;
+    var taux        = parseFloat(document.getElementById('calc-taux').value) || 0;
+    var duree       = parseFloat(document.getElementById('calc-duree').value) || 0;
+    var periode     = document.getElementById('calc-periode').value;
+    // Jours par période selon mode calendaire ou ouvré
+    var jourParMois = joursMode === 'cal' ? 30.4375 : 21;
+    var jourParAn   = jourParMois * 12;
+    var jpp = { jour: 1, mois: jourParMois, annee: jourParAn };
+    // n = total de jours (le taux est toujours journalier)
+    var n        = duree * jpp[periode];
+    var totJours = n;
+    var r           = taux / 100;
+    var capitalFinal, gains;
+    if (calcMode === 'simple') {
+      gains        = capital * r * n;
+      capitalFinal = capital + gains;
+    } else {
+      capitalFinal = capital * Math.pow(1 + r, n);
+      gains        = capitalFinal - capital;
+    }
+    var parJour  = totJours > 0 ? gains / totJours : 0;
+    var parMois  = parJour * jourParMois;
+    var parAn    = parJour * jourParAn;
+
+    var fmt = function(v) { return v.toLocaleString('fr-FR', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' $'; };
+    var parMoisVal = totJours > 0 ? gains / (totJours / jourParMois) : 0;
+    var seuil = parMoisVal > 0 ? Math.ceil(capital / parMoisVal) : '—';
+    var seuilLabel = seuil !== '—' ? seuil + ' ' + (seuil <= 1 ? 'mois' : 'mois') : '—';
+
+    document.getElementById('calc-final').textContent    = fmt(capitalFinal);
+    document.getElementById('calc-gains').textContent    = '+' + fmt(gains);
+    document.getElementById('calc-seuil').textContent    = seuilLabel;
+    document.getElementById('calc-par-jour').textContent = fmt(parJour);
+    document.getElementById('calc-par-mois').textContent = fmt(parMois);
+    document.getElementById('calc-par-an').textContent   = fmt(parAn);
+  }
+  calcResult();
+</script>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/69c1c8abf9f0211c36fde03a/1jkeffnrd';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+</body>
+</html>

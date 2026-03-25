@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project inves'T - Accueil</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+      .line-anim  { stroke-dasharray: 40 960; animation: snake 6s linear infinite, rainbow 5s linear infinite; }
+      .line-anim2 { stroke-dasharray: 40 960; animation: snake 8s linear infinite reverse, rainbow 5s linear infinite 1.5s; }
+      .line-anim3 { stroke-dasharray: 40 960; animation: snake 7s linear infinite, rainbow 5s linear infinite 3s; }
+      @keyframes snake { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: -1000; } }
+      @keyframes rainbow {
+        0%   { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
+        20%  { stroke: #7850ff; filter: drop-shadow(0 0 6px #7850ff); }
+        40%  { stroke: #ff3399; filter: drop-shadow(0 0 6px #ff3399); }
+        60%  { stroke: #ffaa00; filter: drop-shadow(0 0 6px #ffaa00); }
+        80%  { stroke: #00ff99; filter: drop-shadow(0 0 6px #00ff99); }
+        100% { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
+      }
+      @keyframes floatBubble {
+        0%   { transform: translateY(0px) translateX(0px); opacity: 0.6; }
+        25%  { transform: translateY(-30px) translateX(15px); opacity: 0.8; }
+        50%  { transform: translateY(-60px) translateX(-10px); opacity: 0.5; }
+        75%  { transform: translateY(-90px) translateX(20px); opacity: 0.7; }
+        100% { transform: translateY(-150px) translateX(0px); opacity: 0; }
+      }
+      @keyframes bubbleRainbow {
+        0%   { stroke: rgba(0,200,255,0.5); }
+        25%  { stroke: rgba(120,80,255,0.5); }
+        50%  { stroke: rgba(255,100,200,0.5); }
+        75%  { stroke: rgba(0,255,150,0.5); }
+        100% { stroke: rgba(0,200,255,0.5); }
+      }
+    </style>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const _sb = window.supabase.createClient(
+  'https://cvggxktybzbrtskcwlxp.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Z2d4a3R5YnpicnRza2N3bHhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyODM2MjcsImV4cCI6MjA4OTg1OTYyN30.cfHsAvmgcXYvedCz1fZCHlxOApupKCxnt8t9e8KzNBs'
+);
+</script>
+</head>
+<body>
+
+<!-- FOND ANIMÉ : LIGNES ARC-EN-CIEL + BULLES (identique page connexion) -->
+<div id="bg-curves">
+  <svg viewBox="0 0 1700 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="glow-line"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <path class="line-anim"  d="M-100,300 C200,100 400,500 800,250 S1200,50 1700,300"  fill="none" stroke="rgba(0,200,255,0.2)"  stroke-width="2" filter="url(#glow-line)"/>
+    <path class="line-anim2" d="M-100,600 C300,400 600,800 1000,550 S1400,300 1700,600" fill="none" stroke="rgba(26,127,219,0.25)" stroke-width="2" filter="url(#glow-line)"/>
+    <path class="line-anim3" d="M-100,150 C300,50 700,350 1100,150 S1450,0 1700,180"   fill="none" stroke="rgba(0,200,255,0.12)" stroke-width="1.5" filter="url(#glow-line)"/>
+    <circle cx="80"   cy="880" r="7"  fill="rgba(0,200,255,0.04)"   stroke="rgba(0,200,255,0.5)"   stroke-width="1" style="animation:floatBubble 6s 0s linear infinite,bubbleRainbow 4s 0s linear infinite;"/>
+    <circle cx="180"  cy="860" r="18" fill="rgba(120,80,255,0.04)"  stroke="rgba(120,80,255,0.45)" stroke-width="1" style="animation:floatBubble 8s 1s linear infinite,bubbleRainbow 5s 0s linear infinite;"/>
+    <circle cx="290"  cy="900" r="5"  fill="rgba(0,255,150,0.04)"   stroke="rgba(0,255,150,0.5)"   stroke-width="1" style="animation:floatBubble 5s 2s linear infinite,bubbleRainbow 4s 1s linear infinite;"/>
+    <circle cx="400"  cy="830" r="32" fill="rgba(0,200,255,0.02)"   stroke="rgba(0,200,255,0.3)"   stroke-width="1" style="animation:floatBubble 12s 0.5s linear infinite,bubbleRainbow 6s 2s linear infinite;"/>
+    <circle cx="500"  cy="875" r="11" fill="rgba(255,100,200,0.03)" stroke="rgba(255,100,200,0.45)" stroke-width="1" style="animation:floatBubble 7s 3s linear infinite,bubbleRainbow 5s 0.5s linear infinite;"/>
+    <circle cx="610"  cy="845" r="22" fill="rgba(0,200,255,0.03)"   stroke="rgba(0,200,255,0.4)"   stroke-width="1" style="animation:floatBubble 9s 1.5s linear infinite,bubbleRainbow 4s 3s linear infinite;"/>
+    <circle cx="720"  cy="900" r="8"  fill="rgba(120,80,255,0.04)"  stroke="rgba(120,80,255,0.5)"  stroke-width="1" style="animation:floatBubble 6s 4s linear infinite,bubbleRainbow 5s 1s linear infinite;"/>
+    <circle cx="830"  cy="865" r="40" fill="rgba(0,255,150,0.02)"   stroke="rgba(0,255,150,0.25)"  stroke-width="1" style="animation:floatBubble 14s 0.8s linear infinite,bubbleRainbow 7s 2.5s linear infinite;"/>
+    <circle cx="940"  cy="880" r="14" fill="rgba(0,200,255,0.04)"   stroke="rgba(0,200,255,0.45)"  stroke-width="1" style="animation:floatBubble 8s 2.5s linear infinite,bubbleRainbow 4s 1.5s linear infinite;"/>
+    <circle cx="1150" cy="900" r="26" fill="rgba(120,80,255,0.03)"  stroke="rgba(120,80,255,0.35)" stroke-width="1" style="animation:floatBubble 11s 3.5s linear infinite,bubbleRainbow 5s 2s linear infinite;"/>
+    <circle cx="1260" cy="845" r="13" fill="rgba(0,200,255,0.04)"   stroke="rgba(0,200,255,0.5)"   stroke-width="1" style="animation:floatBubble 7s 0s linear infinite,bubbleRainbow 4s 3s linear infinite;"/>
+    <circle cx="1370" cy="875" r="35" fill="rgba(0,200,255,0.02)"   stroke="rgba(0,200,255,0.28)"  stroke-width="1" style="animation:floatBubble 13s 2s linear infinite,bubbleRainbow 6s 1s linear infinite;"/>
+    <circle cx="1570" cy="900" r="20" fill="rgba(120,80,255,0.03)"  stroke="rgba(120,80,255,0.4)"  stroke-width="1" style="animation:floatBubble 9s 1.5s linear infinite,bubbleRainbow 5s 2s linear infinite;"/>
+    <circle cx="200"  cy="180" r="130" fill="none" stroke="rgba(0,200,255,0.15)" stroke-width="1.5"/>
+    <circle cx="1500" cy="700" r="160" fill="none" stroke="rgba(26,127,219,0.2)"  stroke-width="1.5"/>
+    <circle cx="100" cy="80"  r="2"   fill="rgba(0,200,255,0.8)"/>
+    <circle cx="500" cy="120" r="2.5" fill="rgba(0,200,255,0.9)"/>
+    <circle cx="950" cy="30"  r="2"   fill="rgba(0,200,255,0.7)"/>
+    <circle cx="1350" cy="40" r="2"   fill="rgba(0,200,255,0.6)"/>
+  </svg>
+</div>
+
+<header>
+    <div class="header-top">
+        <a href="index.html" class="logo-svg">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 75" height="70" width="310">
+    <defs>
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+        <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <!-- Cercle coupé à droite (arc en C) - anneau extérieur -->
+    <path d="M 51,15 A 28,28 0 1,0 51,60" fill="none" stroke="#00c8ff" stroke-width="2.5" filter="url(#glow)"/>
+    <!-- Anneau intérieur coupé -->
+    <path d="M 46,22 A 20,20 0 1,0 46,53" fill="none" stroke="#1a7fdb" stroke-width="1.2" opacity="0.6"/>
+    <line x1="51" y1="15" x2="305" y2="15" stroke="#00c8ff" stroke-width="1.8" opacity="0.9" filter="url(#glow)"/>
+    <!-- Ligne horizontale bas : sort de la coupure vers inves'T -->
+    <line x1="51" y1="60" x2="305" y2="60" stroke="#1a9fff" stroke-width="1.8" opacity="0.9" filter="url(#glow)"/>
+    <!-- P au centre de l'arc -->
+    <text x="20" y="44" font-family="Arial Black,sans-serif" font-size="23" font-weight="900" fill="#ffffff" filter="url(#glow)">P</text>
+    <!-- inves'T grand, au-dessus ligne basse -->
+    <text x="57" y="47" font-family="Arial Black,sans-serif" font-size="28" font-weight="900" fill="#ffffff" letter-spacing="1">inves<tspan fill="#00c8ff" filter="url(#glow)">'T</tspan></text>
+  </svg>
+</a>
+        <div class="social-links">
+            <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="background:#229ED9;color:#fff;border-color:#229ED9;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-telegram" style="font-size:1rem;color:#fff;"></i> Telegram</a>
+            <a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" style="background:#FF0000;color:#fff;border-color:#FF0000;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;">▶ YouTube</a>
+            <a href="https://wa.me/320492931040" target="_blank" style="background:#25D366;color:#fff;border-color:#25D366;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-whatsapp" style="font-size:1rem;color:#fff;"></i> WhatsApp</a>
+            <a href="parametres.html" style="background:#c9a84c;color:#020a18;border-color:#c9a84c;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;font-weight:700;">⚙ Paramètres</a>
+            <a href="#" onclick="_sb.auth.signOut().then(()=>window.location.href='index.html')" style="background:#00c8ff;color:#020a18;border-color:#00c8ff;font-weight:700;">⏻ Déconnexion</a>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="index.html" class="active">Accueil</a></li>
+            <li><a href="parametres.html">⚙ Paramètres</a></li>
+            <li><a href="investissements.html">Investissements</a></li>
+            <li><a href="pdf-societe.html">PDF de société</a></li>
+            <li><a href="planning-webinaire.html">Planning webinaire 2026</a></li>
+            <li><a href="e-state-immobilier.html">E-state Immobilier Tokénisé</a></li>
+            <li><a href="smart-mev-trading.html">SMART MEV Trading</a></li>
+            <li><a href="mlm-center.html">MLM Center</a></li>
+            <li><a href="portage-salarial.html">Portage salarial</a></li>
+            <li><a href="wallet-decentralise.html">Wallet Décentralisé</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <h1 id="welcome-title">Bienvenue sur Project inves'T</h1>
+    <p>Site créé à titre personnel par un investisseur passionné. Rejoignez une communauté de personnes motivées et découvrez des opportunités d'investissement fiables et accessibles à tous.</p>
+    <a href="investissements.html" class="btn">Découvrir les opportunités</a>
+    <a href="https://www.skool.com/academie-invest-3966" target="_blank" class="btn">Rejoindre la communauté</a>
+</section>
+
+<!-- PRÉSENTATION -->
+<div>
+<div class="section">
+    <h2 class="section-title">Qui suis-je ?</h2>
+    <div class="divider"></div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+        <div>
+            <p style="color:#cccccc; line-height:1.8; font-size:1.05rem;">
+                Je m'appelle <strong style="color:#c9a84c;">Hoarau Johnny</strong>, investisseur indépendant depuis 7 ans dans le domaine du MLM et des nouvelles technologies financières.
+                <br><br>
+                Ce site est créé à titre <strong style="color:#c9a84c;">personnel et non professionnel</strong> pour le moment — l'outil professionnel est en cours de construction, arrive bientôt. Mon objectif est de partager mes expériences, les opportunités que j'ai découvertes, et d'accompagner ceux qui souhaitent se lancer dans l'investissement.
+            </p>
+            <br>
+            <a href="investissements.html" class="btn">En savoir plus</a>
+        </div>
+        <div class="card" style="text-align:center;">
+            <!-- PHOTO : changer object-position pour recentrer (ex: "30% 10%", "50% 20%") -->
+            <!-- changer height pour recadrer plus ou moins le bas (ex: 150%, 160%, 170%) -->
+            <div style="width:100%;max-width:280px;height:260px;margin:0 auto 16px;border-radius:12px;overflow:hidden;box-shadow:0 0 20px rgba(0,200,255,0.3);position:relative;">
+              <img src="johnny.jpg" alt="Hoarau Johnny" style="width:100%;display:block;position:absolute;top:0;left:0;">
+            </div>
+            <h3>Hoarau Johnny</h3>
+            <p>Investisseur indépendant<br>MLM & Technologies depuis 7 ans</p>
+            <br>
+            <p style="display:flex;align-items:center;justify-content:center;gap:8px;">
+              <img src="https://flagcdn.com/32x24/be.png" alt="Belgique" style="border-radius:3px;"> Belgique
+            </p>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- SERVICES -->
+<div class="section">
+    <h2 class="section-title">Nos Domaines d'Investissement</h2>
+    <div class="divider"></div>
+    <div class="cards-grid">
+        <div class="card">
+            <div class="card-icon"><img src="logo-estate.png" alt="E-Estate" style="max-width:140px;max-height:60px;object-fit:contain;"></div>
+            <h3>E-state Immobilier Tokénisé</h3>
+            <p>Investissez dans l'immobilier tokenisé grâce à la blockchain. Accédez à des actifs immobiliers dès quelques centaines d'euros.</p>
+            <br>
+            <a href="e-state-immobilier.html" style="color:#c9a84c; text-decoration:none; font-weight:600;">En savoir plus →</a>
+        </div>
+        <div class="card">
+            <div class="card-icon"><img src="logo-smarts.png" alt="Smarts" style="max-width:140px;max-height:60px;object-fit:contain;"></div>
+            <h3>SMART MEV Trading</h3>
+            <p>Trading automatique intelligent basé sur les technologies MEV. Laissez les algorithmes travailler pour vous 24h/24.</p>
+            <br>
+            <a href="smart-mev-trading.html" style="color:#c9a84c; text-decoration:none; font-weight:600;">En savoir plus →</a>
+        </div>
+        <div class="card">
+            <div class="card-icon"><img src="logo-mlm.png" alt="MLM Center" style="max-width:140px;max-height:60px;object-fit:contain;"></div>
+            <h3>MLM Center</h3>
+            <p>Rejoignez notre réseau de distribution et développez votre activité en parrainant de nouveaux membres actifs.</p>
+            <br>
+            <a href="mlm-center.html" style="color:#c9a84c; text-decoration:none; font-weight:600;">En savoir plus →</a>
+        </div>
+        <div class="card">
+            <div class="card-icon"><img src="logo-isp.png" alt="International Secure Pay" style="max-width:140px;max-height:60px;object-fit:contain;"></div>
+            <h3>Portage Salarial</h3>
+            <p>Exercez votre activité en toute sécurité grâce au portage salarial. Profitez des avantages du salariat et de l'indépendance.</p>
+            <br>
+            <a href="portage-salarial.html" style="color:#c9a84c; text-decoration:none; font-weight:600;">En savoir plus →</a>
+        </div>
+        <div class="card">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 60" width="80" height="60">
+                <defs><filter id="gw"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+                <rect x="4" y="14" width="72" height="42" rx="8" fill="none" stroke="#00c8ff" stroke-width="2.5" filter="url(#gw)"/>
+                <path d="M4 24 H76" stroke="#00c8ff" stroke-width="1.5" opacity="0.5"/>
+                <rect x="52" y="30" width="20" height="14" rx="4" fill="rgba(0,200,255,0.15)" stroke="#00c8ff" stroke-width="1.8" filter="url(#gw)"/>
+                <circle cx="62" cy="37" r="3" fill="#00c8ff" filter="url(#gw)"/>
+                <path d="M20 8 L40 4 L60 8" stroke="#7850ff" stroke-width="1.5" fill="none" filter="url(#gw)"/>
+              </svg>
+            </div>
+            <h3>Wallet Décentralisé</h3>
+            <p>Gérez vos cryptomonnaies en toute sécurité avec un wallet décentralisé. Vos clés, vos fonds.</p>
+            <br>
+            <a href="wallet-decentralise.html" style="color:#c9a84c; text-decoration:none; font-weight:600;">En savoir plus →</a>
+        </div>
+        <div class="card">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 60" width="80" height="60">
+                <defs><filter id="gd"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+                <rect x="8" y="6" width="34" height="44" rx="3" fill="rgba(0,200,255,0.08)" stroke="#7850ff" stroke-width="2" filter="url(#gd)"/>
+                <rect x="18" y="10" width="34" height="44" rx="3" fill="rgba(0,200,255,0.08)" stroke="#00c8ff" stroke-width="2" filter="url(#gd)"/>
+                <line x1="24" y1="22" x2="44" y2="22" stroke="#00c8ff" stroke-width="1.5" opacity="0.8"/>
+                <line x1="24" y1="30" x2="44" y2="30" stroke="#00c8ff" stroke-width="1.5" opacity="0.6"/>
+                <line x1="24" y1="38" x2="36" y2="38" stroke="#00c8ff" stroke-width="1.5" opacity="0.4"/>
+                <path d="M38 6 L52 6 L52 16 L38 16 Z" fill="rgba(120,80,255,0.3)" stroke="#7850ff" stroke-width="1.5"/>
+                <path d="M38 6 L38 16 L52 16" fill="none" stroke="#7850ff" stroke-width="1.5" filter="url(#gd)"/>
+              </svg>
+            </div>
+            <h3>PDF de Société</h3>
+            <p>Téléchargez les documents officiels des sociétés partenaires pour en savoir plus sur leur structure et leur légitimité.</p>
+            <br>
+            <a href="pdf-societe.html" style="color:#c9a84c; text-decoration:none; font-weight:600;">Télécharger →</a>
+        </div>
+    </div>
+</div>
+
+
+<!-- WEBINAIRE -->
+<div>
+<div class="section">
+    <h2 class="section-title">Prochain Webinaire</h2>
+    <div class="divider"></div>
+    <div class="card" style="max-width:600px; margin:0 auto; text-align:center;">
+        <div class="card-icon">🎥</div>
+        <h3>Webinaire Mensuel - Avril 2026</h3>
+        <p>Rejoignez notre prochain webinaire en direct pour découvrir les dernières opportunités et poser vos questions en temps réel.</p>
+        <br>
+        <p style="color:#c9a84c; font-size:1.1rem; font-weight:700;">📅 Samedi 12 Avril 2026 à 14h00</p>
+        <br>
+        <a href="planning-webinaire.html" class="btn">Voir tout le planning</a>
+    </div>
+</div>
+</div>
+
+<footer>
+    <p>© 2026 Project inves'T — Site personnel, non professionnel. Les investissements comportent des risques.</p>
+</footer>
+
+<script>
+document.querySelectorAll('.accordion-header').forEach(header => {
+    header.addEventListener('click', () => {
+        const body = header.nextElementSibling;
+        body.classList.toggle('open');
+        header.querySelector('.arrow').textContent = body.classList.contains('open') ? '▲' : '▼';
+    });
+});
+</script>
+
+<script>
+_sb.auth.getSession().then(function(res) {
+  var session = res.data && res.data.session;
+  if (!session) return;
+  var meta = session.user.user_metadata || {};
+  var pseudo = meta.username || meta.pseudo || session.user.email.split('@')[0];
+  var title = document.getElementById('welcome-title');
+  if (title) title.innerHTML = 'Bienvenue <span style="color:#00c8ff;">' + pseudo + '</span> !';
+});
+</script>
+<script src="menu.js"></script>
+<script src="audio.js"></script>
+<script src="translator.js"></script>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/69c1c8abf9f0211c36fde03a/1jkeffnrd';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+</body>
+</html>
