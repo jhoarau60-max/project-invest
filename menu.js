@@ -52,8 +52,7 @@
     'mlm-center.html': [
       { href: 'bibliotheque-mlm.html', label: 'MLM Center', icon: 'fa-sitemap' },
       { href: 'videos-mlm.html',       label: 'Vidéo',      icon: 'fa-video' },
-      { href: 'pdf-mlm.html',          label: 'Documents',  icon: 'fa-file-pdf' },
-      { href: 'strategie-mlm.html',    label: 'Stratégie',  icon: 'fa-chess' },
+      { href: 'pdf-mlm.html',          label: 'Documents & Stratégie', icon: 'fa-file-pdf' },
     ],
   };
 
