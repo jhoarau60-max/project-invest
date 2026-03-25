@@ -81,10 +81,10 @@
       height: auto !important;
     }
 
-    /* Barre de recherche dans le header */
+    /* Barre de recherche dans la sidebar */
     #header-search {
       position: relative;
-      flex-shrink: 0;
+      padding: 10px 12px 6px;
     }
     #header-search input {
       background: rgba(0,200,255,0.08);
@@ -94,21 +94,16 @@
       color: #fff;
       font-size: 0.82rem;
       outline: none;
-      width: 200px;
+      width: 100%;
+      box-sizing: border-box;
       box-shadow: 0 0 10px rgba(0,200,255,0.4), inset 0 0 8px rgba(0,200,255,0.05);
-      transition: border-color 0.3s, box-shadow 0.3s, width 0.3s;
     }
     #header-search input::placeholder { color: rgba(0,200,255,0.7); }
-    #header-search input:focus {
-      border-color: #00c8ff;
-      box-shadow: 0 0 16px rgba(0,200,255,0.7), inset 0 0 10px rgba(0,200,255,0.08);
-      width: 240px;
-    }
     #header-search i {
       position: absolute;
-      left: 11px;
+      left: 23px;
       top: 50%;
-      transform: translateY(-50%);
+      transform: translateY(-30%);
       color: #00c8ff;
       font-size: 0.8rem;
       pointer-events: none;
