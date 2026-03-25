@@ -36,6 +36,7 @@
     'smart-mev-trading.html':  'Bot Trading',
     'mlm-center.html':         'Système Matriciel',
     'wallet-decentralise.html':'SURPRISE',
+    'bibliotheque-mlm.html':   'Avis Clients',
   };
 
   // Sous-menus
