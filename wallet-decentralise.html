@@ -281,10 +281,23 @@ function parlerRobot() {
               + "Plus la barre avance, plus l'opportunité se précise. "
               + "Préparez-vous.";
     var msg = new SpeechSynthesisUtterance(texte);
-    msg.lang   = 'fr-FR';
-    msg.pitch  = 0.4;
-    msg.rate   = 0.82;
+    msg.pitch  = 0.1;   // pitch minimum = voix très grave robotique
+    msg.rate   = 0.75;  // lent et mécanique
     msg.volume = 1;
+
+    // Sélection de la meilleure voix masculine disponible
+    var voices = window.speechSynthesis.getVoices();
+    var voix =
+        voices.find(function(v) { return /microsoft.*paul|microsoft.*claude|microsoft.*thomas/i.test(v.name); }) ||
+        voices.find(function(v) { return v.lang === 'fr-FR' && /male|homme|thomas|paul|nicolas/i.test(v.name); }) ||
+        voices.find(function(v) { return v.lang === 'fr-FR' && !/female|femme|amelie|audrey|marie|sophie/i.test(v.name); }) ||
+        voices.find(function(v) { return /google uk english male/i.test(v.name); }) ||
+        voices.find(function(v) { return v.lang === 'en-GB' && /male/i.test(v.name); }) ||
+        voices.find(function(v) { return v.lang === 'fr-FR'; });
+
+    if (voix) msg.voice = voix;
+    else msg.lang = 'fr-FR';
+
     window.speechSynthesis.speak(msg);
 }
 
