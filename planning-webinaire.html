@@ -156,7 +156,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                 <th>Sujet</th>
                 <th>Intervenant</th>
                 <th>Accès</th>
-                <th>Replay</th>
+                <th>Statut</th>
             </tr>
         </thead>
         <tbody id="planning-body">
@@ -250,22 +250,36 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
       });
 
       // Générer le HTML
+      var now = new Date();
       var today = new Date(); today.setHours(0,0,0,0);
       var tbody = document.getElementById('planning-body');
       tbody.innerHTML = '';
       rows.forEach(function(r) {
         var label = r.special ? '<strong>' + formatDate(r.dateObj) + '</strong>' : formatDate(r.dateObj);
 
-        // Colonne replay
+        // Date + heure exacte du Zoom
+        var hParts = r.heure.split('h');
+        var zoomDate = new Date(r.dateObj);
+        zoomDate.setHours(parseInt(hParts[0]), parseInt(hParts[1]) || 0, 0, 0);
+        var ts = zoomDate.getTime();
+
+        // Passé ou futur ?
         var dateKey = r.dateObj.getFullYear() + '-'
           + String(r.dateObj.getMonth()+1).padStart(2,'0') + '-'
           + String(r.dateObj.getDate()).padStart(2,'0');
-        var isPast = r.dateObj < today;
-        var replayHtml = '';
+        var isPast = now >= zoomDate;
+
+        // Couleur du timer selon le type
+        var timerColor = r.classe === 'btn-zoom-bleu' ? '#00c8ff' : (r.classe === 'btn-zoom-dore' ? '#c9a84c' : '#7850ff');
+
+        // Colonne Statut
+        var statutHtml = '';
         if (REPLAYS[dateKey]) {
-          replayHtml = '<a href="' + REPLAYS[dateKey] + '" target="_blank" style="background:#FF0000;color:#fff;padding:5px 10px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.78rem;white-space:nowrap;display:inline-block;">▶ Voir le replay</a>';
+          statutHtml = '<a href="' + REPLAYS[dateKey] + '" target="_blank" style="background:#FF0000;color:#fff;padding:5px 10px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.78rem;white-space:nowrap;display:inline-block;">▶ Voir le replay</a>';
         } else if (isPast) {
-          replayHtml = '<span style="color:#aaa;font-size:0.8rem;">Bientôt disponible</span>';
+          statutHtml = '<span style="color:#aaa;font-size:0.8rem;">Bientôt disponible</span>';
+        } else {
+          statutHtml = '<span class="row-cd" data-ts="' + ts + '" style="color:' + timerColor + ';font-weight:700;font-size:0.85rem;">--</span>';
         }
 
         var tr = '<tr style="' + r.style + '">'
@@ -274,13 +288,33 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
           + '<td>' + r.sujet + '</td>'
           + '<td>' + r.intervenant + '</td>'
           + '<td><a href="' + r.lien + '" target="_blank" class="' + r.classe + '">Accéder au Zoom</a></td>'
-          + '<td>' + replayHtml + '</td>'
+          + '<td>' + statutHtml + '</td>'
           + '</tr>';
         tbody.innerHTML += tr;
       });
     }
 
+    // Mise à jour des comptes à rebours en direct
+    function updateRowCountdowns() {
+      var now = Date.now();
+      document.querySelectorAll('.row-cd').forEach(function(el) {
+        var ts = parseInt(el.dataset.ts);
+        var diff = ts - now;
+        if (diff <= 0) { el.textContent = '🔴 En cours !'; return; }
+        var h = Math.floor(diff / 3600000);
+        var m = Math.floor((diff % 3600000) / 60000);
+        var s = Math.floor((diff % 60000) / 1000);
+        if (h >= 24) {
+          el.textContent = Math.floor(h/24) + 'j ' + (h%24) + 'h ' + String(m).padStart(2,'0') + 'min';
+        } else {
+          el.textContent = h + 'h ' + String(m).padStart(2,'0') + 'min ' + String(s).padStart(2,'0') + 's';
+        }
+      });
+    }
+
     buildPlanning();
+    updateRowCountdowns();
+    setInterval(updateRowCountdowns, 1000);
     </script>
 
     <br><br>
