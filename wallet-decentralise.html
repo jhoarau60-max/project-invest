@@ -223,6 +223,7 @@ var POURCENTAGE = 35;
 // ── Voix robotique ───────────────────────────────────────────────────────────
 function parlerRobot() {
     if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
     var texte = "Accès autorisé. Bienvenue sur le tableau de bord Project inves T. "
               + "Initialisation du système en cours. "
               + "Votre progression est en cours de traitement. "
@@ -230,16 +231,10 @@ function parlerRobot() {
               + "Plus la barre avance, plus l'opportunité se précise. "
               + "Préparez-vous.";
     var msg = new SpeechSynthesisUtterance(texte);
-    msg.lang  = 'fr-FR';
-    msg.pitch = 0.4;   // voix grave robotique
-    msg.rate  = 0.82;  // légèrement ralenti
+    msg.lang   = 'fr-FR';
+    msg.pitch  = 0.4;
+    msg.rate   = 0.82;
     msg.volume = 1;
-    // Choisir la voix la plus robotique disponible
-    var voices = window.speechSynthesis.getVoices();
-    var robot  = voices.find(function(v) {
-        return v.lang === 'fr-FR' && /google|microsoft/i.test(v.name);
-    }) || voices.find(function(v) { return v.lang === 'fr-FR'; });
-    if (robot) msg.voice = robot;
     window.speechSynthesis.speak(msg);
 }
 
@@ -249,25 +244,13 @@ window.addEventListener('load', function() {
     var bar = document.getElementById('progress-bar');
     var pct = document.getElementById('progress-pct');
 
-    // Lancer la voix au premier clic (contournement restriction Chrome)
-    var dejaParle = false;
-    function lancerVoix() {
-        if (dejaParle) return;
-        dejaParle = true;
-        document.removeEventListener('click', lancerVoix);
-        if (window.speechSynthesis.getVoices().length === 0) {
-            window.speechSynthesis.onvoiceschanged = parlerRobot;
-        } else {
-            parlerRobot();
-        }
-    }
-    document.addEventListener('click', function() {
+    // Premier clic → voix directement (obligatoire pour Chrome)
+    document.addEventListener('click', function handler() {
+        document.removeEventListener('click', handler);
         var hint = document.getElementById('click-hint');
         if (hint) hint.style.display = 'none';
+        parlerRobot();
     });
-    document.addEventListener('click', lancerVoix);
-    // Tentative automatique quand même (fonctionne sur certains navigateurs)
-    setTimeout(function() { lancerVoix(); }, 1200);
 
     // Compte à rebours animé du chiffre
     var start = 0;
