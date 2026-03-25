@@ -43,16 +43,14 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         transform: translateY(-2px);
       }
       .btn-zoom-special {
-        background: #1a1a2e;
+        background: #7850ff;
         color:#fff;
-        padding:6px 8px; border-radius:8px; text-decoration:none;
+        padding:6px 10px; border-radius:8px; text-decoration:none;
         font-weight:700; font-size:0.78rem; transition: all 0.3s;
-        white-space:nowrap; display:inline-flex; align-items:center; gap:3px;
-        border: 1px solid rgba(255,255,255,0.3);
+        white-space:nowrap; display:inline-block;
       }
-      .btn-zoom-special img { border-radius:2px; vertical-align:middle; }
       .btn-zoom-special:hover {
-        box-shadow: 0 0 18px rgba(0,146,70,0.8), 0 0 35px rgba(0,35,149,0.6);
+        box-shadow: 0 0 18px rgba(120,80,255,0.9), 0 0 35px rgba(120,80,255,0.5);
         transform: translateY(-2px);
       }
       @keyframes floatBubble {
@@ -176,9 +174,9 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                 <td><a href="https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1" target="_blank" class="btn-zoom-dore">Accéder au Zoom</a></td>
             </tr>
             <tr style="background:rgba(255,255,255,0.04);">
-                <td><strong>Mardi 31 Mars 2026</strong> ⭐</td>
+                <td><strong>Mardi 31 Mars 2026</strong></td>
                 <td>19h00</td>
-                <td>Présentation spéciale internationale E-estate</td>
+                <td style="white-space:nowrap;">Présentation internationale E-estate</td>
                 <td><img src="https://flagcdn.com/fr.svg" width="20" style="vertical-align:middle;border-radius:2px;"> Hoarau Johnny &amp; <img src="https://flagcdn.com/it.svg" width="20" style="vertical-align:middle;border-radius:2px;"> Massimiliano</td>
                 <td><a href="#" class="btn-zoom-special">Accéder au Zoom</a></td>
             </tr>
