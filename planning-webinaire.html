@@ -252,9 +252,20 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
       // Générer le HTML
       var now = new Date();
       var today = new Date(); today.setHours(0,0,0,0);
+
+      // Identifier les indices des 3 derniers Zooms passés (sans replay)
+      var pastIndices = [];
+      rows.forEach(function(r, i) {
+        var hParts2 = r.heure.split('h');
+        var zd = new Date(r.dateObj);
+        zd.setHours(parseInt(hParts2[0]), parseInt(hParts2[1]) || 0, 0, 0);
+        if (now >= zd) pastIndices.push(i);
+      });
+      var last3Past = pastIndices.slice(-3); // les 3 plus récents
+
       var tbody = document.getElementById('planning-body');
       tbody.innerHTML = '';
-      rows.forEach(function(r) {
+      rows.forEach(function(r, i) {
         var label = r.special ? '<strong>' + formatDate(r.dateObj) + '</strong>' : formatDate(r.dateObj);
 
         // Date + heure exacte du Zoom
@@ -277,7 +288,11 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         if (REPLAYS[dateKey]) {
           statutHtml = '<a href="' + REPLAYS[dateKey] + '" target="_blank" style="background:#FF0000;color:#fff;padding:5px 10px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.78rem;white-space:nowrap;display:inline-block;">▶ Voir le replay</a>';
         } else if (isPast) {
-          statutHtml = '<span style="color:#aaa;font-size:0.8rem;">Bientôt disponible</span>';
+          if (last3Past.indexOf(i) !== -1) {
+            statutHtml = '<span style="color:#aaa;font-size:0.8rem;">Bientôt disponible</span>';
+          } else {
+            statutHtml = '<span style="color:rgba(255,255,255,0.25);font-size:0.8rem;">Zoom terminé</span>';
+          }
         } else {
           statutHtml = '<span class="row-cd" data-ts="' + ts + '" style="color:' + timerColor + ';font-weight:700;font-size:0.85rem;">--</span>';
         }
