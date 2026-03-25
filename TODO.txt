@@ -1,0 +1,29 @@
+==============================
+  PROJECT INVES'T — À FAIRE
+==============================
+
+1. MUSIQUE
+   - Convertir music.mp4 en MP3 (cloudconvert.com)
+   - Copier le fichier MP3 dans le dossier du projet
+   - Dire à Claude le nom du fichier pour réactiver
+
+2. CHAT TAWK.TO
+   - Changer "We Are Here!" → "Support"
+   - Mettre votre photo comme avatar de l'agent
+   - Se connecter sur tawk.to → Administration → Chat Widget
+
+3. ZOOM 31 MARS (Événement spécial Franco-Italien)
+   - Donner le lien Zoom à Claude pour l'ajouter dans planning-webinaire.html
+
+4. PLANNING AVRIL
+   - Donner à Claude les éventuels événements spéciaux d'avril
+   - Les jeudis/samedis se génèrent automatiquement
+
+5. PDFs TRADUITS (DeepL — gratuit 3 fichiers/mois)
+   - Traduire les PDFs en : Italien, Anglais, Espagnol
+   - Uploader sur Adobe et donner les liens à Claude
+   - Claude les ajoutera sur la page Outils
+
+6. REPLAYS ZOOM (après chaque Zoom)
+   - Donner le lien YouTube du replay à Claude
+   - Claude l'ajoute en 30 secondes dans planning-webinaire.html

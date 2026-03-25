@@ -18,6 +18,7 @@
     'wallet-decentralise.html':      'fa-wallet',
     'bibliotheque-immobilier.html':  'fa-book',
     'bibliotheque-trading.html':     'fa-book',
+    'bibliotheque-mlm.html':         'fa-book',
   };
 
   // Renommer les onglets
@@ -36,6 +37,9 @@
     ],
     'smart-mev-trading.html': [
       { href: 'bibliotheque-trading.html', label: 'Bibliothèque', icon: 'fa-book' }
+    ],
+    'mlm-center.html': [
+      { href: 'bibliotheque-mlm.html', label: 'Bibliothèque', icon: 'fa-book' }
     ],
   };
 
