@@ -348,10 +348,9 @@
         });
         li.appendChild(subUl);
 
-        // Clic sur la flèche uniquement → ouvre/ferme le sous-menu
-        arrow.addEventListener('click', function (e) {
+        // Clic sur le lien OU la flèche → ouvre/ferme le sous-menu
+        a.addEventListener('click', function (e) {
           e.preventDefault();
-          e.stopPropagation();
           li.classList.toggle('open');
           subUl.classList.toggle('open');
         });
