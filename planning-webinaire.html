@@ -338,23 +338,22 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 
     <div class="cards-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
         <div class="card" style="text-align:center;">
-            <div class="card-icon">🔴</div>
-            <h3>En Direct</h3>
-            <p>Nos webinaires sont diffusés en direct sur Zoom et YouTube. Posez vos questions en temps réel.</p>
-        </div>
-        <div class="card" style="text-align:center;">
-            <div class="card-icon">▶</div>
+            <div class="card-icon" style="font-size:2rem;">
+              <i class="fa-brands fa-youtube" style="color:#FF0000; filter:drop-shadow(0 0 10px rgba(255,0,0,0.6));"></i>
+            </div>
             <h3>Replays</h3>
             <p>Manqué un webinaire ? Retrouvez tous les replays sur notre chaîne YouTube.</p>
             <br>
-            <a href="#" class="btn" style="font-size:0.85rem; padding:10px 20px;">Voir YouTube</a>
+            <a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" class="btn" style="font-size:0.85rem; padding:10px 20px;">Voir YouTube</a>
         </div>
         <div class="card" style="text-align:center;">
-            <div class="card-icon">🔔</div>
+            <div class="card-icon" style="font-size:2rem;">
+              <i class="fa-brands fa-telegram" style="color:#229ED9; filter:drop-shadow(0 0 10px rgba(34,158,217,0.6));"></i>
+            </div>
             <h3>Notifications</h3>
             <p>Rejoignez notre groupe Telegram pour recevoir les rappels avant chaque webinaire.</p>
             <br>
-            <a href="#" class="btn" style="font-size:0.85rem; padding:10px 20px;">Rejoindre Telegram</a>
+            <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" class="btn" style="font-size:0.85rem; padding:10px 20px;">Rejoindre Telegram</a>
         </div>
     </div>
 </div>
