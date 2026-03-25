@@ -192,6 +192,11 @@ var POURCENTAGE = 35;
     <h1 class="surprise-title">Surprise</h1>
     <p style="color:#aaa;font-size:1.1rem;letter-spacing:3px;margin:16px 0 60px;text-transform:uppercase;">Quelque chose arrive...</p>
 
+    <!-- Invite à cliquer -->
+    <div id="click-hint" style="color:rgba(0,200,255,0.6);font-size:0.8rem;letter-spacing:3px;margin-bottom:10px;animation:surpriseGlow 4s infinite;">
+        ▶ CLIQUEZ N'IMPORTE OÙ POUR ACTIVER LE SON
+    </div>
+
     <!-- Texte LOADING -->
     <div class="loading-text" style="color:rgba(255,255,255,0.5);font-size:0.9rem;letter-spacing:6px;font-weight:700;margin-bottom:18px;"></div>
 
@@ -244,14 +249,25 @@ window.addEventListener('load', function() {
     var bar = document.getElementById('progress-bar');
     var pct = document.getElementById('progress-pct');
 
-    // Lancer la voix après 1.2s (laisse le temps aux voix de charger)
-    setTimeout(function() {
+    // Lancer la voix au premier clic (contournement restriction Chrome)
+    var dejaParle = false;
+    function lancerVoix() {
+        if (dejaParle) return;
+        dejaParle = true;
+        document.removeEventListener('click', lancerVoix);
         if (window.speechSynthesis.getVoices().length === 0) {
             window.speechSynthesis.onvoiceschanged = parlerRobot;
         } else {
             parlerRobot();
         }
-    }, 1200);
+    }
+    document.addEventListener('click', function() {
+        var hint = document.getElementById('click-hint');
+        if (hint) hint.style.display = 'none';
+    });
+    document.addEventListener('click', lancerVoix);
+    // Tentative automatique quand même (fonctionne sur certains navigateurs)
+    setTimeout(function() { lancerVoix(); }, 1200);
 
     // Compte à rebours animé du chiffre
     var start = 0;
