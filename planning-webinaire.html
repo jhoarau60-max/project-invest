@@ -53,6 +53,41 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         box-shadow: 0 0 18px rgba(120,80,255,0.9), 0 0 35px rgba(120,80,255,0.5);
         transform: translateY(-2px);
       }
+      /* Bouton Franco-Italien : moitié drapeau IT / moitié drapeau FR */
+      @keyframes shine-franco {
+        0%   { left: -70%; }
+        100% { left: 130%; }
+      }
+      .btn-zoom-franco-it {
+        background: linear-gradient(to right,
+          #009246 0%,   #009246 16.5%,
+          #ffffff 16.5%,#ffffff 33%,
+          #ce2b37 33%,  #ce2b37 50%,
+          #002395 50%,  #002395 66.5%,
+          #ffffff 66.5%,#ffffff 83%,
+          #ED2939 83%,  #ED2939 100%
+        );
+        color: #111;
+        padding: 6px 10px; border-radius: 8px; text-decoration: none;
+        font-weight: 700; font-size: 0.78rem; transition: all 0.3s;
+        white-space: nowrap; display: inline-block;
+        position: relative; overflow: hidden;
+        text-shadow: 0 0 6px rgba(255,255,255,0.9), 0 1px 2px rgba(255,255,255,0.8);
+        box-shadow: 0 0 10px rgba(0,40,140,0.4), 0 0 10px rgba(200,0,50,0.4);
+      }
+      .btn-zoom-franco-it::after {
+        content: '';
+        position: absolute;
+        top: -50%; left: -70%;
+        width: 45%; height: 200%;
+        background: rgba(255,255,255,0.55);
+        transform: skewX(-20deg);
+        animation: shine-franco 2.5s ease-in-out infinite;
+      }
+      .btn-zoom-franco-it:hover {
+        box-shadow: 0 0 22px rgba(0,80,200,0.7), 0 0 22px rgba(220,0,50,0.7), 0 0 40px rgba(255,255,255,0.3);
+        transform: translateY(-2px);
+      }
       @keyframes floatBubble {
         0%   { transform: translateY(0px) translateX(0px); opacity: 0.6; }
         25%  { transform: translateY(-30px) translateX(15px); opacity: 0.8; }
@@ -178,11 +213,11 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
       {
         year: 2026, month: 2, day: 31, // mois = 0-indexé (2 = mars)
         heure: '19h00',
-        sujet: 'Présentation internationale E-estate',
-        intervenant: '<img src="https://flagcdn.com/fr.svg" width="20" style="vertical-align:middle;border-radius:2px;"> Hoarau Johnny &amp; <img src="https://flagcdn.com/it.svg" width="20" style="vertical-align:middle;border-radius:2px;"> Massimiliano',
+        sujet: '🌍 Présentation Spéciale Internationale — E-estate',
+        intervenant: '🇫🇷 Hoarau Johnny &amp; 🇮🇹 Massimiliano',
         lien: '#',
-        classe: 'btn-zoom-special',
-        style: 'background:rgba(255,255,255,0.04);'
+        classe: 'btn-zoom-franco-it',
+        style: 'background:rgba(255,255,255,0.05);border-left:2px solid rgba(0,100,200,0.4);'
       }
     ];
 
@@ -285,7 +320,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         var isPast = now >= zoomDate;
 
         // Couleur du timer selon le type
-        var timerColor = r.classe === 'btn-zoom-bleu' ? '#00c8ff' : (r.classe === 'btn-zoom-dore' ? '#c9a84c' : '#7850ff');
+        var timerColor = r.classe === 'btn-zoom-bleu' ? '#00c8ff' : r.classe === 'btn-zoom-dore' ? '#c9a84c' : r.classe === 'btn-zoom-franco-it' ? '#ffffff' : '#7850ff';
 
         // Colonne Statut
         var statutHtml = '';
