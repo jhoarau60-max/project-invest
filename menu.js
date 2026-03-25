@@ -334,9 +334,8 @@
         li.classList.add('nav-has-sub');
 
         // Flèche
-        var arrow = document.createElement('span');
-        arrow.className = 'nav-arrow';
-        arrow.innerHTML = '&#9658;';
+        var arrow = document.createElement('i');
+        arrow.className = 'nav-arrow fa-solid fa-chevron-right';
         a.appendChild(arrow);
 
         // Liste enfants
