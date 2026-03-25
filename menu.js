@@ -396,10 +396,10 @@ window.addEventListener('load', function() {
     }
   });
 
-  // Insérer juste après la barre de recherche
-  var searchEl = headerTop.querySelector('#header-search, input[type="search"], input[type="text"]');
-  if (searchEl && searchEl.parentNode) {
-    searchEl.parentNode.insertBefore(btn, searchEl.nextSibling);
+  // Insérer juste après la barre de recherche profil (#header-search)
+  var searchDiv = document.getElementById('header-search');
+  if (searchDiv && searchDiv.parentNode === headerTop) {
+    headerTop.insertBefore(btn, searchDiv.nextSibling);
   } else {
     var socialLinks = headerTop.querySelector('.social-links');
     if (socialLinks) socialLinks.insertBefore(btn, socialLinks.firstChild);
