@@ -271,14 +271,13 @@
     var ul = nav.querySelector('ul');
     nav.insertBefore(title, ul);
 
-    // Barre de recherche dans le header (à gauche)
-    var headerTop = document.querySelector('.header-top');
-    if (headerTop) {
-      var searchEl = document.createElement('div');
-      searchEl.id = 'header-search';
-      searchEl.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Rechercher un profil...">';
-      headerTop.insertBefore(searchEl, headerTop.firstChild);
-    }
+    // Barre de recherche dans la sidebar (au-dessus d'Accueil)
+    var searchSidebar = document.createElement('div');
+    searchSidebar.id = 'header-search';
+    searchSidebar.style.cssText = 'padding:10px 12px 6px;flex-shrink:0;';
+    searchSidebar.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Rechercher un profil..." style="width:100%;">';
+    var ul = nav.querySelector('ul');
+    if (ul) nav.insertBefore(searchSidebar, ul);
 
     // Afficher le pseudo et la photo dans la sidebar + header
     var _sbClient = (typeof _sb !== 'undefined') ? _sb : null;
@@ -395,15 +394,8 @@ window.addEventListener('load', function() {
     }
   });
 
-  // Insérer juste après la barre de recherche profil (#header-search)
-  var searchDiv = document.getElementById('header-search');
-  if (searchDiv && searchDiv.parentNode === headerTop) {
-    headerTop.insertBefore(btn, searchDiv.nextSibling);
-  } else {
-    var socialLinks = headerTop.querySelector('.social-links');
-    if (socialLinks) socialLinks.insertBefore(btn, socialLinks.firstChild);
-    else headerTop.appendChild(btn);
-  }
+  // Insérer le bouton Project App en premier dans le header (à la place de la barre de recherche)
+  headerTop.insertBefore(btn, headerTop.firstChild);
 
   // Sur iOS : toujours visible car pas de beforeinstallprompt
   var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
