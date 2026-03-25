@@ -17,7 +17,12 @@
     'portage-salarial.html':         'fa-briefcase',
     'wallet-decentralise.html':      'fa-wallet',
     'bibliotheque-immobilier.html':  'fa-book',
-    'bibliotheque-trading.html':     'fa-book',
+    'bibliotheque-trading.html':     'fa-robot',
+    'videos-trading.html':           'fa-video',
+    'pdf-trading.html':              'fa-file-pdf',
+    'videos-mlm.html':               'fa-video',
+    'pdf-mlm.html':                  'fa-file-pdf',
+    'strategie-mlm.html':            'fa-chess',
     'videos-immobilier.html':        'fa-video',
     'pdf-immobilier.html':           'fa-file-pdf',
     'bibliotheque-mlm.html':         'fa-book',
@@ -40,10 +45,15 @@
       { href: 'pdf-immobilier.html',          label: 'Documents Officiels', icon: 'fa-file-pdf' },
     ],
     'smart-mev-trading.html': [
-      { href: 'bibliotheque-trading.html', label: 'Bibliothèque', icon: 'fa-book' }
+      { href: 'bibliotheque-trading.html', label: 'Smart Bot',           icon: 'fa-robot' },
+      { href: 'videos-trading.html',       label: 'Outils Vidéo',        icon: 'fa-video' },
+      { href: 'pdf-trading.html',          label: 'Documents Officiels', icon: 'fa-file-pdf' },
     ],
     'mlm-center.html': [
-      { href: 'bibliotheque-mlm.html', label: 'Bibliothèque', icon: 'fa-book' }
+      { href: 'bibliotheque-mlm.html', label: 'MLM Center', icon: 'fa-sitemap' },
+      { href: 'videos-mlm.html',       label: 'Vidéo',      icon: 'fa-video' },
+      { href: 'pdf-mlm.html',          label: 'Documents',  icon: 'fa-file-pdf' },
+      { href: 'strategie-mlm.html',    label: 'Stratégie',  icon: 'fa-chess' },
     ],
   };
 
