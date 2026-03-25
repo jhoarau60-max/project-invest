@@ -220,56 +220,6 @@ var POURCENTAGE = 35;
 <script src="translator.js"></script>
 
 <script>
-// ── Ambiance robotique (Web Audio API) ───────────────────────────────────────
-function lancerAmbianceRobot() {
-    var ctx = new (window.AudioContext || window.webkitAudioContext)();
-
-    // Bourdonnement de fond grave
-    var drone = ctx.createOscillator();
-    var droneGain = ctx.createGain();
-    drone.type = 'sawtooth';
-    drone.frequency.setValueAtTime(55, ctx.currentTime);
-    drone.frequency.linearRampToValueAtTime(58, ctx.currentTime + 4);
-    drone.frequency.linearRampToValueAtTime(55, ctx.currentTime + 8);
-    droneGain.gain.setValueAtTime(0.06, ctx.currentTime);
-    drone.connect(droneGain);
-    droneGain.connect(ctx.destination);
-    drone.start();
-
-    // Pulse électronique (bip régulier)
-    function bip(freq, time, dur) {
-        var o = ctx.createOscillator();
-        var g = ctx.createGain();
-        o.type = 'square';
-        o.frequency.value = freq;
-        g.gain.setValueAtTime(0, time);
-        g.gain.linearRampToValueAtTime(0.04, time + 0.01);
-        g.gain.linearRampToValueAtTime(0, time + dur);
-        o.connect(g); g.connect(ctx.destination);
-        o.start(time); o.stop(time + dur + 0.05);
-    }
-    // Séquence de bips répétée
-    function sequenceBips() {
-        var t = ctx.currentTime;
-        bip(440, t + 0.0, 0.08);
-        bip(330, t + 0.3, 0.08);
-        bip(550, t + 0.6, 0.05);
-        bip(220, t + 0.9, 0.12);
-        bip(440, t + 1.4, 0.08);
-        bip(660, t + 1.8, 0.05);
-    }
-    sequenceBips();
-    var bipInterval = setInterval(sequenceBips, 2200);
-
-
-    // Stopper proprement après 30 secondes
-    setTimeout(function() {
-        clearInterval(bipInterval);
-        droneGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 2);
-        setTimeout(function() { ctx.close(); }, 2500);
-    }, 30000);
-}
-
 // ── Voix robotique ───────────────────────────────────────────────────────────
 function parlerRobot() {
     if (!window.speechSynthesis) return;
@@ -281,23 +231,10 @@ function parlerRobot() {
               + "Plus la barre avance, plus l'opportunité se précise. "
               + "Préparez-vous.";
     var msg = new SpeechSynthesisUtterance(texte);
-    msg.pitch  = 0.1;   // pitch minimum = voix très grave robotique
-    msg.rate   = 0.75;  // lent et mécanique
+    msg.lang   = 'fr-FR';
+    msg.pitch  = 0.1;
+    msg.rate   = 0.75;
     msg.volume = 1;
-
-    // Priorité aux voix masculines anglaises (toujours dispo dans Chrome, son robotique)
-    var voices = window.speechSynthesis.getVoices();
-    var voix =
-        voices.find(function(v) { return /google uk english male/i.test(v.name); }) ||
-        voices.find(function(v) { return /microsoft david/i.test(v.name); }) ||
-        voices.find(function(v) { return /microsoft george/i.test(v.name); }) ||
-        voices.find(function(v) { return v.lang === 'en-GB' && !/female/i.test(v.name); }) ||
-        voices.find(function(v) { return v.lang === 'en-US' && /male|david|mark|richard/i.test(v.name); }) ||
-        voices.find(function(v) { return v.lang === 'fr-FR'; });
-
-    if (voix) { msg.voice = voix; msg.lang = voix.lang; }
-    else msg.lang = 'fr-FR';
-
     window.speechSynthesis.speak(msg);
 }
 
@@ -312,7 +249,6 @@ window.addEventListener('load', function() {
         document.removeEventListener('click', handler);
         var hint = document.getElementById('click-hint');
         if (hint) hint.style.display = 'none';
-        lancerAmbianceRobot();
         parlerRobot();
     });
 
