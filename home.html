@@ -154,6 +154,78 @@ const _sb = window.supabase.createClient(
     <a href="https://www.skool.com/academie-invest-3966" target="_blank" class="btn">Rejoindre la communauté</a>
 </section>
 
+<!-- CADRAN PROCHAIN ZOOM -->
+<div class="section" style="padding:30px 20px;">
+  <h2 class="section-title">📅 Prochains Webinaires</h2>
+  <div class="divider"></div>
+  <div style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center; margin-top:20px;">
+
+    <!-- Jeudi -->
+    <div class="card" style="text-align:center; min-width:260px; flex:1; max-width:340px;">
+      <div style="font-size:2rem; margin-bottom:8px;">📘</div>
+      <h3 style="color:#00c8ff;">Jeudi — 21h00</h3>
+      <p style="color:#aaa; font-size:0.9rem; margin:8px 0;">Présentation E-estate</p>
+      <p id="countdown-thursday" style="color:#00c8ff; font-size:1.3rem; font-weight:700; margin:12px 0;">--:--:--</p>
+      <a href="https://us06web.zoom.us/j/81085168637?pwd=GF0VuD3kpQq8UPoilGrJwj9ubJVQly.1" target="_blank"
+        style="background:#00c8ff;color:#020a18;padding:8px 18px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.85rem;">
+        Rejoindre le Zoom
+      </a>
+    </div>
+
+    <!-- Samedi -->
+    <div class="card" style="text-align:center; min-width:260px; flex:1; max-width:340px;">
+      <div style="font-size:2rem; margin-bottom:8px;">📗</div>
+      <h3 style="color:#c9a84c;">Samedi — 19h00</h3>
+      <p style="color:#aaa; font-size:0.9rem; margin:8px 0;">Présentation E-estate</p>
+      <p id="countdown-saturday" style="color:#c9a84c; font-size:1.3rem; font-weight:700; margin:12px 0;">--:--:--</p>
+      <a href="https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1" target="_blank"
+        style="background:#c9a84c;color:#020a18;padding:8px 18px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.85rem;">
+        Rejoindre le Zoom
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function getNextDay(dayOfWeek, hour, minute) {
+  var now = new Date();
+  var next = new Date();
+  next.setHours(hour, minute, 0, 0);
+  var diff = dayOfWeek - now.getDay();
+  if (diff < 0 || (diff === 0 && now >= next)) diff += 7;
+  next.setDate(now.getDate() + diff);
+  return next;
+}
+
+function updateCountdowns() {
+  var now = new Date();
+
+  // Jeudi = 4, 21h00
+  var nextThursday = getNextDay(4, 21, 0);
+  var diffT = nextThursday - now;
+  var hT = Math.floor(diffT / 3600000);
+  var mT = Math.floor((diffT % 3600000) / 60000);
+  var sT = Math.floor((diffT % 60000) / 1000);
+  document.getElementById('countdown-thursday').textContent =
+    (hT > 23 ? Math.floor(hT/24) + 'j ' + (hT%24) : hT) + 'h ' +
+    String(mT).padStart(2,'0') + 'min ' + String(sT).padStart(2,'0') + 'sec';
+
+  // Samedi = 6, 19h00
+  var nextSaturday = getNextDay(6, 19, 0);
+  var diffS = nextSaturday - now;
+  var hS = Math.floor(diffS / 3600000);
+  var mS = Math.floor((diffS % 3600000) / 60000);
+  var sS = Math.floor((diffS % 60000) / 1000);
+  document.getElementById('countdown-saturday').textContent =
+    (hS > 23 ? Math.floor(hS/24) + 'j ' + (hS%24) : hS) + 'h ' +
+    String(mS).padStart(2,'0') + 'min ' + String(sS).padStart(2,'0') + 'sec';
+}
+
+updateCountdowns();
+setInterval(updateCountdowns, 1000);
+</script>
+
 <!-- PRÉSENTATION -->
 <div>
 <div class="section">
