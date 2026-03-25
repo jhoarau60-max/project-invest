@@ -261,30 +261,11 @@ function lancerAmbianceRobot() {
     sequenceBips();
     var bipInterval = setInterval(sequenceBips, 2200);
 
-    // Bruit statique léger (texture robotique)
-    var bufferSize = ctx.sampleRate * 2;
-    var buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-    var data = buffer.getChannelData(0);
-    for (var i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * 0.015;
-    var noise = ctx.createBufferSource();
-    noise.buffer = buffer;
-    noise.loop = true;
-    var noiseFilter = ctx.createBiquadFilter();
-    noiseFilter.type = 'bandpass';
-    noiseFilter.frequency.value = 800;
-    noiseFilter.Q.value = 0.5;
-    var noiseGain = ctx.createGain();
-    noiseGain.gain.value = 0.3;
-    noise.connect(noiseFilter);
-    noiseFilter.connect(noiseGain);
-    noiseGain.connect(ctx.destination);
-    noise.start();
 
     // Stopper proprement après 30 secondes
     setTimeout(function() {
         clearInterval(bipInterval);
         droneGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 2);
-        noiseGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 2);
         setTimeout(function() { ctx.close(); }, 2500);
     }, 30000);
 }
