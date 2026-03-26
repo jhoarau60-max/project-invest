@@ -56,6 +56,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="background:#229ED9;color:#fff;border-color:#229ED9;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-telegram" style="font-size:1rem;color:#fff;"></i> Telegram</a>
             <a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" style="background:#FF0000;color:#fff;border-color:#FF0000;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;">▶ YouTube</a>
             <a href="https://wa.me/320492931040" target="_blank" style="background:#25D366;color:#fff;border-color:#25D366;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-whatsapp" style="font-size:1rem;color:#fff;"></i> WhatsApp</a>
+            <a href="parametres.html" style="background:#c9a84c;color:#020a18;border-color:#c9a84c;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;font-weight:700;">⚙ Paramètres</a>
             <a href="#" onclick="_sb.auth.signOut().then(()=>window.location.href='index.html')" style="background:#00c8ff;color:#020a18;border-color:#00c8ff;font-weight:700;">⏻ Déconnexion</a>
         </div>
     </div>
@@ -77,38 +78,105 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 </header>
 
 <div class="page-header">
-    <h1><i class="fa-solid fa-video" style="margin-right:12px;color:#00c8ff;"></i>Outils Vidéo</h1>
-    <p>Présentations et tutoriels sur le Smart MEV Bot Trading</p>
+    <h1><i class="fa-solid fa-video" style="margin-right:12px;color:#00c8ff;"></i>Outils Vidéo Trading</h1>
+    <p>Présentations, événements et tutoriels sur le Smart MEV Bot Trading</p>
 </div>
 
 <div class="section">
-    <h2 class="section-title">Vidéos de présentation</h2>
+
+    <!-- PRÉSENTATIONS PAR LANGUE -->
+    <h2 class="section-title"><i class="fa-solid fa-clapperboard" style="margin-right:10px;color:#FF0000;"></i>Présentations officielles</h2>
     <div class="divider"></div>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin:30px 0 50px;">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:30px 0 50px;">
 
-        <div class="card" style="text-align:center;padding:30px 20px;">
-            <div style="font-size:2.5rem;margin-bottom:14px;"><i class="fa-brands fa-youtube" style="color:#FF0000;filter:drop-shadow(0 0 8px rgba(255,0,0,0.5));"></i></div>
-            <h3 style="color:#fff;margin-bottom:10px;">Présentation SMART MEV</h3>
-            <p style="color:#aaa;font-size:0.88rem;line-height:1.6;margin-bottom:18px;">La vidéo officielle de présentation du bot de trading automatique SMART MEV.</p>
-            <a href="https://www.youtube.com/channel/UCLE1kga_j9MC7pIKgx0xvbw" target="_blank" class="btn" style="font-size:0.82rem;padding:8px 18px;">Voir sur YouTube</a>
+        <div class="card" style="padding:20px;">
+            <h3 style="color:#fff;font-size:1rem;margin-bottom:14px;text-align:center;display:flex;align-items:center;justify-content:center;gap:10px;">
+                <img src="https://flagcdn.com/w40/fr.png" width="28" style="border-radius:3px;"> Présentation SMART MEV
+            </h3>
+            <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden;">
+                <iframe src="https://www.youtube.com/embed/6TiDL0k5CZo" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:10px;"></iframe>
+            </div>
         </div>
 
-        <div class="card" style="text-align:center;padding:30px 20px;">
-            <div style="font-size:2.5rem;margin-bottom:14px;"><i class="fa-solid fa-circle-play" style="color:#00c8ff;filter:drop-shadow(0 0 8px rgba(0,200,255,0.5));"></i></div>
-            <h3 style="color:#fff;margin-bottom:10px;">Replays des webinaires</h3>
-            <p style="color:#aaa;font-size:0.88rem;line-height:1.6;margin-bottom:18px;">Retrouvez tous les replays de nos conférences sur le bot trading.</p>
-            <a href="planning-webinaire.html" class="btn" style="font-size:0.82rem;padding:8px 18px;">Voir le planning</a>
+        <div class="card" style="padding:20px;">
+            <h3 style="color:#fff;font-size:1rem;margin-bottom:14px;text-align:center;display:flex;align-items:center;justify-content:center;gap:10px;">
+                <img src="https://flagcdn.com/w40/gb.png" width="28" style="border-radius:3px;"> Presentation in English
+            </h3>
+            <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden;">
+                <iframe src="https://www.youtube.com/embed/vR_eoHL_vf4" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:10px;"></iframe>
+            </div>
         </div>
 
-        <div class="card" style="text-align:center;padding:30px 20px;opacity:0.6;">
-            <div style="font-size:2.5rem;margin-bottom:14px;">🎬</div>
-            <h3 style="color:#fff;margin-bottom:10px;">Tutoriels à venir</h3>
-            <p style="color:#aaa;font-size:0.88rem;line-height:1.6;margin-bottom:18px;">Des tutoriels sur l'utilisation du bot seront ajoutés prochainement.</p>
-            <span style="color:#555;font-size:0.82rem;">Bientôt disponible</span>
+        <div class="card" style="padding:20px;">
+            <h3 style="color:#fff;font-size:1rem;margin-bottom:14px;text-align:center;display:flex;align-items:center;justify-content:center;gap:10px;">
+                <img src="https://flagcdn.com/w40/es.png" width="28" style="border-radius:3px;"> Presentación en Español
+            </h3>
+            <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden;">
+                <iframe src="https://www.youtube.com/embed/npvb-AAxzBM" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:10px;"></iframe>
+            </div>
         </div>
 
     </div>
+
+    <!-- ÉVÉNEMENTS -->
+    <h2 class="section-title"><i class="fa-solid fa-star" style="margin-right:10px;color:#c9a84c;"></i>Événements</h2>
+    <div class="divider"></div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:30px 0 50px;">
+
+        <div class="card" style="padding:20px;">
+            <h3 style="color:#fff;font-size:1rem;margin-bottom:14px;text-align:center;"><i class="fa-solid fa-location-dot" style="color:#c9a84c;margin-right:8px;"></i>Événement Dubai — Janvier 2026</h3>
+            <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden;">
+                <iframe src="https://www.youtube.com/embed/NaTRPLHCZoA" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:10px;"></iframe>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- TUTORIELS -->
+    <h2 class="section-title"><i class="fa-solid fa-graduation-cap" style="margin-right:10px;color:#00c8ff;"></i>Tutoriels pas-à-pas</h2>
+    <div class="divider"></div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:30px 0 50px;">
+
+        <div class="card" style="padding:20px;">
+            <h3 style="color:#fff;font-size:0.95rem;margin-bottom:14px;text-align:center;"><i class="fa-solid fa-user-plus" style="color:#00ff99;margin-right:8px;"></i>Comment s'inscrire</h3>
+            <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden;">
+                <iframe src="https://www.youtube.com/embed/UcwYz-tCG7E" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:10px;"></iframe>
+            </div>
+        </div>
+
+        <div class="card" style="padding:20px;">
+            <h3 style="color:#fff;font-size:0.95rem;margin-bottom:14px;text-align:center;"><i class="fa-solid fa-file-contract" style="color:#7850ff;margin-right:8px;"></i>Comment choisir son contrat</h3>
+            <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden;">
+                <iframe src="https://www.youtube.com/embed/YFAOkO9PfU8" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:10px;"></iframe>
+            </div>
+        </div>
+
+        <div class="card" style="padding:20px;">
+            <h3 style="color:#fff;font-size:0.95rem;margin-bottom:14px;text-align:center;"><i class="fa-solid fa-bolt" style="color:#ffaa00;margin-right:8px;"></i>Comment activer son contrat</h3>
+            <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden;">
+                <iframe src="https://www.youtube.com/embed/ne72BEuMpgQ" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:10px;"></iframe>
+            </div>
+        </div>
+
+        <div class="card" style="padding:20px;">
+            <h3 style="color:#fff;font-size:0.95rem;margin-bottom:14px;text-align:center;"><i class="fa-solid fa-wallet" style="color:#00c8ff;margin-right:8px;"></i>Comment faire un dépôt</h3>
+            <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden;">
+                <iframe src="https://www.youtube.com/embed/sCzS7QM3sc8" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:10px;"></iframe>
+            </div>
+        </div>
+
+        <div class="card" style="padding:20px;">
+            <h3 style="color:#fff;font-size:0.95rem;margin-bottom:14px;text-align:center;"><i class="fa-solid fa-people-arrows" style="color:#ff3399;margin-right:8px;"></i>Comment parrainer un ami</h3>
+            <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden;">
+                <iframe src="https://www.youtube.com/embed/mySl0Lusik4" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:10px;"></iframe>
+            </div>
+        </div>
+
+    </div>
+
 </div>
 
 <footer>
