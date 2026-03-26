@@ -64,6 +64,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="background:#229ED9;color:#fff;border-color:#229ED9;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-telegram" style="font-size:1rem;color:#fff;"></i> Telegram</a>
             <a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" style="background:#FF0000;color:#fff;border-color:#FF0000;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;">▶ YouTube</a>
             <a href="https://wa.me/320492931040" target="_blank" style="background:#25D366;color:#fff;border-color:#25D366;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-whatsapp" style="font-size:1rem;color:#fff;"></i> WhatsApp</a>
+            <a href="parametres.html" style="background:#c9a84c;color:#020a18;border-color:#c9a84c;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;font-weight:700;">⚙ Paramètres</a>
             <a href="#" onclick="_sb.auth.signOut().then(()=>window.location.href='index.html')" style="background:#00c8ff;color:#020a18;border-color:#00c8ff;font-weight:700;">⏻ Déconnexion</a>
         </div>
     </div>
@@ -91,30 +92,60 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 
 <div class="section">
 
-    <h2 class="section-title">Vidéos de présentation</h2>
+    <!-- PRÉSENTATION & Q&R -->
+    <h2 class="section-title"><i class="fa-solid fa-clapperboard" style="margin-right:10px;color:#FF0000;"></i>Présentation & Questions/Réponses</h2>
     <div class="divider"></div>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin:30px 0 50px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:30px 0 50px;">
 
-        <div class="card" style="text-align:center;padding:30px 20px;">
-            <div style="font-size:2.5rem;margin-bottom:14px;"><i class="fa-brands fa-youtube" style="color:#FF0000;filter:drop-shadow(0 0 8px rgba(255,0,0,0.5));"></i></div>
-            <h3 style="color:#fff;margin-bottom:10px;">Présentation officielle E-state</h3>
-            <p style="color:#aaa;font-size:0.88rem;line-height:1.6;margin-bottom:18px;">La vidéo de présentation complète de la plateforme E-state Immobilier Tokénisé.</p>
-            <a href="https://www.youtube.com/channel/UCLE1kga_j9MC7pIKgx0xvbw" target="_blank" class="btn" style="font-size:0.82rem;padding:8px 18px;">Voir sur YouTube</a>
+        <div class="card" style="padding:20px;">
+            <h3 style="color:#fff;font-size:1rem;margin-bottom:14px;text-align:center;"><i class="fa-brands fa-youtube" style="color:#FF0000;margin-right:8px;"></i>Présentation officielle E-state</h3>
+            <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden;">
+                <iframe src="https://www.youtube.com/embed/_yjHNdAAh7A" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:10px;"></iframe>
+            </div>
         </div>
 
-        <div class="card" style="text-align:center;padding:30px 20px;">
-            <div style="font-size:2.5rem;margin-bottom:14px;"><i class="fa-solid fa-circle-play" style="color:#00c8ff;filter:drop-shadow(0 0 8px rgba(0,200,255,0.5));"></i></div>
-            <h3 style="color:#fff;margin-bottom:10px;">Replays des webinaires</h3>
-            <p style="color:#aaa;font-size:0.88rem;line-height:1.6;margin-bottom:18px;">Retrouvez tous les replays de nos conférences en direct sur la chaîne YouTube.</p>
-            <a href="planning-webinaire.html" class="btn" style="font-size:0.82rem;padding:8px 18px;">Voir le planning</a>
+        <div class="card" style="padding:20px;">
+            <h3 style="color:#fff;font-size:1rem;margin-bottom:14px;text-align:center;"><i class="fa-solid fa-microphone" style="color:#00c8ff;margin-right:8px;"></i>Questions/Réponses du fondateur</h3>
+            <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden;">
+                <iframe src="https://www.youtube.com/embed/jkov3JgRs3o" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:10px;"></iframe>
+            </div>
         </div>
 
-        <div class="card" style="text-align:center;padding:30px 20px;opacity:0.6;">
-            <div style="font-size:2.5rem;margin-bottom:14px;">🎬</div>
-            <h3 style="color:#fff;margin-bottom:10px;">Tutoriels à venir</h3>
-            <p style="color:#aaa;font-size:0.88rem;line-height:1.6;margin-bottom:18px;">Des tutoriels pas-à-pas pour investir sur la plateforme E-state seront ajoutés prochainement.</p>
-            <span style="color:#555;font-size:0.82rem;">Bientôt disponible</span>
+    </div>
+
+    <!-- TUTORIELS -->
+    <h2 class="section-title"><i class="fa-solid fa-graduation-cap" style="margin-right:10px;color:#c9a84c;"></i>Tutoriels pas-à-pas</h2>
+    <div class="divider"></div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin:30px 0 50px;">
+
+        <div class="card" style="padding:20px;">
+            <h3 style="color:#fff;font-size:1rem;margin-bottom:14px;text-align:center;"><i class="fa-solid fa-user-plus" style="color:#00ff99;margin-right:8px;"></i>Comment s'inscrire</h3>
+            <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden;">
+                <iframe src="https://www.youtube.com/embed/K9u4-uN-elo" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:10px;"></iframe>
+            </div>
+        </div>
+
+        <div class="card" style="padding:20px;">
+            <h3 style="color:#fff;font-size:1rem;margin-bottom:14px;text-align:center;"><i class="fa-solid fa-building" style="color:#c9a84c;margin-right:8px;"></i>Comment devenir agent immobilier</h3>
+            <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden;">
+                <iframe src="https://www.youtube.com/embed/fiGaLGI1O0o" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:10px;"></iframe>
+            </div>
+        </div>
+
+        <div class="card" style="padding:20px;">
+            <h3 style="color:#fff;font-size:1rem;margin-bottom:14px;text-align:center;"><i class="fa-solid fa-money-bill-transfer" style="color:#a078ff;margin-right:8px;"></i>Comment faire un retrait</h3>
+            <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden;">
+                <iframe src="https://www.youtube.com/embed/8ST0InQR2Xk" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:10px;"></iframe>
+            </div>
+        </div>
+
+        <div class="card" style="padding:20px;">
+            <h3 style="color:#fff;font-size:1rem;margin-bottom:14px;text-align:center;"><i class="fa-solid fa-link" style="color:#FF0000;margin-right:8px;"></i>Comment créer sa landing page</h3>
+            <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden;">
+                <iframe src="https://www.youtube.com/embed/qRoZbvH4M20" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:10px;"></iframe>
+            </div>
         </div>
 
     </div>
