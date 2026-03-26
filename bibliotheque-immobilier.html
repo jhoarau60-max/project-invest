@@ -165,95 +165,367 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
     <h2 class="section-title">Biens disponibles sur E-state</h2>
     <div class="divider"></div>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin:30px 0 20px;">
-
-        <!-- BIEN 1 -->
-        <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(0,200,255,0.2);">
-            <div style="background:linear-gradient(135deg,#0a2a5e,#051540);padding:20px 22px 14px;border-bottom:1px solid rgba(0,200,255,0.15);">
-                <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-                    <i class="fa-solid fa-building" style="color:#00c8ff;font-size:1.2rem;"></i>
-                    <span style="color:#fff;font-weight:700;font-size:1rem;">Résidence Athena</span>
-                </div>
-                <div style="color:#aaa;font-size:0.82rem;"><i class="fa-solid fa-location-dot" style="color:#00c8ff;margin-right:5px;"></i>Dubaï, Émirats Arabes Unis</div>
-            </div>
-            <div style="padding:18px 22px;">
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
-                    <div style="background:rgba(0,200,255,0.06);border-radius:8px;padding:10px 12px;">
-                        <div style="color:#aaa;font-size:0.72rem;margin-bottom:3px;">Valeur totale</div>
-                        <div style="color:#fff;font-weight:700;font-size:0.95rem;">250 000 €</div>
-                    </div>
-                    <div style="background:rgba(0,200,255,0.06);border-radius:8px;padding:10px 12px;">
-                        <div style="color:#aaa;font-size:0.72rem;margin-bottom:3px;">Prix / token</div>
-                        <div style="color:#fff;font-weight:700;font-size:0.95rem;">100 €</div>
-                    </div>
-                    <div style="background:rgba(201,168,76,0.1);border-radius:8px;padding:10px 12px;">
-                        <div style="color:#aaa;font-size:0.72rem;margin-bottom:3px;">Rendement annuel</div>
-                        <div style="color:#c9a84c;font-weight:700;font-size:0.95rem;">12 %</div>
-                    </div>
-                    <div style="background:rgba(0,255,150,0.07);border-radius:8px;padding:10px 12px;">
-                        <div style="color:#aaa;font-size:0.72rem;margin-bottom:3px;">Loyer / token / mois</div>
-                        <div style="color:#00ff99;font-weight:700;font-size:0.95rem;">1,00 €</div>
-                    </div>
-                </div>
-                <div style="background:rgba(0,200,255,0.04);border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:0.82rem;color:#aaa;line-height:1.6;">
-                    Appartements résidentiels en plein cœur de Dubaï. Revenus locatifs garantis par contrat, versés mensuellement.
-                </div>
-                <a href="e-state-immobilier.html" class="btn" style="width:100%;text-align:center;font-size:0.82rem;padding:9px;">Voir sur E-state</a>
-            </div>
+    <!-- NIVEAU 1 -->
+    <div style="margin:30px 0 10px;">
+        <div style="display:inline-flex;align-items:center;gap:12px;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.25);border-radius:12px;padding:10px 22px;margin-bottom:20px;">
+            <span style="color:#00c8ff;font-weight:900;font-size:1.1rem;">Niveau 1</span>
+            <span style="color:#aaa;font-size:0.88rem;">— Starter Buyer</span>
         </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;">
 
-        <!-- BIEN 2 -->
-        <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(201,168,76,0.25);">
-            <div style="background:linear-gradient(135deg,#1a0e00,#2a1800);padding:20px 22px 14px;border-bottom:1px solid rgba(201,168,76,0.2);">
-                <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-                    <i class="fa-solid fa-city" style="color:#c9a84c;font-size:1.2rem;"></i>
-                    <span style="color:#fff;font-weight:700;font-size:1rem;">Tower Prestige</span>
+            <!-- Maison Arch Cape -->
+            <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(0,200,255,0.2);">
+                <div style="height:160px;background:linear-gradient(135deg,#0a2a3e,#051520);display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(0,200,255,0.15);">
+                    <!-- image: bien-arch-cape.jpg -->
+                    <i class="fa-solid fa-house" style="font-size:3rem;color:rgba(0,200,255,0.3);"></i>
                 </div>
-                <div style="color:#aaa;font-size:0.82rem;"><i class="fa-solid fa-location-dot" style="color:#c9a84c;margin-right:5px;"></i>Istanbul, Turquie</div>
+                <div style="padding:16px 18px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                        <div>
+                            <div style="color:#fff;font-weight:700;font-size:0.95rem;">Maison Arch Cape</div>
+                            <div style="color:#aaa;font-size:0.78rem;margin-top:3px;"><i class="fa-solid fa-location-dot" style="color:#00c8ff;margin-right:4px;"></i>Oregon, États-Unis</div>
+                        </div>
+                        <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                        <div style="background:rgba(0,200,255,0.06);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
+                            <div style="color:#fff;font-weight:700;font-size:0.88rem;">174 000 EST</div>
+                        </div>
+                        <div style="background:rgba(201,168,76,0.08);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Invest. minimum</div>
+                            <div style="color:#c9a84c;font-weight:700;font-size:0.88rem;">480 $</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(0,200,255,0.04);border-radius:8px;padding:8px 12px;font-size:0.78rem;color:#aaa;line-height:1.5;">Résidentiel individuel, marché axé sur le style de vie</div>
+                </div>
             </div>
-            <div style="padding:18px 22px;">
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
-                    <div style="background:rgba(201,168,76,0.06);border-radius:8px;padding:10px 12px;">
-                        <div style="color:#aaa;font-size:0.72rem;margin-bottom:3px;">Valeur totale</div>
-                        <div style="color:#fff;font-weight:700;font-size:0.95rem;">180 000 €</div>
-                    </div>
-                    <div style="background:rgba(201,168,76,0.06);border-radius:8px;padding:10px 12px;">
-                        <div style="color:#aaa;font-size:0.72rem;margin-bottom:3px;">Prix / token</div>
-                        <div style="color:#fff;font-weight:700;font-size:0.95rem;">50 €</div>
-                    </div>
-                    <div style="background:rgba(201,168,76,0.1);border-radius:8px;padding:10px 12px;">
-                        <div style="color:#aaa;font-size:0.72rem;margin-bottom:3px;">Rendement annuel</div>
-                        <div style="color:#c9a84c;font-weight:700;font-size:0.95rem;">14 %</div>
-                    </div>
-                    <div style="background:rgba(0,255,150,0.07);border-radius:8px;padding:10px 12px;">
-                        <div style="color:#aaa;font-size:0.72rem;margin-bottom:3px;">Loyer / token / mois</div>
-                        <div style="color:#00ff99;font-weight:700;font-size:0.95rem;">0,58 €</div>
-                    </div>
+
+            <!-- Appartement Miami -->
+            <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(0,200,255,0.2);">
+                <div style="height:160px;background:linear-gradient(135deg,#0a2a3e,#051520);display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(0,200,255,0.15);">
+                    <!-- image: bien-miami.jpg -->
+                    <i class="fa-solid fa-building" style="font-size:3rem;color:rgba(0,200,255,0.3);"></i>
                 </div>
-                <div style="background:rgba(201,168,76,0.04);border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:0.82rem;color:#aaa;line-height:1.6;">
-                    Immeuble commercial et résidentiel au centre d'Istanbul. Fort potentiel de plus-value à la revente.
+                <div style="padding:16px 18px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                        <div>
+                            <div style="color:#fff;font-weight:700;font-size:0.95rem;">Appartement Miami</div>
+                            <div style="color:#aaa;font-size:0.78rem;margin-top:3px;"><i class="fa-solid fa-location-dot" style="color:#00c8ff;margin-right:4px;"></i>Floride, États-Unis</div>
+                        </div>
+                        <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                        <div style="background:rgba(0,200,255,0.06);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
+                            <div style="color:#fff;font-weight:700;font-size:0.88rem;">107 000 EST</div>
+                        </div>
+                        <div style="background:rgba(201,168,76,0.08);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Invest. minimum</div>
+                            <div style="color:#c9a84c;font-weight:700;font-size:0.88rem;">10 $</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(0,200,255,0.04);border-radius:8px;padding:8px 12px;font-size:0.78rem;color:#aaa;line-height:1.5;">Résidentiel urbain, forte demande locative</div>
                 </div>
-                <a href="e-state-immobilier.html" class="btn" style="width:100%;text-align:center;font-size:0.82rem;padding:9px;background:#c9a84c;color:#020a18;">Voir sur E-state</a>
             </div>
+
+            <!-- Villa Los Angeles -->
+            <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(0,200,255,0.2);">
+                <div style="height:160px;background:linear-gradient(135deg,#0a2a3e,#051520);display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(0,200,255,0.15);">
+                    <!-- image: bien-villa-la.jpg -->
+                    <i class="fa-solid fa-house-chimney" style="font-size:3rem;color:rgba(0,200,255,0.3);"></i>
+                </div>
+                <div style="padding:16px 18px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                        <div>
+                            <div style="color:#fff;font-weight:700;font-size:0.95rem;">Villa Los Angeles</div>
+                            <div style="color:#aaa;font-size:0.78rem;margin-top:3px;"><i class="fa-solid fa-location-dot" style="color:#00c8ff;margin-right:4px;"></i>Californie, États-Unis</div>
+                        </div>
+                        <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                        <div style="background:rgba(0,200,255,0.06);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
+                            <div style="color:#fff;font-weight:700;font-size:0.88rem;">866 000 EST</div>
+                        </div>
+                        <div style="background:rgba(201,168,76,0.08);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Invest. minimum</div>
+                            <div style="color:#c9a84c;font-weight:700;font-size:0.88rem;">3 120 $</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(0,200,255,0.04);border-radius:8px;padding:8px 12px;font-size:0.78rem;color:#aaa;line-height:1.5;">Résidentiel premium, segment locatif à forte valeur</div>
+                </div>
+            </div>
+
+            <!-- Appartement Seattle -->
+            <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(120,120,120,0.2);opacity:0.75;">
+                <div style="height:160px;background:linear-gradient(135deg,#1a1a1a,#0d0d0d);display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(255,255,255,0.08);">
+                    <!-- image: bien-seattle.jpg -->
+                    <i class="fa-solid fa-building" style="font-size:3rem;color:rgba(255,255,255,0.15);"></i>
+                </div>
+                <div style="padding:16px 18px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                        <div>
+                            <div style="color:#fff;font-weight:700;font-size:0.95rem;">Appartement Seattle</div>
+                            <div style="color:#aaa;font-size:0.78rem;margin-top:3px;"><i class="fa-solid fa-location-dot" style="color:#aaa;margin-right:4px;"></i>Washington, États-Unis</div>
+                        </div>
+                        <span style="background:rgba(150,150,150,0.15);color:#aaa;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(150,150,150,0.3);">Alloué</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                        <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
+                            <div style="color:#fff;font-weight:700;font-size:0.88rem;">65 000 EST</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Invest. minimum</div>
+                            <div style="color:#aaa;font-weight:700;font-size:0.88rem;">117 $</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:8px 12px;font-size:0.78rem;color:#666;line-height:1.5;">Résidentiel urbain, demande locative à long terme</div>
+                </div>
+            </div>
+
+            <!-- Tourisme Bali -->
+            <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(120,120,120,0.2);opacity:0.75;">
+                <div style="height:160px;background:linear-gradient(135deg,#1a1a1a,#0d0d0d);display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(255,255,255,0.08);">
+                    <!-- image: bien-bali.jpg -->
+                    <i class="fa-solid fa-umbrella-beach" style="font-size:3rem;color:rgba(255,255,255,0.15);"></i>
+                </div>
+                <div style="padding:16px 18px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                        <div>
+                            <div style="color:#fff;font-weight:700;font-size:0.95rem;">Tourisme Bali</div>
+                            <div style="color:#aaa;font-size:0.78rem;margin-top:3px;"><i class="fa-solid fa-location-dot" style="color:#aaa;margin-right:4px;"></i>Indonésie</div>
+                        </div>
+                        <span style="background:rgba(150,150,150,0.15);color:#aaa;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(150,150,150,0.3);">Alloué</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                        <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
+                            <div style="color:#fff;font-weight:700;font-size:0.88rem;">75 000 EST</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Invest. minimum</div>
+                            <div style="color:#aaa;font-weight:700;font-size:0.88rem;">6 740 $</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:8px 12px;font-size:0.78rem;color:#666;line-height:1.5;">Hôtellerie et location de courte durée</div>
+                </div>
+            </div>
+
+            <!-- Maison Lac Lakeside -->
+            <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(0,200,255,0.2);">
+                <div style="height:160px;background:linear-gradient(135deg,#0a2a3e,#051520);display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(0,200,255,0.15);">
+                    <!-- image: bien-lakeside.jpg -->
+                    <i class="fa-solid fa-water" style="font-size:3rem;color:rgba(0,200,255,0.3);"></i>
+                </div>
+                <div style="padding:16px 18px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                        <div>
+                            <div style="color:#fff;font-weight:700;font-size:0.95rem;">Maison Lac Lakeside</div>
+                            <div style="color:#aaa;font-size:0.78rem;margin-top:3px;"><i class="fa-solid fa-location-dot" style="color:#00c8ff;margin-right:4px;"></i>Oregon, États-Unis</div>
+                        </div>
+                        <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                        <div style="background:rgba(0,200,255,0.06);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
+                            <div style="color:#fff;font-weight:700;font-size:0.88rem;">100 000 EST</div>
+                        </div>
+                        <div style="background:rgba(201,168,76,0.08);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Invest. minimum</div>
+                            <div style="color:#c9a84c;font-weight:700;font-size:0.88rem;">250 $</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(0,200,255,0.04);border-radius:8px;padding:8px 12px;font-size:0.78rem;color:#aaa;line-height:1.5;">Résidentiel récréatif, locations saisonnières et de courte durée</div>
+                </div>
+            </div>
+
+            <!-- Commerce Phoenix -->
+            <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(0,200,255,0.2);">
+                <div style="height:160px;background:linear-gradient(135deg,#0a2a3e,#051520);display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(0,200,255,0.15);">
+                    <!-- image: bien-phoenix.jpg -->
+                    <i class="fa-solid fa-store" style="font-size:3rem;color:rgba(0,200,255,0.3);"></i>
+                </div>
+                <div style="padding:16px 18px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                        <div>
+                            <div style="color:#fff;font-weight:700;font-size:0.95rem;">Commerce Phoenix</div>
+                            <div style="color:#aaa;font-size:0.78rem;margin-top:3px;"><i class="fa-solid fa-location-dot" style="color:#00c8ff;margin-right:4px;"></i>Arizona, États-Unis</div>
+                        </div>
+                        <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                        <div style="background:rgba(0,200,255,0.06);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
+                            <div style="color:#fff;font-weight:700;font-size:0.88rem;">495 000 EST</div>
+                        </div>
+                        <div style="background:rgba(201,168,76,0.08);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Invest. minimum</div>
+                            <div style="color:#c9a84c;font-weight:700;font-size:0.88rem;">10 270 $</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(0,200,255,0.04);border-radius:8px;padding:8px 12px;font-size:0.78rem;color:#aaa;line-height:1.5;">Immobilier commercial, revenus contractuels</div>
+                </div>
+            </div>
+
         </div>
+    </div>
 
-        <!-- BIEN 3 — À VENIR -->
-        <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(120,80,255,0.2);opacity:0.7;">
-            <div style="background:linear-gradient(135deg,#0d0a2e,#1a1040);padding:20px 22px 14px;border-bottom:1px solid rgba(120,80,255,0.2);">
-                <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-                    <i class="fa-solid fa-warehouse" style="color:#7850ff;font-size:1.2rem;"></i>
-                    <span style="color:#fff;font-weight:700;font-size:1rem;">Nouveau bien</span>
-                </div>
-                <div style="color:#aaa;font-size:0.82rem;"><i class="fa-solid fa-clock" style="color:#7850ff;margin-right:5px;"></i>Bientôt disponible</div>
-            </div>
-            <div style="padding:18px 22px;text-align:center;">
-                <div style="font-size:2.5rem;margin:20px 0 12px;">🔜</div>
-                <p style="color:#666;font-size:0.88rem;line-height:1.6;">Un nouveau bien sera prochainement disponible sur la plateforme E-state. Rejoignez Telegram pour être notifié en premier.</p>
-                <br>
-                <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" class="btn" style="font-size:0.82rem;padding:9px;background:#7850ff;">Recevoir l'alerte</a>
-            </div>
+    <!-- NIVEAU 2 -->
+    <div style="margin:40px 0 10px;">
+        <div style="display:inline-flex;align-items:center;gap:12px;background:rgba(120,80,255,0.08);border:1px solid rgba(120,80,255,0.25);border-radius:12px;padding:10px 22px;margin-bottom:20px;">
+            <span style="color:#7850ff;font-weight:900;font-size:1.1rem;">Niveau 2</span>
+            <span style="color:#aaa;font-size:0.88rem;">— Skilled Buyer</span>
         </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;">
 
+            <!-- Business Los Angeles -->
+            <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(120,80,255,0.25);">
+                <div style="height:160px;background:linear-gradient(135deg,#0d0a2e,#1a1040);display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(120,80,255,0.2);">
+                    <!-- image: bien-business-la.jpg -->
+                    <i class="fa-solid fa-city" style="font-size:3rem;color:rgba(120,80,255,0.4);"></i>
+                </div>
+                <div style="padding:16px 18px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                        <div>
+                            <div style="color:#fff;font-weight:700;font-size:0.95rem;">Business Los Angeles</div>
+                            <div style="color:#aaa;font-size:0.78rem;margin-top:3px;"><i class="fa-solid fa-location-dot" style="color:#7850ff;margin-right:4px;"></i>Californie, États-Unis</div>
+                        </div>
+                        <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                        <div style="background:rgba(120,80,255,0.06);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
+                            <div style="color:#fff;font-weight:700;font-size:0.88rem;">380 000 EST</div>
+                        </div>
+                        <div style="background:rgba(201,168,76,0.08);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Invest. minimum</div>
+                            <div style="color:#c9a84c;font-weight:700;font-size:0.88rem;">24 590 $</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(120,80,255,0.04);border-radius:8px;padding:8px 12px;font-size:0.78rem;color:#aaa;line-height:1.5;">Immobilier opérationnel lié à l'activité commerciale</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- NIVEAU 3 -->
+    <div style="margin:40px 0 10px;">
+        <div style="display:inline-flex;align-items:center;gap:12px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:12px;padding:10px 22px;margin-bottom:20px;">
+            <span style="color:#c9a84c;font-weight:900;font-size:1.1rem;">Niveau 3</span>
+            <span style="color:#aaa;font-size:0.88rem;">— Professional Buyer</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;">
+
+            <!-- Terrain Los Angeles -->
+            <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(201,168,76,0.25);">
+                <div style="height:160px;background:linear-gradient(135deg,#1a0e00,#2a1800);display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(201,168,76,0.2);">
+                    <!-- image: bien-terrain-la.jpg -->
+                    <i class="fa-solid fa-map" style="font-size:3rem;color:rgba(201,168,76,0.4);"></i>
+                </div>
+                <div style="padding:16px 18px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                        <div>
+                            <div style="color:#fff;font-weight:700;font-size:0.95rem;">Terrain Los Angeles</div>
+                            <div style="color:#aaa;font-size:0.78rem;margin-top:3px;"><i class="fa-solid fa-location-dot" style="color:#c9a84c;margin-right:4px;"></i>Californie, États-Unis</div>
+                        </div>
+                        <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                        <div style="background:rgba(201,168,76,0.06);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
+                            <div style="color:#fff;font-weight:700;font-size:0.88rem;">1 500 000 EST</div>
+                        </div>
+                        <div style="background:rgba(201,168,76,0.08);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Invest. minimum</div>
+                            <div style="color:#c9a84c;font-weight:700;font-size:0.88rem;">51 310 $</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(201,168,76,0.04);border-radius:8px;padding:8px 12px;font-size:0.78rem;color:#aaa;line-height:1.5;">Terrain prêt au développement, axé sur l'appréciation de valeur</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- NIVEAU 4 -->
+    <div style="margin:40px 0 10px;">
+        <div style="display:inline-flex;align-items:center;gap:12px;background:rgba(255,100,0,0.08);border:1px solid rgba(255,100,0,0.25);border-radius:12px;padding:10px 22px;margin-bottom:20px;">
+            <span style="color:#ff6400;font-weight:900;font-size:1.1rem;">Niveau 4</span>
+            <span style="color:#aaa;font-size:0.88rem;">— Elite Buyer</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;">
+
+            <!-- Développement Dubai -->
+            <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(255,100,0,0.25);">
+                <div style="height:160px;background:linear-gradient(135deg,#1a0800,#2a1000);display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(255,100,0,0.2);">
+                    <!-- image: bien-dubai-dev.jpg -->
+                    <i class="fa-solid fa-buildings" style="font-size:3rem;color:rgba(255,100,0,0.4);"></i>
+                </div>
+                <div style="padding:16px 18px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                        <div>
+                            <div style="color:#fff;font-weight:700;font-size:0.95rem;">Développement Dubai</div>
+                            <div style="color:#aaa;font-size:0.78rem;margin-top:3px;"><i class="fa-solid fa-location-dot" style="color:#ff6400;margin-right:4px;"></i>Émirats Arabes Unis</div>
+                        </div>
+                        <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                        <div style="background:rgba(255,100,0,0.06);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
+                            <div style="color:#fff;font-weight:700;font-size:0.88rem;">2 500 000 EST</div>
+                        </div>
+                        <div style="background:rgba(201,168,76,0.08);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Invest. minimum</div>
+                            <div style="color:#c9a84c;font-weight:700;font-size:0.88rem;">99 250 $</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(255,100,0,0.04);border-radius:8px;padding:8px 12px;font-size:0.78rem;color:#aaa;line-height:1.5;">Développement immobilier et projets de création de valeur</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- NIVEAU 5 -->
+    <div style="margin:40px 0 20px;">
+        <div style="display:inline-flex;align-items:center;gap:12px;background:rgba(255,50,100,0.08);border:1px solid rgba(255,50,100,0.25);border-radius:12px;padding:10px 22px;margin-bottom:20px;">
+            <span style="color:#ff3264;font-weight:900;font-size:1.1rem;">Niveau 5</span>
+            <span style="color:#aaa;font-size:0.88rem;">— Exclusive Buyer</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;">
+
+            <!-- Développement Entreprise Dubai -->
+            <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(255,50,100,0.25);">
+                <div style="height:160px;background:linear-gradient(135deg,#1a0010,#2a0020);display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(255,50,100,0.2);">
+                    <!-- image: bien-dubai-enterprise.jpg -->
+                    <i class="fa-solid fa-landmark" style="font-size:3rem;color:rgba(255,50,100,0.4);"></i>
+                </div>
+                <div style="padding:16px 18px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                        <div>
+                            <div style="color:#fff;font-weight:700;font-size:0.95rem;">Développement Entreprise Dubai</div>
+                            <div style="color:#aaa;font-size:0.78rem;margin-top:3px;"><i class="fa-solid fa-location-dot" style="color:#ff3264;margin-right:4px;"></i>Émirats Arabes Unis</div>
+                        </div>
+                        <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                        <div style="background:rgba(255,50,100,0.06);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
+                            <div style="color:#fff;font-weight:700;font-size:0.88rem;">4 200 000 EST</div>
+                        </div>
+                        <div style="background:rgba(201,168,76,0.08);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Invest. minimum</div>
+                            <div style="color:#c9a84c;font-weight:700;font-size:0.88rem;">255 700 $</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(255,50,100,0.04);border-radius:8px;padding:8px 12px;font-size:0.78rem;color:#aaa;line-height:1.5;">Projets de développement stratégique à grande échelle</div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <!-- SIMULATEUR DE GAINS -->
