@@ -19,6 +19,8 @@
         100% { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
       }
       #grid-niveau1 > .card { width: calc(25% - 12px); min-width: 210px; }
+      .btn-investir { transition: background 0.2s, box-shadow 0.2s, transform 0.15s; }
+      .btn-investir:hover { background:#00ff55 !important; box-shadow:0 0 16px rgba(0,255,80,0.6); transform:scale(1.03); }
       @keyframes floatBubble {
         0%   { transform: translateY(0px) translateX(0px); opacity: 0.6; }
         50%  { transform: translateY(-60px) translateX(-10px); opacity: 0.5; }
@@ -88,7 +90,9 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 <div class="page-header">
     <h1><i class="fa-solid fa-building" style="margin-right:12px;color:#00c8ff;"></i>Biens Immobiliers</h1>
     <p>Découvrez les biens disponibles et ce que vous pouvez gagner</p>
-    <img src="logo-estate.png" alt="E-state" style="height:60px;margin-top:16px;mix-blend-mode:screen;">
+    <div style="display:inline-block;margin-top:16px;padding:10px 20px;border:1px solid rgba(0,200,255,0.3);border-radius:12px;background:rgba(0,200,255,0.06);backdrop-filter:blur(4px);">
+        <img src="logo-estate.png" alt="E-state" style="height:50px;display:block;">
+    </div>
 </div>
 
 <div class="section">
@@ -637,6 +641,7 @@ document.querySelectorAll('.card').forEach(function(card) {
         btn.href = 'https://www.e-state.co/agent/953277721577';
         btn.target = '_blank';
         btn.textContent = '💰 Investir';
+        btn.className = 'btn-investir';
         btn.style.cssText = 'display:block;text-align:center;background:#00cc44;color:#fff;font-weight:800;font-size:0.88rem;padding:10px;border-radius:8px;text-decoration:none;margin-top:12px;letter-spacing:0.5px;';
         var info = document.createElement('div');
         info.textContent = 'Inscription + KYC et validation du paiement';
