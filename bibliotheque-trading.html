@@ -291,6 +291,10 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             </div>
             <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:12px;">
                 <li style="display:flex;align-items:center;gap:10px;">
+                    <i class="fa-solid fa-dollar-sign" style="color:#ff6400;width:16px;"></i>
+                    <span style="color:#ccc;font-size:0.9rem;">Coût d'accès : <strong style="color:#ff6400;">100 $</strong></span>
+                </li>
+                <li style="display:flex;align-items:center;gap:10px;">
                     <i class="fa-solid fa-calendar-days" style="color:#ff6400;width:16px;"></i>
                     <span style="color:#ccc;font-size:0.9rem;">Durée du contrat : <strong style="color:#fff;">120 jours</strong></span>
                 </li>
@@ -300,11 +304,11 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                 </li>
                 <li style="display:flex;align-items:center;gap:10px;">
                     <i class="fa-solid fa-rotate" style="color:#7850ff;width:16px;"></i>
-                    <span style="color:#ccc;font-size:0.9rem;"><strong style="color:#7850ff;">50 %</strong> des gains réinjectés dans le capital</span>
+                    <span style="color:#ccc;font-size:0.9rem;"><strong style="color:#7850ff;">50 %</strong> des gains réinjectés dans le bot — <span style="color:#ff4444;">part société, non récupérable</span></span>
                 </li>
                 <li style="display:flex;align-items:center;gap:10px;">
                     <i class="fa-solid fa-coins" style="color:#c9a84c;width:16px;"></i>
-                    <span style="color:#ccc;font-size:0.9rem;">Capital retirable à la <strong style="color:#fff;">fin du contrat</strong></span>
+                    <span style="color:#ccc;font-size:0.9rem;">Capital initial retirable à la <strong style="color:#fff;">fin du contrat</strong></span>
                 </li>
             </ul>
         </div>
@@ -315,13 +319,13 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                     <div style="color:#fff;font-weight:700;font-size:0.85rem;margin-bottom:6px;">Exemple avec 1 000 $</div>
                     <div style="color:#aaa;font-size:0.78rem;line-height:1.6;">
                         Chaque jour les gains sont partagés en 2 :<br>
-                        <span style="color:#00ff99;">→ 50 % retirables immédiatement</span><br>
-                        <span style="color:#7850ff;">→ 50 % ajoutés au capital (effet composé)</span>
+                        <span style="color:#00ff99;">→ 50 % versés au filleul (retirables)</span><br>
+                        <span style="color:#ff4444;">→ 50 % envoyés à la société (non récupérables)</span>
                     </div>
                 </div>
                 <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:14px;">
                     <div style="color:#c9a84c;font-weight:700;font-size:0.85rem;margin-bottom:6px;"><i class="fa-solid fa-lock-open" style="margin-right:6px;"></i>À la fin des 120 jours</div>
-                    <div style="color:#aaa;font-size:0.78rem;line-height:1.6;">Le capital initial <strong style="color:#fff;">+ tous les gains réinjectés</strong> sont disponibles au retrait.</div>
+                    <div style="color:#aaa;font-size:0.78rem;line-height:1.6;">Seul le <strong style="color:#fff;">capital initial</strong> est disponible au retrait. Les 50 % réinjectés restent acquis à la société.</div>
                 </div>
             </div>
         </div>
