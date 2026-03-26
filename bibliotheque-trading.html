@@ -129,59 +129,75 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
     </div>
 
     <!-- CONTRATS SMART MEV -->
-    <h2 class="section-title"><i class="fa-solid fa-file-contract" style="margin-right:10px;color:#c9a84c;"></i>Contrats SMART MEV — Bot à 49 $</h2>
+    <h2 class="section-title"><i class="fa-solid fa-file-contract" style="margin-right:10px;color:#c9a84c;"></i>Modèle de partage des profits — Bot à 49 $</h2>
     <div class="divider"></div>
-    <p style="color:#aaa;font-size:0.88rem;margin:16px 0 24px;">Le bot MEV est disponible à l'achat pour <strong style="color:#fff;">49 $</strong>. Choisissez votre durée de contrat :</p>
+    <p style="color:#aaa;font-size:0.88rem;margin:16px 0 24px;">Dépôt minimum : <strong style="color:#fff;">20 USDT</strong>. Choisissez votre durée — plus le contrat est long, plus votre part de profits est élevée.</p>
 
-    <div style="overflow-x:auto;margin:0 0 50px;">
+    <div style="overflow-x:auto;margin:0 0 24px;">
         <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
             <thead>
                 <tr style="background:rgba(201,168,76,0.15);border-bottom:2px solid rgba(201,168,76,0.4);">
                     <th style="padding:14px 18px;text-align:left;color:#c9a84c;font-weight:700;">Durée</th>
-                    <th style="padding:14px 18px;text-align:center;color:#c9a84c;font-weight:700;">Rendement / jour</th>
-                    <th style="padding:14px 18px;text-align:center;color:#c9a84c;font-weight:700;">Gain min. estimé</th>
-                    <th style="padding:14px 18px;text-align:center;color:#c9a84c;font-weight:700;">Gain max. estimé</th>
-                    <th style="padding:14px 18px;text-align:center;color:#c9a84c;font-weight:700;">Statut</th>
+                    <th style="padding:14px 18px;text-align:center;color:#c9a84c;font-weight:700;">Votre part</th>
+                    <th style="padding:14px 18px;text-align:center;color:#c9a84c;font-weight:700;">Plateforme</th>
+                    <th style="padding:14px 18px;text-align:center;color:#c9a84c;font-weight:700;">Dépôt min.</th>
+                    <th style="padding:14px 18px;text-align:center;color:#c9a84c;font-weight:700;">Dépôt max.</th>
+                    <th style="padding:14px 18px;text-align:center;color:#c9a84c;font-weight:700;">Retrait anticipé</th>
                 </tr>
             </thead>
             <tbody>
                 <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
-                    <td style="padding:13px 18px;color:#fff;font-weight:700;"><i class="fa-solid fa-calendar-week" style="color:#00c8ff;margin-right:8px;"></i>7 jours</td>
-                    <td style="padding:13px 18px;text-align:center;color:#00ff99;">0,40 % – 2 %</td>
-                    <td style="padding:13px 18px;text-align:center;color:#aaa;">2,8 % du capital</td>
-                    <td style="padding:13px 18px;text-align:center;color:#aaa;">14 % du capital</td>
-                    <td style="padding:13px 18px;text-align:center;"><span style="background:rgba(0,255,150,0.15);color:#00ff99;border:1px solid rgba(0,255,150,0.3);border-radius:20px;padding:3px 12px;font-size:0.78rem;font-weight:700;">Actif</span></td>
+                    <td style="padding:13px 18px;color:#fff;font-weight:700;"><i class="fa-solid fa-sun" style="color:#00c8ff;margin-right:8px;"></i>1 jour</td>
+                    <td style="padding:13px 18px;text-align:center;color:#00ff99;font-weight:700;">50 %</td>
+                    <td style="padding:13px 18px;text-align:center;color:#aaa;">50 %</td>
+                    <td style="padding:13px 18px;text-align:center;color:#fff;">20 USDT</td>
+                    <td style="padding:13px 18px;text-align:center;color:#fff;">100 USDT</td>
+                    <td style="padding:13px 18px;text-align:center;"><span style="background:rgba(255,50,100,0.15);color:#ff3264;border:1px solid rgba(255,50,100,0.3);border-radius:20px;padding:3px 10px;font-size:0.75rem;font-weight:700;">Non</span></td>
                 </tr>
                 <tr style="border-bottom:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);">
-                    <td style="padding:13px 18px;color:#fff;font-weight:700;"><i class="fa-solid fa-calendar" style="color:#00c8ff;margin-right:8px;"></i>30 jours</td>
-                    <td style="padding:13px 18px;text-align:center;color:#00ff99;">0,40 % – 2 %</td>
-                    <td style="padding:13px 18px;text-align:center;color:#aaa;">12 % du capital</td>
-                    <td style="padding:13px 18px;text-align:center;color:#aaa;">60 % du capital</td>
-                    <td style="padding:13px 18px;text-align:center;"><span style="background:rgba(0,255,150,0.15);color:#00ff99;border:1px solid rgba(0,255,150,0.3);border-radius:20px;padding:3px 12px;font-size:0.78rem;font-weight:700;">Actif</span></td>
+                    <td style="padding:13px 18px;color:#fff;font-weight:700;"><i class="fa-solid fa-calendar-week" style="color:#00c8ff;margin-right:8px;"></i>7 jours</td>
+                    <td style="padding:13px 18px;text-align:center;color:#00ff99;font-weight:700;">55 %</td>
+                    <td style="padding:13px 18px;text-align:center;color:#aaa;">45 %</td>
+                    <td style="padding:13px 18px;text-align:center;color:#fff;">20 USDT</td>
+                    <td style="padding:13px 18px;text-align:center;color:#fff;">300 USDT</td>
+                    <td style="padding:13px 18px;text-align:center;"><span style="background:rgba(0,255,150,0.15);color:#00ff99;border:1px solid rgba(0,255,150,0.3);border-radius:20px;padding:3px 10px;font-size:0.75rem;font-weight:700;">Oui*</span></td>
                 </tr>
                 <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
-                    <td style="padding:13px 18px;color:#fff;font-weight:700;"><i class="fa-solid fa-calendar" style="color:#7850ff;margin-right:8px;"></i>100 jours</td>
-                    <td style="padding:13px 18px;text-align:center;color:#00ff99;">0,40 % – 2 %</td>
-                    <td style="padding:13px 18px;text-align:center;color:#aaa;">40 % du capital</td>
-                    <td style="padding:13px 18px;text-align:center;color:#aaa;">200 % du capital</td>
-                    <td style="padding:13px 18px;text-align:center;"><span style="background:rgba(0,255,150,0.15);color:#00ff99;border:1px solid rgba(0,255,150,0.3);border-radius:20px;padding:3px 12px;font-size:0.78rem;font-weight:700;">Actif</span></td>
+                    <td style="padding:13px 18px;color:#fff;font-weight:700;"><i class="fa-solid fa-calendar" style="color:#7850ff;margin-right:8px;"></i>30 jours</td>
+                    <td style="padding:13px 18px;text-align:center;color:#00ff99;font-weight:700;">65 %</td>
+                    <td style="padding:13px 18px;text-align:center;color:#aaa;">35 %</td>
+                    <td style="padding:13px 18px;text-align:center;color:#fff;">100 USDT</td>
+                    <td style="padding:13px 18px;text-align:center;color:#fff;">1 000 USDT</td>
+                    <td style="padding:13px 18px;text-align:center;"><span style="background:rgba(0,255,150,0.15);color:#00ff99;border:1px solid rgba(0,255,150,0.3);border-radius:20px;padding:3px 10px;font-size:0.75rem;font-weight:700;">Oui*</span></td>
                 </tr>
                 <tr style="border-bottom:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);">
-                    <td style="padding:13px 18px;color:#fff;font-weight:700;"><i class="fa-solid fa-calendar" style="color:#7850ff;margin-right:8px;"></i>120 jours</td>
-                    <td style="padding:13px 18px;text-align:center;color:#00ff99;">0,40 % – 2 %</td>
-                    <td style="padding:13px 18px;text-align:center;color:#aaa;">48 % du capital</td>
-                    <td style="padding:13px 18px;text-align:center;color:#aaa;">240 % du capital</td>
-                    <td style="padding:13px 18px;text-align:center;"><span style="background:rgba(0,255,150,0.15);color:#00ff99;border:1px solid rgba(0,255,150,0.3);border-radius:20px;padding:3px 12px;font-size:0.78rem;font-weight:700;">Actif</span></td>
+                    <td style="padding:13px 18px;color:#fff;font-weight:700;"><i class="fa-solid fa-calendar" style="color:#c9a84c;margin-right:8px;"></i>100 jours</td>
+                    <td style="padding:13px 18px;text-align:center;color:#00ff99;font-weight:700;">80 %</td>
+                    <td style="padding:13px 18px;text-align:center;color:#aaa;">20 %</td>
+                    <td style="padding:13px 18px;text-align:center;color:#fff;">100 USDT</td>
+                    <td style="padding:13px 18px;text-align:center;color:#aaa;">Illimité</td>
+                    <td style="padding:13px 18px;text-align:center;"><span style="background:rgba(0,255,150,0.15);color:#00ff99;border:1px solid rgba(0,255,150,0.3);border-radius:20px;padding:3px 10px;font-size:0.75rem;font-weight:700;">Oui*</span></td>
                 </tr>
                 <tr>
-                    <td style="padding:13px 18px;color:#fff;font-weight:700;"><i class="fa-solid fa-calendar" style="color:#ff3264;margin-right:8px;"></i>180 jours</td>
-                    <td style="padding:13px 18px;text-align:center;color:#00ff99;">0,40 % – 2 %</td>
-                    <td style="padding:13px 18px;text-align:center;color:#aaa;">72 % du capital</td>
-                    <td style="padding:13px 18px;text-align:center;color:#aaa;">360 % du capital</td>
-                    <td style="padding:13px 18px;text-align:center;"><span style="background:rgba(0,255,150,0.15);color:#00ff99;border:1px solid rgba(0,255,150,0.3);border-radius:20px;padding:3px 12px;font-size:0.78rem;font-weight:700;">Actif</span></td>
+                    <td style="padding:13px 18px;color:#fff;font-weight:700;"><i class="fa-solid fa-calendar" style="color:#ff6400;margin-right:8px;"></i>180 jours</td>
+                    <td style="padding:13px 18px;text-align:center;color:#00ff99;font-weight:700;">90 %</td>
+                    <td style="padding:13px 18px;text-align:center;color:#aaa;">10 %</td>
+                    <td style="padding:13px 18px;text-align:center;color:#fff;">100 USDT</td>
+                    <td style="padding:13px 18px;text-align:center;color:#aaa;">Illimité</td>
+                    <td style="padding:13px 18px;text-align:center;"><span style="background:rgba(0,255,150,0.15);color:#00ff99;border:1px solid rgba(0,255,150,0.3);border-radius:20px;padding:3px 10px;font-size:0.75rem;font-weight:700;">Oui*</span></td>
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <div style="background:rgba(0,200,255,0.05);border:1px solid rgba(0,200,255,0.15);border-radius:10px;padding:16px 20px;margin-bottom:50px;">
+        <div style="color:#00c8ff;font-weight:700;font-size:0.85rem;margin-bottom:10px;"><i class="fa-solid fa-circle-info" style="margin-right:8px;"></i>Fonctionnalités & Remarques</div>
+        <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:6px;">
+            <li style="color:#ccc;font-size:0.82rem;"><i class="fa-solid fa-rotate" style="color:#7850ff;margin-right:8px;width:14px;"></i><strong style="color:#fff;">Réinvestissement automatique</strong> — réinjectez vos bénéfices pour maximiser les rendements (sauf contrats 1j et 7j)</li>
+            <li style="color:#ccc;font-size:0.82rem;"><i class="fa-solid fa-arrow-rotate-right" style="color:#00ff99;margin-right:8px;width:14px;"></i><strong style="color:#fff;">Renouvellement automatique</strong> — prolongez automatiquement à l'expiration (sauf contrats 1j et 7j)</li>
+            <li style="color:#ccc;font-size:0.82rem;"><i class="fa-solid fa-asterisk" style="color:#c9a84c;margin-right:8px;width:14px;"></i><strong style="color:#fff;">Retrait anticipé*</strong> — possible sous conditions spécifiques pour les contrats 7j, 30j et 100j</li>
+            <li style="color:#ccc;font-size:0.82rem;"><i class="fa-solid fa-chart-line" style="color:#aaa;margin-right:8px;width:14px;"></i>Les taux de profits quotidiens varient selon l'activité du réseau</li>
+        </ul>
     </div>
 
     <!-- PLAN D'AFFILIATION -->
