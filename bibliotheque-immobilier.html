@@ -475,7 +475,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
     <div class="divider"></div>
 
     <div class="card" style="max-width:600px;margin:30px auto 20px;padding:30px 36px;">
-        <p style="color:#aaa;font-size:0.88rem;margin-bottom:16px;text-align:center;">Estimez vos revenus mensuels et annuels selon votre investissement.</p>
+        <p style="color:#aaa;font-size:0.88rem;margin-bottom:16px;text-align:center;">Estimez vos revenus journaliers, mensuels, annuels et à 18 mois selon votre investissement.</p>
 
         <div style="display:flex;justify-content:center;gap:10px;margin-bottom:22px;">
             <button id="btn-eur" onclick="setCurrency('EUR')"
@@ -497,18 +497,22 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             </div>
         </div>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;text-align:center;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:center;">
+            <div style="background:rgba(120,80,255,0.1);border-radius:10px;padding:16px 10px;">
+                <div style="color:#aaa;font-size:0.72rem;margin-bottom:6px;">Par jour</div>
+                <div id="sim-journalier" style="color:#a078ff;font-size:1.3rem;font-weight:700;">0,03 €</div>
+            </div>
             <div style="background:rgba(0,200,255,0.08);border-radius:10px;padding:16px 10px;">
                 <div style="color:#aaa;font-size:0.72rem;margin-bottom:6px;">Par mois</div>
-                <div id="sim-mensuel" style="color:#00c8ff;font-size:1.3rem;font-weight:700;">10,00 €</div>
+                <div id="sim-mensuel" style="color:#00c8ff;font-size:1.3rem;font-weight:700;">0,83 €</div>
             </div>
             <div style="background:rgba(201,168,76,0.1);border-radius:10px;padding:16px 10px;">
                 <div style="color:#aaa;font-size:0.72rem;margin-bottom:6px;">Par an</div>
-                <div id="sim-annuel" style="color:#c9a84c;font-size:1.3rem;font-weight:700;">120,00 €</div>
+                <div id="sim-annuel" style="color:#c9a84c;font-size:1.3rem;font-weight:700;">10,00 €</div>
             </div>
             <div style="background:rgba(0,255,150,0.08);border-radius:10px;padding:16px 10px;">
-                <div style="color:#aaa;font-size:0.72rem;margin-bottom:6px;">En 5 ans</div>
-                <div id="sim-5ans" style="color:#00ff99;font-size:1.3rem;font-weight:700;">600,00 €</div>
+                <div style="color:#aaa;font-size:0.72rem;margin-bottom:6px;">À 18 mois</div>
+                <div id="sim-18mois" style="color:#00ff99;font-size:1.3rem;font-weight:700;">15,00 €</div>
             </div>
         </div>
     </div>
@@ -532,9 +536,10 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         var m = parseFloat(document.getElementById('sim-montant').value) || 0;
         var t = parseFloat(document.getElementById('sim-taux').value) || 0;
         var annuel = m * t / 100;
-        document.getElementById('sim-mensuel').textContent = (annuel / 12).toFixed(2) + sym;
-        document.getElementById('sim-annuel').textContent  = annuel.toFixed(2) + sym;
-        document.getElementById('sim-5ans').textContent    = (annuel * 5).toFixed(2) + sym;
+        document.getElementById('sim-journalier').textContent = (annuel / 365).toFixed(2) + sym;
+        document.getElementById('sim-mensuel').textContent    = (annuel / 12).toFixed(2) + sym;
+        document.getElementById('sim-annuel').textContent     = annuel.toFixed(2) + sym;
+        document.getElementById('sim-18mois').textContent     = (annuel * 1.5).toFixed(2) + sym;
     }
     document.getElementById('sim-montant').addEventListener('input', updateSim);
     document.getElementById('sim-taux').addEventListener('input', updateSim);
