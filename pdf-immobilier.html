@@ -64,6 +64,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="background:#229ED9;color:#fff;border-color:#229ED9;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-telegram" style="font-size:1rem;color:#fff;"></i> Telegram</a>
             <a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" style="background:#FF0000;color:#fff;border-color:#FF0000;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;">▶ YouTube</a>
             <a href="https://wa.me/320492931040" target="_blank" style="background:#25D366;color:#fff;border-color:#25D366;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-whatsapp" style="font-size:1rem;color:#fff;"></i> WhatsApp</a>
+            <a href="parametres.html" style="background:#c9a84c;color:#020a18;border-color:#c9a84c;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;font-weight:700;">⚙ Paramètres</a>
             <a href="#" onclick="_sb.auth.signOut().then(()=>window.location.href='index.html')" style="background:#00c8ff;color:#020a18;border-color:#00c8ff;font-weight:700;">⏻ Déconnexion</a>
         </div>
     </div>
@@ -90,9 +91,110 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 </div>
 
 <div class="section">
-    <h2 class="section-title">Ressources disponibles</h2>
+    <h2 class="section-title">Documents officiels E-state</h2>
     <div class="divider"></div>
-    <p style="text-align:center;color:#aaaaaa;margin-top:30px;">Contenu à venir — les PDFs officiels E-estate seront disponibles ici.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin:30px 0;">
+
+        <!-- PDF Investisseur -->
+        <div class="card" style="padding:24px;display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;align-items:center;gap:14px;">
+                <i class="fa-solid fa-file-pdf" style="font-size:2rem;color:#FF4444;filter:drop-shadow(0 0 8px rgba(255,68,68,0.5));flex-shrink:0;"></i>
+                <div>
+                    <div style="color:#fff;font-weight:700;font-size:0.95rem;">PDF Investisseur</div>
+                    <div style="color:#aaa;font-size:0.75rem;margin-top:2px;">Guide complet pour les investisseurs</div>
+                </div>
+            </div>
+            <a href="#" data-pdf="pdf-investisseur.pdf" class="btn-pdf" style="display:block;text-align:center;background:rgba(255,68,68,0.15);color:#FF4444;border:1px solid rgba(255,68,68,0.3);border-radius:8px;padding:9px;font-weight:700;font-size:0.82rem;text-decoration:none;opacity:0.5;pointer-events:none;">
+                <i class="fa-solid fa-download" style="margin-right:6px;"></i>À venir
+            </a>
+        </div>
+
+        <!-- PDF Devenir agent immobilier -->
+        <div class="card" style="padding:24px;display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;align-items:center;gap:14px;">
+                <i class="fa-solid fa-file-pdf" style="font-size:2rem;color:#FF4444;filter:drop-shadow(0 0 8px rgba(255,68,68,0.5));flex-shrink:0;"></i>
+                <div>
+                    <div style="color:#fff;font-weight:700;font-size:0.95rem;">Devenir agent immobilier</div>
+                    <div style="color:#aaa;font-size:0.75rem;margin-top:2px;">Comment devenir agent E-state</div>
+                </div>
+            </div>
+            <a href="#" data-pdf="pdf-agent-immobilier.pdf" class="btn-pdf" style="display:block;text-align:center;background:rgba(255,68,68,0.15);color:#FF4444;border:1px solid rgba(255,68,68,0.3);border-radius:8px;padding:9px;font-weight:700;font-size:0.82rem;text-decoration:none;opacity:0.5;pointer-events:none;">
+                <i class="fa-solid fa-download" style="margin-right:6px;"></i>À venir
+            </a>
+        </div>
+
+        <!-- PDF Road Map -->
+        <div class="card" style="padding:24px;display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;align-items:center;gap:14px;">
+                <i class="fa-solid fa-file-pdf" style="font-size:2rem;color:#FF4444;filter:drop-shadow(0 0 8px rgba(255,68,68,0.5));flex-shrink:0;"></i>
+                <div>
+                    <div style="color:#fff;font-weight:700;font-size:0.95rem;">Road Map 2020–2034</div>
+                    <div style="color:#aaa;font-size:0.75rem;margin-top:2px;">Vision et objectifs à long terme</div>
+                </div>
+            </div>
+            <a href="#" data-pdf="pdf-roadmap.pdf" class="btn-pdf" style="display:block;text-align:center;background:rgba(255,68,68,0.15);color:#FF4444;border:1px solid rgba(255,68,68,0.3);border-radius:8px;padding:9px;font-weight:700;font-size:0.82rem;text-decoration:none;opacity:0.5;pointer-events:none;">
+                <i class="fa-solid fa-download" style="margin-right:6px;"></i>À venir
+            </a>
+        </div>
+
+        <!-- Document officiel de société -->
+        <div class="card" style="padding:24px;display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;align-items:center;gap:14px;">
+                <i class="fa-solid fa-file-pdf" style="font-size:2rem;color:#FF4444;filter:drop-shadow(0 0 8px rgba(255,68,68,0.5));flex-shrink:0;"></i>
+                <div>
+                    <div style="color:#fff;font-weight:700;font-size:0.95rem;">Document officiel de société</div>
+                    <div style="color:#aaa;font-size:0.75rem;margin-top:2px;">Documents légaux et officiels</div>
+                </div>
+            </div>
+            <a href="#" data-pdf="pdf-societe-officiel.pdf" class="btn-pdf" style="display:block;text-align:center;background:rgba(255,68,68,0.15);color:#FF4444;border:1px solid rgba(255,68,68,0.3);border-radius:8px;padding:9px;font-weight:700;font-size:0.82rem;text-decoration:none;opacity:0.5;pointer-events:none;">
+                <i class="fa-solid fa-download" style="margin-right:6px;"></i>À venir
+            </a>
+        </div>
+
+        <!-- Contrat d'agent immobilier -->
+        <div class="card" style="padding:24px;display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;align-items:center;gap:14px;">
+                <i class="fa-solid fa-file-pdf" style="font-size:2rem;color:#FF4444;filter:drop-shadow(0 0 8px rgba(255,68,68,0.5));flex-shrink:0;"></i>
+                <div>
+                    <div style="color:#fff;font-weight:700;font-size:0.95rem;">Contrat d'agent immobilier</div>
+                    <div style="color:#aaa;font-size:0.75rem;margin-top:2px;">Contrat officiel agent E-state</div>
+                </div>
+            </div>
+            <a href="#" data-pdf="pdf-contrat-agent.pdf" class="btn-pdf" style="display:block;text-align:center;background:rgba(255,68,68,0.15);color:#FF4444;border:1px solid rgba(255,68,68,0.3);border-radius:8px;padding:9px;font-weight:700;font-size:0.82rem;text-decoration:none;opacity:0.5;pointer-events:none;">
+                <i class="fa-solid fa-download" style="margin-right:6px;"></i>À venir
+            </a>
+        </div>
+
+        <!-- Rapport financier -->
+        <div class="card" style="padding:24px;display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;align-items:center;gap:14px;">
+                <i class="fa-solid fa-file-pdf" style="font-size:2rem;color:#FF4444;filter:drop-shadow(0 0 8px rgba(255,68,68,0.5));flex-shrink:0;"></i>
+                <div>
+                    <div style="color:#fff;font-weight:700;font-size:0.95rem;">Rapport financier</div>
+                    <div style="color:#aaa;font-size:0.75rem;margin-top:2px;">Résultats et données financières</div>
+                </div>
+            </div>
+            <a href="#" data-pdf="pdf-rapport-financier.pdf" class="btn-pdf" style="display:block;text-align:center;background:rgba(255,68,68,0.15);color:#FF4444;border:1px solid rgba(255,68,68,0.3);border-radius:8px;padding:9px;font-weight:700;font-size:0.82rem;text-decoration:none;opacity:0.5;pointer-events:none;">
+                <i class="fa-solid fa-download" style="margin-right:6px;"></i>À venir
+            </a>
+        </div>
+
+        <!-- Rapport bien immobilier -->
+        <div class="card" style="padding:24px;display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;align-items:center;gap:14px;">
+                <i class="fa-solid fa-file-pdf" style="font-size:2rem;color:#FF4444;filter:drop-shadow(0 0 8px rgba(255,68,68,0.5));flex-shrink:0;"></i>
+                <div>
+                    <div style="color:#fff;font-weight:700;font-size:0.95rem;">Rapport bien immobilier</div>
+                    <div style="color:#aaa;font-size:0.75rem;margin-top:2px;">Détails des biens disponibles</div>
+                </div>
+            </div>
+            <a href="#" data-pdf="pdf-rapport-biens.pdf" class="btn-pdf" style="display:block;text-align:center;background:rgba(255,68,68,0.15);color:#FF4444;border:1px solid rgba(255,68,68,0.3);border-radius:8px;padding:9px;font-weight:700;font-size:0.82rem;text-decoration:none;opacity:0.5;pointer-events:none;">
+                <i class="fa-solid fa-download" style="margin-right:6px;"></i>À venir
+            </a>
+        </div>
+
+    </div>
 </div>
 
 <footer>
