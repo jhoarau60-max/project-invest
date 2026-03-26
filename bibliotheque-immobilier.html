@@ -261,12 +261,19 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
     <div class="divider"></div>
 
     <div class="card" style="max-width:600px;margin:30px auto 20px;padding:30px 36px;">
-        <p style="color:#aaa;font-size:0.88rem;margin-bottom:22px;text-align:center;">Estimez vos revenus mensuels et annuels selon votre investissement.</p>
+        <p style="color:#aaa;font-size:0.88rem;margin-bottom:16px;text-align:center;">Estimez vos revenus mensuels et annuels selon votre investissement.</p>
+
+        <div style="display:flex;justify-content:center;gap:10px;margin-bottom:22px;">
+            <button id="btn-eur" onclick="setCurrency('EUR')"
+                style="padding:7px 20px;border-radius:20px;border:1px solid rgba(0,200,255,0.5);background:rgba(0,200,255,0.15);color:#00c8ff;font-weight:700;cursor:pointer;font-size:0.9rem;">€ Euro</button>
+            <button id="btn-usd" onclick="setCurrency('USD')"
+                style="padding:7px 20px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#aaa;font-weight:700;cursor:pointer;font-size:0.9rem;">$ Dollar</button>
+        </div>
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:22px;">
             <div>
-                <label style="color:#aaa;font-size:0.82rem;display:block;margin-bottom:6px;">Montant investi (€)</label>
-                <input id="sim-montant" type="number" value="1000" min="100" step="100"
+                <label id="sim-label-montant" style="color:#aaa;font-size:0.82rem;display:block;margin-bottom:6px;">Montant investi (€)</label>
+                <input id="sim-montant" type="number" value="1000" min="10" step="10"
                     style="width:100%;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.3);border-radius:8px;padding:10px 14px;color:#fff;font-size:1rem;outline:none;">
             </div>
             <div>
@@ -293,13 +300,27 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
     </div>
 
     <script>
+    var simCurrency = 'EUR';
+    function setCurrency(c) {
+        simCurrency = c;
+        var sym = c === 'EUR' ? '€' : '$';
+        document.getElementById('sim-label-montant').textContent = 'Montant investi (' + sym + ')';
+        document.getElementById('btn-eur').style.background = c === 'EUR' ? 'rgba(0,200,255,0.15)' : 'transparent';
+        document.getElementById('btn-eur').style.color = c === 'EUR' ? '#00c8ff' : '#aaa';
+        document.getElementById('btn-eur').style.borderColor = c === 'EUR' ? 'rgba(0,200,255,0.5)' : 'rgba(255,255,255,0.15)';
+        document.getElementById('btn-usd').style.background = c === 'USD' ? 'rgba(0,200,255,0.15)' : 'transparent';
+        document.getElementById('btn-usd').style.color = c === 'USD' ? '#00c8ff' : '#aaa';
+        document.getElementById('btn-usd').style.borderColor = c === 'USD' ? 'rgba(0,200,255,0.5)' : 'rgba(255,255,255,0.15)';
+        updateSim();
+    }
     function updateSim() {
+        var sym = simCurrency === 'EUR' ? ' €' : ' $';
         var m = parseFloat(document.getElementById('sim-montant').value) || 0;
         var t = parseFloat(document.getElementById('sim-taux').value) || 0;
         var annuel = m * t / 100;
-        document.getElementById('sim-mensuel').textContent = (annuel / 12).toFixed(2) + ' €';
-        document.getElementById('sim-annuel').textContent  = annuel.toFixed(2) + ' €';
-        document.getElementById('sim-5ans').textContent    = (annuel * 5).toFixed(2) + ' €';
+        document.getElementById('sim-mensuel').textContent = (annuel / 12).toFixed(2) + sym;
+        document.getElementById('sim-annuel').textContent  = annuel.toFixed(2) + sym;
+        document.getElementById('sim-5ans').textContent    = (annuel * 5).toFixed(2) + sym;
     }
     document.getElementById('sim-montant').addEventListener('input', updateSim);
     document.getElementById('sim-taux').addEventListener('input', updateSim);
