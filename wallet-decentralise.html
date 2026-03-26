@@ -3,15 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project inves'T - Wallet Décentralisé</title>
+    <title>Project inves'T - SURPRISE</title>
     <link rel="stylesheet" href="style.css">
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-const _sb=window.supabase.createClient("https://cvggxktybzbrtskcwlxp.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Z2d4a3R5YnpicnRza2N3bHhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyODM2MjcsImV4cCI6MjA4OTg1OTYyN30.cfHsAvmgcXYvedCz1fZCHlxOApupKCxnt8t9e8KzNBs");
-setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window.location.href="index.html"; }); }, 800);
-</script>
     <style>
+      /* ── Animations de fond ── */
       .line-anim  { stroke-dasharray: 40 960; animation: snake 6s linear infinite, rainbow 5s linear infinite; }
       .line-anim2 { stroke-dasharray: 40 960; animation: snake 8s linear infinite reverse, rainbow 5s linear infinite 1.5s; }
       .line-anim3 { stroke-dasharray: 40 960; animation: snake 7s linear infinite, rainbow 5s linear infinite 3s; }
@@ -24,58 +19,131 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         80%  { stroke: #00ff99; filter: drop-shadow(0 0 6px #00ff99); }
         100% { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
       }
-      @keyframes floatBubble {
-        0%   { transform: translateY(0px) translateX(0px); opacity: 0.6; }
-        25%  { transform: translateY(-30px) translateX(15px); opacity: 0.8; }
-        50%  { transform: translateY(-60px) translateX(-10px); opacity: 0.5; }
-        75%  { transform: translateY(-90px) translateX(20px); opacity: 0.7; }
-        100% { transform: translateY(-150px) translateX(0px); opacity: 0; }
+
+      /* ── Robot géant ── */
+      @keyframes robotFloat {
+        0%,100% { transform: translateY(0px); }
+        50%      { transform: translateY(-18px); }
       }
-      @keyframes bubbleRainbow {
-        0%   { stroke: rgba(0,200,255,0.5); }
-        25%  { stroke: rgba(120,80,255,0.5); }
-        50%  { stroke: rgba(255,100,200,0.5); }
-        75%  { stroke: rgba(0,255,150,0.5); }
-        100% { stroke: rgba(0,200,255,0.5); }
+      @keyframes robotColor {
+        0%   { filter: drop-shadow(0 0 30px #00c8ff) drop-shadow(0 0 60px #00c8ff); color:#00c8ff; }
+        20%  { filter: drop-shadow(0 0 30px #7850ff) drop-shadow(0 0 60px #7850ff); color:#7850ff; }
+        40%  { filter: drop-shadow(0 0 30px #ff3399) drop-shadow(0 0 60px #ff3399); color:#ff3399; }
+        60%  { filter: drop-shadow(0 0 30px #ffaa00) drop-shadow(0 0 60px #ffaa00); color:#ffaa00; }
+        80%  { filter: drop-shadow(0 0 30px #00ff99) drop-shadow(0 0 60px #00ff99); color:#00ff99; }
+        100% { filter: drop-shadow(0 0 30px #00c8ff) drop-shadow(0 0 60px #00c8ff); color:#00c8ff; }
+      }
+      @keyframes pulseRing {
+        0%   { transform:scale(1);   opacity:0.6; }
+        100% { transform:scale(2.2); opacity:0; }
+      }
+      .robot-wrap {
+        position:relative; display:inline-block;
+        animation: robotFloat 3s ease-in-out infinite;
+      }
+      .robot-wrap .ring {
+        position:absolute; top:50%; left:50%;
+        width:160px; height:160px;
+        margin:-80px 0 0 -80px;
+        border:2px solid currentColor;
+        border-radius:50%;
+        animation: robotColor 5s linear infinite, pulseRing 2s ease-out infinite;
+      }
+      .robot-wrap .ring2 { animation: robotColor 5s linear infinite, pulseRing 2s ease-out infinite 0.7s; }
+      .robot-icon {
+        font-size:10rem;
+        animation: robotColor 5s linear infinite, robotFloat 3s ease-in-out infinite;
+        display:block;
+      }
+
+      /* ── Titre SURPRISE ── */
+      @keyframes surpriseGlow {
+        0%,100% { text-shadow: 0 0 20px #00c8ff, 0 0 50px #00c8ff, 0 0 100px #00c8ff; color:#00c8ff; }
+        25%      { text-shadow: 0 0 20px #7850ff, 0 0 50px #7850ff, 0 0 100px #7850ff; color:#7850ff; }
+        50%      { text-shadow: 0 0 20px #ff3399, 0 0 50px #ff3399, 0 0 100px #ff3399; color:#ff3399; }
+        75%      { text-shadow: 0 0 20px #ffaa00, 0 0 50px #ffaa00, 0 0 100px #ffaa00; color:#ffaa00; }
+      }
+      .surprise-title {
+        font-size: clamp(3rem, 8vw, 6rem);
+        font-weight: 900;
+        letter-spacing: 14px;
+        text-transform: uppercase;
+        animation: surpriseGlow 4s ease-in-out infinite;
+        margin: 0;
+      }
+
+      /* ── Barre de progression ── */
+      @keyframes barShine {
+        0%   { left:-60%; }
+        100% { left:130%; }
+      }
+      @keyframes barGlow {
+        0%,100% { box-shadow: 0 0 16px #00c8ff, 0 0 40px #00c8ff; }
+        25%      { box-shadow: 0 0 16px #7850ff, 0 0 40px #7850ff; }
+        50%      { box-shadow: 0 0 16px #ff3399, 0 0 40px #ff3399; }
+        75%      { box-shadow: 0 0 16px #ffaa00, 0 0 40px #ffaa00; }
+      }
+      .progress-track {
+        width:100%; max-width:700px; height:28px;
+        background: rgba(255,255,255,0.06);
+        border:1px solid rgba(255,255,255,0.12);
+        border-radius:50px; overflow:hidden; position:relative;
+        margin:0 auto;
+      }
+      .progress-fill {
+        height:100%; border-radius:50px; position:relative; overflow:hidden;
+        background: linear-gradient(90deg,#00c8ff,#7850ff,#ff3399,#ffaa00,#00ff99);
+        background-size:200% 100%;
+        animation: barGlow 4s ease-in-out infinite;
+        transition: width 2s cubic-bezier(0.4,0,0.2,1);
+      }
+      .progress-fill::after {
+        content:''; position:absolute;
+        top:-50%; left:-60%; width:40%; height:200%;
+        background:rgba(255,255,255,0.35);
+        transform:skewX(-20deg);
+        animation: barShine 2s ease-in-out infinite;
+      }
+      @keyframes loadingDots {
+        0%   { content:'LOADING'; }
+        25%  { content:'LOADING.'; }
+        50%  { content:'LOADING..'; }
+        75%  { content:'LOADING...'; }
+        100% { content:'LOADING'; }
+      }
+      .loading-text::after {
+        content:'LOADING';
+        animation: loadingDots 1.6s steps(1) infinite;
       }
     </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const _sb=window.supabase.createClient("https://cvggxktybzbrtskcwlxp.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Z2d4a3R5YnpicnRza2N3bHhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyODM2MjcsImV4cCI6MjA4OTg1OTYyN30.cfHsAvmgcXYvedCz1fZCHlxOApupKCxnt8t9e8KzNBs");
+setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window.location.href="index.html"; }); }, 800);
+
+// ══════════════════════════════════════════════════════════
+//  ▶ CHANGER CE NOMBRE POUR FAIRE AVANCER LA BARRE (0 à 100)
+var POURCENTAGE = 35;
+// ══════════════════════════════════════════════════════════
+</script>
+<link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#00c8ff">
 </head>
 <body>
 
-<!-- LIGNES COURBES ANIMÉES -->
 <div id="bg-curves">
   <svg viewBox="0 0 1700 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <filter id="glow-line"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    </defs>
+    <defs><filter id="glow-line"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
     <path class="line-anim"  d="M-100,300 C200,100 400,500 800,250 S1200,50 1700,300"  fill="none" stroke="rgba(0,200,255,0.2)"  stroke-width="2" filter="url(#glow-line)"/>
     <path class="line-anim2" d="M-100,600 C300,400 600,800 1000,550 S1400,300 1700,600" fill="none" stroke="rgba(26,127,219,0.25)" stroke-width="2" filter="url(#glow-line)"/>
     <path class="line-anim3" d="M-100,150 C300,50 700,350 1100,150 S1450,0 1700,180"   fill="none" stroke="rgba(0,200,255,0.12)" stroke-width="1.5" filter="url(#glow-line)"/>
-    <circle cx="80"   cy="880" r="7"  fill="rgba(0,200,255,0.04)"   stroke="rgba(0,200,255,0.5)"   stroke-width="1" style="animation:floatBubble 6s 0s linear infinite,bubbleRainbow 4s 0s linear infinite;"/>
-    <circle cx="180"  cy="860" r="18" fill="rgba(120,80,255,0.04)"  stroke="rgba(120,80,255,0.45)" stroke-width="1" style="animation:floatBubble 8s 1s linear infinite,bubbleRainbow 5s 0s linear infinite;"/>
-    <circle cx="290"  cy="900" r="5"  fill="rgba(0,255,150,0.04)"   stroke="rgba(0,255,150,0.5)"   stroke-width="1" style="animation:floatBubble 5s 2s linear infinite,bubbleRainbow 4s 1s linear infinite;"/>
-    <circle cx="400"  cy="830" r="32" fill="rgba(0,200,255,0.02)"   stroke="rgba(0,200,255,0.3)"   stroke-width="1" style="animation:floatBubble 12s 0.5s linear infinite,bubbleRainbow 6s 2s linear infinite;"/>
-    <circle cx="500"  cy="875" r="11" fill="rgba(255,100,200,0.03)" stroke="rgba(255,100,200,0.45)" stroke-width="1" style="animation:floatBubble 7s 3s linear infinite,bubbleRainbow 5s 0.5s linear infinite;"/>
-    <circle cx="610"  cy="845" r="22" fill="rgba(0,200,255,0.03)"   stroke="rgba(0,200,255,0.4)"   stroke-width="1" style="animation:floatBubble 9s 1.5s linear infinite,bubbleRainbow 4s 3s linear infinite;"/>
-    <circle cx="720"  cy="900" r="8"  fill="rgba(120,80,255,0.04)"  stroke="rgba(120,80,255,0.5)"  stroke-width="1" style="animation:floatBubble 6s 4s linear infinite,bubbleRainbow 5s 1s linear infinite;"/>
-    <circle cx="830"  cy="865" r="40" fill="rgba(0,255,150,0.02)"   stroke="rgba(0,255,150,0.25)"  stroke-width="1" style="animation:floatBubble 14s 0.8s linear infinite,bubbleRainbow 7s 2.5s linear infinite;"/>
-    <circle cx="940"  cy="880" r="14" fill="rgba(0,200,255,0.04)"   stroke="rgba(0,200,255,0.45)"  stroke-width="1" style="animation:floatBubble 8s 2.5s linear infinite,bubbleRainbow 4s 1.5s linear infinite;"/>
-    <circle cx="1150" cy="900" r="26" fill="rgba(120,80,255,0.03)"  stroke="rgba(120,80,255,0.35)" stroke-width="1" style="animation:floatBubble 11s 3.5s linear infinite,bubbleRainbow 5s 2s linear infinite;"/>
-    <circle cx="1260" cy="845" r="13" fill="rgba(0,200,255,0.04)"   stroke="rgba(0,200,255,0.5)"   stroke-width="1" style="animation:floatBubble 7s 0s linear infinite,bubbleRainbow 4s 3s linear infinite;"/>
-    <circle cx="1370" cy="875" r="35" fill="rgba(0,200,255,0.02)"   stroke="rgba(0,200,255,0.28)"  stroke-width="1" style="animation:floatBubble 13s 2s linear infinite,bubbleRainbow 6s 1s linear infinite;"/>
-    <circle cx="1570" cy="900" r="20" fill="rgba(120,80,255,0.03)"  stroke="rgba(120,80,255,0.4)"  stroke-width="1" style="animation:floatBubble 9s 1.5s linear infinite,bubbleRainbow 5s 2s linear infinite;"/>
-    <circle cx="200"  cy="180" r="130" fill="none" stroke="rgba(0,200,255,0.15)" stroke-width="1.5"/>
-    <circle cx="1500" cy="700" r="160" fill="none" stroke="rgba(26,127,219,0.2)"  stroke-width="1.5"/>
-    <circle cx="100" cy="80"  r="2"   fill="rgba(0,200,255,0.8)"/>
-    <circle cx="500" cy="120" r="2.5" fill="rgba(0,200,255,0.9)"/>
-    <circle cx="950" cy="30"  r="2"   fill="rgba(0,200,255,0.7)"/>
-    <circle cx="1350" cy="40" r="2"   fill="rgba(0,200,255,0.6)"/>
+    <circle cx="200" cy="180" r="130" fill="none" stroke="rgba(0,200,255,0.15)" stroke-width="1.5"/>
+    <circle cx="1500" cy="700" r="160" fill="none" stroke="rgba(26,127,219,0.2)" stroke-width="1.5"/>
   </svg>
 </div>
 
 <header>
     <div class="header-top">
-        <a href="index.html" class="logo-svg">
+        <a href="home.html" class="logo-svg">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 75" height="70" width="310">
     <defs><filter id="glow"><feGaussianBlur stdDeviation="2.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
     <path d="M 51,15 A 28,28 0 1,0 51,60" fill="none" stroke="#00c8ff" stroke-width="2.5" filter="url(#glow)"/>
@@ -87,16 +155,15 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
   </svg>
 </a>
         <div class="social-links">
+            <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="background:#229ED9;color:#fff;border-color:#229ED9;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-telegram" style="font-size:1rem;color:#fff;"></i> Telegram</a>
             <a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" style="background:#FF0000;color:#fff;border-color:#FF0000;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;">▶ YouTube</a>
             <a href="https://wa.me/320492931040" target="_blank" style="background:#25D366;color:#fff;border-color:#25D366;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-whatsapp" style="font-size:1rem;color:#fff;"></i> WhatsApp</a>
-            <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="background:#229ED9;color:#fff;border-color:#229ED9;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-telegram" style="font-size:1rem;color:#fff;"></i> Telegram</a>
-            <a href="parametres.html" style="background:#c9a84c;color:#020a18;border-color:#c9a84c;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;font-weight:700;">⚙ Paramètres</a>
             <a href="#" onclick="_sb.auth.signOut().then(()=>window.location.href='index.html')" style="background:#00c8ff;color:#020a18;border-color:#00c8ff;font-weight:700;">⏻ Déconnexion</a>
         </div>
     </div>
     <nav>
         <ul>
-            <li><a href="index.html">Accueil</a></li>
+            <li><a href="home.html">Accueil</a></li>
             <li><a href="parametres.html">⚙ Paramètres</a></li>
             <li><a href="investissements.html">Investissements</a></li>
             <li><a href="pdf-societe.html">PDF de société</a></li>
@@ -104,145 +171,117 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             <li><a href="e-state-immobilier.html">E-state Immobilier Tokénisé</a></li>
             <li><a href="smart-mev-trading.html">SMART MEV Trading</a></li>
             <li><a href="mlm-center.html">MLM Center</a></li>
+            <li><a href="bibliotheque-mlm.html">Bibliothèque MLM</a></li>
             <li><a href="portage-salarial.html">Portage salarial</a></li>
-            <li><a href="wallet-decentralise.html" class="active">Wallet Décentralisé</a></li>
+            <li><a href="wallet-decentralise.html">Wallet Décentralisé</a></li>
         </ul>
     </nav>
 </header>
 
-<div class="page-header">
-    <h1>💰 Wallet Décentralisé</h1>
-    <p>Vos clés, vos fonds. Maîtrisez votre argent numérique.</p>
-</div>
+<!-- CONTENU SURPRISE -->
+<div style="min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 40px;margin-left:220px;">
 
-<div class="section">
-    <h2 class="section-title">Pourquoi un Wallet Décentralisé ?</h2>
-    <div class="divider"></div>
-
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom:50px;">
-        <div>
-            <p style="color:#cccccc; line-height:1.8; font-size:1.05rem;">
-                Un <strong style="color:#c9a84c;">wallet décentralisé</strong> (ou non-custodial) vous donne le contrôle total sur vos cryptomonnaies. Contrairement aux exchanges centralisés, personne d'autre que vous n'a accès à vos fonds.
-                <br><br>
-                C'est une <strong style="color:#c9a84c;">étape indispensable</strong> pour investir dans l'immobilier tokénisé, le trading MEV et la DeFi en général.
-                <br><br>
-                La règle d'or : <strong style="color:#c9a84c;">"Not your keys, not your coins"</strong>.
-            </p>
-        </div>
-        <div class="card">
-            <h3>🔐 Sécurité Maximale</h3>
-            <br>
-            <ul style="list-style:none; color:#ccc; line-height:2;">
-                <li>🔑 Clés privées uniquement chez vous</li>
-                <li>🚫 Aucun tiers de confiance nécessaire</li>
-                <li>🌐 Accessible partout dans le monde</li>
-                <li>⚡ Transactions instantanées</li>
-                <li>🔒 Phrase de récupération à sécuriser</li>
-            </ul>
-        </div>
+    <!-- Robot géant -->
+    <div class="robot-wrap" style="margin-bottom:40px;">
+        <div class="ring"></div>
+        <div class="ring ring2"></div>
+        <i class="fa-solid fa-robot robot-icon"></i>
     </div>
 
-    <h2 class="section-title">Wallets Recommandés</h2>
-    <div class="divider"></div>
+    <!-- Titre SURPRISE -->
+    <h1 class="surprise-title">Surprise</h1>
+    <p style="color:#aaa;font-size:1.1rem;letter-spacing:3px;margin:16px 0 60px;text-transform:uppercase;">Quelque chose arrive...</p>
 
-    <div class="cards-grid">
-        <div class="card" style="text-align:center;">
-            <div class="card-icon">🦊</div>
-            <h3>MetaMask</h3>
-            <p>Le wallet le plus populaire pour Ethereum et les réseaux compatibles EVM. Extension navigateur et application mobile.</p>
-            <br>
-            <span style="color:#c9a84c; font-size:0.85rem; font-weight:600;">⭐ Recommandé pour débutants</span>
-        </div>
-        <div class="card" style="text-align:center;">
-            <div class="card-icon">💎</div>
-            <h3>Trust Wallet</h3>
-            <p>Wallet mobile multi-chaînes supportant des centaines de cryptomonnaies. Simple et intuitif.</p>
-            <br>
-            <span style="color:#c9a84c; font-size:0.85rem; font-weight:600;">📱 Idéal sur mobile</span>
-        </div>
-        <div class="card" style="text-align:center;">
-            <div class="card-icon">🔷</div>
-            <h3>Ledger (Hardware)</h3>
-            <p>Wallet physique pour une sécurité maximale. Idéal pour stocker de grandes sommes sur le long terme.</p>
-            <br>
-            <span style="color:#c9a84c; font-size:0.85rem; font-weight:600;">🛡️ Sécurité maximale</span>
-        </div>
+    <!-- Invite à cliquer -->
+    <div id="click-hint" style="color:rgba(0,200,255,0.6);font-size:0.8rem;letter-spacing:3px;margin-bottom:10px;animation:surpriseGlow 4s infinite;">
+        ▶ CLIQUEZ N'IMPORTE OÙ POUR ACTIVER LE SON
     </div>
 
-    <br><br>
+    <!-- Texte LOADING -->
+    <div class="loading-text" style="color:rgba(255,255,255,0.5);font-size:0.9rem;letter-spacing:6px;font-weight:700;margin-bottom:18px;"></div>
 
-    <h2 class="section-title">Comment Créer votre Wallet ?</h2>
-    <div class="divider"></div>
-
-    <div class="cards-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
-        <div class="card" style="text-align:center;">
-            <div style="font-size:2.5rem; margin-bottom:10px;">1️⃣</div>
-            <h3>Téléchargez</h3>
-            <p>Téléchargez MetaMask ou Trust Wallet depuis le site officiel ou l'App Store.</p>
-        </div>
-        <div class="card" style="text-align:center;">
-            <div style="font-size:2.5rem; margin-bottom:10px;">2️⃣</div>
-            <h3>Créez</h3>
-            <p>Créez un nouveau wallet et notez soigneusement votre phrase de récupération (12 ou 24 mots).</p>
-        </div>
-        <div class="card" style="text-align:center;">
-            <div style="font-size:2.5rem; margin-bottom:10px;">3️⃣</div>
-            <h3>Sécurisez</h3>
-            <p>Stockez votre phrase de récupération hors ligne, dans un endroit sûr. Ne la partagez JAMAIS.</p>
-        </div>
-        <div class="card" style="text-align:center;">
-            <div style="font-size:2.5rem; margin-bottom:10px;">4️⃣</div>
-            <h3>Utilisez</h3>
-            <p>Votre wallet est prêt ! Vous pouvez recevoir des cryptos et accéder aux plateformes DeFi.</p>
-        </div>
+    <!-- Barre de progression -->
+    <div class="progress-track" style="margin-bottom:14px;">
+        <div class="progress-fill" id="progress-bar" style="width:0%;"></div>
     </div>
 
-    <br><br>
-    <div style="background:#0d1b2a; border:1px solid #c9a84c; border-radius:10px; padding:25px;">
-        <h3 style="color:#c9a84c; margin-bottom:15px;">⚠️ Règles de Sécurité Importantes</h3>
-        <ul style="color:#ccc; line-height:2; padding-left:20px;">
-            <li>Ne partagez <strong>JAMAIS</strong> votre phrase de récupération ou clé privée</li>
-            <li>Méfiez-vous des arnaques et faux sites (phishing)</li>
-            <li>Vérifiez toujours l'URL avant de connecter votre wallet</li>
-            <li>Faites des sauvegardes de votre phrase seed sur papier</li>
-            <li>Utilisez un email différent pour chaque plateforme</li>
-        </ul>
-    </div>
-</div>
+    <!-- Pourcentage -->
+    <div id="progress-pct" style="font-size:2rem;font-weight:900;color:#fff;letter-spacing:2px;
+        text-shadow:0 0 20px rgba(255,255,255,0.5);">0 %</div>
 
-<div class="banner">
-    <h2>Besoin d'aide pour créer votre wallet ?</h2>
-    <p>Notre communauté vous accompagne gratuitement étape par étape.</p>
-    <a href="#" class="btn btn-dark">Être accompagné</a>
 </div>
 
 <footer>
-    <div class="footer-links">
-        <a href="index.html">Accueil</a>
-        <a href="investissements.html">Investissements</a>
-        <a href="mlm-center.html">MLM Center</a>
-        <a href="wallet-decentralise.html">Wallet</a>
-        <a href="#">Contact</a>
-    </div>
-    <p>© 2026 Project inves'T — Site personnel, non professionnel. Les investissements comportent des risques.</p>
+    <p>&copy; 2026 Project inves'T — Site personnel non professionnel</p>
 </footer>
 
 <script src="menu.js"></script>
 <script src="audio.js"></script>
 <script src="translator.js"></script>
 
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/69c1c8abf9f0211c36fde03a/1jkeffnrd';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
+<script>
+// ── Voix robotique ───────────────────────────────────────────────────────────
+function parlerRobot() {
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    var texte = "Accès autorisé. Bienvenue sur le tableau de bord Project inves T. "
+              + "Initialisation du système en cours. "
+              + "Votre progression est en cours de traitement. "
+              + "Restez connecté... une surprise de taille vous attend. "
+              + "Plus la barre avance, plus l'opportunité se précise. "
+              + "Préparez-vous.";
+    var msg = new SpeechSynthesisUtterance(texte);
+    msg.pitch  = 0.1;
+    msg.rate   = 0.75;
+    msg.volume = 1;
+
+    // Voix anglaise sur texte français = accent robotique
+    var voices = window.speechSynthesis.getVoices();
+    var voix =
+        voices.find(function(v) { return /google uk english male/i.test(v.name); }) ||
+        voices.find(function(v) { return /microsoft david/i.test(v.name); }) ||
+        voices.find(function(v) { return v.lang === 'en-GB'; }) ||
+        voices.find(function(v) { return v.lang === 'en-US'; });
+
+    if (voix) { msg.voice = voix; msg.lang = voix.lang; }
+    else msg.lang = 'en-US';
+
+    window.speechSynthesis.speak(msg);
+}
+
+// Stopper la voix quand on quitte la page
+window.addEventListener('beforeunload', function() { window.speechSynthesis.cancel(); });
+window.addEventListener('pagehide',     function() { window.speechSynthesis.cancel(); });
+
+// Animation de la barre au chargement
+window.addEventListener('load', function() {
+    var p = Math.max(0, Math.min(100, POURCENTAGE));
+    var bar = document.getElementById('progress-bar');
+    var pct = document.getElementById('progress-pct');
+
+    // Premier clic → voix directement (obligatoire pour Chrome)
+    document.addEventListener('click', function handler() {
+        document.removeEventListener('click', handler);
+        var hint = document.getElementById('click-hint');
+        if (hint) hint.style.display = 'none';
+        parlerRobot();
+    });
+
+    // Compte à rebours animé du chiffre
+    var start = 0;
+    var duration = 2000;
+    var startTime = null;
+    function animCount(ts) {
+        if (!startTime) startTime = ts;
+        var progress = Math.min((ts - startTime) / duration, 1);
+        var current = Math.round(progress * p);
+        pct.textContent = current + ' %';
+        bar.style.width = (progress * p) + '%';
+        if (progress < 1) requestAnimationFrame(animCount);
+    }
+    // Délai pour laisser la page charger
+    setTimeout(function() { requestAnimationFrame(animCount); }, 400);
+});
 </script>
-<!--End of Tawk.to Script-->
 </body>
 </html>

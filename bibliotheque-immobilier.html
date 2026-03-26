@@ -18,6 +18,9 @@
         80%  { stroke: #00ff99; filter: drop-shadow(0 0 6px #00ff99); }
         100% { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
       }
+      #grid-niveau1 > .card { width: calc(25% - 12px); min-width: 210px; }
+      .btn-investir { transition: background 0.2s, box-shadow 0.2s, transform 0.15s; }
+      .btn-investir:hover { background:#00c040 !important; box-shadow:0 0 16px rgba(0,180,60,0.5); transform:scale(1.03); }
       @keyframes floatBubble {
         0%   { transform: translateY(0px) translateX(0px); opacity: 0.6; }
         50%  { transform: translateY(-60px) translateX(-10px); opacity: 0.5; }
@@ -32,6 +35,7 @@
 const _sb=window.supabase.createClient("https://cvggxktybzbrtskcwlxp.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Z2d4a3R5YnpicnRza2N3bHhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyODM2MjcsImV4cCI6MjA4OTg1OTYyN30.cfHsAvmgcXYvedCz1fZCHlxOApupKCxnt8t9e8KzNBs");
 setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window.location.href="index.html"; }); }, 800);
 </script>
+<link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#00c8ff">
 </head>
 <body>
 
@@ -63,6 +67,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="background:#229ED9;color:#fff;border-color:#229ED9;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-telegram" style="font-size:1rem;color:#fff;"></i> Telegram</a>
             <a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" style="background:#FF0000;color:#fff;border-color:#FF0000;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;">▶ YouTube</a>
             <a href="https://wa.me/320492931040" target="_blank" style="background:#25D366;color:#fff;border-color:#25D366;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-whatsapp" style="font-size:1rem;color:#fff;"></i> WhatsApp</a>
+            <a href="parametres.html" style="background:#c9a84c;color:#020a18;border-color:#c9a84c;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;font-weight:700;">⚙ Paramètres</a>
             <a href="#" onclick="_sb.auth.signOut().then(()=>window.location.href='index.html')" style="background:#00c8ff;color:#020a18;border-color:#00c8ff;font-weight:700;">⏻ Déconnexion</a>
         </div>
     </div>
@@ -76,6 +81,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             <li><a href="e-state-immobilier.html">E-state Immobilier Tokénisé</a></li>
             <li><a href="smart-mev-trading.html">SMART MEV Trading</a></li>
             <li><a href="mlm-center.html">MLM Center</a></li>
+            <li><a href="bibliotheque-mlm.html">Bibliothèque MLM</a></li>
             <li><a href="portage-salarial.html">Portage salarial</a></li>
             <li><a href="wallet-decentralise.html">Wallet Décentralisé</a></li>
         </ul>
@@ -83,25 +89,501 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 </header>
 
 <div class="page-header">
-    <h1><i class="fa-solid fa-book" style="margin-right:12px;"></i>Bibliothèque Immobilier</h1>
-    <p>Ressources, guides et documents sur l'immobilier tokenisé</p>
+    <h1><i class="fa-solid fa-building" style="margin-right:12px;color:#00c8ff;"></i>Biens Immobiliers</h1>
+    <p>Découvrez les biens disponibles et ce que vous pouvez gagner</p>
+    <div style="display:inline-block;margin-top:16px;padding:10px 20px;border:1px solid rgba(0,200,255,0.3);border-radius:12px;background:rgba(0,200,255,0.06);backdrop-filter:blur(4px);">
+        <img src="logo-estate.png" alt="E-state" style="height:50px;display:block;">
+    </div>
 </div>
 
 <div class="section">
-    <h2 class="section-title">Ressources disponibles</h2>
+
+    <!-- BLOC DÉFINITION -->
+    <h2 class="section-title">Qu'est-ce que l'Immobilier Tokenisé ?</h2>
     <div class="divider"></div>
-    <p style="text-align:center;color:#aaaaaa;margin-top:30px;">Contenu à venir — cette section sera bientôt remplie avec des ressources immobilier.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start;margin:30px 0 50px;">
+        <div>
+            <p style="color:#cccccc;line-height:1.9;font-size:1.05rem;">
+                L'immobilier tokenisé consiste à diviser la propriété d'un bien immobilier en
+                <strong style="color:#00c8ff;">tokens numériques</strong> enregistrés sur la blockchain.
+                Chaque token représente une fraction du bien — comme une action d'une société, mais pour un appartement, un immeuble ou un local commercial.
+            </p>
+            <br>
+            <p style="color:#cccccc;line-height:1.9;font-size:1.05rem;">
+                Grâce à cette technologie, <strong style="color:#c9a84c;">n'importe qui</strong> peut
+                investir dans l'immobilier à partir de quelques centaines d'euros, sans passer par un notaire,
+                sans crédit bancaire, et sans gérer les locataires.
+            </p>
+            <br>
+            <p style="color:#cccccc;line-height:1.9;font-size:1.05rem;">
+                Les <strong style="color:#00c8ff;">revenus locatifs</strong> sont distribués automatiquement
+                et proportionnellement à votre investissement, directement sur votre wallet numérique.
+            </p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+            <div class="card" style="padding:20px 24px;">
+                <div style="font-size:1.6rem;margin-bottom:8px;">🏠</div>
+                <h3 style="color:#00c8ff;font-size:1rem;margin-bottom:6px;">Accessibilité</h3>
+                <p style="color:#aaa;font-size:0.9rem;line-height:1.6;">Investissez dès 10 $ dans des biens immobiliers partout dans le monde, sans les contraintes traditionnelles.</p>
+            </div>
+            <div class="card" style="padding:20px 24px;">
+                <div style="font-size:1.6rem;margin-bottom:8px;">📈</div>
+                <h3 style="color:#c9a84c;font-size:1rem;margin-bottom:6px;">Rendement</h3>
+                <p style="color:#aaa;font-size:0.9rem;line-height:1.6;">Des rendements estimés entre 0,40 % et 1 % par jour pendant <strong style="color:#00c8ff;">18 mois (phase active)</strong>, puis <strong style="color:#c9a84c;">10 % annuel à vie (phase passive)</strong> avec retrait de vos gains <strong style="color:#00ff99;">tous les 6 mois</strong>, versés régulièrement sur votre wallet.</p>
+            </div>
+            <div class="card" style="padding:20px 24px;">
+                <div style="font-size:1.6rem;margin-bottom:8px;">🔒</div>
+                <h3 style="color:#00ff99;font-size:1rem;margin-bottom:6px;">Sécurité blockchain</h3>
+                <p style="color:#aaa;font-size:0.9rem;line-height:1.6;">Chaque transaction est enregistrée de façon immuable sur la blockchain. Transparence et traçabilité totales.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- COMMENT ÇA MARCHE -->
+    <h2 class="section-title">Comment ça fonctionne ?</h2>
+    <div class="divider"></div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin:30px 0 50px;">
+        <div class="card" style="text-align:center;padding:28px 20px;">
+            <div style="font-size:2rem;margin-bottom:12px;">1️⃣</div>
+            <h3 style="color:#00c8ff;font-size:0.95rem;margin-bottom:8px;">Choisir un bien</h3>
+            <p style="color:#aaa;font-size:0.85rem;line-height:1.6;">Sélectionnez un bien immobilier disponible sur la plateforme E-state, avec ses données financières détaillées.</p>
+        </div>
+        <div class="card" style="text-align:center;padding:28px 20px;">
+            <div style="font-size:2rem;margin-bottom:12px;">2️⃣</div>
+            <h3 style="color:#00c8ff;font-size:0.95rem;margin-bottom:8px;">Acheter des tokens</h3>
+            <p style="color:#aaa;font-size:0.85rem;line-height:1.6;">Achetez le nombre de tokens correspondant à votre budget. Chaque token = une fraction du bien.</p>
+        </div>
+        <div class="card" style="text-align:center;padding:28px 20px;">
+            <div style="font-size:2rem;margin-bottom:12px;">3️⃣</div>
+            <h3 style="color:#00c8ff;font-size:0.95rem;margin-bottom:8px;">Percevoir les loyers</h3>
+            <p style="color:#aaa;font-size:0.85rem;line-height:1.6;">Les loyers collectés sont distribués automatiquement selon votre quote-part. Aucune gestion de votre côté.</p>
+        </div>
+        <div class="card" style="text-align:center;padding:28px 20px;">
+            <div style="font-size:2rem;margin-bottom:12px;">4️⃣</div>
+            <h3 style="color:#00c8ff;font-size:0.95rem;margin-bottom:8px;">Retirer vos gains</h3>
+            <p style="color:#aaa;font-size:0.85rem;line-height:1.6;">Les retraits sont disponibles <strong style="color:#00ff99;">24h/24, 7j/7</strong> et traités de façon instantanée, <strong style="color:#00c8ff;">en moins d'1 heure</strong>.</p>
+        </div>
+    </div>
+
+    <!-- BIENS DISPONIBLES -->
+    <h2 class="section-title">Biens disponibles sur E-state</h2>
+    <div class="divider"></div>
+
+    <!-- NIVEAU 1 -->
+    <div style="margin:30px 0 10px;">
+        <div style="display:inline-flex;align-items:center;gap:12px;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.25);border-radius:12px;padding:10px 22px;margin-bottom:20px;">
+            <span style="color:#00c8ff;font-weight:900;font-size:1.1rem;">Niveau 1</span>
+            <span style="color:#aaa;font-size:0.88rem;">— Starter Buyer</span>
+        </div>
+        <div id="grid-niveau1" style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;">
+
+            <!-- Appartement Miami — 10$ -->
+            <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(0,200,255,0.2);">
+                <div style="height:160px;overflow:hidden;border-bottom:1px solid rgba(0,200,255,0.15);">
+                    <img src="bien-miami.png" alt="Appartement Miami" style="width:100%;height:100%;object-fit:cover;">
+                </div>
+                <div style="padding:16px 18px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                        <div>
+                            <div style="color:#fff;font-weight:700;font-size:0.95rem;">Appartement Miami</div>
+                            <div style="color:#aaa;font-size:0.78rem;margin-top:3px;"><i class="fa-solid fa-location-dot" style="color:#00c8ff;margin-right:4px;"></i>Floride, États-Unis</div>
+                        </div>
+                        <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                        <div style="background:rgba(0,200,255,0.06);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
+                            <div style="color:#fff;font-weight:700;font-size:0.88rem;">107 000 EST</div>
+                        </div>
+                        <div style="background:rgba(201,168,76,0.08);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Invest. minimum</div>
+                            <div style="color:#c9a84c;font-weight:700;font-size:0.88rem;">10 $</div>
+                        </div>
+                        <div style="background:rgba(0,255,150,0.07);border-radius:8px;padding:8px 10px;grid-column:span 2;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Rendement journalier</div>
+                            <div style="color:#00ff99;font-weight:700;font-size:0.88rem;">0,32 % – 0,52 % / jour</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(0,200,255,0.04);border-radius:8px;padding:8px 12px;font-size:0.78rem;color:#aaa;line-height:1.5;">Résidentiel urbain, forte demande locative</div>
+                </div>
+            </div>
+
+            <!-- Maison Lac Lakeside — 250$ -->
+            <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(0,200,255,0.2);">
+                <div style="height:160px;overflow:hidden;border-bottom:1px solid rgba(0,200,255,0.15);">
+                    <img src="bien-lakeside.png" alt="Maison Lac Lakeside" style="width:100%;height:100%;object-fit:cover;">
+                </div>
+                <div style="padding:16px 18px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                        <div>
+                            <div style="color:#fff;font-weight:700;font-size:0.95rem;">Maison Lac Lakeside</div>
+                            <div style="color:#aaa;font-size:0.78rem;margin-top:3px;"><i class="fa-solid fa-location-dot" style="color:#00c8ff;margin-right:4px;"></i>Oregon, États-Unis</div>
+                        </div>
+                        <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                        <div style="background:rgba(0,200,255,0.06);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
+                            <div style="color:#fff;font-weight:700;font-size:0.88rem;">100 000 EST</div>
+                        </div>
+                        <div style="background:rgba(201,168,76,0.08);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Invest. minimum</div>
+                            <div style="color:#c9a84c;font-weight:700;font-size:0.88rem;">250 $</div>
+                        </div>
+                        <div style="background:rgba(0,255,150,0.07);border-radius:8px;padding:8px 10px;grid-column:span 2;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Rendement journalier</div>
+                            <div style="color:#00ff99;font-weight:700;font-size:0.88rem;">0,37 % – 0,54 % / jour</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(0,200,255,0.04);border-radius:8px;padding:8px 12px;font-size:0.78rem;color:#aaa;line-height:1.5;">Résidentiel récréatif, locations saisonnières et de courte durée</div>
+                </div>
+            </div>
+
+            <!-- Maison Arch Cape — 480$ -->
+            <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(0,200,255,0.2);">
+                <div style="height:160px;overflow:hidden;border-bottom:1px solid rgba(0,200,255,0.15);">
+                    <img src="bien-arch-cape.png" alt="Maison Arch Cape" style="width:100%;height:100%;object-fit:cover;">
+                </div>
+                <div style="padding:16px 18px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                        <div>
+                            <div style="color:#fff;font-weight:700;font-size:0.95rem;">Maison Arch Cape</div>
+                            <div style="color:#aaa;font-size:0.78rem;margin-top:3px;"><i class="fa-solid fa-location-dot" style="color:#00c8ff;margin-right:4px;"></i>Oregon, États-Unis</div>
+                        </div>
+                        <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                        <div style="background:rgba(0,200,255,0.06);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
+                            <div style="color:#fff;font-weight:700;font-size:0.88rem;">174 000 EST</div>
+                        </div>
+                        <div style="background:rgba(201,168,76,0.08);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Invest. minimum</div>
+                            <div style="color:#c9a84c;font-weight:700;font-size:0.88rem;">480 $</div>
+                        </div>
+                        <div style="background:rgba(0,255,150,0.07);border-radius:8px;padding:8px 10px;grid-column:span 2;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Rendement journalier</div>
+                            <div style="color:#00ff99;font-weight:700;font-size:0.88rem;">0,46 % – 0,66 % / jour</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(0,200,255,0.04);border-radius:8px;padding:8px 12px;font-size:0.78rem;color:#aaa;line-height:1.5;">Résidentiel individuel, marché axé sur le style de vie</div>
+                </div>
+            </div>
+
+            <!-- Desert Villa — 1 000$ -->
+            <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(0,200,255,0.2);">
+                <div style="height:160px;overflow:hidden;border-bottom:1px solid rgba(0,200,255,0.15);">
+                    <img src="bien-desert-villa.png" alt="Desert Villa" style="width:100%;height:100%;object-fit:cover;">
+                </div>
+                <div style="padding:16px 18px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                        <div>
+                            <div style="color:#fff;font-weight:700;font-size:0.95rem;">Desert Villa</div>
+                            <div style="color:#aaa;font-size:0.78rem;margin-top:3px;"><i class="fa-solid fa-location-dot" style="color:#00c8ff;margin-right:4px;"></i>Californie, États-Unis</div>
+                        </div>
+                        <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                        <div style="background:rgba(0,200,255,0.06);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
+                            <div style="color:#fff;font-weight:700;font-size:0.88rem;">69 500 EST</div>
+                        </div>
+                        <div style="background:rgba(201,168,76,0.08);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Invest. minimum</div>
+                            <div style="color:#c9a84c;font-weight:700;font-size:0.88rem;">1 000 $</div>
+                        </div>
+                        <div style="background:rgba(0,255,150,0.07);border-radius:8px;padding:8px 10px;grid-column:span 2;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Rendement journalier</div>
+                            <div style="color:#00ff99;font-weight:700;font-size:0.88rem;">0,43 % – 0,61 % / jour</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(0,200,255,0.04);border-radius:8px;padding:8px 12px;font-size:0.78rem;color:#aaa;line-height:1.5;">Résidentiel de luxe, location saisonnière</div>
+                </div>
+            </div>
+
+            <!-- Villa Los Angeles — 3 120$ -->
+            <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(0,200,255,0.2);">
+                <div style="height:160px;overflow:hidden;border-bottom:1px solid rgba(0,200,255,0.15);">
+                    <img src="bien-villa-la.png" alt="Villa Los Angeles" style="width:100%;height:100%;object-fit:cover;">
+                </div>
+                <div style="padding:16px 18px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                        <div>
+                            <div style="color:#fff;font-weight:700;font-size:0.95rem;">Villa Los Angeles</div>
+                            <div style="color:#aaa;font-size:0.78rem;margin-top:3px;"><i class="fa-solid fa-location-dot" style="color:#00c8ff;margin-right:4px;"></i>Californie, États-Unis</div>
+                        </div>
+                        <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                        <div style="background:rgba(0,200,255,0.06);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
+                            <div style="color:#fff;font-weight:700;font-size:0.88rem;">866 000 EST</div>
+                        </div>
+                        <div style="background:rgba(201,168,76,0.08);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Invest. minimum</div>
+                            <div style="color:#c9a84c;font-weight:700;font-size:0.88rem;">3 120 $</div>
+                        </div>
+                        <div style="background:rgba(0,255,150,0.07);border-radius:8px;padding:8px 10px;grid-column:span 2;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Rendement journalier</div>
+                            <div style="color:#00ff99;font-weight:700;font-size:0.88rem;">0,51 % – 0,71 % / jour</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(0,200,255,0.04);border-radius:8px;padding:8px 12px;font-size:0.78rem;color:#aaa;line-height:1.5;">Résidentiel premium, segment locatif à forte valeur</div>
+                </div>
+            </div>
+
+            <!-- Maui Kihei — 4 950$ -->
+            <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(0,200,255,0.2);">
+                <div style="height:160px;overflow:hidden;border-bottom:1px solid rgba(0,200,255,0.15);">
+                    <img src="bien-maui.png" alt="Maui Kihei" style="width:100%;height:100%;object-fit:cover;">
+                </div>
+                <div style="padding:16px 18px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                        <div>
+                            <div style="color:#fff;font-weight:700;font-size:0.95rem;">Maui Kihei</div>
+                            <div style="color:#aaa;font-size:0.78rem;margin-top:3px;"><i class="fa-solid fa-location-dot" style="color:#00c8ff;margin-right:4px;"></i>Kihei, Maui, Hawaï</div>
+                        </div>
+                        <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                        <div style="background:rgba(0,200,255,0.06);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
+                            <div style="color:#fff;font-weight:700;font-size:0.88rem;">316 600 EST</div>
+                        </div>
+                        <div style="background:rgba(201,168,76,0.08);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Invest. minimum</div>
+                            <div style="color:#c9a84c;font-weight:700;font-size:0.88rem;">4 950 $</div>
+                        </div>
+                        <div style="background:rgba(0,255,150,0.07);border-radius:8px;padding:8px 10px;grid-column:span 2;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Rendement journalier</div>
+                            <div style="color:#00ff99;font-weight:700;font-size:0.88rem;">0,55 % – 0,67 % / jour</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(0,200,255,0.04);border-radius:8px;padding:8px 12px;font-size:0.78rem;color:#aaa;line-height:1.5;">Résidentiel de luxe, vue mer, location saisonnière</div>
+                </div>
+            </div>
+
+            <!-- Commerce Phoenix — 10 270$ -->
+            <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(0,200,255,0.2);">
+                <div style="height:160px;overflow:hidden;border-bottom:1px solid rgba(0,200,255,0.15);">
+                    <img src="bien-phoenix.png" alt="Commerce Phoenix" style="width:100%;height:100%;object-fit:cover;">
+                </div>
+                <div style="padding:16px 18px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                        <div>
+                            <div style="color:#fff;font-weight:700;font-size:0.95rem;">Commerce Phoenix</div>
+                            <div style="color:#aaa;font-size:0.78rem;margin-top:3px;"><i class="fa-solid fa-location-dot" style="color:#00c8ff;margin-right:4px;"></i>Arizona, États-Unis</div>
+                        </div>
+                        <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                        <div style="background:rgba(0,200,255,0.06);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
+                            <div style="color:#fff;font-weight:700;font-size:0.88rem;">495 000 EST</div>
+                        </div>
+                        <div style="background:rgba(201,168,76,0.08);border-radius:8px;padding:8px 10px;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Invest. minimum</div>
+                            <div style="color:#c9a84c;font-weight:700;font-size:0.88rem;">10 270 $</div>
+                        </div>
+                        <div style="background:rgba(0,255,150,0.07);border-radius:8px;padding:8px 10px;grid-column:span 2;">
+                            <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Rendement journalier</div>
+                            <div style="color:#00ff99;font-weight:700;font-size:0.88rem;">0,61 % – 0,81 % / jour</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(0,200,255,0.04);border-radius:8px;padding:8px 12px;font-size:0.78rem;color:#aaa;line-height:1.5;">Immobilier commercial, revenus contractuels</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- NIVEAUX 2-5 sur une seule ligne -->
+    <div style="margin:40px 0 20px;">
+        <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;">
+
+            <!-- Niveau 2 -->
+            <div class="card" style="flex:1;min-width:180px;max-width:260px;padding:0;overflow:hidden;border:1px solid rgba(120,80,255,0.3);">
+                <div style="background:linear-gradient(135deg,#0d0a2e,#1a1040);padding:12px 16px;border-bottom:1px solid rgba(120,80,255,0.2);text-align:center;">
+                    <span style="color:#7850ff;font-weight:900;font-size:1rem;">Niveau 2</span>
+                    <div style="color:#aaa;font-size:0.72rem;margin-top:2px;">Skilled Buyer</div>
+                </div>
+                <div style="padding:14px 16px;text-align:center;">
+                    <i class="fa-solid fa-lock" style="font-size:1.8rem;color:#7850ff;filter:drop-shadow(0 0 8px rgba(120,80,255,0.6));margin-bottom:8px;display:block;"></i>
+                    <div style="color:#fff;font-weight:700;font-size:0.85rem;margin-bottom:4px;">Business Los Angeles</div>
+                    <div style="color:#aaa;font-size:0.72rem;margin-bottom:8px;">Min. 24 590 $</div>
+                    <div style="color:#555;font-size:0.68rem;line-height:1.4;font-style:italic;">Se débloque selon votre chiffre d'affaires</div>
+                    <a href="https://www.e-estate.co/agent/953277721577" target="_blank" class="btn-investir" style="display:block;text-align:center;background:#00a835;color:#fff;font-weight:800;font-size:0.82rem;padding:9px;border-radius:8px;text-decoration:none;margin-top:12px;letter-spacing:0.5px;">Investir</a>
+                    <div style="text-align:center;color:#aaa;font-size:0.62rem;margin-top:5px;line-height:1.4;">Inscription + KYC et validation du paiement</div>
+                </div>
+            </div>
+
+            <!-- Niveau 3 -->
+            <div class="card" style="flex:1;min-width:180px;max-width:260px;padding:0;overflow:hidden;border:1px solid rgba(201,168,76,0.3);">
+                <div style="background:linear-gradient(135deg,#1a0e00,#2a1800);padding:12px 16px;border-bottom:1px solid rgba(201,168,76,0.2);text-align:center;">
+                    <span style="color:#c9a84c;font-weight:900;font-size:1rem;">Niveau 3</span>
+                    <div style="color:#aaa;font-size:0.72rem;margin-top:2px;">Professional Buyer</div>
+                </div>
+                <div style="padding:14px 16px;text-align:center;">
+                    <i class="fa-solid fa-lock" style="font-size:1.8rem;color:#c9a84c;filter:drop-shadow(0 0 8px rgba(201,168,76,0.6));margin-bottom:8px;display:block;"></i>
+                    <div style="color:#fff;font-weight:700;font-size:0.85rem;margin-bottom:4px;">Terrain Los Angeles</div>
+                    <div style="color:#aaa;font-size:0.72rem;margin-bottom:8px;">Min. 51 310 $</div>
+                    <div style="color:#555;font-size:0.68rem;line-height:1.4;font-style:italic;">Se débloque selon votre chiffre d'affaires</div>
+                    <a href="https://www.e-estate.co/agent/953277721577" target="_blank" class="btn-investir" style="display:block;text-align:center;background:#00a835;color:#fff;font-weight:800;font-size:0.82rem;padding:9px;border-radius:8px;text-decoration:none;margin-top:12px;letter-spacing:0.5px;">Investir</a>
+                    <div style="text-align:center;color:#aaa;font-size:0.62rem;margin-top:5px;line-height:1.4;">Inscription + KYC et validation du paiement</div>
+                </div>
+            </div>
+
+            <!-- Niveau 4 -->
+            <div class="card" style="flex:1;min-width:180px;max-width:260px;padding:0;overflow:hidden;border:1px solid rgba(255,100,0,0.3);">
+                <div style="background:linear-gradient(135deg,#1a0800,#2a1000);padding:12px 16px;border-bottom:1px solid rgba(255,100,0,0.2);text-align:center;">
+                    <span style="color:#ff6400;font-weight:900;font-size:1rem;">Niveau 4</span>
+                    <div style="color:#aaa;font-size:0.72rem;margin-top:2px;">Elite Buyer</div>
+                </div>
+                <div style="padding:14px 16px;text-align:center;">
+                    <i class="fa-solid fa-lock" style="font-size:1.8rem;color:#ff6400;filter:drop-shadow(0 0 8px rgba(255,100,0,0.6));margin-bottom:8px;display:block;"></i>
+                    <div style="color:#fff;font-weight:700;font-size:0.85rem;margin-bottom:4px;">Développement Dubai</div>
+                    <div style="color:#aaa;font-size:0.72rem;margin-bottom:8px;">Min. 99 250 $</div>
+                    <div style="color:#555;font-size:0.68rem;line-height:1.4;font-style:italic;">Se débloque selon votre chiffre d'affaires</div>
+                    <a href="https://www.e-estate.co/agent/953277721577" target="_blank" class="btn-investir" style="display:block;text-align:center;background:#00a835;color:#fff;font-weight:800;font-size:0.82rem;padding:9px;border-radius:8px;text-decoration:none;margin-top:12px;letter-spacing:0.5px;">Investir</a>
+                    <div style="text-align:center;color:#aaa;font-size:0.62rem;margin-top:5px;line-height:1.4;">Inscription + KYC et validation du paiement</div>
+                </div>
+            </div>
+
+            <!-- Niveau 5 -->
+            <div class="card" style="flex:1;min-width:180px;max-width:260px;padding:0;overflow:hidden;border:1px solid rgba(255,50,100,0.3);">
+                <div style="background:linear-gradient(135deg,#1a0010,#2a0020);padding:12px 16px;border-bottom:1px solid rgba(255,50,100,0.2);text-align:center;">
+                    <span style="color:#ff3264;font-weight:900;font-size:1rem;">Niveau 5</span>
+                    <div style="color:#aaa;font-size:0.72rem;margin-top:2px;">Exclusive Buyer</div>
+                </div>
+                <div style="padding:14px 16px;text-align:center;">
+                    <i class="fa-solid fa-lock" style="font-size:1.8rem;color:#ff3264;filter:drop-shadow(0 0 8px rgba(255,50,100,0.6));margin-bottom:8px;display:block;"></i>
+                    <div style="color:#fff;font-weight:700;font-size:0.85rem;margin-bottom:4px;">Développement Entreprise Dubai</div>
+                    <div style="color:#aaa;font-size:0.72rem;margin-bottom:8px;">Min. 255 700 $</div>
+                    <div style="color:#555;font-size:0.68rem;line-height:1.4;font-style:italic;">Se débloque selon votre chiffre d'affaires</div>
+                    <a href="https://www.e-estate.co/agent/953277721577" target="_blank" class="btn-investir" style="display:block;text-align:center;background:#00a835;color:#fff;font-weight:800;font-size:0.82rem;padding:9px;border-radius:8px;text-decoration:none;margin-top:12px;letter-spacing:0.5px;">Investir</a>
+                    <div style="text-align:center;color:#aaa;font-size:0.62rem;margin-top:5px;line-height:1.4;">Inscription + KYC et validation du paiement</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SIMULATEUR DE GAINS -->
+    <h2 class="section-title" style="margin-top:50px;">Simulateur de gains</h2>
+    <div class="divider"></div>
+
+    <div class="card" style="max-width:600px;margin:30px auto 20px;padding:30px 36px;">
+        <p style="color:#aaa;font-size:0.88rem;margin-bottom:16px;text-align:center;">Estimez vos revenus journaliers, mensuels, annuels et à 18 mois selon votre investissement.</p>
+
+        <div style="display:flex;justify-content:center;gap:10px;margin-bottom:22px;">
+            <button id="btn-eur" onclick="setCurrency('EUR')"
+                style="padding:7px 20px;border-radius:20px;border:1px solid rgba(0,200,255,0.5);background:rgba(0,200,255,0.15);color:#00c8ff;font-weight:700;cursor:pointer;font-size:0.9rem;">€ Euro</button>
+            <button id="btn-usd" onclick="setCurrency('USD')"
+                style="padding:7px 20px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#aaa;font-weight:700;cursor:pointer;font-size:0.9rem;">$ Dollar</button>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:22px;">
+            <div>
+                <label id="sim-label-montant" style="color:#aaa;font-size:0.82rem;display:block;margin-bottom:6px;">Montant investi (€)</label>
+                <input id="sim-montant" type="number" value="1000" min="10" step="10"
+                    style="width:100%;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.3);border-radius:8px;padding:10px 14px;color:#fff;font-size:1rem;outline:none;">
+            </div>
+            <div>
+                <label id="sim-label-taux" style="color:#aaa;font-size:0.82rem;display:block;margin-bottom:6px;">Rendement (%)</label>
+                <div style="display:flex;gap:6px;">
+                    <input id="sim-taux" type="number" value="0.5" min="0.01" max="100" step="0.01"
+                        style="flex:1;min-width:0;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.3);border-radius:8px;padding:10px 14px;color:#fff;font-size:1rem;outline:none;">
+                    <select id="sim-periode" onchange="updateSim()"
+                        style="background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.3);border-radius:8px;padding:10px 10px;color:#fff;font-size:0.85rem;outline:none;cursor:pointer;">
+                        <option value="jour">/ Jour</option>
+                        <option value="mois">/ Mois</option>
+                        <option value="an">/ An</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:center;">
+            <div style="background:rgba(120,80,255,0.1);border-radius:10px;padding:16px 10px;">
+                <div style="color:#aaa;font-size:0.72rem;margin-bottom:6px;">Par jour</div>
+                <div id="sim-journalier" style="color:#a078ff;font-size:1.3rem;font-weight:700;">0,03 €</div>
+            </div>
+            <div style="background:rgba(0,200,255,0.08);border-radius:10px;padding:16px 10px;">
+                <div style="color:#aaa;font-size:0.72rem;margin-bottom:6px;">Par mois</div>
+                <div id="sim-mensuel" style="color:#00c8ff;font-size:1.3rem;font-weight:700;">0,83 €</div>
+            </div>
+            <div style="background:rgba(201,168,76,0.1);border-radius:10px;padding:16px 10px;">
+                <div style="color:#aaa;font-size:0.72rem;margin-bottom:6px;">Par an</div>
+                <div id="sim-annuel" style="color:#c9a84c;font-size:1.3rem;font-weight:700;">10,00 €</div>
+            </div>
+            <div style="background:rgba(0,255,150,0.08);border-radius:10px;padding:16px 10px;">
+                <div style="color:#aaa;font-size:0.72rem;margin-bottom:6px;">À 18 mois</div>
+                <div id="sim-18mois" style="color:#00ff99;font-size:1.3rem;font-weight:700;">15,00 €</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    var simCurrency = 'EUR';
+    function setCurrency(c) {
+        simCurrency = c;
+        var sym = c === 'EUR' ? '€' : '$';
+        document.getElementById('sim-label-montant').textContent = 'Montant investi (' + sym + ')';
+        document.getElementById('btn-eur').style.background = c === 'EUR' ? 'rgba(0,200,255,0.15)' : 'transparent';
+        document.getElementById('btn-eur').style.color = c === 'EUR' ? '#00c8ff' : '#aaa';
+        document.getElementById('btn-eur').style.borderColor = c === 'EUR' ? 'rgba(0,200,255,0.5)' : 'rgba(255,255,255,0.15)';
+        document.getElementById('btn-usd').style.background = c === 'USD' ? 'rgba(0,200,255,0.15)' : 'transparent';
+        document.getElementById('btn-usd').style.color = c === 'USD' ? '#00c8ff' : '#aaa';
+        document.getElementById('btn-usd').style.borderColor = c === 'USD' ? 'rgba(0,200,255,0.5)' : 'rgba(255,255,255,0.15)';
+        updateSim();
+    }
+    function updateSim() {
+        var sym = simCurrency === 'EUR' ? ' €' : ' $';
+        var m = parseFloat(document.getElementById('sim-montant').value) || 0;
+        var t = parseFloat(document.getElementById('sim-taux').value) || 0;
+        var periode = document.getElementById('sim-periode').value;
+        var journalier;
+        if (periode === 'jour')  journalier = m * t / 100;
+        else if (periode === 'mois') journalier = m * t / 100 / 30;
+        else                         journalier = m * t / 100 / 365;
+        document.getElementById('sim-journalier').textContent = journalier.toFixed(2) + sym;
+        document.getElementById('sim-mensuel').textContent    = (journalier * 30).toFixed(2) + sym;
+        document.getElementById('sim-annuel').textContent     = (journalier * 365).toFixed(2) + sym;
+        document.getElementById('sim-18mois').textContent     = (journalier * 548).toFixed(2) + sym;
+    }
+    document.getElementById('sim-montant').addEventListener('input', updateSim);
+    document.getElementById('sim-taux').addEventListener('input', updateSim);
+    </script>
+
 </div>
 
 <footer>
-    <div class="footer-links">
-        <a href="home.html">Accueil</a>
-        <a href="investissements.html">Investissements</a>
-        <a href="parametres.html">Paramètres</a>
-    </div>
+    
     <p>&copy; 2026 Project inves'T — Site personnel non professionnel</p>
 </footer>
 
+<script>
+document.querySelectorAll('.card').forEach(function(card) {
+    var badges = card.querySelectorAll('span');
+    var isActif = Array.from(badges).some(function(b){ return b.textContent.trim() === 'Actif'; });
+    if (isActif) {
+        var contentDiv = card.lastElementChild;
+        var btn = document.createElement('a');
+        btn.href = 'https://www.e-estate.co/agent/953277721577';
+        btn.target = '_blank';
+        btn.textContent = 'Investir';
+        btn.className = 'btn-investir';
+        btn.style.cssText = 'display:block;text-align:center;background:#00a835;color:#fff;font-weight:800;font-size:0.88rem;padding:10px;border-radius:8px;text-decoration:none;margin-top:12px;letter-spacing:0.5px;';
+        var info = document.createElement('div');
+        info.textContent = 'Inscription + KYC et validation du paiement';
+        info.style.cssText = 'text-align:center;color:#aaa;font-size:0.68rem;margin-top:6px;line-height:1.4;';
+        contentDiv.appendChild(btn);
+        contentDiv.appendChild(info);
+    }
+});
+</script>
 <script src="menu.js"></script>
 <script src="audio.js"></script>
 <script src="translator.js"></script>

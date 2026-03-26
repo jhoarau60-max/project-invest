@@ -25,32 +25,67 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         100% { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
       }
       .btn-zoom-bleu {
-        background:#00c8ff; color:#020a18; padding:7px 14px;
+        background:#00c8ff; color:#020a18; padding:6px 10px;
         border-radius:8px; text-decoration:none; font-weight:700;
-        font-size:0.85rem; transition: all 0.3s;
+        font-size:0.78rem; transition: all 0.3s; white-space:nowrap; display:inline-block;
       }
       .btn-zoom-bleu:hover {
         box-shadow: 0 0 18px rgba(0,200,255,0.9), 0 0 35px rgba(0,200,255,0.5);
         transform: translateY(-2px);
       }
       .btn-zoom-dore {
-        background:#c9a84c; color:#020a18; padding:7px 14px;
+        background:#c9a84c; color:#020a18; padding:6px 10px;
         border-radius:8px; text-decoration:none; font-weight:700;
-        font-size:0.85rem; transition: all 0.3s;
+        font-size:0.78rem; transition: all 0.3s; white-space:nowrap; display:inline-block;
       }
       .btn-zoom-dore:hover {
         box-shadow: 0 0 18px rgba(201,168,76,0.9), 0 0 35px rgba(201,168,76,0.5);
         transform: translateY(-2px);
       }
       .btn-zoom-special {
-        background: linear-gradient(90deg, #009246 0%, #009246 33%, #fff 33%, #fff 66%, #002395 66%, #002395 100%);
-        color:#fff; text-shadow: 0 1px 3px rgba(0,0,0,0.7);
-        padding:7px 14px; border-radius:8px; text-decoration:none;
-        font-weight:700; font-size:0.85rem; transition: all 0.3s;
-        border: 1px solid rgba(255,255,255,0.3);
+        background: #7850ff;
+        color:#fff;
+        padding:6px 10px; border-radius:8px; text-decoration:none;
+        font-weight:700; font-size:0.78rem; transition: all 0.3s;
+        white-space:nowrap; display:inline-block;
       }
       .btn-zoom-special:hover {
-        box-shadow: 0 0 18px rgba(0,146,70,0.8), 0 0 35px rgba(0,35,149,0.6);
+        box-shadow: 0 0 18px rgba(120,80,255,0.9), 0 0 35px rgba(120,80,255,0.5);
+        transform: translateY(-2px);
+      }
+      /* Bouton Franco-Italien : moitié drapeau IT / moitié drapeau FR */
+      @keyframes shine-franco {
+        0%   { left: -70%; }
+        100% { left: 130%; }
+      }
+      .btn-zoom-franco-it {
+        background: linear-gradient(to right,
+          #009246 0%,   #009246 16.5%,
+          #ffffff 16.5%,#ffffff 33%,
+          #ce2b37 33%,  #ce2b37 50%,
+          #002395 50%,  #002395 66.5%,
+          #ffffff 66.5%,#ffffff 83%,
+          #ED2939 83%,  #ED2939 100%
+        );
+        color: #111;
+        padding: 6px 10px; border-radius: 8px; text-decoration: none;
+        font-weight: 700; font-size: 0.78rem; transition: all 0.3s;
+        white-space: nowrap; display: inline-block;
+        position: relative; overflow: hidden;
+        text-shadow: 0 0 6px rgba(255,255,255,0.9), 0 1px 2px rgba(255,255,255,0.8);
+        box-shadow: 0 0 10px rgba(0,40,140,0.4), 0 0 10px rgba(200,0,50,0.4);
+      }
+      .btn-zoom-franco-it::after {
+        content: '';
+        position: absolute;
+        top: -50%; left: -70%;
+        width: 45%; height: 200%;
+        background: rgba(255,255,255,0.55);
+        transform: skewX(-20deg);
+        animation: shine-franco 2.5s ease-in-out infinite;
+      }
+      .btn-zoom-franco-it:hover {
+        box-shadow: 0 0 22px rgba(0,80,200,0.7), 0 0 22px rgba(220,0,50,0.7), 0 0 40px rgba(255,255,255,0.3);
         transform: translateY(-2px);
       }
       @keyframes floatBubble {
@@ -68,6 +103,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         100% { stroke: rgba(0,200,255,0.5); }
       }
     </style>
+<link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#00c8ff">
 </head>
 <body>
 
@@ -133,6 +169,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             <li><a href="e-state-immobilier.html">E-state Immobilier Tokénisé</a></li>
             <li><a href="smart-mev-trading.html">SMART MEV Trading</a></li>
             <li><a href="mlm-center.html">MLM Center</a></li>
+            <li><a href="bibliotheque-mlm.html">Bibliothèque MLM</a></li>
             <li><a href="portage-salarial.html">Portage salarial</a></li>
             <li><a href="wallet-decentralise.html">Wallet Décentralisé</a></li>
         </ul>
@@ -156,248 +193,210 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                 <th>Sujet</th>
                 <th>Intervenant</th>
                 <th>Accès</th>
+                <th>Statut</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td>Jeudi 26 Mars 2026</td>
-                <td>21h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/81085168637?pwd=GF0VuD3kpQq8UPoilGrJwj9ubJVQly.1" target="_blank" class="btn-zoom-bleu">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Samedi 28 Mars 2026</td>
-                <td>19h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1" target="_blank" class="btn-zoom-dore">Accéder au Zoom</a></td>
-            </tr>
-            <tr style="background:rgba(255,255,255,0.04);">
-                <td><strong>Mardi 31 Mars 2026</strong> ⭐</td>
-                <td>19h00</td>
-                <td>Présentation spéciale internationale E-estate</td>
-                <td>🇫🇷 Hoarau Johnny &amp; 🇮🇹 Massimiliano</td>
-                <td><a href="#" class="btn-zoom-special">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Jeudi 2 Avril 2026</td>
-                <td>21h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/81085168637?pwd=GF0VuD3kpQq8UPoilGrJwj9ubJVQly.1" target="_blank" class="btn-zoom-bleu">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Samedi 4 Avril 2026</td>
-                <td>19h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1" target="_blank" class="btn-zoom-dore">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Jeudi 9 Avril 2026</td>
-                <td>21h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/81085168637?pwd=GF0VuD3kpQq8UPoilGrJwj9ubJVQly.1" target="_blank" class="btn-zoom-bleu">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Samedi 11 Avril 2026</td>
-                <td>19h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1" target="_blank" class="btn-zoom-dore">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Jeudi 16 Avril 2026</td>
-                <td>21h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/81085168637?pwd=GF0VuD3kpQq8UPoilGrJwj9ubJVQly.1" target="_blank" class="btn-zoom-bleu">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Samedi 18 Avril 2026</td>
-                <td>19h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1" target="_blank" class="btn-zoom-dore">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Jeudi 23 Avril 2026</td>
-                <td>21h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/81085168637?pwd=GF0VuD3kpQq8UPoilGrJwj9ubJVQly.1" target="_blank" class="btn-zoom-bleu">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Samedi 25 Avril 2026</td>
-                <td>19h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1" target="_blank" class="btn-zoom-dore">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Jeudi 30 Avril 2026</td>
-                <td>21h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/81085168637?pwd=GF0VuD3kpQq8UPoilGrJwj9ubJVQly.1" target="_blank" class="btn-zoom-bleu">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Samedi 2 Mai 2026</td>
-                <td>19h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1" target="_blank" class="btn-zoom-dore">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Jeudi 7 Mai 2026</td>
-                <td>21h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/81085168637?pwd=GF0VuD3kpQq8UPoilGrJwj9ubJVQly.1" target="_blank" class="btn-zoom-bleu">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Samedi 9 Mai 2026</td>
-                <td>19h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1" target="_blank" class="btn-zoom-dore">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Jeudi 14 Mai 2026</td>
-                <td>21h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/81085168637?pwd=GF0VuD3kpQq8UPoilGrJwj9ubJVQly.1" target="_blank" class="btn-zoom-bleu">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Samedi 16 Mai 2026</td>
-                <td>19h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1" target="_blank" class="btn-zoom-dore">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Jeudi 21 Mai 2026</td>
-                <td>21h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/81085168637?pwd=GF0VuD3kpQq8UPoilGrJwj9ubJVQly.1" target="_blank" class="btn-zoom-bleu">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Samedi 23 Mai 2026</td>
-                <td>19h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1" target="_blank" class="btn-zoom-dore">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Jeudi 28 Mai 2026</td>
-                <td>21h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/81085168637?pwd=GF0VuD3kpQq8UPoilGrJwj9ubJVQly.1" target="_blank" class="btn-zoom-bleu">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Samedi 30 Mai 2026</td>
-                <td>19h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1" target="_blank" class="btn-zoom-dore">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Jeudi 4 Juin 2026</td>
-                <td>21h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/81085168637?pwd=GF0VuD3kpQq8UPoilGrJwj9ubJVQly.1" target="_blank" class="btn-zoom-bleu">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Samedi 6 Juin 2026</td>
-                <td>19h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1" target="_blank" class="btn-zoom-dore">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Jeudi 11 Juin 2026</td>
-                <td>21h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/81085168637?pwd=GF0VuD3kpQq8UPoilGrJwj9ubJVQly.1" target="_blank" class="btn-zoom-bleu">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Samedi 13 Juin 2026</td>
-                <td>19h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1" target="_blank" class="btn-zoom-dore">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Jeudi 18 Juin 2026</td>
-                <td>21h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/81085168637?pwd=GF0VuD3kpQq8UPoilGrJwj9ubJVQly.1" target="_blank" class="btn-zoom-bleu">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Samedi 20 Juin 2026</td>
-                <td>19h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1" target="_blank" class="btn-zoom-dore">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Jeudi 25 Juin 2026</td>
-                <td>21h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/81085168637?pwd=GF0VuD3kpQq8UPoilGrJwj9ubJVQly.1" target="_blank" class="btn-zoom-bleu">Accéder au Zoom</a></td>
-            </tr>
-            <tr>
-                <td>Samedi 27 Juin 2026</td>
-                <td>19h00</td>
-                <td>Présentation de société E-estate</td>
-                <td>Hoarau Johnny</td>
-                <td><a href="https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1" target="_blank" class="btn-zoom-dore">Accéder au Zoom</a></td>
-            </tr>
+        <tbody id="planning-body">
         </tbody>
     </table>
+
+    <script>
+    // ─── REPLAYS (clé = "YYYY-MM-DD", valeur = lien YouTube) ────────────────────
+    var REPLAYS = {
+      "2026-03-14": "https://www.youtube.com/watch?v=KnSWkVVi-xw",
+      "2026-03-19": "https://www.youtube.com/watch?v=oJa3MqHYHNk",
+      "2026-03-21": "https://www.youtube.com/watch?v=_yjHNdAAh7A"
+    };
+
+    // ─── ÉVÉNEMENTS SPÉCIAUX (à compléter au fur et à mesure) ───────────────────
+    var SPECIAL_EVENTS = [
+      {
+        year: 2026, month: 2, day: 31, // mois = 0-indexé (2 = mars)
+        heure: '19h00',
+        sujet: '🌍 Présentation Spéciale Internationale — E-estate',
+        intervenant: '🇫🇷 Hoarau Johnny &amp; 🇮🇹 Massimiliano',
+        lien: '#',
+        classe: 'btn-zoom-franco-it',
+        style: 'background:rgba(255,255,255,0.05);border-left:2px solid rgba(0,100,200,0.4);'
+      }
+    ];
+
+    // ─── LIENS ZOOM RÉGULIERS ────────────────────────────────────────────────────
+    var ZOOM_JEUDI  = "https://us06web.zoom.us/j/81085168637?pwd=GF0VuD3kpQq8UPoilGrJwj9ubJVQly.1";
+    var ZOOM_SAMEDI = "https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1";
+
+    // ─── GÉNÉRATION AUTOMATIQUE DU TABLEAU ──────────────────────────────────────
+    var JOURS_FR = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+    var MOIS_FR  = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+    function formatDate(d) {
+      return JOURS_FR[d.getDay()] + ' ' + d.getDate() + ' ' + MOIS_FR[d.getMonth()] + ' ' + d.getFullYear();
+    }
+
+    function buildPlanning() {
+      var now = new Date();
+      var year  = now.getFullYear();
+      var month = now.getMonth();
+
+      // Tous les jours du mois courant
+      var rows = [];
+      var d = new Date(year, month, 1);
+      while (d.getMonth() === month) {
+        var day = d.getDay();
+        // Jeudi (4) → 21h00, Samedi (6) → 19h00
+        if (day === 4 || day === 6) {
+          var isJeudi = day === 4;
+          rows.push({
+            dateObj: new Date(d),
+            heure: isJeudi ? '21h00' : '19h00',
+            sujet: 'Présentation de société E-estate',
+            intervenant: 'Hoarau Johnny',
+            lien: isJeudi ? ZOOM_JEUDI : ZOOM_SAMEDI,
+            classe: isJeudi ? 'btn-zoom-bleu' : 'btn-zoom-dore',
+            special: false,
+            style: ''
+          });
+        }
+        d.setDate(d.getDate() + 1);
+      }
+
+      // Ajouter les événements spéciaux du mois courant
+      SPECIAL_EVENTS.forEach(function(ev) {
+        if (ev.year === year && ev.month === month) {
+          var dateObj = new Date(year, month, ev.day);
+          // Chercher si une ligne régulière existe à cette date et la remplacer
+          var found = false;
+          for (var i = 0; i < rows.length; i++) {
+            if (rows[i].dateObj.getDate() === ev.day) {
+              rows[i] = {
+                dateObj: dateObj, heure: ev.heure, sujet: ev.sujet,
+                intervenant: ev.intervenant, lien: ev.lien,
+                classe: ev.classe, special: true, style: ev.style
+              };
+              found = true; break;
+            }
+          }
+          if (!found) {
+            // Insérer à la bonne position (ordre chronologique)
+            rows.push({
+              dateObj: dateObj, heure: ev.heure, sujet: ev.sujet,
+              intervenant: ev.intervenant, lien: ev.lien,
+              classe: ev.classe, special: true, style: ev.style
+            });
+            rows.sort(function(a,b){ return a.dateObj - b.dateObj; });
+          }
+        }
+      });
+
+      // Générer le HTML
+      var now = new Date();
+      var today = new Date(); today.setHours(0,0,0,0);
+
+      // Identifier les indices des 3 derniers Zooms passés (sans replay)
+      var pastIndices = [];
+      rows.forEach(function(r, i) {
+        var hParts2 = r.heure.split('h');
+        var zd = new Date(r.dateObj);
+        zd.setHours(parseInt(hParts2[0]), parseInt(hParts2[1]) || 0, 0, 0);
+        if (now >= zd) pastIndices.push(i);
+      });
+      var last3Past = pastIndices.slice(-3); // les 3 plus récents
+
+      var tbody = document.getElementById('planning-body');
+      tbody.innerHTML = '';
+      rows.forEach(function(r, i) {
+        var label = r.special ? '<strong>' + formatDate(r.dateObj) + '</strong>' : formatDate(r.dateObj);
+
+        // Date + heure exacte du Zoom
+        var hParts = r.heure.split('h');
+        var zoomDate = new Date(r.dateObj);
+        zoomDate.setHours(parseInt(hParts[0]), parseInt(hParts[1]) || 0, 0, 0);
+        var ts = zoomDate.getTime();
+
+        // Passé ou futur ?
+        var dateKey = r.dateObj.getFullYear() + '-'
+          + String(r.dateObj.getMonth()+1).padStart(2,'0') + '-'
+          + String(r.dateObj.getDate()).padStart(2,'0');
+        var isPast = now >= zoomDate;
+
+        // Couleur du timer selon le type
+        var timerColor = r.classe === 'btn-zoom-bleu' ? '#00c8ff' : r.classe === 'btn-zoom-dore' ? '#c9a84c' : r.classe === 'btn-zoom-franco-it' ? '#ffffff' : '#7850ff';
+
+        // Colonne Statut
+        var statutHtml = '';
+        if (REPLAYS[dateKey]) {
+          statutHtml = '<a href="' + REPLAYS[dateKey] + '" target="_blank" style="background:#FF0000;color:#fff;padding:5px 10px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.78rem;white-space:nowrap;display:inline-block;">▶ Voir le replay</a>';
+        } else if (isPast) {
+          if (last3Past.indexOf(i) !== -1) {
+            statutHtml = '<span style="color:#aaa;font-size:0.8rem;">Bientôt disponible</span>';
+          } else {
+            statutHtml = '<span style="color:#aaa;font-size:0.8rem;text-shadow:0 0 8px rgba(255,255,255,0.6);">Zoom terminé</span>';
+          }
+        } else {
+          statutHtml = '<span class="row-cd" data-ts="' + ts + '" style="color:' + timerColor + ';font-weight:700;font-size:0.85rem;">--</span>';
+        }
+
+        var tr = '<tr style="' + r.style + '">'
+          + '<td>' + label + '</td>'
+          + '<td>' + r.heure + '</td>'
+          + '<td>' + r.sujet + '</td>'
+          + '<td>' + r.intervenant + '</td>'
+          + '<td><a href="' + r.lien + '" target="_blank" class="' + r.classe + '">Accéder au Zoom</a></td>'
+          + '<td>' + statutHtml + '</td>'
+          + '</tr>';
+        tbody.innerHTML += tr;
+      });
+    }
+
+    // Mise à jour des comptes à rebours en direct
+    function updateRowCountdowns() {
+      var now = Date.now();
+      document.querySelectorAll('.row-cd').forEach(function(el) {
+        var ts = parseInt(el.dataset.ts);
+        var diff = ts - now;
+        if (diff <= 0) { el.textContent = '🔴 En cours !'; return; }
+        var h = Math.floor(diff / 3600000);
+        var m = Math.floor((diff % 3600000) / 60000);
+        var s = Math.floor((diff % 60000) / 1000);
+        if (h >= 24) {
+          el.textContent = Math.floor(h/24) + 'j ' + (h%24) + 'h ' + String(m).padStart(2,'0') + 'min';
+        } else {
+          el.textContent = h + 'h ' + String(m).padStart(2,'0') + 'min ' + String(s).padStart(2,'0') + 's';
+        }
+      });
+    }
+
+    buildPlanning();
+    updateRowCountdowns();
+    setInterval(updateRowCountdowns, 1000);
+    </script>
 
     <br><br>
 
     <div class="cards-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
         <div class="card" style="text-align:center;">
-            <div class="card-icon">🔴</div>
-            <h3>En Direct</h3>
-            <p>Nos webinaires sont diffusés en direct sur Zoom et YouTube. Posez vos questions en temps réel.</p>
-        </div>
-        <div class="card" style="text-align:center;">
-            <div class="card-icon">▶</div>
+            <div class="card-icon" style="font-size:2rem;">
+              <i class="fa-brands fa-youtube" style="color:#FF0000; filter:drop-shadow(0 0 10px rgba(255,0,0,0.6));"></i>
+            </div>
             <h3>Replays</h3>
             <p>Manqué un webinaire ? Retrouvez tous les replays sur notre chaîne YouTube.</p>
             <br>
-            <a href="#" class="btn" style="font-size:0.85rem; padding:10px 20px;">Voir YouTube</a>
+            <a href="https://www.youtube.com/channel/UCLE1kga_j9MC7pIKgx0xvbw" target="_blank" class="btn" style="font-size:0.85rem; padding:10px 20px;">Voir YouTube</a>
         </div>
         <div class="card" style="text-align:center;">
-            <div class="card-icon">🔔</div>
+            <div class="card-icon" style="font-size:2rem;">
+              <i class="fa-brands fa-telegram" style="color:#229ED9; filter:drop-shadow(0 0 10px rgba(34,158,217,0.6));"></i>
+            </div>
             <h3>Notifications</h3>
             <p>Rejoignez notre groupe Telegram pour recevoir les rappels avant chaque webinaire.</p>
             <br>
-            <a href="#" class="btn" style="font-size:0.85rem; padding:10px 20px;">Rejoindre Telegram</a>
+            <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" class="btn" style="font-size:0.85rem; padding:10px 20px;">Rejoindre Telegram</a>
         </div>
     </div>
 </div>
 
 <footer>
-    <div class="footer-links">
-        <a href="index.html">Accueil</a>
-        <a href="investissements.html">Investissements</a>
-        <a href="mlm-center.html">MLM Center</a>
-        <a href="wallet-decentralise.html">Wallet</a>
-        <a href="#">Contact</a>
-    </div>
+    
     <p>© 2026 Project inves'T — Site personnel, non professionnel. Les investissements comportent des risques.</p>
 </footer>
 
