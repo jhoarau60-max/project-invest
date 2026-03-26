@@ -491,9 +491,17 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                     style="width:100%;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.3);border-radius:8px;padding:10px 14px;color:#fff;font-size:1rem;outline:none;">
             </div>
             <div>
-                <label style="color:#aaa;font-size:0.82rem;display:block;margin-bottom:6px;">Rendement annuel (%)</label>
-                <input id="sim-taux" type="number" value="12" min="1" max="20" step="0.5"
-                    style="width:100%;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.3);border-radius:8px;padding:10px 14px;color:#fff;font-size:1rem;outline:none;">
+                <label id="sim-label-taux" style="color:#aaa;font-size:0.82rem;display:block;margin-bottom:6px;">Rendement (%)</label>
+                <div style="display:flex;gap:6px;">
+                    <input id="sim-taux" type="number" value="0.5" min="0.01" max="100" step="0.01"
+                        style="flex:1;min-width:0;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.3);border-radius:8px;padding:10px 14px;color:#fff;font-size:1rem;outline:none;">
+                    <select id="sim-periode" onchange="updateSim()"
+                        style="background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.3);border-radius:8px;padding:10px 10px;color:#fff;font-size:0.85rem;outline:none;cursor:pointer;">
+                        <option value="jour">/ Jour</option>
+                        <option value="mois">/ Mois</option>
+                        <option value="an">/ An</option>
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -535,11 +543,15 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         var sym = simCurrency === 'EUR' ? ' €' : ' $';
         var m = parseFloat(document.getElementById('sim-montant').value) || 0;
         var t = parseFloat(document.getElementById('sim-taux').value) || 0;
-        var annuel = m * t / 100;
-        document.getElementById('sim-journalier').textContent = (annuel / 365).toFixed(2) + sym;
-        document.getElementById('sim-mensuel').textContent    = (annuel / 12).toFixed(2) + sym;
-        document.getElementById('sim-annuel').textContent     = annuel.toFixed(2) + sym;
-        document.getElementById('sim-18mois').textContent     = (annuel * 1.5).toFixed(2) + sym;
+        var periode = document.getElementById('sim-periode').value;
+        var journalier;
+        if (periode === 'jour')  journalier = m * t / 100;
+        else if (periode === 'mois') journalier = m * t / 100 / 30;
+        else                         journalier = m * t / 100 / 365;
+        document.getElementById('sim-journalier').textContent = journalier.toFixed(2) + sym;
+        document.getElementById('sim-mensuel').textContent    = (journalier * 30).toFixed(2) + sym;
+        document.getElementById('sim-annuel').textContent     = (journalier * 365).toFixed(2) + sym;
+        document.getElementById('sim-18mois').textContent     = (journalier * 548).toFixed(2) + sym;
     }
     document.getElementById('sim-montant').addEventListener('input', updateSim);
     document.getElementById('sim-taux').addEventListener('input', updateSim);
