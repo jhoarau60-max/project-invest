@@ -626,6 +626,25 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
     <p>&copy; 2026 Project inves'T — Site personnel non professionnel</p>
 </footer>
 
+<script>
+document.querySelectorAll('.card').forEach(function(card) {
+    var badges = card.querySelectorAll('span');
+    var isActif = Array.from(badges).some(function(b){ return b.textContent.trim() === 'Actif'; });
+    if (isActif) {
+        var contentDiv = card.lastElementChild;
+        var btn = document.createElement('a');
+        btn.href = 'https://www.e-state.co/agent/953277721577';
+        btn.target = '_blank';
+        btn.textContent = '💰 Investir';
+        btn.style.cssText = 'display:block;text-align:center;background:#00cc44;color:#fff;font-weight:800;font-size:0.88rem;padding:10px;border-radius:8px;text-decoration:none;margin-top:12px;letter-spacing:0.5px;';
+        var info = document.createElement('div');
+        info.textContent = 'Inscription + KYC et validation du paiement';
+        info.style.cssText = 'text-align:center;color:#aaa;font-size:0.68rem;margin-top:6px;line-height:1.4;';
+        contentDiv.appendChild(btn);
+        contentDiv.appendChild(info);
+    }
+});
+</script>
 <script src="menu.js"></script>
 <script src="audio.js"></script>
 <script src="translator.js"></script>
