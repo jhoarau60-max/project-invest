@@ -15,27 +15,46 @@
     'smart-mev-trading.html':        'fa-robot',
     'mlm-center.html':               'fa-sitemap',
     'portage-salarial.html':         'fa-briefcase',
-    'wallet-decentralise.html':      'fa-wallet',
+    'wallet-decentralise.html':      'fa-gift',
     'bibliotheque-immobilier.html':  'fa-book',
-    'bibliotheque-trading.html':     'fa-book',
+    'bibliotheque-trading.html':     'fa-robot',
+    'videos-trading.html':           'fa-video',
+    'pdf-trading.html':              'fa-file-pdf',
+    'videos-mlm.html':               'fa-video',
+    'pdf-mlm.html':                  'fa-file-pdf',
+    'strategie-mlm.html':            'fa-chess',
+    'videos-immobilier.html':        'fa-video',
+    'pdf-immobilier.html':           'fa-file-pdf',
+    'bibliotheque-mlm.html':         'fa-star',
   };
 
   // Renommer les onglets
   var RENAME_MAP = {
     'pdf-societe.html':        'Outils',
     'planning-webinaire.html': 'Conférences',
-    'e-state-immobilier.html': 'Immobilier',
+    'e-state-immobilier.html': 'Immobilier Numérique',
     'smart-mev-trading.html':  'Bot Trading',
     'mlm-center.html':         'Système Matriciel',
+    'wallet-decentralise.html':'SURPRISE',
+    'bibliotheque-mlm.html':   'Avis Clients',
   };
 
   // Sous-menus
   var SUB_ITEMS = {
     'e-state-immobilier.html': [
-      { href: 'bibliotheque-immobilier.html', label: 'Bibliothèque', icon: 'fa-book' }
+      { href: 'bibliotheque-immobilier.html', label: 'Biens Immobiliers', icon: 'fa-building' },
+      { href: 'videos-immobilier.html',       label: 'Outils Vidéo',     icon: 'fa-video' },
+      { href: 'pdf-immobilier.html',          label: 'Documents Officiels', icon: 'fa-file-pdf' },
     ],
     'smart-mev-trading.html': [
-      { href: 'bibliotheque-trading.html', label: 'Bibliothèque', icon: 'fa-book' }
+      { href: 'bibliotheque-trading.html', label: 'Smart Bot',           icon: 'fa-robot' },
+      { href: 'videos-trading.html',       label: 'Outils Vidéo',        icon: 'fa-video' },
+      { href: 'pdf-trading.html',          label: 'Documents Officiels', icon: 'fa-file-pdf' },
+    ],
+    'mlm-center.html': [
+      { href: 'mlm-center.html',       label: 'Système Matriciel', icon: 'fa-sitemap' },
+      { href: 'videos-mlm.html',       label: 'Outils Vidéo', icon: 'fa-video' },
+      { href: 'pdf-mlm.html',          label: 'Documents & Stratégie', icon: 'fa-file-pdf' },
     ],
   };
 
@@ -81,11 +100,10 @@
       height: auto !important;
     }
 
-    /* Barre de recherche dans le header */
+    /* Barre de recherche dans la sidebar */
     #header-search {
       position: relative;
-      flex-shrink: 0;
-      margin-right: auto !important;
+      padding: 10px 12px 6px;
     }
     #header-search input {
       background: rgba(0,200,255,0.08);
@@ -95,21 +113,16 @@
       color: #fff;
       font-size: 0.82rem;
       outline: none;
-      width: 200px;
+      width: 100%;
+      box-sizing: border-box;
       box-shadow: 0 0 10px rgba(0,200,255,0.4), inset 0 0 8px rgba(0,200,255,0.05);
-      transition: border-color 0.3s, box-shadow 0.3s, width 0.3s;
     }
     #header-search input::placeholder { color: rgba(0,200,255,0.7); }
-    #header-search input:focus {
-      border-color: #00c8ff;
-      box-shadow: 0 0 16px rgba(0,200,255,0.7), inset 0 0 10px rgba(0,200,255,0.08);
-      width: 240px;
-    }
     #header-search i {
       position: absolute;
-      left: 11px;
+      left: 23px;
       top: 50%;
-      transform: translateY(-50%);
+      transform: translateY(-30%);
       color: #00c8ff;
       font-size: 0.8rem;
       pointer-events: none;
@@ -218,7 +231,7 @@
     header nav { display: none !important; }
 
     /* Sous-menus */
-    .nav-sub { list-style:none !important; padding:0 0 4px 0 !important; display:none; }
+    .nav-sub { list-style:none !important; padding:0 0 4px 0 !important; display:none !important; }
     .nav-sub.open { display:block !important; }
     .nav-sub li a {
       padding: 8px 12px 8px 38px !important;
@@ -272,14 +285,13 @@
     var ul = nav.querySelector('ul');
     nav.insertBefore(title, ul);
 
-    // Barre de recherche dans le header (à gauche)
-    var headerTop = document.querySelector('.header-top');
-    if (headerTop) {
-      var searchEl = document.createElement('div');
-      searchEl.id = 'header-search';
-      searchEl.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Rechercher un profil...">';
-      headerTop.insertBefore(searchEl, headerTop.firstChild);
-    }
+    // Barre de recherche dans la sidebar (au-dessus d'Accueil)
+    var searchSidebar = document.createElement('div');
+    searchSidebar.id = 'header-search';
+    searchSidebar.style.cssText = 'padding:10px 12px 6px;flex-shrink:0;';
+    searchSidebar.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Rechercher un profil..." style="width:100%;">';
+    var ul = nav.querySelector('ul');
+    if (ul) nav.insertBefore(searchSidebar, ul);
 
     // Afficher le pseudo et la photo dans la sidebar + header
     var _sbClient = (typeof _sb !== 'undefined') ? _sb : null;
@@ -333,9 +345,8 @@
         li.classList.add('nav-has-sub');
 
         // Flèche
-        var arrow = document.createElement('span');
-        arrow.className = 'nav-arrow';
-        arrow.innerHTML = '&#9658;';
+        var arrow = document.createElement('i');
+        arrow.className = 'nav-arrow fa-solid fa-chevron-right';
         a.appendChild(arrow);
 
         // Liste enfants
@@ -351,7 +362,7 @@
         });
         li.appendChild(subUl);
 
-        // Clic pour ouvrir/fermer
+        // Clic sur le lien OU la flèche → ouvre/ferme le sous-menu
         a.addEventListener('click', function (e) {
           e.preventDefault();
           li.classList.toggle('open');
@@ -362,3 +373,45 @@
   });
 
 })();
+
+// ─── PWA : Service Worker + Bouton Installer ─────────────────────────────────
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+
+var _pwaPrompt = null;
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  _pwaPrompt = e;
+  var btn = document.getElementById('pwa-install-btn');
+  if (btn) btn.style.display = 'inline-flex';
+});
+
+window.addEventListener('load', function() {
+  // Créer le bouton dans le header-top
+  var headerTop = document.querySelector('.header-top');
+  if (!headerTop) return;
+
+  var btn = document.createElement('a');
+  btn.id = 'pwa-install-btn';
+  btn.title = 'Installer l\'application';
+  btn.style.cssText = 'display:inline-flex;align-items:center;gap:8px;background:rgba(0,200,255,0.15);color:#00c8ff;border:1px solid rgba(0,200,255,0.5);border-radius:20px;padding:8px 18px;cursor:pointer;font-size:1rem;font-weight:700;text-decoration:none;flex-shrink:0;box-shadow:0 0 12px rgba(0,200,255,0.3);margin-right:auto;';
+  btn.innerHTML = '<i class="fa-solid fa-download"></i> Project App';
+
+  btn.addEventListener('click', function() {
+    if (_pwaPrompt) {
+      _pwaPrompt.prompt();
+      _pwaPrompt.userChoice.then(function() { _pwaPrompt = null; btn.style.display = 'none'; });
+    } else {
+      alert('Pour installer sur iPhone : appuyez sur le bouton Partager puis "Sur l\'écran d\'accueil"');
+    }
+  });
+
+  // Insérer le bouton Project App en premier dans le header (à la place de la barre de recherche)
+  headerTop.insertBefore(btn, headerTop.firstChild);
+
+  // Sur iOS : toujours visible car pas de beforeinstallprompt
+  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  var isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+  if (isIOS && !isStandalone) btn.style.display = 'inline-flex';
+});
