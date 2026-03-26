@@ -52,7 +52,7 @@
       { href: 'pdf-trading.html',          label: 'Documents Officiels', icon: 'fa-file-pdf' },
     ],
     'mlm-center.html': [
-      { href: 'mlm-center.html',       label: 'Système Matriciel', icon: 'fa-sitemap' },
+      { href: 'mlm-center.html',       label: 'MLM Center', icon: 'fa-sitemap' },
       { href: 'videos-mlm.html',       label: 'Outils Vidéo', icon: 'fa-video' },
       { href: 'pdf-mlm.html',          label: 'Documents & Stratégie', icon: 'fa-file-pdf' },
     ],
