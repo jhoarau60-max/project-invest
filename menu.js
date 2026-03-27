@@ -160,7 +160,7 @@
       display: flex !important;
       align-items: center !important;
       gap: 11px !important;
-      color: #8aa8c8 !important;
+      color: #e8f4ff !important;
       text-decoration: none !important;
       padding: 10px 12px !important;
       font-size: 0.85rem !important;
