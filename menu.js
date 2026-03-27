@@ -15,6 +15,8 @@
     'smart-mev-trading.html':        'fa-robot',
     'mlm-center.html':               'fa-sitemap',
     'portage-salarial.html':         'fa-briefcase',
+    'pdf-portage.html':              'fa-file-pdf',
+    'videos-portage.html':           'fa-video',
     'wallet-decentralise.html':      'fa-gift',
     'bibliotheque-immobilier.html':  'fa-book',
     'bibliotheque-trading.html':     'fa-robot',
@@ -55,6 +57,10 @@
       { href: 'mlm-center.html',       label: 'MLM Center', icon: 'fa-sitemap' },
       { href: 'videos-mlm.html',       label: 'Outils Vidéo', icon: 'fa-video' },
       { href: 'pdf-mlm.html',          label: 'Documents & Stratégie', icon: 'fa-file-pdf' },
+    ],
+    'portage-salarial.html': [
+      { href: 'pdf-portage.html',    label: 'Document',  icon: 'fa-file-pdf' },
+      { href: 'videos-portage.html', label: 'Vidéo',     icon: 'fa-video' },
     ],
   };
 
