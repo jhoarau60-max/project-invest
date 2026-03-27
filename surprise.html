@@ -32,47 +32,11 @@
       text-align: center;
     }
 
-    /* ── Cercle robot ── */
-    .robot-circle {
-      position: relative;
-      width: 200px; height: 200px;
-      margin-bottom: 30px;
-    }
-    .robot-ring {
-      position: absolute; inset: 0;
-      border-radius: 50%;
-      border: 2px solid rgba(0,230,180,0.25);
-      animation: ring-pulse 3s ease-in-out infinite;
-    }
-    .robot-ring:nth-child(2) {
-      inset: -12px;
-      border-color: rgba(0,230,180,0.12);
-      animation-delay: 0.5s;
-    }
-    .robot-ring:nth-child(3) {
-      inset: -24px;
-      border-color: rgba(0,230,180,0.07);
-      animation-delay: 1s;
-    }
-    @keyframes ring-pulse {
-      0%,100% { opacity: 0.6; transform: scale(1); }
-      50%      { opacity: 1;   transform: scale(1.04); }
-    }
-    .robot-bg {
-      position: absolute; inset: 0;
-      border-radius: 50%;
-      background: radial-gradient(circle at 40% 35%, rgba(0,230,180,0.18), rgba(0,180,160,0.08) 60%, transparent);
-      border: 1.5px solid rgba(0,230,180,0.35);
-    }
-    .robot-svg {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      filter: drop-shadow(0 0 18px rgba(0,230,180,0.7)) drop-shadow(0 0 40px rgba(0,230,180,0.3));
-      animation: robot-float 4s ease-in-out infinite;
-    }
-    @keyframes robot-float {
-      0%,100% { transform: translateY(0px); }
-      50%      { transform: translateY(-10px); }
+    /* ── IA Canvas ── */
+    #ai-canvas {
+      display: block;
+      margin-bottom: 28px;
+      filter: drop-shadow(0 0 30px rgba(58,184,212,0.25));
     }
 
     /* ── Titre SURPRISE ── */
@@ -260,56 +224,8 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 <!-- Contenu principal -->
 <div class="surprise-wrap">
 
-  <!-- Robot animé -->
-  <div class="robot-circle">
-    <div class="robot-ring"></div>
-    <div class="robot-ring"></div>
-    <div class="robot-ring"></div>
-    <div class="robot-bg"></div>
-    <div class="robot-svg">
-      <svg width="110" height="110" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <!-- Antenne -->
-        <line x1="50" y1="8" x2="50" y2="20" stroke="#00e6b4" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="50" cy="6" r="4" fill="#00e6b4" opacity="0.9">
-          <animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite"/>
-        </circle>
-        <!-- Tête -->
-        <rect x="22" y="20" width="56" height="42" rx="10" ry="10" fill="#00c8a0" opacity="0.95"/>
-        <!-- Yeux -->
-        <rect x="31" y="31" width="14" height="10" rx="3" fill="#0a2a5e" opacity="0.9"/>
-        <rect x="55" y="31" width="14" height="10" rx="3" fill="#0a2a5e" opacity="0.9"/>
-        <!-- Pupilles (clignotant) -->
-        <rect x="36" y="33" width="4" height="6" rx="2" fill="#00e6b4">
-          <animate attributeName="height" values="6;0;6" dur="3.5s" repeatCount="indefinite"/>
-          <animate attributeName="y" values="33;36;33" dur="3.5s" repeatCount="indefinite"/>
-        </rect>
-        <rect x="60" y="33" width="4" height="6" rx="2" fill="#00e6b4">
-          <animate attributeName="height" values="6;0;6" dur="3.5s" begin="0.2s" repeatCount="indefinite"/>
-          <animate attributeName="y" values="33;36;33" dur="3.5s" begin="0.2s" repeatCount="indefinite"/>
-        </rect>
-        <!-- Bouche (segments animés) -->
-        <rect x="34" y="50" width="6" height="4" rx="1" fill="#0a2a5e" opacity="0.8" id="m1"/>
-        <rect x="44" y="50" width="6" height="4" rx="1" fill="#0a2a5e" opacity="0.8" id="m2"/>
-        <rect x="54" y="50" width="6" height="4" rx="1" fill="#0a2a5e" opacity="0.8" id="m3"/>
-        <!-- Corps -->
-        <rect x="28" y="65" width="44" height="28" rx="8" ry="8" fill="#00c8a0" opacity="0.85"/>
-        <!-- Détails corps -->
-        <rect x="38" y="72" width="24" height="8" rx="3" fill="#0a2a5e" opacity="0.5"/>
-        <circle cx="40" cy="87" r="3" fill="#00e6b4" opacity="0.7">
-          <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx="50" cy="87" r="3" fill="#00e6b4" opacity="0.7">
-          <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" begin="0.3s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx="60" cy="87" r="3" fill="#00e6b4" opacity="0.7">
-          <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" begin="0.6s" repeatCount="indefinite"/>
-        </circle>
-        <!-- Bras -->
-        <rect x="8"  y="66" width="18" height="10" rx="5" fill="#00c8a0" opacity="0.9"/>
-        <rect x="74" y="66" width="18" height="10" rx="5" fill="#00c8a0" opacity="0.9"/>
-      </svg>
-    </div>
-  </div>
+  <!-- Noyau IA holographique -->
+  <canvas id="ai-canvas" width="300" height="300"></canvas>
 
   <!-- Titre -->
   <div class="surprise-title">SURPRISE</div>
@@ -370,12 +286,8 @@ function parlerRobot() {
   var frVoice = voices.find(v => v.lang.startsWith('fr'));
   if (frVoice) utterance.voice = frVoice;
 
-  // Animer la bouche pendant la parole
-  var mouthAnim = setInterval(animateMouth, 180);
-
-  utterance.onend = utterance.onerror = function() {
-    clearInterval(mouthAnim);
-    resetMouth();
+    utterance.onend = utterance.onerror = function() {
+    isSpeaking = false;
     btn.classList.remove('speaking');
     btn.innerHTML = '<i class="fa-solid fa-microphone" style="margin-right:8px;"></i>ÉCOUTER LE ROBOT';
   };
@@ -383,34 +295,238 @@ function parlerRobot() {
   synth.speak(utterance);
 }
 
-// Anime les segments de bouche du robot
-var mouthState = 0;
-function animateMouth() {
-  var m1 = document.getElementById('m1');
-  var m2 = document.getElementById('m2');
-  var m3 = document.getElementById('m3');
-  if (!m1) return;
-  var patterns = [
-    [4,2,4],[2,4,2],[4,4,2],[2,2,4],[4,2,2],[3,4,3]
-  ];
-  var p = patterns[mouthState % patterns.length];
-  m1.setAttribute('height', p[0]);
-  m2.setAttribute('height', p[1]);
-  m3.setAttribute('height', p[2]);
-  mouthState++;
-}
-function resetMouth() {
-  ['m1','m2','m3'].forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) el.setAttribute('height', 4);
-  });
-}
-
 // Charger les voix au démarrage
+var isSpeaking = false;
 window.speechSynthesis.onvoiceschanged = function() {};
 window.addEventListener('load', function() {
   window.speechSynthesis.getVoices();
 });
+
+// ══════════════════════════════════════════════════════
+//  NOYAU IA HOLOGRAPHIQUE — Canvas
+// ══════════════════════════════════════════════════════
+(function() {
+  var canvas = document.getElementById('ai-canvas');
+  var ctx    = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+  var cx = W/2, cy = H/2;
+  var t  = 0;
+
+  // ── Particules orbitales ──
+  var particles = [];
+  for (var i = 0; i < 60; i++) {
+    var orbit = 70 + Math.random() * 60;
+    particles.push({
+      angle:  Math.random() * Math.PI * 2,
+      speed:  (Math.random() * 0.008 + 0.004) * (Math.random() > 0.5 ? 1 : -1),
+      orbit:  orbit,
+      tilt:   Math.random() * Math.PI,
+      size:   Math.random() * 2.5 + 0.5,
+      alpha:  Math.random() * 0.7 + 0.3,
+      color:  Math.random() > 0.6 ? '#3ab8d4' : (Math.random() > 0.5 ? '#7850ff' : '#c9a84c')
+    });
+  }
+
+  // ── Noeuds réseau neuronal ──
+  var nodes = [];
+  for (var j = 0; j < 12; j++) {
+    var a = (j / 12) * Math.PI * 2;
+    var r = 48 + Math.random() * 20;
+    nodes.push({
+      bx: cx + Math.cos(a) * r,
+      by: cy + Math.sin(a) * r,
+      x:  0, y: 0,
+      phase: Math.random() * Math.PI * 2,
+      amp:   3 + Math.random() * 4
+    });
+  }
+
+  // ── Anneau rotatif ──
+  function drawRing(radius, speed, tiltX, tiltY, color, width, dash) {
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(1, tiltY);
+    ctx.rotate(tiltX + t * speed);
+    ctx.beginPath();
+    ctx.arc(0, 0, radius, 0, Math.PI * 2);
+    ctx.strokeStyle = color;
+    ctx.lineWidth   = width;
+    if (dash) ctx.setLineDash(dash);
+    else      ctx.setLineDash([]);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // ── Grille hexagonale intérieure ──
+  function drawHexGrid() {
+    var s = 14, rows = 5, cols = 6;
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, cy, 42, 0, Math.PI*2);
+    ctx.clip();
+    for (var row = -rows; row <= rows; row++) {
+      for (var col = -cols; col <= cols; col++) {
+        var hx = cx + col * s * 1.73 + (row % 2) * s * 0.87;
+        var hy = cy + row * s * 1.5;
+        hexPath(hx, hy, s * 0.85);
+        ctx.strokeStyle = 'rgba(58,184,212,0.18)';
+        ctx.lineWidth = 0.5;
+        ctx.setLineDash([]);
+        ctx.stroke();
+      }
+    }
+    ctx.restore();
+  }
+  function hexPath(x, y, r) {
+    ctx.beginPath();
+    for (var k = 0; k < 6; k++) {
+      var a = (k * Math.PI) / 3 - Math.PI/6;
+      if (k === 0) ctx.moveTo(x + r*Math.cos(a), y + r*Math.sin(a));
+      else          ctx.lineTo(x + r*Math.cos(a), y + r*Math.sin(a));
+    }
+    ctx.closePath();
+  }
+
+  // ── Scanner laser ──
+  var scanY = cy - 42;
+  var scanDir = 1;
+
+  function frame() {
+    t += 0.012;
+    ctx.clearRect(0, 0, W, H);
+
+    // Fond sombre centré
+    var bg = ctx.createRadialGradient(cx, cy, 0, cx, cy, 130);
+    bg.addColorStop(0,   'rgba(10,30,60,0.55)');
+    bg.addColorStop(0.6, 'rgba(5,18,43,0.3)');
+    bg.addColorStop(1,   'rgba(0,0,0,0)');
+    ctx.fillStyle = bg;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 130, 0, Math.PI*2);
+    ctx.fill();
+
+    // Grille hexagonale
+    drawHexGrid();
+
+    // Anneaux orbitaux
+    drawRing(90,  0.4,  0,       0.3,  'rgba(58,184,212,0.5)',  1.2, null);
+    drawRing(105, -0.25, Math.PI/4, 0.2, 'rgba(120,80,255,0.4)',  0.8, [6,4]);
+    drawRing(118, 0.18, Math.PI/3, 0.35,'rgba(201,168,76,0.3)',  0.7, [3,6]);
+    drawRing(75, -0.55, Math.PI/6, 0.15,'rgba(58,184,212,0.25)', 0.6, [2,8]);
+
+    // Réseau neuronal (lignes entre noeuds)
+    nodes.forEach(function(n) {
+      n.x = n.bx + Math.cos(t * 0.7 + n.phase) * n.amp;
+      n.y = n.by + Math.sin(t * 0.5 + n.phase) * n.amp;
+    });
+    for (var a = 0; a < nodes.length; a++) {
+      for (var b = a+1; b < nodes.length; b++) {
+        var dx = nodes[a].x - nodes[b].x;
+        var dy = nodes[a].y - nodes[b].y;
+        var d  = Math.sqrt(dx*dx+dy*dy);
+        if (d < 80) {
+          ctx.beginPath();
+          ctx.moveTo(nodes[a].x, nodes[a].y);
+          ctx.lineTo(nodes[b].x, nodes[b].y);
+          ctx.strokeStyle = 'rgba(58,184,212,' + (0.25 * (1 - d/80)) + ')';
+          ctx.lineWidth = 0.5;
+          ctx.setLineDash([]);
+          ctx.stroke();
+        }
+      }
+    }
+    nodes.forEach(function(n) {
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, 2, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(58,184,212,0.7)';
+      ctx.fill();
+    });
+
+    // Sphère centrale — glow
+    var glow = ctx.createRadialGradient(cx-10, cy-10, 2, cx, cy, 46);
+    glow.addColorStop(0,   'rgba(150,240,255,0.95)');
+    glow.addColorStop(0.25,'rgba(58,184,212,0.85)');
+    glow.addColorStop(0.6, 'rgba(30,100,200,0.5)');
+    glow.addColorStop(1,   'rgba(0,30,80,0)');
+    ctx.beginPath();
+    ctx.arc(cx, cy, 46, 0, Math.PI*2);
+    ctx.fillStyle = glow;
+    ctx.fill();
+
+    // Halo externe pulsant
+    var pulse = 0.3 + 0.15 * Math.sin(t * 2);
+    var halo = ctx.createRadialGradient(cx, cy, 38, cx, cy, 70);
+    halo.addColorStop(0,   'rgba(58,184,212,' + pulse + ')');
+    halo.addColorStop(1,   'rgba(58,184,212,0)');
+    ctx.beginPath();
+    ctx.arc(cx, cy, 70, 0, Math.PI*2);
+    ctx.fillStyle = halo;
+    ctx.fill();
+
+    // Croix de ciblage sur la sphère
+    ctx.save();
+    ctx.strokeStyle = 'rgba(58,184,212,0.6)';
+    ctx.lineWidth = 0.8;
+    ctx.setLineDash([4,4]);
+    ctx.beginPath(); ctx.moveTo(cx-48, cy); ctx.lineTo(cx+48, cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx, cy-48); ctx.lineTo(cx, cy+48); ctx.stroke();
+    ctx.setLineDash([]);
+    // Cercle de ciblage
+    ctx.beginPath();
+    ctx.arc(cx, cy, 52, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(201,168,76,0.35)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.restore();
+
+    // Scanner laser horizontal
+    scanY += scanDir * 1.2;
+    if (scanY > cy + 42) scanDir = -1;
+    if (scanY < cy - 42) scanDir =  1;
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, cy, 42, 0, Math.PI*2);
+    ctx.clip();
+    var scanGrad = ctx.createLinearGradient(cx-42, scanY, cx+42, scanY+3);
+    scanGrad.addColorStop(0,   'rgba(0,230,255,0)');
+    scanGrad.addColorStop(0.3, 'rgba(0,230,255,0.6)');
+    scanGrad.addColorStop(0.7, 'rgba(0,230,255,0.6)');
+    scanGrad.addColorStop(1,   'rgba(0,230,255,0)');
+    ctx.fillStyle = scanGrad;
+    ctx.fillRect(cx-42, scanY, 84, 2);
+    ctx.restore();
+
+    // Particules orbitales
+    particles.forEach(function(p) {
+      p.angle += p.speed;
+      var px = cx + Math.cos(p.angle) * p.orbit;
+      var py = cy + Math.sin(p.angle) * p.orbit * 0.35 + Math.sin(p.tilt) * 15;
+      ctx.beginPath();
+      ctx.arc(px, py, p.size, 0, Math.PI*2);
+      ctx.fillStyle = p.color.replace(')', ',' + p.alpha + ')').replace('rgb', 'rgba');
+      // fallback for hex colors
+      ctx.globalAlpha = p.alpha;
+      ctx.fillStyle = p.color;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    });
+
+    // Petits tirets de données sur les anneaux extérieurs
+    for (var d2 = 0; d2 < 8; d2++) {
+      var ang = t * 0.6 + d2 * Math.PI / 4;
+      var rx  = cx + Math.cos(ang) * 105;
+      var ry  = cy + Math.sin(ang) * 105 * 0.2;
+      ctx.beginPath();
+      ctx.arc(rx, ry, 2.5, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(120,80,255,0.8)';
+      ctx.fill();
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  frame();
+})();
 </script>
 
 <script src="menu.js"></script>
