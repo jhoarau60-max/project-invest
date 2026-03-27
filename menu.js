@@ -410,37 +410,40 @@ if ('serviceWorker' in navigator) {
 }
 
 var _pwaPrompt = null;
+var _pwaBtn = null;
+
 window.addEventListener('beforeinstallprompt', function(e) {
   e.preventDefault();
   _pwaPrompt = e;
-  var btn = document.getElementById('pwa-install-btn');
-  if (btn) btn.style.display = 'inline-flex';
+  if (_pwaBtn) _pwaBtn.style.display = 'inline-flex';
 });
 
 window.addEventListener('load', function() {
-  // Créer le bouton dans le header-top
   var headerTop = document.querySelector('.header-top');
   if (!headerTop) return;
 
   var btn = document.createElement('a');
+  _pwaBtn = btn;
   btn.id = 'pwa-install-btn';
   btn.title = 'Installer l\'application';
-  btn.style.cssText = 'display:inline-flex;align-items:center;gap:8px;background:rgba(0,200,255,0.15);color:#00c8ff;border:1px solid rgba(0,200,255,0.5);border-radius:20px;padding:8px 18px;cursor:pointer;font-size:1rem;font-weight:700;text-decoration:none;flex-shrink:0;box-shadow:0 0 12px rgba(0,200,255,0.3);margin-right:auto;';
-  btn.innerHTML = '<i class="fa-solid fa-download"></i> Project App';
+  btn.style.cssText = 'display:none;align-items:center;gap:6px;background:rgba(0,200,255,0.15);color:#00c8ff;border:1px solid rgba(0,200,255,0.5);border-radius:20px;padding:6px 14px;cursor:pointer;font-size:0.88rem;font-weight:700;text-decoration:none;flex-shrink:0;box-shadow:0 0 10px rgba(0,200,255,0.25);';
+  btn.innerHTML = '<i class="fa-solid fa-download"></i> Installer';
 
   btn.addEventListener('click', function() {
     if (_pwaPrompt) {
       _pwaPrompt.prompt();
       _pwaPrompt.userChoice.then(function() { _pwaPrompt = null; btn.style.display = 'none'; });
     } else {
-      alert('Pour installer sur iPhone : appuyez sur le bouton Partager puis "Sur l\'écran d\'accueil"');
+      alert('iPhone/iPad : bouton Partager → "Sur l\'écran d\'accueil"');
     }
   });
 
-  // Insérer le bouton Project App en premier dans le header (à la place de la barre de recherche)
   headerTop.insertBefore(btn, headerTop.firstChild);
 
-  // Sur iOS : toujours visible car pas de beforeinstallprompt
+  // Si beforeinstallprompt a déjà eu lieu avant la création du bouton
+  if (_pwaPrompt) btn.style.display = 'inline-flex';
+
+  // iOS : toujours visible si pas déjà installé
   var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
   var isStandalone = window.matchMedia('(display-mode: standalone)').matches;
   if (isIOS && !isStandalone) btn.style.display = 'inline-flex';
