@@ -114,16 +114,16 @@
       padding: 10px 12px 6px;
     }
     #header-search input {
-      background: rgba(0,200,255,0.08);
-      border: 2px solid rgba(0,200,255,0.7);
-      border-radius: 20px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 3px;
       padding: 6px 14px 6px 32px;
-      color: #fff;
+      color: #e8f4ff;
       font-size: 0.82rem;
       outline: none;
       width: 100%;
       box-sizing: border-box;
-      box-shadow: 0 0 10px rgba(0,200,255,0.4), inset 0 0 8px rgba(0,200,255,0.05);
+      box-shadow: none;
     }
     #header-search input::placeholder { color: rgba(0,200,255,0.7); }
     #header-search i {
@@ -140,9 +140,9 @@
     /* Titre Dashboard */
     .nav-title {
       padding: 16px 18px 10px;
-      color: rgba(0,200,255,0.8);
-      font-size: 1rem;
-      letter-spacing: 2px;
+      color: rgba(58,184,212,0.9);
+      font-size: 1.3rem;
+      letter-spacing: 3px;
       text-transform: uppercase;
       font-weight: 300;
       flex-shrink: 0;
