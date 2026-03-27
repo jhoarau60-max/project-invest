@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project inves'T - Panel Admin</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#00c8ff">
+  <style>
+    /* ── Animations courbes ── */
+    .line-anim  { stroke-dasharray: 40 960; animation: snake 6s linear infinite, rainbow 5s linear infinite; }
+    .line-anim2 { stroke-dasharray: 40 960; animation: snake 8s linear infinite reverse, rainbow 5s linear infinite 1.5s; }
+    .line-anim3 { stroke-dasharray: 40 960; animation: snake 7s linear infinite, rainbow 5s linear infinite 3s; }
+    @keyframes snake { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: -1000; } }
+    @keyframes rainbow {
+      0%   { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
+      20%  { stroke: #7850ff; filter: drop-shadow(0 0 6px #7850ff); }
+      40%  { stroke: #ff3399; filter: drop-shadow(0 0 6px #ff3399); }
+      60%  { stroke: #ffaa00; filter: drop-shadow(0 0 6px #ffaa00); }
+      80%  { stroke: #00ff99; filter: drop-shadow(0 0 6px #00ff99); }
+      100% { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
+    }
+
+    /* ── Page layout ── */
+    body { background: #020a18; color: #e0f0ff; }
+
+    .admin-wrapper {
+      padding: 30px 36px 60px;
+      max-width: 1200px;
+    }
+
+    /* ── Page title ── */
+    .admin-title {
+      margin-bottom: 8px;
+    }
+    .admin-title h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+    .admin-title h1 span { color: #00c8ff; }
+    .admin-title p {
+      color: rgba(0,200,255,0.7);
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    /* ── Section card ── */
+    .admin-section {
+      background: rgba(0,200,255,0.04);
+      border: 1px solid rgba(0,200,255,0.18);
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin-top: 32px;
+    }
+    .admin-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .admin-section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #00c8ff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .admin-section-title i { font-size: 1rem; }
+
+    /* ── Stats bar ── */
+    .stats-bar {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .stat-chip {
+      background: rgba(0,200,255,0.1);
+      border: 1px solid rgba(0,200,255,0.3);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 0.85rem;
+      color: #00c8ff;
+      font-weight: 600;
+    }
+    .stat-chip span { color: #fff; }
+
+    /* ── Table ── */
+    .admin-table-wrap {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid rgba(0,200,255,0.2);
+    }
+    table.admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    table.admin-table thead tr {
+      background: #0a2a5e;
+    }
+    table.admin-table thead th {
+      padding: 12px 14px;
+      text-align: left;
+      color: #00c8ff;
+      font-weight: 700;
+      border-bottom: 1px solid rgba(0,200,255,0.3);
+      white-space: nowrap;
+    }
+    table.admin-table tbody tr:nth-child(odd)  { background: #0a1628; }
+    table.admin-table tbody tr:nth-child(even) { background: #071020; }
+    table.admin-table tbody tr:hover { background: rgba(0,200,255,0.07); }
+    table.admin-table tbody td {
+      padding: 11px 14px;
+      border-bottom: 1px solid rgba(0,200,255,0.08);
+      vertical-align: middle;
+      color: #c8dff0;
+    }
+    table.admin-table tbody td.note-cell {
+      color: #c9a84c;
+      font-weight: 700;
+    }
+    .empty-row td {
+      text-align: center;
+      color: rgba(0,200,255,0.4);
+      padding: 28px 14px !important;
+      font-style: italic;
+    }
+
+    /* ── Action buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: opacity 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn-delete {
+      background: rgba(255, 60, 60, 0.15);
+      color: #ff5f5f;
+      border: 1px solid rgba(255,60,60,0.4);
+    }
+    .btn-delete:hover { box-shadow: 0 0 10px rgba(255,60,60,0.4); }
+    .btn-approve {
+      background: rgba(0,200,100,0.12);
+      color: #00e676;
+      border: 1px solid rgba(0,200,100,0.35);
+    }
+    .btn-approve:hover { box-shadow: 0 0 10px rgba(0,200,100,0.3); }
+    .btn-reject {
+      background: rgba(255,170,0,0.12);
+      color: #ffaa00;
+      border: 1px solid rgba(255,170,0,0.35);
+    }
+    .btn-reject:hover { box-shadow: 0 0 10px rgba(255,170,0,0.3); }
+    .btn-primary {
+      background: rgba(0,200,255,0.15);
+      color: #00c8ff;
+      border: 1px solid rgba(0,200,255,0.45);
+      padding: 8px 18px;
+      font-size: 0.88rem;
+    }
+    .btn-primary:hover { box-shadow: 0 0 14px rgba(0,200,255,0.4); }
+    .btn-gold {
+      background: rgba(201,168,76,0.15);
+      color: #c9a84c;
+      border: 1px solid rgba(201,168,76,0.4);
+      padding: 8px 18px;
+      font-size: 0.88rem;
+    }
+    .btn-gold:hover { box-shadow: 0 0 14px rgba(201,168,76,0.35); }
+
+    /* ── Note stars display ── */
+    .stars-display { color: #c9a84c; letter-spacing: 2px; }
+
+    /* ── Webinar add form ── */
+    #webinar-form {
+      display: none;
+      background: rgba(0,200,255,0.05);
+      border: 1px solid rgba(0,200,255,0.2);
+      border-radius: 10px;
+      padding: 20px 22px;
+      margin-bottom: 18px;
+      animation: fadeIn 0.25s ease;
+    }
+    #webinar-form.open { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      color: rgba(0,200,255,0.8);
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    .form-input {
+      width: 100%;
+      background: rgba(0,200,255,0.07);
+      border: 1px solid rgba(0,200,255,0.3);
+      border-radius: 8px;
+      padding: 9px 13px;
+      color: #fff;
+      font-size: 0.9rem;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-input:focus {
+      border-color: #00c8ff;
+      box-shadow: 0 0 10px rgba(0,200,255,0.25);
+    }
+    .form-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    #webinar-form-msg {
+      font-size: 0.82rem;
+      margin-top: 8px;
+      min-height: 20px;
+    }
+
+    /* ── Users section ── */
+    .info-box {
+      background: rgba(201,168,76,0.07);
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 10px;
+      padding: 16px 20px;
+      color: #c9a84c;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .info-box i { font-size: 1.1rem; margin-top: 2px; flex-shrink: 0; }
+
+    /* ── Loading spinner ── */
+    .loading-text {
+      color: rgba(0,200,255,0.5);
+      font-size: 0.85rem;
+      font-style: italic;
+      padding: 16px 0;
+    }
+
+    /* ── Status badge ── */
+    .badge-approved {
+      display: inline-block;
+      background: rgba(0,200,100,0.12);
+      border: 1px solid rgba(0,200,100,0.35);
+      color: #00e676;
+      border-radius: 12px;
+      padding: 2px 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .badge-pending {
+      display: inline-block;
+      background: rgba(255,170,0,0.1);
+      border: 1px solid rgba(255,170,0,0.3);
+      color: #ffaa00;
+      border-radius: 12px;
+      padding: 2px 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    /* ── Truncate long text ── */
+    .cell-comment {
+      max-width: 260px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cell-url {
+      max-width: 180px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cell-url a {
+      color: #00c8ff;
+      text-decoration: none;
+    }
+    .cell-url a:hover { text-decoration: underline; }
+
+    /* ── Separator ── */
+    .section-sep {
+      border: none;
+      border-top: 1px solid rgba(0,200,255,0.1);
+      margin: 14px 0 18px;
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const _sb = window.supabase.createClient(
+      "https://cvggxktybzbrtskcwlxp.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Z2d4a3R5YnpicnRza2N3bHhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyODM2MjcsImV4cCI6MjA4OTg1OTYyN30.cfHsAvmgcXYvedCz1fZCHlxOApupKCxnt8t9e8KzNBs"
+    );
+
+    /* ── Auth guard : session check ── */
+    setTimeout(function() {
+      _sb.auth.getSession().then(function({ data }) {
+        if (!data.session) { window.location.href = "index.html"; return; }
+        /* ── Admin guard ── */
+        var email = data.session.user.email;
+        var meta  = data.session.user.user_metadata || {};
+        if (!meta.is_admin && email !== 'jhoarau60@gmail.com') {
+          window.location.href = "home.html";
+        }
+      });
+    }, 800);
+  </script>
+</head>
+<body>
+
+<!-- ── Animated background ── -->
+<div id="bg-curves">
+  <svg viewBox="0 0 1700 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="glow-line">
+        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+        <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <path class="line-anim"  d="M-100,300 C200,100 400,500 800,250 S1200,50 1700,300"  fill="none" stroke="rgba(0,200,255,0.2)"  stroke-width="2" filter="url(#glow-line)"/>
+    <path class="line-anim2" d="M-100,600 C300,400 600,800 1000,550 S1400,300 1700,600" fill="none" stroke="rgba(26,127,219,0.25)" stroke-width="2" filter="url(#glow-line)"/>
+    <path class="line-anim3" d="M-100,150 C300,50 700,350 1100,150 S1450,0 1700,180"   fill="none" stroke="rgba(0,200,255,0.12)" stroke-width="1.5" filter="url(#glow-line)"/>
+    <circle cx="200"  cy="180" r="130" fill="none" stroke="rgba(0,200,255,0.15)"  stroke-width="1.5"/>
+    <circle cx="1500" cy="700" r="160" fill="none" stroke="rgba(26,127,219,0.2)"  stroke-width="1.5"/>
+  </svg>
+</div>
+
+<!-- ── Header ── -->
+<header>
+  <div class="header-top">
+    <a href="home.html" class="logo-svg">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 75" height="70" width="310">
+        <defs><filter id="glow"><feGaussianBlur stdDeviation="2.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <path d="M 51,15 A 28,28 0 1,0 51,60" fill="none" stroke="#00c8ff" stroke-width="2.5" filter="url(#glow)"/>
+        <path d="M 46,22 A 20,20 0 1,0 46,53" fill="none" stroke="#1a7fdb" stroke-width="1.2" opacity="0.6"/>
+        <line x1="51" y1="15" x2="305" y2="15" stroke="#00c8ff" stroke-width="1.8" opacity="0.9" filter="url(#glow)"/>
+        <line x1="51" y1="60" x2="305" y2="60" stroke="#1a9fff" stroke-width="1.8" opacity="0.9" filter="url(#glow)"/>
+        <text x="20" y="44" font-family="Arial Black,sans-serif" font-size="23" font-weight="900" fill="#ffffff" filter="url(#glow)">P</text>
+        <text x="57" y="47" font-family="Arial Black,sans-serif" font-size="28" font-weight="900" fill="#ffffff" letter-spacing="1">inves<tspan fill="#00c8ff" filter="url(#glow)">'T</tspan></text>
+      </svg>
+    </a>
+    <div class="social-links">
+      <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="background:#229ED9;color:#fff;border-color:#229ED9;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-telegram" style="font-size:1rem;color:#fff;"></i> Telegram</a>
+      <a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" style="background:#FF0000;color:#fff;border-color:#FF0000;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;">▶ YouTube</a>
+      <a href="https://wa.me/320492931040" target="_blank" style="background:#25D366;color:#fff;border-color:#25D366;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-whatsapp" style="font-size:1rem;color:#fff;"></i> WhatsApp</a>
+      <a href="#" onclick="_sb.auth.signOut().then(()=>window.location.href='index.html')" style="background:#00c8ff;color:#020a18;border-color:#00c8ff;font-weight:700;">⏻ Déconnexion</a>
+    </div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="home.html">Accueil</a></li>
+      <li><a href="parametres.html">⚙ Paramètres</a></li>
+      <li><a href="investissements.html">Investissements</a></li>
+      <li><a href="pdf-societe.html">PDF de société</a></li>
+      <li><a href="planning-webinaire.html">Planning webinaire 2026</a></li>
+      <li><a href="e-state-immobilier.html">E-state Immobilier Tokénisé</a></li>
+      <li><a href="smart-mev-trading.html">SMART MEV Trading</a></li>
+      <li><a href="mlm-center.html">MLM Center</a></li>
+      <li><a href="portage-salarial.html">Portage salarial</a></li>
+      <li><a href="wallet-decentralise.html">Wallet Décentralisé</a></li>
+      <li><a href="bibliotheque-mlm.html">Avis Clients</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- ── Main content ── -->
+<div class="admin-wrapper">
+
+  <!-- Page title -->
+  <div class="admin-title">
+    <h1>⚙️ Panel <span>Admin</span></h1>
+    <p>Gestion du site Project inves'T</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 1 — Avis Clients
+  ═════════════════════════════════════════════ -->
+  <div class="admin-section" id="section-avis">
+    <div class="admin-section-header">
+      <div class="admin-section-title">
+        <i class="fa-solid fa-star"></i> Avis Clients
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-bar">
+      <div class="stat-chip">Total avis : <span id="avis-total">—</span></div>
+      <div class="stat-chip">Note moyenne : <span id="avis-moyenne">—</span> / 10</div>
+    </div>
+
+    <div class="admin-table-wrap">
+      <table class="admin-table" id="avis-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Pseudo</th>
+            <th>Note</th>
+            <th>Commentaire</th>
+            <th>Date</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="avis-tbody">
+          <tr><td colspan="7" class="loading-text" style="text-align:center;padding:20px;">Chargement…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 2 — Planning Webinaire
+  ═════════════════════════════════════════════ -->
+  <div class="admin-section" id="section-webinaires">
+    <div class="admin-section-header">
+      <div class="admin-section-title">
+        <i class="fa-solid fa-video"></i> Planning Webinaire
+      </div>
+      <button class="btn btn-primary" id="toggle-webinar-form" onclick="toggleWebinarForm()">
+        <i class="fa-solid fa-plus"></i> Ajouter un webinaire
+      </button>
+    </div>
+
+    <!-- Inline add form -->
+    <div id="webinar-form">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="wf-date"><i class="fa-solid fa-calendar"></i> Date</label>
+          <input type="date" id="wf-date" class="form-input">
+        </div>
+        <div class="form-group">
+          <label for="wf-titre"><i class="fa-solid fa-heading"></i> Titre</label>
+          <input type="text" id="wf-titre" class="form-input" placeholder="Ex : Webinaire MLM #5">
+        </div>
+        <div class="form-group">
+          <label for="wf-zoom"><i class="fa-solid fa-link"></i> Lien Zoom</label>
+          <input type="url" id="wf-zoom" class="form-input" placeholder="https://zoom.us/j/...">
+        </div>
+        <div class="form-group">
+          <label for="wf-replay"><i class="fa-solid fa-play"></i> Lien Replay <small style="color:rgba(0,200,255,0.5)">(optionnel)</small></label>
+          <input type="url" id="wf-replay" class="form-input" placeholder="https://youtube.com/...">
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" onclick="submitWebinar()">
+          <i class="fa-solid fa-floppy-disk"></i> Enregistrer
+        </button>
+        <button class="btn" style="background:rgba(255,255,255,0.06);color:#aaa;border:1px solid rgba(255,255,255,0.12);" onclick="toggleWebinarForm()">
+          <i class="fa-solid fa-xmark"></i> Annuler
+        </button>
+      </div>
+      <div id="webinar-form-msg"></div>
+    </div>
+
+    <div class="admin-table-wrap">
+      <table class="admin-table" id="webinaires-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Titre</th>
+            <th>Lien Zoom</th>
+            <th>Lien Replay</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="webinaires-tbody">
+          <tr><td colspan="6" class="loading-text" style="text-align:center;padding:20px;">Chargement…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 3 — Utilisateurs inscrits
+  ═════════════════════════════════════════════ -->
+  <div class="admin-section" id="section-users">
+    <div class="admin-section-header">
+      <div class="admin-section-title">
+        <i class="fa-solid fa-users"></i> Utilisateurs inscrits
+      </div>
+    </div>
+
+    <!-- Stats profiles -->
+    <div class="stats-bar" style="margin-bottom:16px;">
+      <div class="stat-chip" id="users-count-chip">Utilisateurs (profiles) : <span id="users-count">—</span></div>
+    </div>
+
+    <div class="info-box">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      <div>
+        <strong>Accès limité côté client</strong><br>
+        Pour consulter la liste complète des utilisateurs avec leurs emails, rendez-vous sur votre
+        <strong>dashboard Supabase</strong> → <strong>Authentication</strong> → <strong>Users</strong>.<br>
+        <a href="https://supabase.com/dashboard/project/cvggxktybzbrtskcwlxp/auth/users" target="_blank"
+           style="color:#00c8ff;text-decoration:none;font-weight:700;margin-top:6px;display:inline-block;">
+          <i class="fa-solid fa-external-link"></i> Ouvrir le dashboard Supabase →
+        </a>
+      </div>
+    </div>
+
+    <hr class="section-sep">
+
+    <!-- Profiles table (if available) -->
+    <div id="profiles-section">
+      <div class="admin-section-title" style="font-size:1rem;margin-bottom:12px;">
+        <i class="fa-solid fa-address-card"></i> Table <code style="font-size:0.85rem;background:rgba(0,200,255,0.1);padding:2px 8px;border-radius:4px;">profiles</code>
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="profiles-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ID</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Créé le</th>
+            </tr>
+          </thead>
+          <tbody id="profiles-tbody">
+            <tr><td colspan="5" class="loading-text" style="text-align:center;padding:20px;">Chargement…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /.admin-wrapper -->
+
+<!-- ── Scripts ── -->
+<script src="menu.js"></script>
+<script src="audio.js"></script>
+<script src="translator.js"></script>
+
+<script>
+/* ════════════════════════════════════════════════════════════════
+   ADMIN PANEL — Data loading & interactions
+═════════════════════════════════════════════════════════════════ */
+
+/* ── Helpers ── */
+function starsHtml(note) {
+  var n = Math.round(note / 2); // sur 10 → sur 5
+  var s = '';
+  for (var i = 1; i <= 5; i++) {
+    s += (i <= n) ? '★' : '☆';
+  }
+  return '<span class="stars-display" title="' + note + '/10">' + s + '</span>';
+}
+
+function formatDate(str) {
+  if (!str) return '—';
+  try {
+    return new Date(str).toLocaleDateString('fr-FR', { day:'2-digit', month:'2-digit', year:'numeric' });
+  } catch(e) { return str; }
+}
+
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+/* ════════════════════════
+   SECTION : AVIS CLIENTS
+═════════════════════════ */
+var _avisData = [];
+
+function renderAvis(rows) {
+  var tbody = document.getElementById('avis-tbody');
+  if (!rows || rows.length === 0) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="7">Aucun avis pour le moment.</td></tr>';
+    document.getElementById('avis-total').textContent   = '0';
+    document.getElementById('avis-moyenne').textContent = '—';
+    return;
+  }
+
+  document.getElementById('avis-total').textContent = rows.length;
+
+  var sumNote = 0, countNote = 0;
+  rows.forEach(function(r) {
+    if (r.note != null) { sumNote += parseFloat(r.note); countNote++; }
+  });
+  document.getElementById('avis-moyenne').textContent =
+    countNote ? (sumNote / countNote).toFixed(1) : '—';
+
+  var html = '';
+  rows.forEach(function(row, i) {
+    var approuve = row.approuve;
+    var statutBadge = (approuve === true)
+      ? '<span class="badge-approved">Approuvé</span>'
+      : (approuve === false)
+        ? '<span class="badge-pending" style="color:#ff5f5f;border-color:rgba(255,60,60,0.35);background:rgba(255,60,60,0.08);">Rejeté</span>'
+        : '<span class="badge-pending">En attente</span>';
+
+    var approuveBtn = '';
+    if (approuve !== true) {
+      approuveBtn = '<button class="btn btn-approve" onclick="approuveAvis(\'' + row.id + '\', true)" title="Approuver">'
+        + '<i class="fa-solid fa-check"></i></button> ';
+    }
+    if (approuve !== false) {
+      approuveBtn += '<button class="btn btn-reject" onclick="approuveAvis(\'' + row.id + '\', false)" title="Rejeter">'
+        + '<i class="fa-solid fa-ban"></i></button> ';
+    }
+
+    html += '<tr id="avis-row-' + row.id + '">'
+      + '<td style="color:rgba(0,200,255,0.5);font-size:0.78rem;">' + (i + 1) + '</td>'
+      + '<td><strong>' + escHtml(row.pseudo || row.username || '—') + '</strong></td>'
+      + '<td class="note-cell">' + (row.note != null ? starsHtml(row.note) + ' <small style="color:#8a9ab0;">(' + row.note + '/10)</small>' : '—') + '</td>'
+      + '<td class="cell-comment" title="' + escHtml(row.commentaire) + '">' + escHtml(row.commentaire || '—') + '</td>'
+      + '<td style="white-space:nowrap;">' + formatDate(row.created_at || row.date) + '</td>'
+      + '<td>' + statutBadge + '</td>'
+      + '<td style="white-space:nowrap;">'
+        + approuveBtn
+        + '<button class="btn btn-delete" onclick="deleteAvis(\'' + row.id + '\')">'
+          + '<i class="fa-solid fa-trash"></i></button>'
+      + '</td>'
+      + '</tr>';
+  });
+  tbody.innerHTML = html;
+}
+
+function loadAvis() {
+  _sb.from('avis').select('*').order('created_at', { ascending: false })
+    .then(function(res) {
+      if (res.error) {
+        document.getElementById('avis-tbody').innerHTML =
+          '<tr class="empty-row"><td colspan="7">Erreur : ' + escHtml(res.error.message) + '</td></tr>';
+        return;
+      }
+      _avisData = res.data || [];
+      renderAvis(_avisData);
+    });
+}
+
+function deleteAvis(id) {
+  if (!confirm('Supprimer cet avis définitivement ?')) return;
+  _sb.from('avis').delete().eq('id', id).then(function(res) {
+    if (res.error) { alert('Erreur : ' + res.error.message); return; }
+    var row = document.getElementById('avis-row-' + id);
+    if (row) row.remove();
+    _avisData = _avisData.filter(function(r) { return r.id != id; });
+    // Refresh stats
+    var sumNote = 0, countNote = 0;
+    _avisData.forEach(function(r) { if (r.note != null) { sumNote += parseFloat(r.note); countNote++; } });
+    document.getElementById('avis-total').textContent   = _avisData.length;
+    document.getElementById('avis-moyenne').textContent = countNote ? (sumNote / countNote).toFixed(1) : '—';
+  });
+}
+
+function approuveAvis(id, val) {
+  _sb.from('avis').update({ approuve: val }).eq('id', id).then(function(res) {
+    if (res.error) { alert('Erreur : ' + res.error.message); return; }
+    // Update local data and re-render
+    _avisData.forEach(function(r) { if (r.id == id) r.approuve = val; });
+    renderAvis(_avisData);
+  });
+}
+
+/* ═══════════════════════════
+   SECTION : WEBINAIRES
+════════════════════════════ */
+var _webinairesData = [];
+
+function renderWebinaires(rows) {
+  var tbody = document.getElementById('webinaires-tbody');
+  if (!rows || rows.length === 0) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="6">Aucun webinaire planifié.</td></tr>';
+    return;
+  }
+  var html = '';
+  rows.forEach(function(row, i) {
+    var zoomCell = row.lien_zoom
+      ? '<div class="cell-url"><a href="' + escHtml(row.lien_zoom) + '" target="_blank"><i class="fa-solid fa-video" style="font-size:0.75rem;"></i> Zoom</a></div>'
+      : '<span style="color:rgba(0,200,255,0.3);">—</span>';
+    var replayCell = row.lien_replay
+      ? '<div class="cell-url"><a href="' + escHtml(row.lien_replay) + '" target="_blank"><i class="fa-brands fa-youtube" style="font-size:0.75rem;color:#FF0000;"></i> Replay</a></div>'
+      : '<span style="color:rgba(0,200,255,0.3);">—</span>';
+
+    html += '<tr id="web-row-' + row.id + '">'
+      + '<td style="color:rgba(0,200,255,0.5);font-size:0.78rem;">' + (i + 1) + '</td>'
+      + '<td style="white-space:nowrap;font-weight:600;color:#c9a84c;">' + formatDate(row.date) + '</td>'
+      + '<td><strong>' + escHtml(row.titre || '—') + '</strong></td>'
+      + '<td>' + zoomCell + '</td>'
+      + '<td>' + replayCell + '</td>'
+      + '<td><button class="btn btn-delete" onclick="deleteWebinaire(\'' + row.id + '\')">'
+          + '<i class="fa-solid fa-trash"></i></button></td>'
+      + '</tr>';
+  });
+  tbody.innerHTML = html;
+}
+
+function loadWebinaires() {
+  _sb.from('webinaires').select('*').order('date', { ascending: true })
+    .then(function(res) {
+      if (res.error) {
+        document.getElementById('webinaires-tbody').innerHTML =
+          '<tr class="empty-row"><td colspan="6">Erreur : ' + escHtml(res.error.message) + '</td></tr>';
+        return;
+      }
+      _webinairesData = res.data || [];
+      renderWebinaires(_webinairesData);
+    });
+}
+
+function deleteWebinaire(id) {
+  if (!confirm('Supprimer ce webinaire ?')) return;
+  _sb.from('webinaires').delete().eq('id', id).then(function(res) {
+    if (res.error) { alert('Erreur : ' + res.error.message); return; }
+    _webinairesData = _webinairesData.filter(function(r) { return r.id != id; });
+    renderWebinaires(_webinairesData);
+  });
+}
+
+function toggleWebinarForm() {
+  var form = document.getElementById('webinar-form');
+  form.classList.toggle('open');
+  document.getElementById('webinar-form-msg').textContent = '';
+}
+
+function submitWebinar() {
+  var date      = document.getElementById('wf-date').value;
+  var titre     = document.getElementById('wf-titre').value.trim();
+  var lien_zoom  = document.getElementById('wf-zoom').value.trim();
+  var lien_replay= document.getElementById('wf-replay').value.trim();
+  var msg        = document.getElementById('webinar-form-msg');
+
+  if (!date)   { msg.style.color = '#ff5f5f'; msg.textContent = 'Veuillez saisir une date.'; return; }
+  if (!titre)  { msg.style.color = '#ff5f5f'; msg.textContent = 'Veuillez saisir un titre.'; return; }
+
+  msg.style.color = '#00c8ff';
+  msg.textContent = 'Enregistrement…';
+
+  var payload = { date: date, titre: titre };
+  if (lien_zoom)   payload.lien_zoom   = lien_zoom;
+  if (lien_replay) payload.lien_replay = lien_replay;
+
+  _sb.from('webinaires').insert([payload]).select().then(function(res) {
+    if (res.error) {
+      msg.style.color = '#ff5f5f';
+      msg.textContent = 'Erreur : ' + res.error.message;
+      return;
+    }
+    msg.style.color = '#00e676';
+    msg.textContent = 'Webinaire ajouté avec succès !';
+    // Clear fields
+    document.getElementById('wf-date').value    = '';
+    document.getElementById('wf-titre').value   = '';
+    document.getElementById('wf-zoom').value    = '';
+    document.getElementById('wf-replay').value  = '';
+
+    if (res.data && res.data[0]) {
+      _webinairesData.push(res.data[0]);
+      _webinairesData.sort(function(a, b) { return (a.date || '') > (b.date || '') ? 1 : -1; });
+      renderWebinaires(_webinairesData);
+    }
+    setTimeout(function() { toggleWebinarForm(); }, 1200);
+  });
+}
+
+/* ════════════════════════════
+   SECTION : UTILISATEURS / PROFILES
+═════════════════════════════ */
+function loadProfiles() {
+  _sb.from('profiles').select('*').order('created_at', { ascending: false })
+    .then(function(res) {
+      if (res.error) {
+        // Table profiles may not exist — degrade gracefully
+        document.getElementById('profiles-tbody').innerHTML =
+          '<tr class="empty-row"><td colspan="5">Table <code>profiles</code> inaccessible ou inexistante.</td></tr>';
+        document.getElementById('users-count').textContent = '—';
+        return;
+      }
+      var rows = res.data || [];
+      document.getElementById('users-count').textContent = rows.length;
+
+      if (rows.length === 0) {
+        document.getElementById('profiles-tbody').innerHTML =
+          '<tr class="empty-row"><td colspan="5">Aucun profil trouvé dans la table <code>profiles</code>.</td></tr>';
+        return;
+      }
+      var html = '';
+      rows.forEach(function(row, i) {
+        html += '<tr>'
+          + '<td style="color:rgba(0,200,255,0.5);font-size:0.78rem;">' + (i + 1) + '</td>'
+          + '<td style="font-family:monospace;font-size:0.78rem;color:rgba(0,200,255,0.6);">' + escHtml(String(row.id || '').substring(0, 18)) + '…</td>'
+          + '<td><strong>' + escHtml(row.username || row.pseudo || '—') + '</strong></td>'
+          + '<td style="color:rgba(200,220,255,0.7);">' + escHtml(row.email || '—') + '</td>'
+          + '<td style="white-space:nowrap;">' + formatDate(row.created_at) + '</td>'
+          + '</tr>';
+      });
+      document.getElementById('profiles-tbody').innerHTML = html;
+    });
+}
+
+/* ════════════════════════════
+   Init : wait for auth then load
+═════════════════════════════ */
+window.addEventListener('DOMContentLoaded', function() {
+  // Wait a moment for the auth guard to have run
+  setTimeout(function() {
+    _sb.auth.getSession().then(function(res) {
+      if (!res.data || !res.data.session) return; // Guard will redirect
+      loadAvis();
+      loadWebinaires();
+      loadProfiles();
+    });
+  }, 900);
+});
+</script>
+
+</body>
+</html>
