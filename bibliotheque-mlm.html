@@ -160,7 +160,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             <textarea id="avis-commentaire" rows="4" placeholder="Partagez votre expérience sur le site et les projets..." class="form-input" style="resize:vertical;font-family:inherit;"></textarea>
         </div>
 
-        <button id="avis-submit" onclick="soumettreAvis()"
+        <button type="button" id="avis-submit" onclick="soumettreAvis()"
             style="width:100%;background:#c9a84c;color:#020a18;border:none;border-radius:8px;padding:12px;font-size:1rem;font-weight:700;cursor:pointer;transition:all 0.3s;box-shadow:0 0 14px rgba(201,168,76,0.4);">
             <i class="fa-solid fa-paper-plane" style="margin-right:8px;"></i>Publier mon avis
         </button>
