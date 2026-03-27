@@ -480,9 +480,9 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         <p style="color:#aaa;font-size:0.88rem;margin-bottom:16px;text-align:center;">Estimez vos revenus journaliers, mensuels, annuels et à 18 mois selon votre investissement.</p>
 
         <div style="display:flex;justify-content:center;gap:10px;margin-bottom:22px;">
-            <button id="btn-eur" onclick="setCurrency('EUR')"
+            <button type="button" id="btn-eur" onclick="setCurrency('EUR')"
                 style="padding:7px 20px;border-radius:20px;border:1px solid rgba(0,200,255,0.5);background:rgba(0,200,255,0.15);color:#00c8ff;font-weight:700;cursor:pointer;font-size:0.9rem;">€ Euro</button>
-            <button id="btn-usd" onclick="setCurrency('USD')"
+            <button type="button" id="btn-usd" onclick="setCurrency('USD')"
                 style="padding:7px 20px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#aaa;font-weight:700;cursor:pointer;font-size:0.9rem;">$ Dollar</button>
         </div>
 
