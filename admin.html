@@ -317,9 +317,10 @@
       _sb.auth.getSession().then(function({ data }) {
         if (!data.session) { window.location.href = "index.html"; return; }
         /* ── Admin guard ── */
-        var email = data.session.user.email;
+        var email = (data.session.user.email || '').toLowerCase().trim();
         var meta  = data.session.user.user_metadata || {};
-        if (!meta.is_admin && email !== 'jhoarau60@gmail.com') {
+        var adminEmails = ['jhoarau60@gmail.com'];
+        if (!meta.is_admin && adminEmails.indexOf(email) === -1) {
           window.location.href = "home.html";
         }
       });
