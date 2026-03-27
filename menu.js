@@ -278,7 +278,6 @@
 
     .social-links a,
     #lang-btn,
-    #sound-btn,
     #user-badge {
       box-shadow: none !important;
       border-radius: 3px !important;
@@ -286,10 +285,14 @@
       transition: border-color 0.3s, background 0.3s !important;
     }
     .social-links a:hover,
-    #lang-btn:hover,
-    #sound-btn:hover {
+    #lang-btn:hover {
       box-shadow: none !important;
       border-color: #fff !important;
+    }
+    #sound-btn {
+      color: #c9a84c !important;
+      border: none !important;
+      background: transparent !important;
     }
   `;
   document.head.appendChild(style);
