@@ -367,15 +367,15 @@
       if (!a) return;
       var href = a.getAttribute('href');
 
+      // Renommer le label (avant redirection pour garder la bonne clé)
+      if (RENAME_MAP[href]) {
+        a.textContent = RENAME_MAP[href];
+      }
+
       // Rediriger href si nécessaire
       if (HREF_REDIRECT[href]) {
         a.setAttribute('href', HREF_REDIRECT[href]);
         href = HREF_REDIRECT[href];
-      }
-
-      // Renommer le label
-      if (RENAME_MAP[href]) {
-        a.textContent = RENAME_MAP[href];
       }
 
       // Icône
