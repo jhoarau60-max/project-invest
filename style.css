@@ -10,7 +10,7 @@
     height: 8px;
 }
 ::-webkit-scrollbar-track {
-    background: #081527;
+    background: #122035;
     border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb {
@@ -25,11 +25,11 @@
 }
 
 /* COULEURS EXTRAITES DE L'IMAGE : bleu marine foncé + néon cyan/bleu électrique */
-/* Fond : #030d1e   Bleu moyen : #12305e   Néon bleu : #2a7abf   Cyan : #3ab8d4 */
+/* Fond : #030d1e   Bleu moyen : #1e3d6e   Néon bleu : #2a7abf   Cyan : #3ab8d4 */
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #0d1e3a;
+    background: #1a2d4a;
     color: #e0f0ff;
 }
 
@@ -100,7 +100,7 @@ body > *:not(#bg-curves):not(#nav-overlay):not(nav) {
 
 /* HEADER */
 header {
-    background: linear-gradient(135deg, #081527cc, #12305ecc);
+    background: linear-gradient(135deg, #122035cc, #1e3d6ecc);
     backdrop-filter: blur(10px);
     border-bottom: 2px solid #3ab8d4;
     padding: 0 20px;
@@ -171,7 +171,7 @@ nav {
     left: 0;
     width: 270px;
     height: 100vh;
-    background: linear-gradient(180deg, #081527 0%, #12305e 60%, #081527 100%);
+    background: linear-gradient(180deg, #122035 0%, #1e3d6e 60%, #122035 100%);
     border-right: 1px solid rgba(0,200,255,0.3);
     box-shadow: 4px 0 30px rgba(0,0,0,0.6);
     z-index: 9998;
@@ -327,7 +327,7 @@ nav ul li.has-submenu .submenu li a.active {
 .btn {
     display: inline-block;
     background: linear-gradient(135deg, #2a7abf, #3ab8d4);
-    color: #081527;
+    color: #122035;
     padding: 14px 32px;
     text-decoration: none;
     font-weight: 700;
@@ -354,7 +354,7 @@ nav ul li.has-submenu .submenu li a.active {
 
 .btn-outline:hover {
     background: linear-gradient(135deg, #2a7abf, #3ab8d4);
-    color: #081527;
+    color: #122035;
 }
 
 /* SECTIONS */
@@ -457,7 +457,7 @@ nav ul li.has-submenu .submenu li a.active {
 
 /* PAGE HEADER */
 .page-header {
-    background: linear-gradient(135deg, #081527, #12305e);
+    background: linear-gradient(135deg, #122035, #1e3d6e);
     padding: 60px 20px;
     text-align: center;
     border-bottom: 2px solid #3ab8d4;
@@ -484,7 +484,7 @@ table {
 }
 
 th {
-    background: linear-gradient(90deg, #12305e, #2a7abf);
+    background: linear-gradient(90deg, #1e3d6e, #2a7abf);
     color: #0a0a0a;
     padding: 14px;
     text-align: left;
@@ -583,7 +583,7 @@ tr:hover td {
 
 /* FOOTER */
 footer {
-    background: #0d1e3a;
+    background: #1a2d4a;
     border-top: 1px solid rgba(0,200,255,0.2);
     padding: 40px 20px;
     text-align: center;
