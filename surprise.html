@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project inves'T - SURPRISE</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { overflow: hidden; }
+
+    /* ── Fond étoilé ── */
+    #stars-canvas {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── Lignes décoratives (reprises du site) ── */
+    #bg-curves {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── Conteneur centré ── */
+    .surprise-wrap {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      text-align: center;
+    }
+
+    /* ── Cercle robot ── */
+    .robot-circle {
+      position: relative;
+      width: 200px; height: 200px;
+      margin-bottom: 30px;
+    }
+    .robot-ring {
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      border: 2px solid rgba(0,230,180,0.25);
+      animation: ring-pulse 3s ease-in-out infinite;
+    }
+    .robot-ring:nth-child(2) {
+      inset: -12px;
+      border-color: rgba(0,230,180,0.12);
+      animation-delay: 0.5s;
+    }
+    .robot-ring:nth-child(3) {
+      inset: -24px;
+      border-color: rgba(0,230,180,0.07);
+      animation-delay: 1s;
+    }
+    @keyframes ring-pulse {
+      0%,100% { opacity: 0.6; transform: scale(1); }
+      50%      { opacity: 1;   transform: scale(1.04); }
+    }
+    .robot-bg {
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, rgba(0,230,180,0.18), rgba(0,180,160,0.08) 60%, transparent);
+      border: 1.5px solid rgba(0,230,180,0.35);
+    }
+    .robot-svg {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      filter: drop-shadow(0 0 18px rgba(0,230,180,0.7)) drop-shadow(0 0 40px rgba(0,230,180,0.3));
+      animation: robot-float 4s ease-in-out infinite;
+    }
+    @keyframes robot-float {
+      0%,100% { transform: translateY(0px); }
+      50%      { transform: translateY(-10px); }
+    }
+
+    /* ── Titre SURPRISE ── */
+    .surprise-title {
+      font-family: 'Arial Black', sans-serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      color: #c9a84c;
+      text-shadow:
+        0 0 10px rgba(201,168,76,0.9),
+        0 0 25px rgba(201,168,76,0.6),
+        0 0 55px rgba(201,168,76,0.3),
+        0 0 90px rgba(201,168,76,0.15);
+      margin-bottom: 16px;
+      animation: title-glow 3s ease-in-out infinite;
+    }
+    @keyframes title-glow {
+      0%,100% { text-shadow: 0 0 10px rgba(201,168,76,0.9), 0 0 25px rgba(201,168,76,0.6), 0 0 55px rgba(201,168,76,0.3); }
+      50%      { text-shadow: 0 0 20px rgba(201,168,76,1),   0 0 45px rgba(201,168,76,0.8), 0 0 80px rgba(201,168,76,0.5); }
+    }
+
+    /* ── Sous-titre ── */
+    .surprise-sub {
+      font-size: 0.9rem;
+      letter-spacing: 0.25em;
+      color: #e8f4ff;
+      opacity: 0.75;
+      margin-bottom: 40px;
+      font-weight: 300;
+    }
+    .surprise-sub::after {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      border-bottom: 1.5px solid #c9a84c;
+      margin-left: 6px;
+      vertical-align: middle;
+      animation: dash-grow 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes dash-grow {
+      from { width: 10px; opacity: 0.4; }
+      to   { width: 28px; opacity: 1; }
+    }
+
+    /* ── Barre de chargement ── */
+    .loading-wrap {
+      width: min(500px, 80vw);
+    }
+    .loading-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.3em;
+      color: #e8f4ff;
+      opacity: 0.55;
+      margin-bottom: 10px;
+    }
+    .loading-bar-track {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .loading-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #3ab8d4, #7850ff, #ff3399);
+      background-size: 200% 100%;
+      animation: bar-shimmer 2.5s linear infinite;
+      transition: width 0.4s ease;
+    }
+    @keyframes bar-shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .loading-pct {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #e8f4ff;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Bouton voix ── */
+    .btn-voice {
+      margin-top: 32px;
+      padding: 10px 28px;
+      background: transparent;
+      border: 1px solid rgba(201,168,76,0.6);
+      border-radius: 3px;
+      color: #c9a84c;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-voice:hover {
+      background: rgba(201,168,76,0.1);
+      border-color: #c9a84c;
+    }
+    .btn-voice.speaking {
+      border-color: #3ab8d4;
+      color: #3ab8d4;
+      animation: btn-pulse 1s ease-in-out infinite;
+    }
+    @keyframes btn-pulse {
+      0%,100% { box-shadow: 0 0 0 rgba(58,184,212,0); }
+      50%      { box-shadow: 0 0 12px rgba(58,184,212,0.4); }
+    }
+
+    /* ── Particules décoratives ── */
+    .deco-line {
+      position: fixed;
+      width: 40px; height: 2px;
+      border-radius: 2px;
+      animation: deco-float 6s ease-in-out infinite;
+    }
+    @keyframes deco-float {
+      0%,100% { transform: translateY(0) rotate(var(--r)); opacity: 0.5; }
+      50%      { transform: translateY(-20px) rotate(var(--r)); opacity: 0.9; }
+    }
+  </style>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const _sb=window.supabase.createClient("https://cvggxktybzbrtskcwlxp.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Z2d4a3R5YnpicnRza2N3bHhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyODM2MjcsImV4cCI6MjA4OTg1OTYyN30.cfHsAvmgcXYvedCz1fZCHlxOApupKCxnt8t9e8KzNBs");
+setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window.location.href="index.html"; }); }, 800);
+</script>
+<link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#00c8ff">
+</head>
+<body>
+
+<!-- Lignes courbes fond -->
+<div id="bg-curves">
+  <svg viewBox="0 0 1700 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+    <defs><filter id="gl"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    <path d="M-100,300 C200,100 400,500 800,250 S1200,50 1700,300"  fill="none" stroke="rgba(0,200,255,0.1)"  stroke-width="2" filter="url(#gl)"/>
+    <path d="M-100,600 C300,400 600,800 1000,550 S1400,300 1700,600" fill="none" stroke="rgba(26,127,219,0.12)" stroke-width="2" filter="url(#gl)"/>
+    <circle cx="200"  cy="180" r="130" fill="none" stroke="rgba(0,200,255,0.08)" stroke-width="1.5"/>
+    <circle cx="1500" cy="700" r="160" fill="none" stroke="rgba(26,127,219,0.1)"  stroke-width="1.5"/>
+  </svg>
+</div>
+
+<!-- Lignes décoratives flottantes -->
+<div class="deco-line" style="top:18%;left:12%;background:#3ab8d4;--r:-25deg;animation-delay:0s;"></div>
+<div class="deco-line" style="top:12%;right:15%;background:#7850ff;--r:15deg;animation-delay:1s;width:28px;"></div>
+<div class="deco-line" style="bottom:25%;left:8%;background:#c9a84c;--r:35deg;animation-delay:2s;width:18px;"></div>
+<div class="deco-line" style="bottom:20%;right:10%;background:#3ab8d4;--r:-10deg;animation-delay:0.5s;"></div>
+
+<header>
+  <div class="header-top">
+    <a href="index.html" class="logo-svg">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 75" height="70" width="310">
+        <defs><filter id="glow"><feGaussianBlur stdDeviation="2.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <path d="M 51,15 A 28,28 0 1,0 51,60" fill="none" stroke="#00c8ff" stroke-width="2.5" filter="url(#glow)"/>
+        <line x1="51" y1="15" x2="305" y2="15" stroke="#00c8ff" stroke-width="1.8" opacity="0.9" filter="url(#glow)"/>
+        <line x1="51" y1="60" x2="305" y2="60" stroke="#1a9fff" stroke-width="1.8" opacity="0.9" filter="url(#glow)"/>
+        <text x="20" y="44" font-family="Arial Black,sans-serif" font-size="23" font-weight="900" fill="#ffffff" filter="url(#glow)">P</text>
+        <text x="57" y="47" font-family="Arial Black,sans-serif" font-size="28" font-weight="900" fill="#ffffff" letter-spacing="1">inves<tspan fill="#00c8ff" filter="url(#glow)">'T</tspan></text>
+      </svg>
+    </a>
+    <div class="social-links">
+      <a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank">▶ YouTube</a>
+      <a href="https://wa.me/320492931040" target="_blank">WhatsApp</a>
+      <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank">Telegram</a>
+      <a href="#" onclick="_sb.auth.signOut().then(()=>window.location.href='index.html')" style="background:#00c8ff;color:#020a18;border-color:#00c8ff;font-weight:700;">⏻ Déconnexion</a>
+    </div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="home.html">Accueil</a></li>
+      <li><a href="parametres.html">⚙ Paramètres</a></li>
+      <li><a href="investissements.html">Investissements</a></li>
+      <li><a href="planning-webinaire.html">Planning webinaire 2026</a></li>
+      <li><a href="e-state-immobilier.html">E-state Immobilier Tokénisé</a></li>
+      <li><a href="smart-mev-trading.html">SMART MEV Trading</a></li>
+      <li><a href="mlm-center.html">MLM Center</a></li>
+      <li><a href="portage-salarial.html">Portage salarial</a></li>
+      <li><a href="wallet-decentralise.html">Wallet Décentralisé</a></li>
+      <li><a href="bibliotheque-mlm.html">Avis Clients</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- Contenu principal -->
+<div class="surprise-wrap">
+
+  <!-- Robot animé -->
+  <div class="robot-circle">
+    <div class="robot-ring"></div>
+    <div class="robot-ring"></div>
+    <div class="robot-ring"></div>
+    <div class="robot-bg"></div>
+    <div class="robot-svg">
+      <svg width="110" height="110" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <!-- Antenne -->
+        <line x1="50" y1="8" x2="50" y2="20" stroke="#00e6b4" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="50" cy="6" r="4" fill="#00e6b4" opacity="0.9">
+          <animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite"/>
+        </circle>
+        <!-- Tête -->
+        <rect x="22" y="20" width="56" height="42" rx="10" ry="10" fill="#00c8a0" opacity="0.95"/>
+        <!-- Yeux -->
+        <rect x="31" y="31" width="14" height="10" rx="3" fill="#0a2a5e" opacity="0.9"/>
+        <rect x="55" y="31" width="14" height="10" rx="3" fill="#0a2a5e" opacity="0.9"/>
+        <!-- Pupilles (clignotant) -->
+        <rect x="36" y="33" width="4" height="6" rx="2" fill="#00e6b4">
+          <animate attributeName="height" values="6;0;6" dur="3.5s" repeatCount="indefinite"/>
+          <animate attributeName="y" values="33;36;33" dur="3.5s" repeatCount="indefinite"/>
+        </rect>
+        <rect x="60" y="33" width="4" height="6" rx="2" fill="#00e6b4">
+          <animate attributeName="height" values="6;0;6" dur="3.5s" begin="0.2s" repeatCount="indefinite"/>
+          <animate attributeName="y" values="33;36;33" dur="3.5s" begin="0.2s" repeatCount="indefinite"/>
+        </rect>
+        <!-- Bouche (segments animés) -->
+        <rect x="34" y="50" width="6" height="4" rx="1" fill="#0a2a5e" opacity="0.8" id="m1"/>
+        <rect x="44" y="50" width="6" height="4" rx="1" fill="#0a2a5e" opacity="0.8" id="m2"/>
+        <rect x="54" y="50" width="6" height="4" rx="1" fill="#0a2a5e" opacity="0.8" id="m3"/>
+        <!-- Corps -->
+        <rect x="28" y="65" width="44" height="28" rx="8" ry="8" fill="#00c8a0" opacity="0.85"/>
+        <!-- Détails corps -->
+        <rect x="38" y="72" width="24" height="8" rx="3" fill="#0a2a5e" opacity="0.5"/>
+        <circle cx="40" cy="87" r="3" fill="#00e6b4" opacity="0.7">
+          <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="50" cy="87" r="3" fill="#00e6b4" opacity="0.7">
+          <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" begin="0.3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="60" cy="87" r="3" fill="#00e6b4" opacity="0.7">
+          <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" begin="0.6s" repeatCount="indefinite"/>
+        </circle>
+        <!-- Bras -->
+        <rect x="8"  y="66" width="18" height="10" rx="5" fill="#00c8a0" opacity="0.9"/>
+        <rect x="74" y="66" width="18" height="10" rx="5" fill="#00c8a0" opacity="0.9"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Titre -->
+  <div class="surprise-title">SURPRISE</div>
+
+  <!-- Sous-titre -->
+  <div class="surprise-sub">QUELQUE CHOSE ARRIVE...</div>
+
+  <!-- Barre de chargement -->
+  <div class="loading-wrap">
+    <div class="loading-label">L O A D I N G</div>
+    <div class="loading-bar-track">
+      <div class="loading-bar-fill" id="bar-fill" style="width:35%"></div>
+    </div>
+    <div class="loading-pct" id="pct-txt">35 %</div>
+  </div>
+
+  <!-- Bouton voix robot -->
+  <button class="btn-voice" id="btn-voice" onclick="parlerRobot()">
+    <i class="fa-solid fa-microphone" style="margin-right:8px;"></i>ÉCOUTER LE ROBOT
+  </button>
+
+</div>
+
+<footer>
+  <p>© 2026 Project inves'T — Site personnel, non professionnel. Les investissements comportent des risques.</p>
+</footer>
+
+<script>
+// ── Barre de chargement (animée lentement, bloquée à 87%) ──
+(function() {
+  var current = 35;
+  var target  = 87;
+  var bar  = document.getElementById('bar-fill');
+  var txt  = document.getElementById('pct-txt');
+  var timer = setInterval(function() {
+    if (current >= target) { clearInterval(timer); return; }
+    current += Math.random() * 0.4 + 0.1;
+    if (current > target) current = target;
+    bar.style.width = current.toFixed(1) + '%';
+    txt.textContent  = Math.floor(current) + ' %';
+  }, 400);
+})();
+
+// ── Voix robot (Web Speech API) ──
+var MESSAGE_FR = "Bonjour ! Je suis le robot de Project Inves T. Quelque chose d'extraordinaire est en cours de préparation. Un nouveau projet arrive très bientôt. Restez connectés !";
+
+function parlerRobot() {
+  if (!('speechSynthesis' in window)) {
+    alert("Votre navigateur ne supporte pas la synthèse vocale.");
+    return;
+  }
+  var synth = window.speechSynthesis;
+  if (synth.speaking) { synth.cancel(); return; }
+
+  var btn = document.getElementById('btn-voice');
+  btn.classList.add('speaking');
+  btn.innerHTML = '<i class="fa-solid fa-stop" style="margin-right:8px;"></i>ARRÊTER';
+
+  var utterance = new SpeechSynthesisUtterance(MESSAGE_FR);
+  utterance.lang  = 'fr-FR';
+  utterance.rate  = 0.85;
+  utterance.pitch = 0.6;   // voix grave robotique
+  utterance.volume = 1;
+
+  // Choisir une voix française si disponible
+  var voices = synth.getVoices();
+  var frVoice = voices.find(v => v.lang.startsWith('fr'));
+  if (frVoice) utterance.voice = frVoice;
+
+  // Animer la bouche pendant la parole
+  var mouthAnim = setInterval(animateMouth, 180);
+
+  utterance.onend = utterance.onerror = function() {
+    clearInterval(mouthAnim);
+    resetMouth();
+    btn.classList.remove('speaking');
+    btn.innerHTML = '<i class="fa-solid fa-microphone" style="margin-right:8px;"></i>ÉCOUTER LE ROBOT';
+  };
+
+  synth.speak(utterance);
+}
+
+// Anime les segments de bouche du robot
+var mouthState = 0;
+function animateMouth() {
+  var m1 = document.getElementById('m1');
+  var m2 = document.getElementById('m2');
+  var m3 = document.getElementById('m3');
+  if (!m1) return;
+  var patterns = [
+    [4,2,4],[2,4,2],[4,4,2],[2,2,4],[4,2,2],[3,4,3]
+  ];
+  var p = patterns[mouthState % patterns.length];
+  m1.setAttribute('height', p[0]);
+  m2.setAttribute('height', p[1]);
+  m3.setAttribute('height', p[2]);
+  mouthState++;
+}
+function resetMouth() {
+  ['m1','m2','m3'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.setAttribute('height', 4);
+  });
+}
+
+// Charger les voix au démarrage
+window.speechSynthesis.onvoiceschanged = function() {};
+window.addEventListener('load', function() {
+  window.speechSynthesis.getVoices();
+});
+</script>
+
+<script src="menu.js"></script>
+<script src="audio.js"></script>
+<script src="translator.js"></script>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/69c1c8abf9f0211c36fde03a/1jkeffnrd';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+</body>
+</html>
