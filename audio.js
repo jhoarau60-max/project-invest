@@ -19,16 +19,11 @@
 
   // Insérer dans le header (à côté de YouTube) ou en fixe sur la page de connexion
   function placeBtn() {
-    // Placer dans la sidebar (nav), juste après le logo
-    const nav = document.querySelector('body > nav');
-    const logo = document.querySelector('.logo-svg');
-    if (nav && logo) {
-      btn.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:8px;color:#00c8ff;font-size:1rem;padding:8px 18px;border-top:1px solid rgba(0,200,255,0.15);border-bottom:1px solid rgba(0,200,255,0.15);cursor:pointer;background:rgba(0,200,255,0.05);transition:all 0.3s;width:100%;box-sizing:border-box;';
-      if (logo.nextSibling) {
-        nav.insertBefore(btn, logo.nextSibling);
-      } else {
-        nav.appendChild(btn);
-      }
+    const headerTop = document.querySelector('.header-top');
+    if (headerTop) {
+      // Premier élément du header avec margin-right:auto pour rester à gauche
+      btn.style.cssText = 'color:#00c8ff;font-size:1.1rem;padding:6px 12px;border:1px solid rgba(0,200,255,0.4);border-radius:20px;transition:all 0.3s;text-shadow:0 0 8px rgba(0,200,255,0.5);cursor:pointer;display:inline-flex;align-items:center;flex-shrink:0;margin-right:auto;';
+      headerTop.insertBefore(btn, headerTop.firstChild);
     } else {
       // Page de connexion : fixe en haut à gauche
       btn.style.cssText = 'position:fixed;top:20px;left:20px;z-index:9999;background:rgba(10,42,94,0.7);border:1px solid rgba(0,200,255,0.4);border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(10px);font-size:1.2rem;transition:all 0.3s;';
