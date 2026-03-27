@@ -2,7 +2,7 @@
 (function() {
   const STORAGE_KEY = 'music_playing';
 
-  const MUSIC_SRC = ''; // Mettre ici le nom du fichier audio quand disponible ex: 'music.mp3'
+  const MUSIC_SRC = 'jo project.mp3'; // Mettre ici le nom du fichier audio quand disponible ex: 'music.mp3'
   if (!MUSIC_SRC) return; // Pas de fichier audio → on ne fait rien
 
   const music = document.createElement('audio');
