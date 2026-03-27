@@ -274,6 +274,8 @@
     }
     .social-links a[href*="wa.me"] i { color: #25D366 !important; }
 
+    .social-links a[href="parametres.html"] { display: none !important; }
+
     .social-links a,
     #lang-btn,
     #sound-btn,
@@ -281,15 +283,13 @@
       box-shadow: none !important;
       border-radius: 3px !important;
       border: 1px solid rgba(255,255,255,0.75) !important;
-      opacity: 0.78;
-      transition: opacity 0.3s, background 0.3s !important;
+      transition: border-color 0.3s, background 0.3s !important;
     }
     .social-links a:hover,
     #lang-btn:hover,
     #sound-btn:hover {
       box-shadow: none !important;
       border-color: #fff !important;
-      opacity: 1;
     }
   `;
   document.head.appendChild(style);
