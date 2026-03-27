@@ -260,13 +260,15 @@
     #lang-btn,
     #sound-btn,
     #user-badge {
-      box-shadow: 0 0 8px rgba(0,200,255,0.25), 0 0 18px rgba(0,200,255,0.1) !important;
-      transition: box-shadow 0.3s, background 0.3s !important;
+      box-shadow: none !important;
+      opacity: 0.75;
+      transition: opacity 0.3s, background 0.3s !important;
     }
     .social-links a:hover,
     #lang-btn:hover,
     #sound-btn:hover {
-      box-shadow: 0 0 14px rgba(0,200,255,0.6), 0 0 30px rgba(0,200,255,0.25) !important;
+      box-shadow: none !important;
+      opacity: 1;
     }
   `;
   document.head.appendChild(style);
