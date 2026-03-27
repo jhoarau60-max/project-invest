@@ -261,16 +261,18 @@
     /* Boutons sociaux fond blanc couleur spécifique */
     .social-links a[href*="t.me"] {
       background: #ffffff !important; color: #229ED9 !important;
-      border-color: rgba(255,255,255,0.75) !important;
+      border-color: rgba(255,255,255,0.75) !important; font-weight: 700 !important;
     }
+    .social-links a[href*="t.me"] i { color: #229ED9 !important; }
     .social-links a[href*="youtube"], .social-links a[href*="youtube.com"] {
       background: #ffffff !important; color: #FF0000 !important;
-      border-color: rgba(255,255,255,0.75) !important;
+      border-color: rgba(255,255,255,0.75) !important; font-weight: 700 !important;
     }
     .social-links a[href*="wa.me"] {
       background: #ffffff !important; color: #25D366 !important;
-      border-color: rgba(255,255,255,0.75) !important;
+      border-color: rgba(255,255,255,0.75) !important; font-weight: 700 !important;
     }
+    .social-links a[href*="wa.me"] i { color: #25D366 !important; }
 
     .social-links a,
     #lang-btn,
