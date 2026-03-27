@@ -30,7 +30,7 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #1a2d4a;
-    color: #e0f0ff;
+    color: #e8f4ff;
 }
 
 /* FOND ANIMÉ : LIGNES COURBES + PARTICULES NÉON */
@@ -230,7 +230,7 @@ nav ul li.has-submenu .submenu li a {
     padding: 9px 20px;
     font-size: 0.85rem;
     border-left: none;
-    color: #9ac8e8;
+    color: #e8f4ff;
 }
 nav ul li.has-submenu .submenu li a:hover,
 nav ul li.has-submenu .submenu li a.active {
@@ -321,7 +321,7 @@ nav ul li.has-submenu .submenu li a.active {
     font-size: 1.2rem;
     max-width: 700px;
     margin: 0 auto 30px;
-    color: #cccccc;
+    color: #e8f4ff;
     line-height: 1.7;
 }
 
@@ -375,7 +375,7 @@ nav ul li.has-submenu .submenu li a.active {
 
 .section-subtitle {
     text-align: center;
-    color: #aaaaaa;
+    color: #e8f4ff;
     margin-bottom: 50px;
     font-size: 1rem;
 }
@@ -422,7 +422,7 @@ nav ul li.has-submenu .submenu li a.active {
 }
 
 .card p {
-    color: #a0d4f0;
+    color: #e8f4ff;
     line-height: 1.6;
     font-size: 0.95rem;
 }
@@ -473,7 +473,7 @@ nav ul li.has-submenu .submenu li a.active {
 }
 
 .page-header p {
-    color: #aaaaaa;
+    color: #e8f4ff;
     font-size: 1.1rem;
 }
 
@@ -495,7 +495,7 @@ th {
 td {
     padding: 12px 14px;
     border-bottom: 1px solid #0d3a6e;
-    color: #cccccc;
+    color: #e8f4ff;
 }
 
 tr:hover td {
@@ -529,7 +529,7 @@ tr:hover td {
 .accordion-body {
     padding: 20px;
     display: none;
-    color: #cccccc;
+    color: #e8f4ff;
     line-height: 1.7;
     background: rgba(255, 255, 255, 0.2);
 }
