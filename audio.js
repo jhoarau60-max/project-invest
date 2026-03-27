@@ -22,7 +22,7 @@
     const headerTop = document.querySelector('.header-top');
     if (headerTop) {
       // Premier élément du header avec margin-right:auto pour rester à gauche
-      btn.style.cssText = 'color:#00c8ff;font-size:1.1rem;padding:6px 12px;border:1px solid rgba(0,200,255,0.4);border-radius:20px;transition:all 0.3s;text-shadow:0 0 8px rgba(0,200,255,0.5);cursor:pointer;display:inline-flex;align-items:center;flex-shrink:0;margin-right:auto;';
+      btn.style.cssText = 'color:#e8f4ff;font-size:0.85rem;padding:5px 12px;border:1px solid rgba(255,255,255,0.75);border-radius:3px;transition:all 0.3s;cursor:pointer;display:inline-flex;align-items:center;flex-shrink:0;margin-right:auto;background:transparent;opacity:0.78;';
       headerTop.insertBefore(btn, headerTop.firstChild);
     } else {
       // Page de connexion : fixe en haut à gauche
