@@ -321,9 +321,9 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
   <div class="loading-wrap">
     <div class="loading-label">L O A D I N G</div>
     <div class="loading-bar-track">
-      <div class="loading-bar-fill" id="bar-fill" style="width:35%"></div>
+      <div class="loading-bar-fill" id="bar-fill" style="width:2%"></div>
     </div>
-    <div class="loading-pct" id="pct-txt">35 %</div>
+    <div class="loading-pct" id="pct-txt">2 %</div>
   </div>
 
   <!-- Bouton voix robot -->
@@ -338,20 +338,11 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 </footer>
 
 <script>
-// ── Barre de chargement (animée lentement, bloquée à 87%) ──
-(function() {
-  var current = 35;
-  var target  = 87;
-  var bar  = document.getElementById('bar-fill');
-  var txt  = document.getElementById('pct-txt');
-  var timer = setInterval(function() {
-    if (current >= target) { clearInterval(timer); return; }
-    current += Math.random() * 0.4 + 0.1;
-    if (current > target) current = target;
-    bar.style.width = current.toFixed(1) + '%';
-    txt.textContent  = Math.floor(current) + ' %';
-  }, 400);
-})();
+// ── Barre de chargement (mise à jour manuelle) ──
+// Pour changer le pourcentage, modifier la valeur ci-dessous :
+var PROGRESS = 2;
+document.getElementById('bar-fill').style.width = PROGRESS + '%';
+document.getElementById('pct-txt').textContent  = PROGRESS + ' %';
 
 // ── Voix robot (Web Speech API) ──
 var MESSAGE_FR = "Bonjour ! Je suis le robot de Project Inves T. Quelque chose d'extraordinaire est en cours de préparation. Un nouveau projet arrive très bientôt. Restez connectés !";
