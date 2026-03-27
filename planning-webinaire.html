@@ -205,7 +205,6 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
     <script>
     // ─── REPLAYS (clé = "YYYY-MM-DD", valeur = lien YouTube) ────────────────────
     var REPLAYS = {
-      "2026-03-14": "https://www.youtube.com/watch?v=KnSWkVVi-xw",
       "2026-03-19": "https://www.youtube.com/watch?v=oJa3MqHYHNk",
       "2026-03-21": "https://www.youtube.com/watch?v=_yjHNdAAh7A",
       "2026-03-26": "https://youtu.be/GAkWO5Tx5ZE?is=M_LXXH-T4ripUkOJ"
@@ -328,7 +327,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         // Colonne Statut
         var statutHtml = '';
         if (REPLAYS[dateKey]) {
-          statutHtml = '<a href="' + REPLAYS[dateKey] + '" target="_blank" style="background:#FF0000;color:#fff;padding:5px 10px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.78rem;white-space:nowrap;display:inline-block;">▶ Voir le replay</a>';
+          statutHtml = '<a href="' + REPLAYS[dateKey] + '" target="_blank" style="background:#ffffff;color:#FF0000;padding:5px 10px;border-radius:3px;border:1px solid #FF0000;text-decoration:none;font-weight:700;font-size:0.78rem;white-space:nowrap;display:inline-block;">▶ Voir le replay</a>';
         } else if (isPast) {
           if (last3Past.indexOf(i) !== -1) {
             statutHtml = '<span style="color:#aaa;font-size:0.8rem;">Bientôt disponible</span>';
