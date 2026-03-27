@@ -274,7 +274,7 @@
     }
     .social-links a[href*="wa.me"] i { color: #25D366 !important; }
 
-    .social-links a[href="parametres.html"] { display: none !important; }
+    .social-links a[href="parametres.html"]:not(#user-badge) { display: none !important; }
 
     .social-links a,
     #lang-btn,
