@@ -140,12 +140,13 @@
     /* Titre Dashboard */
     .nav-title {
       padding: 16px 18px 10px;
-      color: rgba(58,184,212,0.9);
+      color: #ffffff;
       font-size: 1.3rem;
       letter-spacing: 3px;
       text-transform: uppercase;
       font-weight: 300;
       flex-shrink: 0;
+      border-bottom: 1px solid #ffffff;
     }
 
     nav ul {
@@ -177,19 +178,19 @@
       text-align: center !important;
       font-size: 0.9rem !important;
       flex-shrink: 0 !important;
-      color: rgba(0,200,255,0.5) !important;
+      color: #c9a84c !important;
     }
     nav ul li a:hover {
       background: rgba(0,200,255,0.1) !important;
       color: #fff !important;
     }
-    nav ul li a:hover i { color: #00c8ff !important; }
+    nav ul li a:hover i { color: #e8c96a !important; }
     nav ul li a.active {
       background: rgba(0,200,255,0.15) !important;
       color: #00c8ff !important;
       font-weight: 400 !important;
     }
-    nav ul li a.active i { color: #00c8ff !important; }
+    nav ul li a.active i { color: #c9a84c !important; }
 
     /* Décaler tout le contenu vers la droite */
     body > header,
