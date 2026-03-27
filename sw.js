@@ -1,3 +1,11 @@
 self.addEventListener('install', function(e) { self.skipWaiting(); });
 self.addEventListener('activate', function(e) { clients.claim(); });
-self.addEventListener('fetch', function(e) { e.respondWith(fetch(e.request).catch(function(){ return caches.match(e.request); })); });
+self.addEventListener('fetch', function(e) {
+  e.respondWith(
+    fetch(e.request).catch(function() {
+      return caches.match(e.request).then(function(cached) {
+        return cached || new Response('Hors ligne', { status: 503, headers: { 'Content-Type': 'text/plain' } });
+      });
+    })
+  );
+});
