@@ -75,8 +75,9 @@
   }
 
   function updateBtn() {
-    btn.textContent = playing ? '🔊' : '🔇';
-    btn.style.borderColor = playing ? 'rgba(0,200,255,0.7)' : 'rgba(0,200,255,0.3)';
+    btn.innerHTML = playing
+      ? '<i class="fa-solid fa-volume-high" style="color:#c9a84c;font-size:1rem;"></i>'
+      : '<i class="fa-solid fa-volume-xmark" style="color:#c9a84c;font-size:1rem;"></i>';
   }
 
   function startMusic() {
