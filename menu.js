@@ -225,12 +225,13 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      color: #00c8ff;
+      color: #111;
       font-size: 0.82rem;
+      font-weight: 600;
       padding: 5px 14px;
-      border: 1px solid rgba(0,200,255,0.35);
-      border-radius: 20px;
-      background: rgba(0,200,255,0.07);
+      border: 1px solid rgba(255,255,255,0.75) !important;
+      border-radius: 3px !important;
+      background: #ffffff !important;
       white-space: nowrap;
     }
     #user-badge i { font-size: 0.85rem; }
