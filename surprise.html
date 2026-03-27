@@ -6,104 +6,129 @@
   <title>Project inves'T - SURPRISE</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    body { overflow: hidden; margin: 0; }
+    html, body { margin:0; padding:0; overflow:hidden; height:100%; }
 
-    #bg-curves {
-      position: fixed; top: 0; left: 0;
+    /* ── Image robot plein écran ── */
+    #robot-bg {
+      position: fixed; inset: 0;
+      background: url('robot-bg.webp') center center / cover no-repeat;
+      z-index: 0;
+    }
+    /* Overlay sombre pour lisibilité */
+    #robot-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        120deg,
+        rgba(2,8,20,0.55) 0%,
+        rgba(2,8,20,0.25) 45%,
+        rgba(2,8,20,0.65) 100%
+      );
+    }
+
+    /* ── Canvas holographique par-dessus ── */
+    #holo-canvas {
+      position: fixed; inset: 0;
       width: 100%; height: 100%;
-      pointer-events: none; z-index: 0;
+      pointer-events: none; z-index: 1;
     }
 
+    /* ── Header transparent ── */
+    header {
+      background: rgba(2,8,20,0.55) !important;
+      backdrop-filter: blur(8px);
+      position: relative; z-index: 10;
+    }
+
+    /* ── Contenu centré droite ── */
     .surprise-wrap {
-      position: relative; z-index: 1;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      min-height: 100vh;
-      padding: 10px 20px 20px;
-      text-align: center;
-    }
-
-    /* ── Canvas robot ── */
-    #robot-canvas {
-      display: block;
-      cursor: pointer;
+      position: fixed;
+      right: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      text-align: right;
+      padding: 30px;
+      max-width: 520px;
     }
 
     /* ── Titre SURPRISE ── */
     .surprise-title {
       font-family: 'Arial Black', sans-serif;
-      font-size: clamp(2.5rem, 7vw, 5.5rem);
+      font-size: clamp(3rem, 6vw, 6rem);
       font-weight: 900;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.18em;
       color: #c9a84c;
       text-shadow:
-        0 0 10px rgba(201,168,76,0.95),
-        0 0 28px rgba(201,168,76,0.65),
-        0 0 60px rgba(201,168,76,0.3);
-      margin: 0 0 10px;
+        0 0 12px rgba(201,168,76,1),
+        0 0 30px rgba(201,168,76,0.7),
+        0 0 65px rgba(201,168,76,0.35);
+      margin: 0 0 12px;
       animation: title-glow 3s ease-in-out infinite;
+      line-height: 1;
     }
     @keyframes title-glow {
-      0%,100% { text-shadow: 0 0 10px rgba(201,168,76,0.95), 0 0 28px rgba(201,168,76,0.65), 0 0 60px rgba(201,168,76,0.3); }
-      50%      { text-shadow: 0 0 22px rgba(201,168,76,1),   0 0 50px rgba(201,168,76,0.85), 0 0 90px rgba(201,168,76,0.5); }
+      0%,100% { text-shadow: 0 0 12px rgba(201,168,76,1), 0 0 30px rgba(201,168,76,0.7), 0 0 65px rgba(201,168,76,0.35); }
+      50%      { text-shadow: 0 0 24px rgba(201,168,76,1), 0 0 55px rgba(201,168,76,0.9), 0 0 100px rgba(201,168,76,0.5); }
     }
 
     .surprise-sub {
-      font-size: 0.85rem;
-      letter-spacing: 0.28em;
+      font-size: 0.82rem;
+      letter-spacing: 0.3em;
       color: #e8f4ff;
-      opacity: 0.7;
-      margin-bottom: 22px;
+      opacity: 0.8;
+      margin-bottom: 28px;
       font-weight: 300;
     }
 
     /* ── Barre loading ── */
-    .loading-wrap { width: min(480px, 80vw); }
+    .loading-wrap { width: min(420px, 85vw); }
     .loading-label {
-      font-size: 0.68rem; letter-spacing: 0.32em;
-      color: #e8f4ff; opacity: 0.5; margin-bottom: 8px;
+      font-size: 0.65rem; letter-spacing: 0.35em;
+      color: #e8f4ff; opacity: 0.55; margin-bottom: 8px;
+      text-align: right;
     }
     .loading-bar-track {
-      width: 100%; height: 7px; border-radius: 999px;
-      background: rgba(255,255,255,0.06); overflow: hidden; margin-bottom: 10px;
+      width: 100%; height: 6px; border-radius: 999px;
+      background: rgba(255,255,255,0.08); overflow: hidden; margin-bottom: 10px;
     }
     .loading-bar-fill {
       height: 100%; border-radius: 999px;
       background: linear-gradient(90deg, #3ab8d4, #7850ff, #ff3399);
       background-size: 200% 100%;
       animation: shimmer 2.5s linear infinite;
-      transition: width 0.4s ease;
     }
     @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-    .loading-pct { font-size: 1rem; font-weight: 700; color: #e8f4ff; }
+    .loading-pct {
+      font-size: 1rem; font-weight: 700; color: #e8f4ff;
+      text-align: right;
+    }
 
     /* ── Bouton voix ── */
     .btn-voice {
-      margin-top: 18px; padding: 9px 26px;
-      background: transparent;
-      border: 1px solid rgba(201,168,76,0.55);
+      margin-top: 20px; padding: 10px 28px;
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(201,168,76,0.65);
       border-radius: 3px; color: #c9a84c;
-      font-size: 0.82rem; letter-spacing: 0.1em;
+      font-size: 0.82rem; letter-spacing: 0.12em;
       cursor: pointer; transition: all 0.3s;
     }
-    .btn-voice:hover { background: rgba(201,168,76,0.1); border-color: #c9a84c; }
+    .btn-voice:hover {
+      background: rgba(201,168,76,0.15);
+      border-color: #c9a84c;
+      box-shadow: 0 0 16px rgba(201,168,76,0.3);
+    }
     .btn-voice.speaking {
       border-color: #3ab8d4; color: #3ab8d4;
       animation: btn-pulse 1s ease-in-out infinite;
     }
     @keyframes btn-pulse {
       0%,100%{ box-shadow: 0 0 0 rgba(58,184,212,0); }
-      50%    { box-shadow: 0 0 14px rgba(58,184,212,0.45); }
-    }
-
-    /* Lignes déco flottantes */
-    .deco-line {
-      position: fixed; height: 2px; border-radius: 2px;
-      animation: deco-float 6s ease-in-out infinite;
-    }
-    @keyframes deco-float {
-      0%,100%{ transform:translateY(0) rotate(var(--r)); opacity:.45; }
-      50%    { transform:translateY(-18px) rotate(var(--r)); opacity:.9; }
+      50%    { box-shadow: 0 0 18px rgba(58,184,212,0.55); }
     }
   </style>
 
@@ -116,21 +141,11 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 </head>
 <body>
 
-<div id="bg-curves">
-  <svg viewBox="0 0 1700 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
-    <defs><filter id="gl"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-    <path d="M-100,300 C200,100 400,500 800,250 S1200,50 1700,300"  fill="none" stroke="rgba(0,200,255,0.07)"  stroke-width="2" filter="url(#gl)"/>
-    <path d="M-100,600 C300,400 600,800 1000,550 S1400,300 1700,600" fill="none" stroke="rgba(26,127,219,0.09)" stroke-width="2" filter="url(#gl)"/>
-    <circle cx="200"  cy="180" r="130" fill="none" stroke="rgba(0,200,255,0.06)" stroke-width="1.5"/>
-    <circle cx="1500" cy="700" r="160" fill="none" stroke="rgba(26,127,219,0.07)" stroke-width="1.5"/>
-  </svg>
-</div>
+<!-- Robot plein écran -->
+<div id="robot-bg"></div>
 
-<!-- Lignes déco -->
-<div class="deco-line" style="top:18%;left:12%;background:#3ab8d4;--r:-25deg;width:38px;animation-delay:0s;"></div>
-<div class="deco-line" style="top:12%;right:15%;background:#7850ff;--r:15deg;width:26px;animation-delay:1s;"></div>
-<div class="deco-line" style="bottom:25%;left:8%;background:#c9a84c;--r:35deg;width:18px;animation-delay:2s;"></div>
-<div class="deco-line" style="bottom:20%;right:10%;background:#3ab8d4;--r:-10deg;width:32px;animation-delay:0.5s;"></div>
+<!-- Canvas holographique overlay -->
+<canvas id="holo-canvas"></canvas>
 
 <header>
   <div class="header-top">
@@ -167,14 +182,10 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
   </nav>
 </header>
 
+<!-- Contenu à droite -->
 <div class="surprise-wrap">
-
-  <!-- Robot canvas holographique -->
-  <canvas id="robot-canvas" width="400" height="320"></canvas>
-
   <div class="surprise-title">SURPRISE</div>
   <div class="surprise-sub">QUELQUE CHOSE ARRIVE...</div>
-
   <div class="loading-wrap">
     <div class="loading-label">L O A D I N G</div>
     <div class="loading-bar-track">
@@ -182,465 +193,201 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
     </div>
     <div class="loading-pct" id="pct-txt">2 %</div>
   </div>
-
   <button class="btn-voice" type="button" id="btn-voice" onclick="parlerRobot()">
     <i class="fa-solid fa-microphone" style="margin-right:8px;"></i>ÉCOUTER LE ROBOT
   </button>
-
 </div>
 
-<footer>
-  <p>© 2026 Project inves'T — Site personnel, non professionnel. Les investissements comportent des risques.</p>
-</footer>
-
 <script>
-// ══ PROGRESS BAR ══
+// ── Progress bar ──
 var PROGRESS = 2;
 document.getElementById('bar-fill').style.width = PROGRESS + '%';
 document.getElementById('pct-txt').textContent  = PROGRESS + ' %';
 
-// ══ VOIX ROBOT ══
+// ── Voix robot ──
 var MESSAGE_FR = "Bonjour ! Je suis le robot de Project Inves T. Quelque chose d'extraordinaire est en cours de préparation. Un nouveau projet arrive très bientôt. Restez connectés !";
 var isSpeaking = false;
 
 function parlerRobot() {
   if (!('speechSynthesis' in window)) return;
   var synth = window.speechSynthesis;
-  if (synth.speaking) { synth.cancel(); return; }
-  var btn = document.getElementById('btn-voice');
-  btn.classList.add('speaking');
-  btn.innerHTML = '<i class="fa-solid fa-stop" style="margin-right:8px;"></i>ARRÊTER';
-  isSpeaking = true;
+  if (synth.speaking) { synth.cancel(); isSpeaking = false; updateBtn(); return; }
+  isSpeaking = true; updateBtn();
   var u = new SpeechSynthesisUtterance(MESSAGE_FR);
-  u.lang = 'fr-FR'; u.rate = 0.82; u.pitch = 0.55; u.volume = 1;
+  u.lang='fr-FR'; u.rate=0.82; u.pitch=0.55; u.volume=1;
   var voices = synth.getVoices();
   var frVoice = voices.find(function(v){ return v.lang.startsWith('fr'); });
   if (frVoice) u.voice = frVoice;
-  u.onend = u.onerror = function() {
-    isSpeaking = false;
-    btn.classList.remove('speaking');
-    btn.innerHTML = '<i class="fa-solid fa-microphone" style="margin-right:8px;"></i>ÉCOUTER LE ROBOT';
-  };
+  u.onend = u.onerror = function() { isSpeaking=false; updateBtn(); };
   synth.speak(u);
 }
-
-// Auto-play voix au chargement (après interaction ou direct)
-window.addEventListener('load', function() {
+function updateBtn() {
+  var btn = document.getElementById('btn-voice');
+  if (isSpeaking) {
+    btn.classList.add('speaking');
+    btn.innerHTML='<i class="fa-solid fa-stop" style="margin-right:8px;"></i>ARRÊTER';
+  } else {
+    btn.classList.remove('speaking');
+    btn.innerHTML='<i class="fa-solid fa-microphone" style="margin-right:8px;"></i>ÉCOUTER LE ROBOT';
+  }
+}
+window.addEventListener('load', function(){
   window.speechSynthesis.getVoices();
-  // Tentative auto (fonctionne sur Firefox, parfois Chrome)
   setTimeout(parlerRobot, 1800);
 });
-// Fallback : premier clic sur la page lance la voix
-document.addEventListener('click', function autoVoice() {
+document.addEventListener('click', function autoVoice(){
   if (!isSpeaking && !window.speechSynthesis.speaking) parlerRobot();
   document.removeEventListener('click', autoVoice);
-}, { once: true });
+}, {once:true});
 
-// ══ ROBOT HOLOGRAPHIQUE CANVAS ══
+// ── Canvas holographique (interface circulaire sur la main du robot) ──
 (function(){
-  var C   = document.getElementById('robot-canvas');
+  var C = document.getElementById('holo-canvas');
   var ctx = C.getContext('2d');
-  var W = C.width, H = C.height;
   var t = 0;
 
-  // Taille robot
-  var cx = W * 0.42, cy = H * 0.52;  // centre tête (légèrement à gauche pour tablet)
-  var HEAD_RX = 72, HEAD_RY = 82;
+  function resize() {
+    C.width  = window.innerWidth;
+    C.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
 
-  // Particules orbitales autour de la tête
-  var orbs = [];
-  for (var i = 0; i < 55; i++) {
-    orbs.push({
-      a:  Math.random() * Math.PI * 2,
-      sp: (Math.random() * 0.012 + 0.004) * (Math.random() > .5 ? 1 : -1),
-      r:  HEAD_RX + 25 + Math.random() * 55,
-      ry: 0.28 + Math.random() * 0.18,
-      sz: Math.random() * 2.2 + 0.4,
-      op: Math.random() * 0.6 + 0.3,
-      col: ['#3ab8d4','#7850ff','#c9a84c','#00e6b4'][Math.floor(Math.random()*4)]
+  // Position du cercle holographique (côté droit de l'image, là où la main pointe)
+  function getHoloPos() {
+    return {
+      x: C.width  * 0.72,
+      y: C.height * 0.48
+    };
+  }
+
+  // Particules autour du holo
+  var pts = [];
+  for (var i=0; i<70; i++) {
+    pts.push({
+      a:  Math.random()*Math.PI*2,
+      sp: (Math.random()*0.008+0.003) * (Math.random()>.5?1:-1),
+      r:  100 + Math.random()*180,
+      ry: 0.3 + Math.random()*0.25,
+      sz: Math.random()*2+0.4,
+      op: Math.random()*0.55+0.2,
+      col: ['rgba(58,184,212','rgba(180,220,255','rgba(201,168,76','rgba(255,255,255'][Math.floor(Math.random()*4)]
     });
   }
 
-  // Nœuds circuit sur la tête
-  var circuitNodes = [
-    {x:-50, y:-55}, {x:50, y:-55}, {x:-70, y:-20}, {x:70, y:-20},
-    {x:-60, y:25},  {x:60, y:25},  {x:-40, y:55},  {x:40, y:55},
-    {x:0,   y:-75}, {x:0,  y:65}
-  ];
+  function draw(){
+    t += 0.012;
+    ctx.clearRect(0,0,C.width,C.height);
+    var hp = getHoloPos();
 
-  function hexPath(hx, hy, r) {
-    ctx.beginPath();
-    for (var k = 0; k < 6; k++) {
-      var ang = k * Math.PI / 3 - Math.PI/6;
-      if (k===0) ctx.moveTo(hx + r*Math.cos(ang), hy + r*Math.sin(ang));
-      else        ctx.lineTo(hx + r*Math.cos(ang), hy + r*Math.sin(ang));
-    }
-    ctx.closePath();
-  }
-
-  // Scan Y
-  var scanY = cy - HEAD_RY + 4, scanDir = 1;
-
-  function draw() {
-    t += 0.014;
-    ctx.clearRect(0, 0, W, H);
-
-    // Fond sombre centré derrière le robot
-    var bg = ctx.createRadialGradient(cx, cy, 0, cx, cy, 200);
-    bg.addColorStop(0,   'rgba(5,18,40,0.7)');
-    bg.addColorStop(0.6, 'rgba(3,10,25,0.4)');
-    bg.addColorStop(1,   'rgba(0,0,0,0)');
-    ctx.fillStyle = bg;
-    ctx.beginPath(); ctx.arc(cx, cy, 200, 0, Math.PI*2); ctx.fill();
-
-    // ── Anneaux orbitaux ──
-    for (var ri = 0; ri < 4; ri++) {
-      var rr   = HEAD_RX + 22 + ri * 16;
-      var rty  = 0.25 + ri * 0.05;
-      var rsp  = (ri%2===0 ? 1:-1) * (0.18 + ri*0.05);
-      var rcol = ['rgba(58,184,212,0.5)','rgba(120,80,255,0.4)','rgba(201,168,76,0.3)','rgba(0,230,180,0.35)'][ri];
-      var rdash= ri%2===0 ? null : [5+ri*2, 4];
+    // Anneaux holographiques (5 anneaux concentriques)
+    var rings = [
+      {r:220, op:0.18, w:1,   dash:null,   sp:0.12},
+      {r:180, op:0.28, w:1.2, dash:[8,6],  sp:-0.18},
+      {r:140, op:0.38, w:1.5, dash:null,   sp:0.25},
+      {r:100, op:0.45, w:1.2, dash:[4,8],  sp:-0.3},
+      {r:60,  op:0.55, w:1.8, dash:null,   sp:0.4},
+    ];
+    rings.forEach(function(rg){
       ctx.save();
-      ctx.translate(cx, cy);
-      ctx.scale(1, rty);
-      ctx.rotate(t * rsp);
-      ctx.beginPath(); ctx.arc(0, 0, rr, 0, Math.PI*2);
-      ctx.strokeStyle = rcol; ctx.lineWidth = 1.2;
-      if (rdash) ctx.setLineDash(rdash); else ctx.setLineDash([]);
+      ctx.translate(hp.x, hp.y);
+      ctx.rotate(t * rg.sp);
+      ctx.beginPath(); ctx.arc(0,0,rg.r,0,Math.PI*2);
+      ctx.strokeStyle = 'rgba(120,200,255,'+rg.op+')';
+      ctx.lineWidth = rg.w;
+      if (rg.dash) ctx.setLineDash(rg.dash); else ctx.setLineDash([]);
       ctx.stroke();
       ctx.restore();
-    }
-
-    // ── Corps du robot (torse) ──
-    var torsoY = cy + HEAD_RY - 10;
-    // Épaules
-    ctx.save();
-    for (var side = -1; side <= 1; side += 2) {
-      var sx = cx + side * (HEAD_RX + 8);
-      // Épaule sphérique
-      var sg = ctx.createRadialGradient(sx - side*8, torsoY - 8, 2, sx, torsoY, 32);
-      sg.addColorStop(0, 'rgba(200,220,240,0.7)');
-      sg.addColorStop(0.4,'rgba(130,160,190,0.5)');
-      sg.addColorStop(1, 'rgba(50,80,110,0.2)');
-      ctx.beginPath(); ctx.arc(sx, torsoY, 30, 0, Math.PI*2);
-      ctx.fillStyle = sg; ctx.fill();
-      ctx.strokeStyle = 'rgba(100,160,220,0.4)'; ctx.lineWidth = 1;
-      ctx.setLineDash([]); ctx.stroke();
-      // Joint orange
-      ctx.beginPath(); ctx.arc(sx + side*14, torsoY-16, 5, 0, Math.PI*2);
-      ctx.fillStyle = 'rgba(255,140,0,' + (0.6 + 0.3*Math.sin(t*2 + side)) + ')';
-      ctx.fill();
-    }
-    ctx.restore();
-
-    // Torse principal
-    var tg = ctx.createLinearGradient(cx-55, torsoY-10, cx+55, torsoY+85);
-    tg.addColorStop(0, 'rgba(160,200,230,0.55)');
-    tg.addColorStop(0.4,'rgba(100,140,175,0.4)');
-    tg.addColorStop(1, 'rgba(40,70,100,0.2)');
-    ctx.beginPath();
-    ctx.moveTo(cx-55, torsoY-5);
-    ctx.lineTo(cx-62, torsoY+80);
-    ctx.lineTo(cx+62, torsoY+80);
-    ctx.lineTo(cx+55, torsoY-5);
-    ctx.closePath();
-    ctx.fillStyle = tg; ctx.fill();
-    ctx.strokeStyle = 'rgba(100,160,220,0.35)'; ctx.lineWidth = 1; ctx.stroke();
-
-    // Gem chest
-    var chX = cx, chY = torsoY + 38;
-    var cg = ctx.createRadialGradient(chX-4, chY-4, 1, chX, chY, 22);
-    cg.addColorStop(0, 'rgba(255,255,255,0.95)');
-    cg.addColorStop(0.2,'rgba(80,210,255,0.9)');
-    cg.addColorStop(0.6,'rgba(0,100,200,0.6)');
-    cg.addColorStop(1, 'rgba(0,30,80,0)');
-    ctx.beginPath(); ctx.arc(chX, chY, 22, 0, Math.PI*2);
-    ctx.fillStyle = cg; ctx.fill();
-    ctx.strokeStyle = 'rgba(100,200,255,0.55)'; ctx.lineWidth = 1.2; ctx.stroke();
-    // inner ring
-    ctx.beginPath(); ctx.arc(chX, chY, 12, 0, Math.PI*2);
-    ctx.strokeStyle = 'rgba(100,200,255,0.4)'; ctx.lineWidth = 0.8; ctx.stroke();
-    // center dot
-    ctx.beginPath(); ctx.arc(chX, chY, 5, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(120,230,255,' + (0.7 + 0.25*Math.sin(t*2.5)) + ')';
-    ctx.fill();
-
-    // ── Tête principale ──
-    // Halo externe pulsant
-    var halo = ctx.createRadialGradient(cx, cy, HEAD_RX*0.6, cx, cy, HEAD_RX*1.6);
-    halo.addColorStop(0, 'rgba(58,184,212,' + (0.08 + 0.05*Math.sin(t*1.5)) + ')');
-    halo.addColorStop(1, 'rgba(58,184,212,0)');
-    ctx.beginPath(); ctx.ellipse(cx, cy, HEAD_RX*1.55, HEAD_RY*1.4, 0, 0, Math.PI*2);
-    ctx.fillStyle = halo; ctx.fill();
-
-    // Tête (corps principal)
-    var hg = ctx.createRadialGradient(cx-20, cy-25, 5, cx, cy, HEAD_RX*1.3);
-    hg.addColorStop(0,   'rgba(210,235,255,0.82)');
-    hg.addColorStop(0.35,'rgba(140,175,210,0.65)');
-    hg.addColorStop(0.7, 'rgba(70,110,150,0.45)');
-    hg.addColorStop(1,   'rgba(20,50,80,0.2)');
-    ctx.beginPath();
-    ctx.ellipse(cx, cy, HEAD_RX, HEAD_RY, 0, 0, Math.PI*2);
-    ctx.fillStyle = hg; ctx.fill();
-    ctx.strokeStyle = 'rgba(100,180,240,0.45)'; ctx.lineWidth = 1.2;
-    ctx.setLineDash([]); ctx.stroke();
-
-    // Highlight tête (reflet haut-gauche)
-    var hl = ctx.createRadialGradient(cx-28, cy-35, 2, cx-20, cy-28, 40);
-    hl.addColorStop(0, 'rgba(255,255,255,0.2)');
-    hl.addColorStop(1, 'rgba(255,255,255,0)');
-    ctx.beginPath(); ctx.ellipse(cx-18, cy-28, 30, 22, -0.4, 0, Math.PI*2);
-    ctx.fillStyle = hl; ctx.fill();
-
-    // ── Dôme cerveau (côté droit) ──
-    var bdx = cx + HEAD_RX - 10, bdy = cy - 18;
-    var bg2 = ctx.createRadialGradient(bdx-5, bdy-5, 1, bdx, bdy, 36);
-    bg2.addColorStop(0,   'rgba(120,185,255,0.4)');
-    bg2.addColorStop(0.5, 'rgba(60,130,235,0.18)');
-    bg2.addColorStop(1,   'rgba(0,60,160,0.04)');
-    ctx.beginPath(); ctx.arc(bdx, bdy, 36, 0, Math.PI*2);
-    ctx.fillStyle = bg2; ctx.fill();
-    ctx.strokeStyle = 'rgba(80,158,255,0.5)'; ctx.lineWidth = 1.2; ctx.stroke();
-    // grilles cerveau
-    for (var ci = 0; ci < 4; ci++) {
-      var cr = 8 + ci * 8;
-      ctx.beginPath(); ctx.arc(bdx, bdy, cr, 0, Math.PI*2);
-      ctx.strokeStyle = 'rgba(80,158,255,' + (0.35 - ci*0.06) + ')';
-      ctx.lineWidth = 0.6; ctx.stroke();
-    }
-    ctx.beginPath(); ctx.moveTo(bdx-34,bdy); ctx.lineTo(bdx+34,bdy);
-    ctx.strokeStyle='rgba(80,158,255,0.25)'; ctx.lineWidth=0.6; ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(bdx,bdy-34); ctx.lineTo(bdx,bdy+34);
-    ctx.stroke();
-    // nœuds cerveau pulsants
-    var bnodes = [[0,-18],[15,-8],[-12,10],[14,10],[0,18]];
-    bnodes.forEach(function(n,ni){
-      var bpulse = 0.5 + 0.45*Math.sin(t*2 + ni*1.2);
-      ctx.beginPath(); ctx.arc(bdx+n[0], bdy+n[1], 2.5, 0, Math.PI*2);
-      ctx.fillStyle = 'rgba(58,184,212,' + bpulse + ')'; ctx.fill();
     });
 
-    // ── Visière (bande sombre yeux) ──
-    var vx = cx - HEAD_RX + 8, vy = cy - 22, vw = (HEAD_RX - 8)*2, vh = 40;
-    ctx.save();
-    ctx.beginPath(); ctx.ellipse(cx, cy, HEAD_RX-4, HEAD_RY-4, 0, 0, Math.PI*2); ctx.clip();
-    ctx.fillStyle = 'rgba(5,15,35,0.82)';
-    ctx.fillRect(vx, vy, vw, vh);
-    ctx.restore();
-    // Bord visière
-    ctx.beginPath(); ctx.moveTo(vx, vy); ctx.lineTo(vx+vw, vy);
-    ctx.strokeStyle='rgba(120,200,255,0.35)'; ctx.lineWidth=1; ctx.setLineDash([]); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(vx, vy+vh); ctx.lineTo(vx+vw, vy+vh);
-    ctx.strokeStyle='rgba(120,200,255,0.2)'; ctx.stroke();
-
-    // ── YEUX ──
-    var eyeY = cy - 5;
-    [-1, 1].forEach(function(side, ei) {
-      var ex = cx + side * 28;
-      // Glow externe
-      var eg0 = ctx.createRadialGradient(ex, eyeY, 0, ex, eyeY, 26);
-      eg0.addColorStop(0, 'rgba(0,180,255,0.35)');
-      eg0.addColorStop(1, 'rgba(0,150,255,0)');
-      ctx.beginPath(); ctx.arc(ex, eyeY, 26, 0, Math.PI*2);
-      ctx.fillStyle = eg0; ctx.fill();
-      // Œil principal
-      var eg = ctx.createRadialGradient(ex-3, eyeY-3, 1, ex, eyeY, 13);
-      eg.addColorStop(0,   'rgba(255,255,255,0.98)');
-      eg.addColorStop(0.22,'rgba(90,210,255,0.95)');
-      eg.addColorStop(0.55,'rgba(0,120,220,0.85)');
-      eg.addColorStop(1,   'rgba(0,40,120,0.5)');
-      ctx.beginPath(); ctx.arc(ex, eyeY, 13, 0, Math.PI*2);
-      ctx.fillStyle = eg; ctx.fill();
-      ctx.strokeStyle = 'rgba(120,210,255,0.85)'; ctx.lineWidth = 1.2; ctx.stroke();
-      // Pupille
-      ctx.beginPath(); ctx.arc(ex, eyeY, 6, 0, Math.PI*2);
-      ctx.fillStyle = 'rgba(0,30,100,0.75)'; ctx.fill();
-      // Reflet
-      ctx.beginPath(); ctx.arc(ex-4, eyeY-4, 3, 0, Math.PI*2);
-      ctx.fillStyle = 'rgba(255,255,255,0.9)'; ctx.fill();
-      // Pulsation glow
-      var pulse = 0.3 + 0.2*Math.sin(t*2.2 + ei*0.5);
-      ctx.beginPath(); ctx.arc(ex, eyeY, 13, 0, Math.PI*2);
-      ctx.strokeStyle = 'rgba(100,220,255,' + pulse + ')';
-      ctx.lineWidth = 2.5 + pulse*2; ctx.stroke();
-    });
-
-    // ── Circuits sur la tête ──
-    ctx.save();
-    ctx.beginPath(); ctx.ellipse(cx, cy, HEAD_RX-2, HEAD_RY-2, 0, 0, Math.PI*2); ctx.clip();
-    circuitNodes.forEach(function(n, ni) {
-      var nx = cx + n.x, ny = cy + n.y;
-      var op = 0.2 + 0.15*Math.sin(t*1.5 + ni*0.7);
-      ctx.beginPath(); ctx.arc(nx, ny, 2.5, 0, Math.PI*2);
-      ctx.fillStyle = 'rgba(58,184,212,' + op + ')'; ctx.fill();
-      // Lignes vers voisins
-      for (var nj = ni+1; nj < circuitNodes.length; nj++) {
-        var nx2 = cx + circuitNodes[nj].x, ny2 = cy + circuitNodes[nj].y;
-        var d = Math.hypot(nx2-nx, ny2-ny);
-        if (d < 80) {
-          ctx.beginPath(); ctx.moveTo(nx,ny); ctx.lineTo(nx2,ny2);
-          ctx.strokeStyle = 'rgba(58,184,212,' + (op * 0.5 * (1-d/80)) + ')';
-          ctx.lineWidth = 0.5; ctx.setLineDash([]); ctx.stroke();
-        }
+    // Segments rectangulaires sur les anneaux (style UI sci-fi)
+    [220,180,140].forEach(function(r, ri){
+      var n = 8 + ri*4;
+      for (var k=0; k<n; k++) {
+        var ang = (k/n)*Math.PI*2 + t*(0.1*(ri%2===0?1:-1));
+        var x1 = hp.x + Math.cos(ang)*(r-8);
+        var y1 = hp.y + Math.sin(ang)*(r-8);
+        var x2 = hp.x + Math.cos(ang)*(r+8);
+        var y2 = hp.y + Math.sin(ang)*(r+8);
+        ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2);
+        ctx.strokeStyle='rgba(150,210,255,'+(0.25+0.1*Math.sin(t*3+k))+')';
+        ctx.lineWidth=1.5; ctx.setLineDash([]); ctx.stroke();
       }
     });
-    ctx.restore();
 
-    // ── Scanner laser ──
-    scanY += scanDir * 1.5;
-    if (scanY > cy + HEAD_RY - 8) scanDir = -1;
-    if (scanY < cy - HEAD_RY + 8) scanDir =  1;
+    // Croix de visée centrale
     ctx.save();
-    ctx.beginPath(); ctx.ellipse(cx, cy, HEAD_RX-2, HEAD_RY-2, 0, 0, Math.PI*2); ctx.clip();
-    var sg2 = ctx.createLinearGradient(cx - HEAD_RX, scanY, cx + HEAD_RX, scanY + 2);
-    sg2.addColorStop(0,   'rgba(0,240,255,0)');
-    sg2.addColorStop(0.35,'rgba(0,240,255,0.7)');
-    sg2.addColorStop(0.65,'rgba(0,240,255,0.7)');
-    sg2.addColorStop(1,   'rgba(0,240,255,0)');
-    ctx.fillStyle = sg2;
-    ctx.fillRect(cx - HEAD_RX, scanY, HEAD_RX*2, 2);
-    ctx.restore();
-
-    // ── Bouche (segments animés par parole) ──
-    var mY = cy + HEAD_RY - 28;
-    ctx.save();
-    ctx.beginPath(); ctx.ellipse(cx, cy, HEAD_RX-4, HEAD_RY-4, 0, 0, Math.PI*2); ctx.clip();
-    ctx.fillStyle = 'rgba(5,15,35,0.6)';
-    ctx.fillRect(cx-30, mY-4, 60, 14);
-    ctx.restore();
-    // Segments
-    var mSegs = [{id:'ms1',x:cx-22}, {id:'ms2',x:cx-6}, {id:'ms3',x:cx+10}];
-    mSegs.forEach(function(s){
-      var el = document.getElementById(s.id);
-      var h = el ? parseFloat(el.dataset.h || 3) : 3;
+    ctx.translate(hp.x, hp.y);
+    ctx.rotate(t*0.3);
+    [[-1,0],[1,0],[0,-1],[0,1]].forEach(function(d){
       ctx.beginPath();
-      ctx.rect(s.x, mY + (6-h)/2, 10, h);
-      ctx.fillStyle = 'rgba(100,200,255,0.6)'; ctx.fill();
+      ctx.moveTo(d[0]*20, d[1]*20);
+      ctx.lineTo(d[0]*55, d[1]*55);
+      ctx.strokeStyle='rgba(100,200,255,0.5)';
+      ctx.lineWidth=1.2; ctx.setLineDash([4,4]); ctx.stroke();
     });
+    ctx.restore();
 
-    // ── Antenne ──
-    var anX = cx - 10, anY0 = cy - HEAD_RY + 2, anY1 = cy - HEAD_RY - 28;
-    ctx.beginPath(); ctx.moveTo(anX, anY0); ctx.lineTo(anX, anY1);
-    ctx.strokeStyle = 'rgba(175,200,225,0.7)'; ctx.lineWidth = 2.5;
-    ctx.setLineDash([]); ctx.stroke();
-    var apulse = 0.5 + 0.45*Math.sin(t*3);
-    ctx.beginPath(); ctx.arc(anX, anY1, 5, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(255,170,0,' + apulse + ')'; ctx.fill();
-    // Halo antenne
-    ctx.beginPath(); ctx.arc(anX, anY1, 10, 0, Math.PI*2);
-    var ag = ctx.createRadialGradient(anX, anY1, 0, anX, anY1, 10);
-    ag.addColorStop(0, 'rgba(255,170,0,' + apulse*0.4 + ')');
-    ag.addColorStop(1, 'rgba(255,170,0,0)');
-    ctx.fillStyle = ag; ctx.fill();
+    // Centre lumineux (là où la main touche)
+    var cg = ctx.createRadialGradient(hp.x, hp.y, 0, hp.x, hp.y, 50);
+    cg.addColorStop(0,  'rgba(255,240,200,'+(0.6+0.3*Math.sin(t*2))+')');
+    cg.addColorStop(0.3,'rgba(200,160,80,0.4)');
+    cg.addColorStop(1,  'rgba(200,120,0,0)');
+    ctx.beginPath(); ctx.arc(hp.x, hp.y, 50, 0, Math.PI*2);
+    ctx.fillStyle=cg; ctx.fill();
+    // Point central
+    ctx.beginPath(); ctx.arc(hp.x, hp.y, 8, 0, Math.PI*2);
+    ctx.fillStyle='rgba(255,220,120,'+(0.8+0.18*Math.sin(t*3))+')';
+    ctx.fill();
 
-    // ── Particules orbitales ──
-    orbs.forEach(function(p) {
+    // Données binaires sur les anneaux
+    var binStr = '010110010101001101010010';
+    ctx.font = '10px monospace';
+    ctx.fillStyle = 'rgba(100,200,255,0.35)';
+    for (var bi=0; bi<16; bi++) {
+      var bang = (bi/16)*Math.PI*2 + t*0.08;
+      var bx = hp.x + Math.cos(bang)*205;
+      var by = hp.y + Math.sin(bang)*205*0.9;
+      ctx.fillText(binStr[bi%binStr.length], bx-4, by+4);
+    }
+
+    // Petits carrés flottants (UI elements)
+    for (var sq=0; sq<12; sq++) {
+      var sang = (sq/12)*Math.PI*2 + t*0.05*(sq%2===0?1:-1);
+      var sr   = 155 + Math.sin(t*1.5+sq)*15;
+      var sx   = hp.x + Math.cos(sang)*sr;
+      var sy   = hp.y + Math.sin(sang)*sr*0.85;
+      var ss   = 6 + Math.sin(t*2+sq)*2;
+      ctx.strokeStyle='rgba(150,210,255,'+(0.3+0.15*Math.sin(t*2+sq))+')';
+      ctx.lineWidth=1; ctx.setLineDash([]);
+      ctx.strokeRect(sx-ss/2, sy-ss/2, ss, ss);
+    }
+
+    // Particules orbitales
+    pts.forEach(function(p){
       p.a += p.sp;
-      var px = cx + Math.cos(p.a) * p.r;
-      var py = cy + Math.sin(p.a) * p.r * p.ry;
-      ctx.globalAlpha = p.op;
-      ctx.beginPath(); ctx.arc(px, py, p.sz, 0, Math.PI*2);
-      ctx.fillStyle = p.col; ctx.fill();
+      var px = hp.x + Math.cos(p.a)*p.r;
+      var py = hp.y + Math.sin(p.a)*p.r*p.ry;
+      ctx.globalAlpha = p.op * (0.6+0.4*Math.sin(t*1.5+p.a));
+      ctx.beginPath(); ctx.arc(px,py,p.sz,0,Math.PI*2);
+      ctx.fillStyle = p.col + ',1)'; ctx.fill();
       ctx.globalAlpha = 1;
     });
 
-    // ── Tablette holographique (bras droit) ──
-    var tabX = cx + HEAD_RX + 35, tabY = cy + 15;
-    // Bras
-    ctx.beginPath();
-    ctx.moveTo(cx + HEAD_RX - 5, torsoY + 5);
-    ctx.quadraticCurveTo(cx + HEAD_RX + 30, torsoY + 30, tabX - 10, tabY + 10);
-    ctx.strokeStyle = 'rgba(140,175,210,0.45)'; ctx.lineWidth = 14;
-    ctx.setLineDash([]); ctx.stroke();
-    ctx.strokeStyle = 'rgba(80,120,160,0.3)'; ctx.lineWidth = 12; ctx.stroke();
-    // Tablette
-    ctx.fillStyle = '#0d1c30';
-    ctx.strokeStyle = 'rgba(80,145,200,0.7)';
-    ctx.lineWidth = 1.5; ctx.setLineDash([]);
-    roundRect(ctx, tabX - 5, tabY - 45, 82, 100, 7);
-    ctx.fill(); ctx.stroke();
-    // Écran
-    ctx.fillStyle = '#060e1c';
-    roundRect(ctx, tabX - 1, tabY - 41, 74, 92, 4);
-    ctx.fill();
-    // Réticule
-    var rtx = tabX + 36, rty = tabY + 5;
-    [26, 18, 9].forEach(function(r, ri){
-      ctx.beginPath(); ctx.arc(rtx, rty, r, 0, Math.PI*2);
-      ctx.strokeStyle = 'rgba(0,200,255,' + (0.45 - ri*0.08) + ')';
-      ctx.lineWidth = 1; ctx.stroke();
-    });
-    ctx.beginPath(); ctx.arc(rtx, rty, 4, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(0,220,255,' + (0.7 + 0.25*Math.sin(t*2)) + ')'; ctx.fill();
-    ctx.beginPath();
-    ctx.moveTo(rtx-28,rty); ctx.lineTo(rtx+28,rty);
-    ctx.moveTo(rtx,rty-28); ctx.lineTo(rtx,rty+28);
-    ctx.strokeStyle = 'rgba(0,200,255,0.22)'; ctx.lineWidth = 0.6; ctx.stroke();
-    // Data lignes
-    for (var dl = 0; dl < 5; dl++) {
-      var dlw = 8 + dl*3;
-      ctx.fillStyle = 'rgba(0,195,255,' + (0.55 - dl*0.07) + ')';
-      ctx.fillRect(tabX+2, tabY+40+dl*8, dlw, 2);
-    }
-    // Glow tablette
-    ctx.shadowColor = 'rgba(0,180,255,0.5)';
-    ctx.shadowBlur = 12;
-    ctx.beginPath(); ctx.arc(rtx, rty, 26, 0, Math.PI*2);
-    ctx.strokeStyle = 'rgba(0,200,255,0.15)'; ctx.lineWidth=4; ctx.stroke();
-    ctx.shadowBlur = 0;
+    // Scan line vertical sur l'interface
+    var scanX = hp.x - 220 + ((t*30) % 440);
+    var sg2 = ctx.createLinearGradient(scanX,hp.y-220,scanX+2,hp.y+220);
+    sg2.addColorStop(0,'rgba(0,220,255,0)');
+    sg2.addColorStop(0.4,'rgba(0,220,255,0.3)');
+    sg2.addColorStop(0.6,'rgba(0,220,255,0.3)');
+    sg2.addColorStop(1,'rgba(0,220,255,0)');
+    ctx.fillStyle=sg2;
+    ctx.fillRect(scanX, hp.y-220, 2, 440);
 
     requestAnimationFrame(draw);
   }
-
-  function roundRect(c, x, y, w, h, r) {
-    c.beginPath();
-    c.moveTo(x+r, y);
-    c.lineTo(x+w-r, y); c.quadraticCurveTo(x+w, y, x+w, y+r);
-    c.lineTo(x+w, y+h-r); c.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
-    c.lineTo(x+r, y+h); c.quadraticCurveTo(x, y+h, x, y+h-r);
-    c.lineTo(x, y+r); c.quadraticCurveTo(x, y, x+r, y);
-    c.closePath();
-  }
-
   draw();
-
-  // Animation bouche (pendant la voix)
-  window.startMouth = function() {
-    var state = 0;
-    window._mouthTimer = setInterval(function(){
-      var pats = [[5,2,5],[2,5,2],[5,5,2],[2,2,5],[4,5,4]];
-      var p = pats[state % pats.length];
-      ['ms1','ms2','ms3'].forEach(function(id,i){
-        var el = document.getElementById(id);
-        if (!el) { el = document.createElement('span'); el.id=id; el.style.display='none'; document.body.appendChild(el); }
-        el.dataset.h = p[i];
-      });
-      state++;
-    }, 160);
-  };
-  window.stopMouth = function() {
-    clearInterval(window._mouthTimer);
-    ['ms1','ms2','ms3'].forEach(function(id){
-      var el = document.getElementById(id);
-      if (el) el.dataset.h = 3;
-    });
-  };
-
-  // Créer les spans de données bouche
-  ['ms1','ms2','ms3'].forEach(function(id){
-    var el = document.createElement('span');
-    el.id = id; el.style.display='none'; el.dataset.h = 3;
-    document.body.appendChild(el);
-  });
-
 })();
-
-// Brancher animation bouche sur la voix
-var _origParler = parlerRobot;
-parlerRobot = function() {
-  if (window.startMouth) window.startMouth();
-  _origParler();
-};
 </script>
 
 <script src="menu.js"></script>
