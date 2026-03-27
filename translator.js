@@ -33,12 +33,12 @@
     #lang-widget { display: inline-flex; align-items: center; gap: 6px; position: relative; }
     #lang-btn {
       display: inline-flex; align-items: center; gap: 6px;
-      color: #111; font-size: 0.85rem; font-weight: 400; padding: 5px 12px;
-      border: 1px solid rgba(255,255,255,0.75); border-radius: 3px;
-      background: #ffffff; cursor: pointer; transition: all 0.3s;
+      color: #e8f4ff; font-size: 0.85rem; font-weight: 400; padding: 5px 12px;
+      border: 1px solid rgba(58,184,212,0.7); border-radius: 3px;
+      background: transparent; cursor: pointer; transition: all 0.3s;
       user-select: none; white-space: nowrap; line-height: 1.4;
     }
-    #lang-btn:hover { background: #f0f0f0; border-color: #fff; }
+    #lang-btn:hover { border-color: #3ab8d4; }
     .lf { width:18px; height:13px; border-radius:2px; object-fit:cover; vertical-align:middle; }
 
     #lang-menu {
