@@ -393,11 +393,17 @@
         });
         li.appendChild(subUl);
 
-        // Clic sur le lien OU la flèche → ouvre/ferme le sous-menu
-        a.addEventListener('click', function (e) {
+        // Clic sur la flèche → ouvre/ferme le sous-menu
+        // Clic sur le lien → navigue vers la page ET ouvre le sous-menu
+        arrow.addEventListener('click', function (e) {
           e.preventDefault();
+          e.stopPropagation();
           li.classList.toggle('open');
           subUl.classList.toggle('open');
+        });
+        a.addEventListener('click', function () {
+          li.classList.add('open');
+          subUl.classList.add('open');
         });
       }
     });
