@@ -433,7 +433,7 @@ nav ul li.has-submenu .submenu li a.active {
 
 /* BANNER */
 .banner {
-    background: linear-gradient(135deg, #c9a84c, #8b6914);
+    display: none;
     padding: 50px 20px;
     text-align: center;
 }
