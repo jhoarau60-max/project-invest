@@ -102,7 +102,7 @@ body > *:not(#bg-curves):not(#nav-overlay):not(nav) {
 header {
     background: linear-gradient(135deg, #122035cc, #1e3d6ecc);
     backdrop-filter: blur(10px);
-    border-bottom: 2px solid #3ab8d4;
+    border-bottom: 1px solid rgba(58,184,212,0.4);
     padding: 0 20px;
     position: sticky;
     top: 0;
@@ -172,7 +172,7 @@ nav {
     width: 270px;
     height: 100vh;
     background: linear-gradient(180deg, #122035 0%, #1e3d6e 60%, #122035 100%);
-    border-right: 1px solid rgba(0,200,255,0.3);
+    border-right: 1px solid rgba(58,184,212,0.15);
     box-shadow: 4px 0 30px rgba(0,0,0,0.6);
     z-index: 9998;
     transform: translateX(-100%);
@@ -380,11 +380,11 @@ nav ul li.has-submenu .submenu li a.active {
 }
 
 .divider {
-    width: 80px;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, #3ab8d4, transparent);
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(58,184,212,0.7), transparent);
     margin: 15px auto 40px;
-    box-shadow: 0 0 10px rgba(0,200,255,0.6);
+    box-shadow: 0 0 6px rgba(58,184,212,0.3);
 }
 
 /* CARDS */
@@ -395,18 +395,18 @@ nav ul li.has-submenu .submenu li a.active {
 }
 
 .card {
-    background: rgba(10, 42, 94, 0.4);
+    background: rgba(18, 42, 80, 0.35);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 200, 255, 0.25);
+    border: 0.5px solid rgba(58,184,212,0.2);
     border-radius: 10px;
     padding: 30px;
     transition: all 0.3s;
 }
 
 .card:hover {
-    border-color: #3ab8d4;
+    border-color: rgba(58,184,212,0.5);
     transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0,200,255,0.3), 0 0 20px rgba(0,200,255,0.15);
+    box-shadow: 0 10px 30px rgba(58,184,212,0.12), 0 1px 0 rgba(58,184,212,0.3);
 }
 
 .card-icon {
@@ -460,7 +460,7 @@ nav ul li.has-submenu .submenu li a.active {
     background: linear-gradient(135deg, #122035, #1e3d6e);
     padding: 60px 20px;
     text-align: center;
-    border-bottom: 2px solid #3ab8d4;
+    border-bottom: 1px solid rgba(58,184,212,0.4);
     box-shadow: 0 4px 30px rgba(0,200,255,0.15);
 }
 
