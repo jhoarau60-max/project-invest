@@ -114,27 +114,27 @@
       padding: 10px 12px 6px;
     }
     #header-search input {
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.25);
+      background: #ffffff;
+      border: 1px solid rgba(255,255,255,0.75);
       border-radius: 3px;
       padding: 6px 14px 6px 32px;
-      color: #e8f4ff;
+      color: #111;
       font-size: 0.82rem;
       outline: none;
       width: 100%;
       box-sizing: border-box;
       box-shadow: none;
     }
-    #header-search input::placeholder { color: rgba(0,200,255,0.7); }
+    #header-search input::placeholder { color: rgba(0,0,0,0.4); }
     #header-search i {
       position: absolute;
       left: 23px;
       top: 50%;
       transform: translateY(-30%);
-      color: #00c8ff;
+      color: #555;
       font-size: 0.8rem;
       pointer-events: none;
-      filter: drop-shadow(0 0 4px #00c8ff);
+      filter: none;
     }
 
     /* Titre Dashboard */
