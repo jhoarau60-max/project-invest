@@ -17,7 +17,6 @@
     'portage-salarial.html':         'fa-briefcase',
     'pdf-portage.html':              'fa-file-pdf',
     'videos-portage.html':           'fa-video',
-    'wallet-decentralise.html':      'fa-gift',
     'bibliotheque-immobilier.html':  'fa-book',
     'bibliotheque-trading.html':     'fa-robot',
     'videos-trading.html':           'fa-video',
@@ -38,14 +37,12 @@
     'e-state-immobilier.html': 'Immobilier Numérique',
     'smart-mev-trading.html':  'Bot Trading',
     'mlm-center.html':         'Système Matriciel',
-    'wallet-decentralise.html':'SURPRISE',
     'bibliotheque-mlm.html':   'Avis Clients',
     'admin.html':              '⚙ Admin',
   };
 
   // Redirection href (ancien lien → nouveau lien)
   var HREF_REDIRECT = {
-    'wallet-decentralise.html': 'surprise.html',
   };
 
   // Sous-menus

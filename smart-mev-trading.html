@@ -108,14 +108,198 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             
 
             <li><a href="portage-salarial.html">Portage salarial</a></li>
-            <li><a href="wallet-decentralise.html">Wallet Décentralisé</a></li>
             <li><a href="bibliotheque-mlm.html">Avis Clients</a></li>
         </ul>
     </nav>
 </header>
 
 <div class="page-header">
-    <img src="logo-smarts.png" alt="Smart MEV Logo" style="height:80px;margin-bottom:15px;display:block;margin-left:auto;margin-right:auto;">
+
+<!-- ROBOT ANIMÉ INLINE SVG -->
+<div style="display:flex;justify-content:center;margin-bottom:18px;">
+<svg id="smart-robot" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" width="160" height="176" style="filter:drop-shadow(0 0 18px rgba(0,200,255,0.45));">
+  <defs>
+    <filter id="rf-glow"><feGaussianBlur stdDeviation="2.5" result="cb"/><feMerge><feMergeNode in="cb"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="rf-glow2"><feGaussianBlur stdDeviation="4" result="cb2"/><feMerge><feMergeNode in="cb2"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <linearGradient id="rg-body" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1a3a5c"/>
+      <stop offset="100%" stop-color="#0a1a2e"/>
+    </linearGradient>
+    <linearGradient id="rg-head" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e4a72"/>
+      <stop offset="100%" stop-color="#0d2040"/>
+    </linearGradient>
+    <radialGradient id="rg-eye-l" cx="40%" cy="35%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#00eeff"/>
+      <stop offset="100%" stop-color="#0066aa"/>
+    </radialGradient>
+    <radialGradient id="rg-eye-r" cx="40%" cy="35%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#c9a84c"/>
+      <stop offset="100%" stop-color="#7a5800"/>
+    </radialGradient>
+    <style>
+      /* Respiration corps */
+      #sr-body-grp { animation: sr-breathe 3.5s ease-in-out infinite; transform-origin: 100px 150px; }
+      @keyframes sr-breathe { 0%,100%{transform:scaleY(1)} 50%{transform:scaleY(1.025)} }
+
+      /* Lévitation globale */
+      #smart-robot { animation: sr-float 4s ease-in-out infinite; }
+      @keyframes sr-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+      /* Yeux qui clignent */
+      #sr-eye-l, #sr-eye-r { animation: sr-blink 5s ease-in-out infinite; transform-box:fill-box; transform-origin:center; }
+      #sr-eye-r { animation-delay: 0.15s; }
+      @keyframes sr-blink { 0%,42%,46%,100%{transform:scaleY(1)} 44%{transform:scaleY(0.05)} }
+
+      /* Pupilles qui bougent */
+      #sr-pupil-l { animation: sr-look 7s ease-in-out infinite; }
+      #sr-pupil-r { animation: sr-look 7s ease-in-out infinite 0.3s; }
+      @keyframes sr-look { 0%,100%{transform:translate(0,0)} 25%{transform:translate(2px,-1px)} 50%{transform:translate(-2px,1px)} 75%{transform:translate(1px,2px)} }
+
+      /* Antenne clignotante */
+      #sr-antenna-light { animation: sr-blink-ant 1.2s ease-in-out infinite; }
+      @keyframes sr-blink-ant { 0%,100%{opacity:1;r:4} 50%{opacity:0.2;r:2.5} }
+
+      /* Bouche qui parle */
+      #sr-mouth { animation: sr-talk 2.5s ease-in-out infinite; }
+      @keyframes sr-talk { 0%,100%{d:path("M 72 118 Q 100 122 128 118")} 25%{d:path("M 72 118 Q 100 128 128 118")} 50%{d:path("M 72 118 Q 100 115 128 118")} 75%{d:path("M 72 118 Q 100 125 128 118")} }
+
+      /* Bras gauche */
+      #sr-arm-l { animation: sr-arm-l-anim 3s ease-in-out infinite; transform-origin: 32px 148px; }
+      @keyframes sr-arm-l-anim { 0%,100%{transform:rotate(0deg)} 50%{transform:rotate(-18deg)} }
+
+      /* Bras droit */
+      #sr-arm-r { animation: sr-arm-r-anim 3s ease-in-out infinite 0.5s; transform-origin: 168px 148px; }
+      @keyframes sr-arm-r-anim { 0%,100%{transform:rotate(0deg)} 50%{transform:rotate(15deg)} }
+
+      /* Circuit chest glow */
+      #sr-circuit { animation: sr-circuit-glow 2s ease-in-out infinite; }
+      @keyframes sr-circuit-glow { 0%,100%{opacity:0.5} 50%{opacity:1} }
+
+      /* Scanner ligne */
+      #sr-scan { animation: sr-scan-move 2s linear infinite; }
+      @keyframes sr-scan-move { 0%{transform:translateY(-22px);opacity:0} 10%{opacity:0.8} 90%{opacity:0.8} 100%{transform:translateY(22px);opacity:0} }
+
+      /* Énergie chest */
+      #sr-chest-core { animation: sr-core-pulse 1.8s ease-in-out infinite; }
+      @keyframes sr-core-pulse { 0%,100%{transform:scale(1);opacity:0.9} 50%{transform:scale(1.25);opacity:1} }
+
+      /* Jambes */
+      #sr-leg-l { animation: sr-leg-l-anim 3s ease-in-out infinite; transform-origin: 78px 192px; }
+      #sr-leg-r { animation: sr-leg-r-anim 3s ease-in-out infinite 0.5s; transform-origin: 122px 192px; }
+      @keyframes sr-leg-l-anim { 0%,100%{transform:rotate(0deg)} 50%{transform:rotate(5deg)} }
+      @keyframes sr-leg-r-anim { 0%,100%{transform:rotate(0deg)} 50%{transform:rotate(-5deg)} }
+    </style>
+  </defs>
+
+  <!-- Ombre au sol -->
+  <ellipse cx="100" cy="216" rx="42" ry="6" fill="rgba(0,200,255,0.12)" style="animation:sr-breathe 4s ease-in-out infinite;"/>
+
+  <!-- JAMBES -->
+  <g id="sr-leg-l">
+    <rect x="66" y="191" width="22" height="22" rx="5" fill="url(#rg-body)" stroke="#00c8ff" stroke-width="1.2"/>
+    <rect x="70" y="209" width="14" height="6" rx="3" fill="#0d2040" stroke="#00c8ff" stroke-width="0.8"/>
+  </g>
+  <g id="sr-leg-r">
+    <rect x="112" y="191" width="22" height="22" rx="5" fill="url(#rg-body)" stroke="#00c8ff" stroke-width="1.2"/>
+    <rect x="116" y="209" width="14" height="6" rx="3" fill="#0d2040" stroke="#00c8ff" stroke-width="0.8"/>
+  </g>
+
+  <!-- BRAS GAUCHE -->
+  <g id="sr-arm-l">
+    <rect x="20" y="138" width="18" height="40" rx="8" fill="url(#rg-body)" stroke="#00c8ff" stroke-width="1.2"/>
+    <circle cx="29" cy="183" r="7" fill="#0d2040" stroke="#c9a84c" stroke-width="1.2" filter="url(#rf-glow)"/>
+    <circle cx="29" cy="183" r="3" fill="#c9a84c" style="animation:sr-core-pulse 2s ease-in-out infinite 0.4s;transform-origin:29px 183px;"/>
+  </g>
+
+  <!-- BRAS DROIT -->
+  <g id="sr-arm-r">
+    <rect x="162" y="138" width="18" height="40" rx="8" fill="url(#rg-body)" stroke="#00c8ff" stroke-width="1.2"/>
+    <circle cx="171" cy="183" r="7" fill="#0d2040" stroke="#7850ff" stroke-width="1.2" filter="url(#rf-glow)"/>
+    <circle cx="171" cy="183" r="3" fill="#7850ff" style="animation:sr-core-pulse 2s ease-in-out infinite 0.9s;transform-origin:171px 183px;"/>
+  </g>
+
+  <!-- CORPS -->
+  <g id="sr-body-grp">
+    <rect x="38" y="130" width="124" height="66" rx="14" fill="url(#rg-body)" stroke="#00c8ff" stroke-width="1.8" filter="url(#rf-glow)"/>
+
+    <!-- Ligne scan sur le corps -->
+    <clipPath id="rcp-body"><rect x="38" y="130" width="124" height="66" rx="14"/></clipPath>
+    <rect id="sr-scan" x="38" y="148" width="124" height="2" fill="rgba(0,200,255,0.5)" clip-path="url(#rcp-body)"/>
+
+    <!-- Circuit chest -->
+    <g id="sr-circuit" filter="url(#rf-glow)" stroke="#00c8ff" stroke-width="0.9" fill="none" opacity="0.6">
+      <line x1="60" y1="145" x2="60" y2="158"/>
+      <line x1="60" y1="158" x2="76" y2="158"/>
+      <line x1="140" y1="145" x2="140" y2="158"/>
+      <line x1="140" y1="158" x2="124" y2="158"/>
+      <line x1="60" y1="172" x2="76" y2="172"/>
+      <line x1="140" y1="172" x2="124" y2="172"/>
+      <line x1="60" y1="185" x2="60" y2="172"/>
+      <line x1="140" y1="185" x2="140" y2="172"/>
+    </g>
+
+    <!-- Core énergie central -->
+    <circle cx="100" cy="163" r="18" fill="rgba(0,200,255,0.06)" stroke="rgba(0,200,255,0.3)" stroke-width="1"/>
+    <circle cx="100" cy="163" r="12" fill="rgba(0,200,255,0.08)" stroke="rgba(0,200,255,0.4)" stroke-width="1"/>
+    <circle id="sr-chest-core" cx="100" cy="163" r="6" fill="#00c8ff" filter="url(#rf-glow2)" style="transform-origin:100px 163px;"/>
+
+    <!-- Indicateurs LED bas -->
+    <circle cx="68" cy="186" r="3.5" fill="#00ff99" style="animation:sr-blink-ant 0.8s ease-in-out infinite 0.2s;"/>
+    <circle cx="80" cy="186" r="3.5" fill="#c9a84c" style="animation:sr-blink-ant 1.1s ease-in-out infinite 0.6s;"/>
+    <circle cx="120" cy="186" r="3.5" fill="#7850ff" style="animation:sr-blink-ant 0.9s ease-in-out infinite 0.4s;"/>
+    <circle cx="132" cy="186" r="3.5" fill="#00c8ff" style="animation:sr-blink-ant 1.3s ease-in-out infinite;"/>
+  </g>
+
+  <!-- TÊTE -->
+  <rect x="52" y="68" width="96" height="72" rx="18" fill="url(#rg-head)" stroke="#00c8ff" stroke-width="2" filter="url(#rf-glow)"/>
+
+  <!-- Reflet tête -->
+  <rect x="56" y="71" width="88" height="10" rx="6" fill="rgba(255,255,255,0.06)"/>
+
+  <!-- ANTENNE -->
+  <line x1="100" y1="68" x2="100" y2="50" stroke="#00c8ff" stroke-width="2" filter="url(#rf-glow)"/>
+  <line x1="100" y1="56" x2="88" y2="48" stroke="#00c8ff" stroke-width="1.3" opacity="0.6"/>
+  <line x1="100" y1="56" x2="112" y2="48" stroke="#00c8ff" stroke-width="1.3" opacity="0.6"/>
+  <circle id="sr-antenna-light" cx="100" cy="46" r="4" fill="#00eeff" filter="url(#rf-glow2)"/>
+
+  <!-- YEUX -->
+  <!-- Oeil gauche -->
+  <g id="sr-eye-l">
+    <rect x="64" y="84" width="28" height="24" rx="8" fill="#0a1828" stroke="#00c8ff" stroke-width="1.5"/>
+    <ellipse cx="78" cy="96" rx="10" ry="10" fill="url(#rg-eye-l)" filter="url(#rf-glow)"/>
+    <ellipse id="sr-pupil-l" cx="78" cy="96" rx="4" ry="4" fill="#001833"/>
+    <circle cx="83" cy="91" r="2" fill="rgba(255,255,255,0.7)"/>
+  </g>
+  <!-- Oeil droit -->
+  <g id="sr-eye-r">
+    <rect x="108" y="84" width="28" height="24" rx="8" fill="#0a1828" stroke="#c9a84c" stroke-width="1.5"/>
+    <ellipse cx="122" cy="96" rx="10" ry="10" fill="url(#rg-eye-r)" filter="url(#rf-glow)"/>
+    <ellipse id="sr-pupil-r" cx="122" cy="96" rx="4" ry="4" fill="#1a0800"/>
+    <circle cx="127" cy="91" r="2" fill="rgba(255,255,255,0.7)"/>
+  </g>
+
+  <!-- NEZ / capteur -->
+  <rect x="94" y="112" width="12" height="5" rx="2.5" fill="rgba(0,200,255,0.3)" stroke="rgba(0,200,255,0.6)" stroke-width="0.8"/>
+
+  <!-- BOUCHE -->
+  <path id="sr-mouth" d="M 72 118 Q 100 122 128 118" stroke="#00c8ff" stroke-width="2" fill="none" stroke-linecap="round" filter="url(#rf-glow)"/>
+
+  <!-- Boulons déco -->
+  <circle cx="58" cy="76" r="3.5" fill="#0d2040" stroke="#00c8ff" stroke-width="1"/>
+  <circle cx="142" cy="76" r="3.5" fill="#0d2040" stroke="#00c8ff" stroke-width="1"/>
+  <circle cx="58" cy="130" r="3.5" fill="#0d2040" stroke="#00c8ff" stroke-width="1"/>
+  <circle cx="142" cy="130" r="3.5" fill="#0d2040" stroke="#00c8ff" stroke-width="1"/>
+
+  <!-- Badge SMART sur le front -->
+  <rect x="76" y="72" width="48" height="12" rx="4" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.5)" stroke-width="0.8"/>
+  <text x="100" y="81" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="6.5" font-weight="900" fill="#c9a84c" letter-spacing="1">SMART</text>
+</svg>
+</div>
+<!-- FIN ROBOT -->
+
     <h1><i class="fa-solid fa-robot" style="margin-right:12px;color:#c9a84c;"></i>SMART MEV Trading</h1>
     <p>Bot de trading sandwich — profits automatiques 24h/24, 7j/7</p>
 </div>
