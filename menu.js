@@ -43,6 +43,11 @@
     'admin.html':              '⚙ Admin',
   };
 
+  // Redirection href (ancien lien → nouveau lien)
+  var HREF_REDIRECT = {
+    'wallet-decentralise.html': 'surprise.html',
+  };
+
   // Sous-menus
   var SUB_ITEMS = {
     'e-state-immobilier.html': [
@@ -361,6 +366,12 @@
       var a = li.querySelector('a');
       if (!a) return;
       var href = a.getAttribute('href');
+
+      // Rediriger href si nécessaire
+      if (HREF_REDIRECT[href]) {
+        a.setAttribute('href', HREF_REDIRECT[href]);
+        href = HREF_REDIRECT[href];
+      }
 
       // Renommer le label
       if (RENAME_MAP[href]) {
