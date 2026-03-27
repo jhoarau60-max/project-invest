@@ -198,9 +198,10 @@ nav ul li a {
     color: #c0d8f0;
     text-decoration: none;
     padding: 13px 25px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    font-weight: 300;
     transition: all 0.25s;
-    border-left: 3px solid transparent;
+    border-left: 1px solid transparent;
 }
 
 nav ul li a:hover,

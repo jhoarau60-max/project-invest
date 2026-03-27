@@ -144,7 +144,7 @@
       font-size: 1rem;
       letter-spacing: 2px;
       text-transform: uppercase;
-      font-weight: 700;
+      font-weight: 300;
       flex-shrink: 0;
     }
 
@@ -187,7 +187,7 @@
     nav ul li a.active {
       background: rgba(0,200,255,0.15) !important;
       color: #00c8ff !important;
-      font-weight: 600 !important;
+      font-weight: 400 !important;
     }
     nav ul li a.active i { color: #00c8ff !important; }
 
