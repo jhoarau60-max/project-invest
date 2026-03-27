@@ -99,7 +99,7 @@
     .logo-svg {
       display: block !important;
       padding: 18px 12px 14px !important;
-      border-bottom: 1px solid rgba(0,200,255,0.15) !important;
+      border-bottom: none !important;
       text-decoration: none !important;
       flex-shrink: 0 !important;
     }
@@ -139,7 +139,7 @@
 
     /* Titre Dashboard */
     .nav-title {
-      padding: 16px 18px 10px;
+      padding: 4px 18px 10px;
       color: #ffffff;
       font-size: 1.3rem;
       letter-spacing: 3px;
