@@ -6,93 +6,87 @@
   <title>Project inves'T - SURPRISE</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    html, body { margin:0; padding:0; overflow:hidden; height:100%; }
-
-    /* ── Image robot plein écran ── */
-    #robot-bg {
-      position: fixed; inset: 0;
-      background: url('robot-bg.webp') center center / cover no-repeat;
-      z-index: 0;
-    }
-    /* Overlay sombre pour lisibilité */
-    #robot-bg::after {
+    /* Robot plein écran en fond (derrière tout) */
+    body::before {
       content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(
-        120deg,
-        rgba(2,8,20,0.55) 0%,
-        rgba(2,8,20,0.25) 45%,
-        rgba(2,8,20,0.65) 100%
-      );
+      position: fixed; inset: 0; z-index: -2;
+      background: url('robot-bg.webp') center center / cover no-repeat;
+    }
+    /* Overlay sombre léger pour lisibilité */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: -1;
+      background: linear-gradient(110deg,
+        rgba(2,8,20,0.6) 0%,
+        rgba(2,8,20,0.2) 50%,
+        rgba(2,8,20,0.65) 100%);
     }
 
-    /* ── Canvas holographique par-dessus ── */
+    /* Canvas holographique overlay */
     #holo-canvas {
       position: fixed; inset: 0;
       width: 100%; height: 100%;
-      pointer-events: none; z-index: 1;
+      pointer-events: none;
+      z-index: 0;
     }
 
-    /* ── Header transparent ── */
+    /* Header semi-transparent */
     header {
-      background: rgba(2,8,20,0.55) !important;
-      backdrop-filter: blur(8px);
-      position: relative; z-index: 10;
+      position: relative;
+      z-index: 10;
+      background: rgba(5,18,43,0.7) !important;
+      backdrop-filter: blur(10px);
     }
 
-    /* ── Contenu centré droite ── */
+    /* Contenu principal centré à droite */
     .surprise-wrap {
-      position: fixed;
-      right: 5%;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 5;
-      display: flex;
-      flex-direction: column;
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column;
       align-items: flex-end;
+      padding: 60px 6% 40px;
+      min-height: calc(100vh - 80px);
+      justify-content: center;
       text-align: right;
-      padding: 30px;
-      max-width: 520px;
     }
 
-    /* ── Titre SURPRISE ── */
+    /* Titre */
     .surprise-title {
       font-family: 'Arial Black', sans-serif;
-      font-size: clamp(3rem, 6vw, 6rem);
+      font-size: clamp(3.5rem, 7vw, 6.5rem);
       font-weight: 900;
       letter-spacing: 0.18em;
       color: #c9a84c;
       text-shadow:
-        0 0 12px rgba(201,168,76,1),
-        0 0 30px rgba(201,168,76,0.7),
-        0 0 65px rgba(201,168,76,0.35);
-      margin: 0 0 12px;
-      animation: title-glow 3s ease-in-out infinite;
+        0 0 14px rgba(201,168,76,1),
+        0 0 35px rgba(201,168,76,0.75),
+        0 0 70px rgba(201,168,76,0.4);
+      margin: 0 0 14px;
+      animation: glow-title 3s ease-in-out infinite;
       line-height: 1;
     }
-    @keyframes title-glow {
-      0%,100% { text-shadow: 0 0 12px rgba(201,168,76,1), 0 0 30px rgba(201,168,76,0.7), 0 0 65px rgba(201,168,76,0.35); }
-      50%      { text-shadow: 0 0 24px rgba(201,168,76,1), 0 0 55px rgba(201,168,76,0.9), 0 0 100px rgba(201,168,76,0.5); }
+    @keyframes glow-title {
+      0%,100% { text-shadow: 0 0 14px rgba(201,168,76,1), 0 0 35px rgba(201,168,76,0.75), 0 0 70px rgba(201,168,76,0.4); }
+      50%      { text-shadow: 0 0 28px rgba(201,168,76,1), 0 0 60px rgba(201,168,76,0.9), 0 0 110px rgba(201,168,76,0.55); }
     }
 
     .surprise-sub {
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       letter-spacing: 0.3em;
       color: #e8f4ff;
-      opacity: 0.8;
-      margin-bottom: 28px;
+      opacity: 0.82;
+      margin-bottom: 32px;
       font-weight: 300;
     }
 
-    /* ── Barre loading ── */
-    .loading-wrap { width: min(420px, 85vw); }
+    /* Barre loading */
+    .loading-wrap { width: min(420px, 80vw); }
     .loading-label {
-      font-size: 0.65rem; letter-spacing: 0.35em;
-      color: #e8f4ff; opacity: 0.55; margin-bottom: 8px;
+      font-size: 0.66rem; letter-spacing: 0.35em;
+      color: #e8f4ff; opacity: 0.55; margin-bottom: 9px;
       text-align: right;
     }
     .loading-bar-track {
-      width: 100%; height: 6px; border-radius: 999px;
+      width: 100%; height: 7px; border-radius: 999px;
       background: rgba(255,255,255,0.08); overflow: hidden; margin-bottom: 10px;
     }
     .loading-bar-fill {
@@ -102,25 +96,22 @@
       animation: shimmer 2.5s linear infinite;
     }
     @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-    .loading-pct {
-      font-size: 1rem; font-weight: 700; color: #e8f4ff;
-      text-align: right;
-    }
+    .loading-pct { font-size: 1rem; font-weight: 700; color: #e8f4ff; text-align: right; }
 
-    /* ── Bouton voix ── */
+    /* Bouton voix */
     .btn-voice {
-      margin-top: 20px; padding: 10px 28px;
-      background: rgba(0,0,0,0.35);
-      backdrop-filter: blur(6px);
+      margin-top: 22px; padding: 11px 30px;
+      background: rgba(5,15,35,0.5);
+      backdrop-filter: blur(8px);
       border: 1px solid rgba(201,168,76,0.65);
       border-radius: 3px; color: #c9a84c;
-      font-size: 0.82rem; letter-spacing: 0.12em;
+      font-size: 0.83rem; letter-spacing: 0.12em;
       cursor: pointer; transition: all 0.3s;
     }
     .btn-voice:hover {
       background: rgba(201,168,76,0.15);
       border-color: #c9a84c;
-      box-shadow: 0 0 16px rgba(201,168,76,0.3);
+      box-shadow: 0 0 20px rgba(201,168,76,0.35);
     }
     .btn-voice.speaking {
       border-color: #3ab8d4; color: #3ab8d4;
@@ -128,7 +119,7 @@
     }
     @keyframes btn-pulse {
       0%,100%{ box-shadow: 0 0 0 rgba(58,184,212,0); }
-      50%    { box-shadow: 0 0 18px rgba(58,184,212,0.55); }
+      50%    { box-shadow: 0 0 20px rgba(58,184,212,0.6); }
     }
   </style>
 
@@ -141,10 +132,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 </head>
 <body>
 
-<!-- Robot plein écran -->
-<div id="robot-bg"></div>
-
-<!-- Canvas holographique overlay -->
+<!-- Canvas holographique -->
 <canvas id="holo-canvas"></canvas>
 
 <header>
@@ -182,7 +170,6 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
   </nav>
 </header>
 
-<!-- Contenu à droite -->
 <div class="surprise-wrap">
   <div class="surprise-title">SURPRISE</div>
   <div class="surprise-sub">QUELQUE CHOSE ARRIVE...</div>
@@ -199,190 +186,148 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 </div>
 
 <script>
-// ── Progress bar ──
 var PROGRESS = 2;
 document.getElementById('bar-fill').style.width = PROGRESS + '%';
 document.getElementById('pct-txt').textContent  = PROGRESS + ' %';
 
-// ── Voix robot ──
-var MESSAGE_FR = "Bonjour ! Je suis le robot de Project Inves T. Quelque chose d'extraordinaire est en cours de préparation. Un nouveau projet arrive très bientôt. Restez connectés !";
 var isSpeaking = false;
+var MESSAGE_FR = "Bonjour ! Je suis le robot de Project Inves T. Quelque chose d'extraordinaire est en cours de préparation. Un nouveau projet arrive très bientôt. Restez connectés !";
 
 function parlerRobot() {
   if (!('speechSynthesis' in window)) return;
   var synth = window.speechSynthesis;
-  if (synth.speaking) { synth.cancel(); isSpeaking = false; updateBtn(); return; }
-  isSpeaking = true; updateBtn();
+  if (synth.speaking) { synth.cancel(); return; }
+  isSpeaking = true; refreshBtn();
   var u = new SpeechSynthesisUtterance(MESSAGE_FR);
   u.lang='fr-FR'; u.rate=0.82; u.pitch=0.55; u.volume=1;
-  var voices = synth.getVoices();
-  var frVoice = voices.find(function(v){ return v.lang.startsWith('fr'); });
+  var frVoice = synth.getVoices().find(function(v){ return v.lang.startsWith('fr'); });
   if (frVoice) u.voice = frVoice;
-  u.onend = u.onerror = function() { isSpeaking=false; updateBtn(); };
+  u.onend = u.onerror = function(){ isSpeaking=false; refreshBtn(); };
   synth.speak(u);
 }
-function updateBtn() {
-  var btn = document.getElementById('btn-voice');
+function refreshBtn() {
+  var b = document.getElementById('btn-voice');
+  if (!b) return;
   if (isSpeaking) {
-    btn.classList.add('speaking');
-    btn.innerHTML='<i class="fa-solid fa-stop" style="margin-right:8px;"></i>ARRÊTER';
+    b.classList.add('speaking');
+    b.innerHTML='<i class="fa-solid fa-stop" style="margin-right:8px;"></i>ARRÊTER';
   } else {
-    btn.classList.remove('speaking');
-    btn.innerHTML='<i class="fa-solid fa-microphone" style="margin-right:8px;"></i>ÉCOUTER LE ROBOT';
+    b.classList.remove('speaking');
+    b.innerHTML='<i class="fa-solid fa-microphone" style="margin-right:8px;"></i>ÉCOUTER LE ROBOT';
   }
 }
 window.addEventListener('load', function(){
   window.speechSynthesis.getVoices();
   setTimeout(parlerRobot, 1800);
 });
-document.addEventListener('click', function autoVoice(){
+document.addEventListener('click', function once(){
   if (!isSpeaking && !window.speechSynthesis.speaking) parlerRobot();
-  document.removeEventListener('click', autoVoice);
+  document.removeEventListener('click', once);
 }, {once:true});
 
-// ── Canvas holographique (interface circulaire sur la main du robot) ──
+// ── Interface holographique canvas ──
 (function(){
   var C = document.getElementById('holo-canvas');
   var ctx = C.getContext('2d');
   var t = 0;
-
-  function resize() {
-    C.width  = window.innerWidth;
-    C.height = window.innerHeight;
-  }
+  function resize(){ C.width=window.innerWidth; C.height=window.innerHeight; }
   resize();
   window.addEventListener('resize', resize);
 
-  // Position du cercle holographique (côté droit de l'image, là où la main pointe)
-  function getHoloPos() {
-    return {
-      x: C.width  * 0.72,
-      y: C.height * 0.48
-    };
-  }
-
-  // Particules autour du holo
   var pts = [];
-  for (var i=0; i<70; i++) {
+  for(var i=0;i<65;i++){
     pts.push({
-      a:  Math.random()*Math.PI*2,
-      sp: (Math.random()*0.008+0.003) * (Math.random()>.5?1:-1),
-      r:  100 + Math.random()*180,
-      ry: 0.3 + Math.random()*0.25,
-      sz: Math.random()*2+0.4,
-      op: Math.random()*0.55+0.2,
-      col: ['rgba(58,184,212','rgba(180,220,255','rgba(201,168,76','rgba(255,255,255'][Math.floor(Math.random()*4)]
+      a: Math.random()*Math.PI*2,
+      sp:(Math.random()*0.009+0.003)*(Math.random()>.5?1:-1),
+      r: 90+Math.random()*190,
+      ry:0.28+Math.random()*0.22,
+      sz:Math.random()*2+0.4,
+      op:Math.random()*0.5+0.2,
+      col:['rgba(58,184,212','rgba(180,215,255','rgba(201,168,76','rgba(255,255,255'][Math.floor(Math.random()*4)]
     });
   }
 
   function draw(){
-    t += 0.012;
+    t += 0.013;
     ctx.clearRect(0,0,C.width,C.height);
-    var hp = getHoloPos();
 
-    // Anneaux holographiques (5 anneaux concentriques)
-    var rings = [
-      {r:220, op:0.18, w:1,   dash:null,   sp:0.12},
-      {r:180, op:0.28, w:1.2, dash:[8,6],  sp:-0.18},
-      {r:140, op:0.38, w:1.5, dash:null,   sp:0.25},
-      {r:100, op:0.45, w:1.2, dash:[4,8],  sp:-0.3},
-      {r:60,  op:0.55, w:1.8, dash:null,   sp:0.4},
-    ];
-    rings.forEach(function(rg){
+    // Position du cercle holo (côté droit, là où la main du robot pointe)
+    var hx = C.width*0.72, hy = C.height*0.46;
+
+    // 5 anneaux rotatifs
+    [[240,0.1,null,0.16],[195,-0.16,[8,5],0.25],[155,0.24,null,0.35],[112,-0.32,[4,7],0.42],[68,0.45,null,0.52]].forEach(function(rg){
       ctx.save();
-      ctx.translate(hp.x, hp.y);
-      ctx.rotate(t * rg.sp);
-      ctx.beginPath(); ctx.arc(0,0,rg.r,0,Math.PI*2);
-      ctx.strokeStyle = 'rgba(120,200,255,'+rg.op+')';
-      ctx.lineWidth = rg.w;
-      if (rg.dash) ctx.setLineDash(rg.dash); else ctx.setLineDash([]);
-      ctx.stroke();
-      ctx.restore();
+      ctx.translate(hx,hy); ctx.rotate(t*rg[1]);
+      ctx.beginPath(); ctx.arc(0,0,rg[0],0,Math.PI*2);
+      ctx.strokeStyle='rgba(140,205,255,'+rg[3]+')';
+      ctx.lineWidth=1.3;
+      rg[2]?ctx.setLineDash(rg[2]):ctx.setLineDash([]);
+      ctx.stroke(); ctx.restore();
     });
 
-    // Segments rectangulaires sur les anneaux (style UI sci-fi)
-    [220,180,140].forEach(function(r, ri){
-      var n = 8 + ri*4;
-      for (var k=0; k<n; k++) {
-        var ang = (k/n)*Math.PI*2 + t*(0.1*(ri%2===0?1:-1));
-        var x1 = hp.x + Math.cos(ang)*(r-8);
-        var y1 = hp.y + Math.sin(ang)*(r-8);
-        var x2 = hp.x + Math.cos(ang)*(r+8);
-        var y2 = hp.y + Math.sin(ang)*(r+8);
+    // Tirets sur les anneaux
+    [240,195,155].forEach(function(r,ri){
+      var n=8+ri*4;
+      for(var k=0;k<n;k++){
+        var a=(k/n)*Math.PI*2+t*(0.08*(ri%2?-1:1));
+        var x1=hx+Math.cos(a)*(r-9), y1=hy+Math.sin(a)*(r-9);
+        var x2=hx+Math.cos(a)*(r+9), y2=hy+Math.sin(a)*(r+9);
         ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2);
-        ctx.strokeStyle='rgba(150,210,255,'+(0.25+0.1*Math.sin(t*3+k))+')';
+        ctx.strokeStyle='rgba(160,215,255,'+(0.22+0.1*Math.sin(t*3+k))+')';
         ctx.lineWidth=1.5; ctx.setLineDash([]); ctx.stroke();
       }
     });
 
-    // Croix de visée centrale
-    ctx.save();
-    ctx.translate(hp.x, hp.y);
-    ctx.rotate(t*0.3);
+    // Croix de visée
+    ctx.save(); ctx.translate(hx,hy); ctx.rotate(t*0.25);
     [[-1,0],[1,0],[0,-1],[0,1]].forEach(function(d){
-      ctx.beginPath();
-      ctx.moveTo(d[0]*20, d[1]*20);
-      ctx.lineTo(d[0]*55, d[1]*55);
-      ctx.strokeStyle='rgba(100,200,255,0.5)';
-      ctx.lineWidth=1.2; ctx.setLineDash([4,4]); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(d[0]*22,d[1]*22); ctx.lineTo(d[0]*58,d[1]*58);
+      ctx.strokeStyle='rgba(110,205,255,0.5)'; ctx.lineWidth=1.2; ctx.setLineDash([4,4]); ctx.stroke();
     });
     ctx.restore();
 
-    // Centre lumineux (là où la main touche)
-    var cg = ctx.createRadialGradient(hp.x, hp.y, 0, hp.x, hp.y, 50);
-    cg.addColorStop(0,  'rgba(255,240,200,'+(0.6+0.3*Math.sin(t*2))+')');
-    cg.addColorStop(0.3,'rgba(200,160,80,0.4)');
-    cg.addColorStop(1,  'rgba(200,120,0,0)');
-    ctx.beginPath(); ctx.arc(hp.x, hp.y, 50, 0, Math.PI*2);
-    ctx.fillStyle=cg; ctx.fill();
-    // Point central
-    ctx.beginPath(); ctx.arc(hp.x, hp.y, 8, 0, Math.PI*2);
-    ctx.fillStyle='rgba(255,220,120,'+(0.8+0.18*Math.sin(t*3))+')';
-    ctx.fill();
-
-    // Données binaires sur les anneaux
-    var binStr = '010110010101001101010010';
-    ctx.font = '10px monospace';
-    ctx.fillStyle = 'rgba(100,200,255,0.35)';
-    for (var bi=0; bi<16; bi++) {
-      var bang = (bi/16)*Math.PI*2 + t*0.08;
-      var bx = hp.x + Math.cos(bang)*205;
-      var by = hp.y + Math.sin(bang)*205*0.9;
-      ctx.fillText(binStr[bi%binStr.length], bx-4, by+4);
+    // Carrés UI flottants
+    for(var sq=0;sq<14;sq++){
+      var sa=(sq/14)*Math.PI*2+t*0.06*(sq%2?-1:1);
+      var sr=162+Math.sin(t*1.4+sq)*14;
+      var sx=hx+Math.cos(sa)*sr, sy=hy+Math.sin(sa)*sr*0.85;
+      var ss=5+Math.sin(t*2+sq)*2;
+      ctx.strokeStyle='rgba(160,215,255,'+(0.28+0.12*Math.sin(t*2+sq))+')';
+      ctx.lineWidth=1; ctx.setLineDash([]); ctx.strokeRect(sx-ss/2,sy-ss/2,ss,ss);
     }
 
-    // Petits carrés flottants (UI elements)
-    for (var sq=0; sq<12; sq++) {
-      var sang = (sq/12)*Math.PI*2 + t*0.05*(sq%2===0?1:-1);
-      var sr   = 155 + Math.sin(t*1.5+sq)*15;
-      var sx   = hp.x + Math.cos(sang)*sr;
-      var sy   = hp.y + Math.sin(sang)*sr*0.85;
-      var ss   = 6 + Math.sin(t*2+sq)*2;
-      ctx.strokeStyle='rgba(150,210,255,'+(0.3+0.15*Math.sin(t*2+sq))+')';
-      ctx.lineWidth=1; ctx.setLineDash([]);
-      ctx.strokeRect(sx-ss/2, sy-ss/2, ss, ss);
+    // Point central lumineux (contact main-interface)
+    var cg=ctx.createRadialGradient(hx,hy,0,hx,hy,55);
+    cg.addColorStop(0,'rgba(255,235,190,'+(0.7+0.28*Math.sin(t*2.2))+')');
+    cg.addColorStop(0.35,'rgba(210,155,70,0.4)');
+    cg.addColorStop(1,'rgba(200,110,0,0)');
+    ctx.beginPath(); ctx.arc(hx,hy,55,0,Math.PI*2); ctx.fillStyle=cg; ctx.fill();
+    ctx.beginPath(); ctx.arc(hx,hy,9,0,Math.PI*2);
+    ctx.fillStyle='rgba(255,220,110,'+(0.85+0.14*Math.sin(t*3))+')'; ctx.fill();
+
+    // Données binaires
+    ctx.font='10px monospace'; ctx.fillStyle='rgba(120,205,255,0.32)';
+    var bin='010110100101001011010101';
+    for(var bi=0;bi<18;bi++){
+      var ba=(bi/18)*Math.PI*2+t*0.07;
+      ctx.fillText(bin[bi%bin.length], hx+Math.cos(ba)*218-4, hy+Math.sin(ba)*218+4);
     }
+
+    // Scan line
+    var scanX=hx-240+((t*28)%480);
+    var sg=ctx.createLinearGradient(scanX,hy-240,scanX+2,hy+240);
+    sg.addColorStop(0,'rgba(0,220,255,0)'); sg.addColorStop(0.45,'rgba(0,220,255,0.28)');
+    sg.addColorStop(0.55,'rgba(0,220,255,0.28)'); sg.addColorStop(1,'rgba(0,220,255,0)');
+    ctx.fillStyle=sg; ctx.fillRect(scanX,hy-240,2,480);
 
     // Particules orbitales
     pts.forEach(function(p){
-      p.a += p.sp;
-      var px = hp.x + Math.cos(p.a)*p.r;
-      var py = hp.y + Math.sin(p.a)*p.r*p.ry;
-      ctx.globalAlpha = p.op * (0.6+0.4*Math.sin(t*1.5+p.a));
+      p.a+=p.sp;
+      var px=hx+Math.cos(p.a)*p.r, py=hy+Math.sin(p.a)*p.r*p.ry;
+      ctx.globalAlpha=p.op*(0.55+0.45*Math.sin(t*1.5+p.a));
       ctx.beginPath(); ctx.arc(px,py,p.sz,0,Math.PI*2);
-      ctx.fillStyle = p.col + ',1)'; ctx.fill();
-      ctx.globalAlpha = 1;
+      ctx.fillStyle=p.col+',1)'; ctx.fill(); ctx.globalAlpha=1;
     });
-
-    // Scan line vertical sur l'interface
-    var scanX = hp.x - 220 + ((t*30) % 440);
-    var sg2 = ctx.createLinearGradient(scanX,hp.y-220,scanX+2,hp.y+220);
-    sg2.addColorStop(0,'rgba(0,220,255,0)');
-    sg2.addColorStop(0.4,'rgba(0,220,255,0.3)');
-    sg2.addColorStop(0.6,'rgba(0,220,255,0.3)');
-    sg2.addColorStop(1,'rgba(0,220,255,0)');
-    ctx.fillStyle=sg2;
-    ctx.fillRect(scanX, hp.y-220, 2, 440);
 
     requestAnimationFrame(draw);
   }
