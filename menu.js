@@ -261,13 +261,16 @@
     #sound-btn,
     #user-badge {
       box-shadow: none !important;
-      opacity: 0.75;
+      border-radius: 3px !important;
+      border: 1px solid rgba(255,255,255,0.75) !important;
+      opacity: 0.78;
       transition: opacity 0.3s, background 0.3s !important;
     }
     .social-links a:hover,
     #lang-btn:hover,
     #sound-btn:hover {
       box-shadow: none !important;
+      border-color: #fff !important;
       opacity: 1;
     }
   `;
