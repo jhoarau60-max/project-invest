@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -6,6 +6,21 @@
     <title>Project inves'T - Documents MLM</title>
     <link rel="stylesheet" href="style.css">
     <style>
+      @keyframes rainbowBorder {
+        0%   { border-color: #ff0000; box-shadow: 0 0 15px #ff000066; }
+        16%  { border-color: #ff8800; box-shadow: 0 0 15px #ff880066; }
+        33%  { border-color: #ffff00; box-shadow: 0 0 15px #ffff0066; }
+        50%  { border-color: #00ff00; box-shadow: 0 0 15px #00ff0066; }
+        66%  { border-color: #0088ff; box-shadow: 0 0 15px #0088ff66; }
+        83%  { border-color: #8800ff; box-shadow: 0 0 15px #8800ff66; }
+        100% { border-color: #ff0000; box-shadow: 0 0 15px #ff000066; }
+      }
+      .card-rainbow {
+        border: 2px solid #ff0000;
+        animation: rainbowBorder 4s linear infinite;
+        border-radius: 12px;
+        background: #0a1628;
+      }
       .line-anim  { stroke-dasharray: 40 960; animation: snake 6s linear infinite, rainbow 5s linear infinite; }
       .line-anim2 { stroke-dasharray: 40 960; animation: snake 8s linear infinite reverse, rainbow 5s linear infinite 1.5s; }
       .line-anim3 { stroke-dasharray: 40 960; animation: snake 7s linear infinite, rainbow 5s linear infinite 3s; }
@@ -67,10 +82,11 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             <li><a href="e-state-immobilier.html">E-state Immobilier Tokénisé</a></li>
             <li><a href="smart-mev-trading.html">SMART MEV Trading</a></li>
             <li><a href="mlm-center.html">MLM Center</a></li>
-            <li><a href="bibliotheque-mlm.html">Avis Clients</a></li>
+            
 
             <li><a href="portage-salarial.html">Portage salarial</a></li>
             <li><a href="wallet-decentralise.html">Wallet Décentralisé</a></li>
+            <li><a href="bibliotheque-mlm.html">Avis Clients</a></li>
         </ul>
     </nav>
 </header>
@@ -88,7 +104,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
     <div style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:60px;">
 
         <!-- FRANÇAIS -->
-        <div class="card" style="text-align:center;width:180px;padding:30px 20px;border:1px solid #00c8ff44;flex-shrink:0;">
+        <div class="card-rainbow" style="text-align:center;width:180px;padding:30px 20px;flex-shrink:0;">
             <img src="https://flagcdn.com/w80/fr.png" alt="France" style="width:70px;height:auto;border-radius:6px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,0.4);">
             <h3 style="color:#fff;margin-bottom:6px;font-size:1.1rem;">Français</h3>
             <p style="color:#888;font-size:0.8rem;margin-bottom:16px;">Présentation complète</p>
@@ -96,7 +112,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         </div>
 
         <!-- ANGLAIS -->
-        <div class="card" style="text-align:center;width:180px;padding:30px 20px;border:1px solid #00c8ff44;flex-shrink:0;">
+        <div class="card-rainbow" style="text-align:center;width:180px;padding:30px 20px;flex-shrink:0;">
             <img src="https://flagcdn.com/w80/gb.png" alt="England" style="width:70px;height:auto;border-radius:6px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,0.4);">
             <h3 style="color:#fff;margin-bottom:6px;font-size:1.1rem;">English</h3>
             <p style="color:#888;font-size:0.8rem;margin-bottom:16px;">Full presentation</p>
@@ -104,7 +120,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         </div>
 
         <!-- RUSSE -->
-        <div class="card" style="text-align:center;width:180px;padding:30px 20px;border:1px solid #00c8ff44;flex-shrink:0;">
+        <div class="card-rainbow" style="text-align:center;width:180px;padding:30px 20px;flex-shrink:0;">
             <img src="https://flagcdn.com/w80/ru.png" alt="Russia" style="width:70px;height:auto;border-radius:6px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,0.4);">
             <h3 style="color:#fff;margin-bottom:6px;font-size:1.1rem;">Русский</h3>
             <p style="color:#888;font-size:0.8rem;margin-bottom:16px;">Полная презентация</p>
@@ -112,7 +128,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         </div>
 
         <!-- HINDI -->
-        <div class="card" style="text-align:center;width:180px;padding:30px 20px;border:1px solid #00c8ff44;flex-shrink:0;">
+        <div class="card-rainbow" style="text-align:center;width:180px;padding:30px 20px;flex-shrink:0;">
             <img src="https://flagcdn.com/w80/in.png" alt="India" style="width:70px;height:auto;border-radius:6px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,0.4);">
             <h3 style="color:#fff;margin-bottom:6px;font-size:1.1rem;">हिंदी</h3>
             <p style="color:#888;font-size:0.8rem;margin-bottom:16px;">पूरी प्रस्तुति</p>
@@ -120,7 +136,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         </div>
 
         <!-- ARABE -->
-        <div class="card" style="text-align:center;width:180px;padding:30px 20px;border:1px solid #00c8ff44;flex-shrink:0;">
+        <div class="card-rainbow" style="text-align:center;width:180px;padding:30px 20px;flex-shrink:0;">
             <img src="https://flagcdn.com/w80/sa.png" alt="Saudi Arabia" style="width:70px;height:auto;border-radius:6px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,0.4);">
             <h3 style="color:#fff;margin-bottom:6px;font-size:1.1rem;">العربية</h3>
             <p style="color:#888;font-size:0.8rem;margin-bottom:16px;">العرض الكامل</p>
@@ -138,3 +154,5 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 <script src="translator.js"></script>
 </body>
 </html>
+
+
