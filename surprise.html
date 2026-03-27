@@ -6,53 +6,56 @@
   <title>Project inves'T - SURPRISE</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Robot plein écran en fond (derrière tout) */
-    body::before {
-      content: '';
+    html, body { overflow: hidden; height: 100%; }
+
+    /* Robot plein écran en fond */
+    #robot-bg {
       position: fixed; inset: 0; z-index: -2;
-      background: url('robot-bg.webp') center center / cover no-repeat;
+      background: url('robot-bg.webp') center 20% / cover no-repeat;
     }
-    /* Overlay sombre léger pour lisibilité */
-    body::after {
+    /* Overlay gradient bas pour lisibilité du texte */
+    #robot-bg::after {
       content: '';
-      position: fixed; inset: 0; z-index: -1;
-      background: linear-gradient(110deg,
-        rgba(2,8,20,0.6) 0%,
-        rgba(2,8,20,0.2) 50%,
-        rgba(2,8,20,0.65) 100%);
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(2,8,20,0.15) 0%,
+        rgba(2,8,20,0.05) 40%,
+        rgba(2,8,20,0.55) 75%,
+        rgba(2,8,20,0.88) 100%
+      );
     }
 
-    /* Canvas holographique overlay */
+    /* Canvas holographique */
     #holo-canvas {
       position: fixed; inset: 0;
       width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 0;
+      pointer-events: none; z-index: 0;
     }
 
-    /* Header semi-transparent */
+    /* Header en haut, semi-transparent */
     header {
-      position: relative;
-      z-index: 10;
-      background: rgba(5,18,43,0.7) !important;
-      backdrop-filter: blur(10px);
+      position: relative; z-index: 10;
+      background: rgba(3,10,28,0.65) !important;
+      backdrop-filter: blur(12px);
     }
 
-    /* Contenu principal centré à droite */
+    /* Contenu fixé EN BAS de la page — toujours visible */
     .surprise-wrap {
-      position: relative; z-index: 2;
+      position: fixed;
+      bottom: 28px;
+      left: 0; right: 0;
+      z-index: 5;
       display: flex; flex-direction: column;
-      align-items: flex-end;
-      padding: 60px 6% 40px;
-      min-height: calc(100vh - 80px);
-      justify-content: center;
-      text-align: right;
+      align-items: center;
+      text-align: center;
+      padding: 0 20px;
     }
 
     /* Titre */
     .surprise-title {
       font-family: 'Arial Black', sans-serif;
-      font-size: clamp(3.5rem, 7vw, 6.5rem);
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
       font-weight: 900;
       letter-spacing: 0.18em;
       color: #c9a84c;
@@ -60,7 +63,7 @@
         0 0 14px rgba(201,168,76,1),
         0 0 35px rgba(201,168,76,0.75),
         0 0 70px rgba(201,168,76,0.4);
-      margin: 0 0 14px;
+      margin: 0 0 10px;
       animation: glow-title 3s ease-in-out infinite;
       line-height: 1;
     }
@@ -70,24 +73,24 @@
     }
 
     .surprise-sub {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       letter-spacing: 0.3em;
       color: #e8f4ff;
       opacity: 0.82;
-      margin-bottom: 32px;
+      margin-bottom: 16px;
       font-weight: 300;
     }
 
     /* Barre loading */
-    .loading-wrap { width: min(420px, 80vw); }
+    .loading-wrap { width: min(440px, 80vw); }
     .loading-label {
       font-size: 0.66rem; letter-spacing: 0.35em;
-      color: #e8f4ff; opacity: 0.55; margin-bottom: 9px;
-      text-align: right;
+      color: #e8f4ff; opacity: 0.55; margin-bottom: 7px;
+      text-align: center;
     }
     .loading-bar-track {
       width: 100%; height: 7px; border-radius: 999px;
-      background: rgba(255,255,255,0.08); overflow: hidden; margin-bottom: 10px;
+      background: rgba(255,255,255,0.08); overflow: hidden; margin-bottom: 8px;
     }
     .loading-bar-fill {
       height: 100%; border-radius: 999px;
@@ -96,7 +99,7 @@
       animation: shimmer 2.5s linear infinite;
     }
     @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-    .loading-pct { font-size: 1rem; font-weight: 700; color: #e8f4ff; text-align: right; }
+    .loading-pct { font-size: 1rem; font-weight: 700; color: #e8f4ff; text-align: center; }
 
     /* Bouton voix */
     .btn-voice {
@@ -131,6 +134,9 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 <link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#00c8ff">
 </head>
 <body>
+
+<!-- Robot fond plein écran -->
+<div id="robot-bg"></div>
 
 <!-- Canvas holographique -->
 <canvas id="holo-canvas"></canvas>
