@@ -114,11 +114,78 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
     </nav>
 </header>
 
+<style>
+@keyframes rainbowBorder {
+    0%   { border-color: #ff0000; box-shadow: 0 0 15px #ff000066; }
+    16%  { border-color: #ff8800; box-shadow: 0 0 15px #ff880066; }
+    33%  { border-color: #ffff00; box-shadow: 0 0 15px #ffff0066; }
+    50%  { border-color: #00ff00; box-shadow: 0 0 15px #00ff0066; }
+    66%  { border-color: #0088ff; box-shadow: 0 0 15px #0088ff66; }
+    83%  { border-color: #8800ff; box-shadow: 0 0 15px #8800ff66; }
+    100% { border-color: #ff0000; box-shadow: 0 0 15px #ff000066; }
+}
+.card-rainbow { border: 2px solid #ff0000; animation: rainbowBorder 4s linear infinite; border-radius: 12px; background: #0a1628; }
+.tab-btn-active { background: linear-gradient(135deg,#00c8ff,#1a7fdb) !important; color: #020a18 !important; border: none !important; }
+.tab-btn { background: #0a2a5e; color: #00c8ff; font-weight: 900; font-size: 1rem; padding: 12px 32px; border-radius: 25px; border: 2px solid #00c8ff44; cursor: pointer; }
+</style>
+
 <div class="page-header">
     <h1>💼 Portage Salarial</h1>
     <p>Exercez en toute liberté avec la sécurité du salariat</p>
 </div>
 
+<!-- SOUS-MENU ONGLETS -->
+<div style="display:flex;justify-content:center;gap:16px;margin:24px 0;flex-wrap:wrap;">
+    <button class="tab-btn tab-btn-active" id="tab-info" onclick="showTab('info')">📋 Présentation</button>
+    <button class="tab-btn" id="tab-docs" onclick="showTab('docs')">📄 Document</button>
+    <button class="tab-btn" id="tab-videos" onclick="showTab('video')">▶ Vidéo</button>
+</div>
+
+<!-- ONGLET DOCUMENT -->
+<div id="section-docs" style="display:none;">
+    <div class="section">
+        <h2 class="section-title">Document — Portage Salarial</h2>
+        <div class="divider"></div>
+        <div style="display:flex;justify-content:center;margin:30px 0;">
+            <div class="card-rainbow" style="text-align:center;width:220px;padding:30px 20px;">
+                <img src="https://flagcdn.com/w80/fr.png" alt="France" style="width:70px;height:auto;border-radius:6px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,0.4);">
+                <h3 style="color:#fff;margin-bottom:6px;">Français</h3>
+                <p style="color:#888;font-size:0.85rem;margin-bottom:16px;">Présentation portage salarial</p>
+                <a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:cb20c3a0-9ff4-449d-b3e7-782b18fd0a2e" target="_blank" style="display:inline-block;background:linear-gradient(135deg,#00c8ff,#1a7fdb);color:#020a18;font-weight:700;font-size:0.9rem;padding:10px 22px;border-radius:20px;text-decoration:none;">&#128196; Voir le PDF</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ONGLET VIDÉO -->
+<div id="section-video" style="display:none;">
+    <div class="section">
+        <h2 class="section-title">Vidéo — Portage Salarial</h2>
+        <div class="divider"></div>
+        <div style="display:flex;justify-content:center;margin:30px 0;">
+            <div class="card-rainbow" style="width:100%;max-width:700px;overflow:hidden;">
+                <iframe width="100%" height="380" src="https://www.youtube.com/embed/sfFMTi6DcW8" title="Portage Salarial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display:block;"></iframe>
+                <div style="padding:16px;text-align:center;">
+                    <h3 style="color:#fff;margin-bottom:6px;">Portage Salarial — Présentation complète</h3>
+                    <p style="color:#aaa;font-size:0.85rem;">Tout comprendre sur le portage salarial en français.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showTab(tab) {
+    ['docs','video','info'].forEach(function(t){ document.getElementById('section-'+t).style.display='none'; });
+    ['tab-docs','tab-videos','tab-info'].forEach(function(id){ document.getElementById(id).classList.remove('tab-btn-active'); });
+    document.getElementById('section-'+tab).style.display='block';
+    var btnMap = {info:'tab-info', docs:'tab-docs', video:'tab-videos'};
+    document.getElementById(btnMap[tab]).classList.add('tab-btn-active');
+}
+</script>
+
+<!-- ONGLET PRÉSENTATION -->
+<div id="section-info">
 <div class="section">
     <h2 class="section-title">Qu'est-ce que le Portage Salarial ?</h2>
     <div class="divider"></div>
@@ -185,6 +252,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             Contactez-nous via WhatsApp ou Telegram. Nous vous mettrons en relation avec notre partenaire de portage salarial et vous accompagnerons dans toutes les démarches d'inscription.
         </div>
     </div>
+</div>
 </div>
 
 <div class="banner">
