@@ -308,7 +308,7 @@
 
     // Mettre le logo en haut de la sidebar avec la nouvelle image
     if (logo) {
-      logo.innerHTML = '<img src="logo-project-invest.jpg" alt="Project Inves\'T" style="width:100%;max-width:180px;display:block;margin:0 auto;padding:10px 12px;">';
+      logo.innerHTML = '<img src="logo-project-invest.jpg" alt="Project Inves\'T" style="width:100%;max-width:130px;display:block;margin:0 auto;padding:8px 12px;">';
       nav.insertBefore(logo, nav.firstChild);
     }
 
