@@ -40,6 +40,7 @@
     'mlm-center.html':         'Système Matriciel',
     'wallet-decentralise.html':'SURPRISE',
     'bibliotheque-mlm.html':   'Avis Clients',
+    'admin.html':              '⚙ Admin',
   };
 
   // Sous-menus
@@ -310,23 +311,6 @@
         var meta = user.user_metadata || {};
         var pseudo = meta.username || meta.pseudo || user.email.split('@')[0];
         var avatar = meta.avatar || '';
-
-        // ── Admin nav link (dynamically injected if user is admin) ──
-        var adminEmails = ['jhoarau60@gmail.com', 'jhoarau60+1@gmail.com'];
-        var isAdmin = meta.is_admin || adminEmails.indexOf(user.email.toLowerCase()) !== -1;
-        if (isAdmin) {
-          var adminLi = document.createElement('li');
-          adminLi.id = 'nav-admin-item';
-          var adminA = document.createElement('a');
-          adminA.href = 'admin.html';
-          adminA.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Admin';
-          adminA.style.cssText = 'color:#c9a84c!important;font-weight:700!important;';
-          adminLi.appendChild(adminA);
-          var curPage = window.location.pathname.split('/').pop() || 'index.html';
-          if (curPage === 'admin.html') adminA.classList.add('active');
-          var navUl = document.querySelector('nav ul') || (nav && nav.querySelector('ul'));
-          if (navUl) navUl.appendChild(adminLi);
-        }
 
         // Badge pseudo dans le header (cliquable → paramètres)
         var badge = document.createElement('a');
