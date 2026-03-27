@@ -20,15 +20,10 @@
   // Insérer dans le header (à côté de YouTube) ou en fixe sur la page de connexion
   function placeBtn() {
     const headerTop = document.querySelector('.header-top');
-    const searchEl = document.querySelector('#header-search');
     if (headerTop) {
-      // Placer le son avant la barre de recherche dans le header-top
+      // Placer le son à la fin du header-top
       btn.style.cssText = 'color:#00c8ff;font-size:1.1rem;padding:6px 12px;border:1px solid rgba(0,200,255,0.4);border-radius:20px;transition:all 0.3s;text-shadow:0 0 8px rgba(0,200,255,0.5);cursor:pointer;display:inline-flex;align-items:center;flex-shrink:0;';
-      if (searchEl) {
-        headerTop.insertBefore(btn, searchEl);
-      } else {
-        headerTop.appendChild(btn);
-      }
+      headerTop.appendChild(btn);
     } else {
       // Page de connexion : fixe à côté du badge
       btn.style.cssText = 'position:fixed;top:20px;right:20px;z-index:9999;background:rgba(10,42,94,0.7);border:1px solid rgba(0,200,255,0.4);border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(10px);font-size:1.2rem;transition:all 0.3s;';
