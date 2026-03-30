@@ -27,6 +27,7 @@
     'videos-immobilier.html':        'fa-video',
     'pdf-immobilier.html':           'fa-file-pdf',
     'bibliotheque-mlm.html':         'fa-star',
+    'journal.html':                  'fa-newspaper',
     'admin.html':                    'fa-shield-halved',
   };
 
