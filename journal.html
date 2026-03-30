@@ -51,6 +51,25 @@
         z-index: 1;
         filter: drop-shadow(0 20px 60px rgba(0,0,0,0.8)) drop-shadow(0 0 30px rgba(120,80,255,0.3));
       }
+      /* Reliure centrale du livre */
+      #flipbook-container::after {
+        content: '';
+        position: absolute;
+        top: 0; bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 12px;
+        background: linear-gradient(to right,
+          rgba(0,0,0,0.3) 0%,
+          rgba(80,40,10,0.6) 20%,
+          rgba(120,70,20,0.8) 50%,
+          rgba(80,40,10,0.6) 80%,
+          rgba(0,0,0,0.3) 100%
+        );
+        z-index: 100;
+        pointer-events: none;
+        box-shadow: 0 0 8px rgba(0,0,0,0.5);
+      }
 
       /* ===== PAGES ===== */
       .page {
@@ -611,7 +630,7 @@ async function chargerJournal(){
     }
     fb.innerHTML += buildBackPage();
 
-    var W = Math.min(window.innerWidth - 280, 380);
+    var W = Math.min(Math.floor((window.innerWidth - 280) / 2), 360);
     var H = Math.round(W * 1.45);
 
     document.getElementById('book-scene').style.display='flex';
@@ -620,11 +639,12 @@ async function chargerJournal(){
         width: W, height: H,
         showCover: true,
         mobileScrollSupport: false,
-        flippingTime: 800,
-        usePortrait: true,
+        flippingTime: 900,
+        usePortrait: false,
         autoSize: false,
-        maxShadowOpacity: 0.6,
+        maxShadowOpacity: 0.7,
         startZIndex: 10,
+        drawShadow: true,
     });
 
     pageFlip.loadFromHTML(document.querySelectorAll('#flipbook .page'));
