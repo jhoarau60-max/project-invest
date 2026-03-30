@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project inves'T - Journal des projets</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+      .line-anim  { stroke-dasharray: 40 960; animation: snake 6s linear infinite, rainbow 5s linear infinite; }
+      .line-anim2 { stroke-dasharray: 40 960; animation: snake 8s linear infinite reverse, rainbow 5s linear infinite 1.5s; }
+      .line-anim3 { stroke-dasharray: 40 960; animation: snake 7s linear infinite, rainbow 5s linear infinite 3s; }
+      @keyframes snake { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: -1000; } }
+      @keyframes rainbow {
+        0%   { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
+        20%  { stroke: #7850ff; filter: drop-shadow(0 0 6px #7850ff); }
+        40%  { stroke: #ff3399; filter: drop-shadow(0 0 6px #ff3399); }
+        60%  { stroke: #ffaa00; filter: drop-shadow(0 0 6px #ffaa00); }
+        80%  { stroke: #00ff99; filter: drop-shadow(0 0 6px #00ff99); }
+        100% { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
+      }
+      /* ONGLETS */
+      .cat-tabs { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin:30px 0 20px; }
+      .cat-tab {
+        padding:9px 20px; border-radius:30px; font-size:0.88rem; font-weight:700;
+        cursor:pointer; border:2px solid rgba(0,200,255,0.3);
+        background:rgba(0,200,255,0.05); color:#aaa; transition:all 0.25s;
+      }
+      .cat-tab:hover { border-color:#00c8ff; color:#fff; }
+      .cat-tab.active { background:#00c8ff; border-color:#00c8ff; color:#020a18; box-shadow:0 0 14px rgba(0,200,255,0.4); }
+      /* ARTICLE CARD */
+      .article-card {
+        background:rgba(0,200,255,0.04);
+        border:1px solid rgba(0,200,255,0.15);
+        border-radius:14px; padding:24px 28px; margin-bottom:20px;
+        transition:border-color 0.2s, box-shadow 0.2s;
+      }
+      .article-card:hover { border-color:rgba(0,200,255,0.35); box-shadow:0 0 20px rgba(0,200,255,0.07); }
+      .article-card.epingle {
+        border-color:rgba(201,168,76,0.4);
+        background:rgba(201,168,76,0.04);
+        box-shadow:0 0 18px rgba(201,168,76,0.08);
+      }
+      .article-titre {
+        font-size:1.15rem; font-weight:800; color:#fff; margin-bottom:10px;
+      }
+      .article-meta {
+        display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;
+      }
+      .article-date { color:#555; font-size:0.78rem; }
+      .cat-badge { display:inline-block; padding:3px 12px; border-radius:20px; font-size:0.75rem; font-weight:700; }
+      .cat-general  { background:rgba(0,200,255,0.12);  color:#00c8ff; border:1px solid rgba(0,200,255,0.3); }
+      .cat-trading  { background:rgba(0,255,150,0.10);  color:#00ff99; border:1px solid rgba(0,255,150,0.3); }
+      .cat-estate   { background:rgba(120,80,255,0.12); color:#a070ff; border:1px solid rgba(120,80,255,0.3); }
+      .cat-mlm      { background:rgba(255,170,0,0.10);  color:#ffaa00; border:1px solid rgba(255,170,0,0.3); }
+      .cat-portage  { background:rgba(255,60,120,0.10); color:#ff6090; border:1px solid rgba(255,60,120,0.3); }
+      .cat-site     { background:rgba(50,200,100,0.10); color:#32c864; border:1px solid rgba(50,200,100,0.3); }
+      .epingle-badge {
+        display:inline-flex; align-items:center; gap:5px;
+        background:rgba(201,168,76,0.15); color:#c9a84c;
+        border:1px solid rgba(201,168,76,0.35); border-radius:20px;
+        padding:3px 10px; font-size:0.73rem; font-weight:700;
+      }
+      .article-contenu {
+        color:#ccc; font-size:0.93rem; line-height:1.8; white-space:pre-wrap;
+      }
+      .article-img {
+        width:100%; max-height:320px; object-fit:cover;
+        border-radius:10px; margin-bottom:16px;
+        border:1px solid rgba(0,200,255,0.15);
+      }
+      /* BOUTONS ADMIN */
+      .btn-suppr {
+        background:rgba(255,50,80,0.15); color:#ff4466;
+        border:1px solid rgba(255,50,80,0.3); border-radius:6px;
+        padding:4px 12px; font-size:0.78rem; cursor:pointer;
+        transition:all 0.2s; margin-top:12px;
+      }
+      .btn-suppr:hover { background:rgba(255,50,80,0.3); }
+      /* FORMULAIRE ADMIN */
+      .form-input {
+        width:100%; background:rgba(0,200,255,0.07);
+        border:1px solid rgba(0,200,255,0.3); border-radius:8px;
+        padding:10px 14px; color:#fff; font-size:0.95rem; outline:none;
+        box-sizing:border-box; font-family:inherit;
+      }
+      .form-input:focus { border-color:#00c8ff; box-shadow:0 0 10px rgba(0,200,255,0.25); }
+      select.form-input option { background:#071020; color:#fff; }
+      .admin-panel {
+        border:1px solid rgba(201,168,76,0.3);
+        background:rgba(201,168,76,0.03);
+        border-radius:14px; padding:28px 32px; margin-bottom:40px;
+      }
+      .admin-panel h3 { color:#c9a84c; margin-bottom:20px; font-size:1rem; letter-spacing:1px; text-transform:uppercase; }
+      .form-row { margin-bottom:16px; }
+      .form-label { color:#aaa; font-size:0.82rem; display:block; margin-bottom:6px; }
+      .btn-publier {
+        background:#c9a84c; color:#020a18; border:none; border-radius:8px;
+        padding:11px 28px; font-size:0.95rem; font-weight:700; cursor:pointer;
+        transition:all 0.3s; box-shadow:0 0 14px rgba(201,168,76,0.3);
+      }
+      .btn-publier:hover { box-shadow:0 0 22px rgba(201,168,76,0.5); }
+      .switch-wrap { display:flex; align-items:center; gap:10px; cursor:pointer; }
+      .switch { width:40px; height:22px; background:rgba(255,255,255,0.1); border-radius:11px; position:relative; transition:background 0.2s; }
+      .switch.on { background:#c9a84c; }
+      .switch::after { content:''; position:absolute; width:16px; height:16px; background:#fff; border-radius:50%; top:3px; left:3px; transition:left 0.2s; }
+      .switch.on::after { left:21px; }
+    </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const _sb=window.supabase.createClient("https://cvggxktybzbrtskcwlxp.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Z2d4a3R5YnpicnRza2N3bHhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyODM2MjcsImV4cCI6MjA4OTg1OTYyN30.cfHsAvmgcXYvedCz1fZCHlxOApupKCxnt8t9e8KzNBs");
+var isAdmin = false;
+setTimeout(function(){
+    _sb.auth.getSession().then(function(r){
+        if(!r.data.session){ window.location.href="index.html"; return; }
+        var email = (r.data.session.user.email||'').toLowerCase().trim();
+        var meta  = r.data.session.user.user_metadata||{};
+        isAdmin   = meta.is_admin===true || email==='jhoarau60@gmail.com';
+        if(isAdmin) document.getElementById('admin-panel').style.display='block';
+    });
+}, 800);
+</script>
+<link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#00c8ff">
+</head>
+<body>
+
+<div id="bg-curves">
+  <svg viewBox="0 0 1700 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs><filter id="glow-line"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    <path class="line-anim"  d="M-100,300 C200,100 400,500 800,250 S1200,50 1700,300"  fill="none" stroke="rgba(0,200,255,0.2)"  stroke-width="2" filter="url(#glow-line)"/>
+    <path class="line-anim2" d="M-100,600 C300,400 600,800 1000,550 S1400,300 1700,600" fill="none" stroke="rgba(26,127,219,0.25)" stroke-width="2" filter="url(#glow-line)"/>
+    <path class="line-anim3" d="M-100,150 C300,50 700,350 1100,150 S1450,0 1700,180"   fill="none" stroke="rgba(0,200,255,0.12)" stroke-width="1.5" filter="url(#glow-line)"/>
+    <circle cx="200" cy="180" r="130" fill="none" stroke="rgba(0,200,255,0.15)" stroke-width="1.5"/>
+    <circle cx="1500" cy="700" r="160" fill="none" stroke="rgba(26,127,219,0.2)" stroke-width="1.5"/>
+  </svg>
+</div>
+
+<header>
+    <div class="header-top">
+        <a href="home.html" class="logo-svg">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 75" height="70" width="310">
+    <defs><filter id="glow"><feGaussianBlur stdDeviation="2.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    <path d="M 51,15 A 28,28 0 1,0 51,60" fill="none" stroke="#00c8ff" stroke-width="2.5" filter="url(#glow)"/>
+    <path d="M 46,22 A 20,20 0 1,0 46,53" fill="none" stroke="#1a7fdb" stroke-width="1.2" opacity="0.6"/>
+    <line x1="51" y1="15" x2="305" y2="15" stroke="#00c8ff" stroke-width="1.8" opacity="0.9" filter="url(#glow)"/>
+    <line x1="51" y1="60" x2="305" y2="60" stroke="#1a9fff" stroke-width="1.8" opacity="0.9" filter="url(#glow)"/>
+    <text x="20" y="44" font-family="Arial Black,sans-serif" font-size="23" font-weight="900" fill="#ffffff" filter="url(#glow)">P</text>
+    <text x="57" y="47" font-family="Arial Black,sans-serif" font-size="28" font-weight="900" fill="#ffffff" letter-spacing="1">inves<tspan fill="#00c8ff" filter="url(#glow)">'T</tspan></text>
+  </svg>
+</a>
+        <div class="social-links">
+            <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="background:#229ED9;color:#fff;border-color:#229ED9;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-telegram"></i> Telegram</a>
+            <a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" style="background:#FF0000;color:#fff;border-color:#FF0000;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;">&#9654; YouTube</a>
+            <a href="https://wa.me/320492931040" target="_blank" style="background:#25D366;color:#fff;border-color:#25D366;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+            <a href="#" onclick="_sb.auth.signOut().then(function(){window.location.href='index.html'})" style="background:#00c8ff;color:#020a18;border-color:#00c8ff;font-weight:700;">&#9211; Déconnexion</a>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="home.html">Accueil</a></li>
+            <li><a href="parametres.html">&#9881; Paramètres</a></li>
+            <li><a href="investissements.html">Investissements</a></li>
+            <li><a href="journal.html" class="active">Journal</a></li>
+            <li><a href="pdf-societe.html">PDF de société</a></li>
+            <li><a href="planning-webinaire.html">Planning webinaire 2026</a></li>
+            <li><a href="e-state-immobilier.html">E-state Immobilier Tokénisé</a></li>
+            <li><a href="smart-mev-trading.html">SMART MEV Trading</a></li>
+            <li><a href="mlm-center.html">MLM Center</a></li>
+            <li><a href="portage-salarial.html">Portage salarial</a></li>
+            <li><a href="bibliotheque-mlm.html">Avis Clients</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="page-header">
+    <h1><i class="fa-solid fa-newspaper" style="margin-right:12px;color:#00c8ff;"></i>Journal des projets</h1>
+    <p>Toutes les actualités et informations sur nos projets</p>
+</div>
+
+<div class="section">
+
+    <!-- PANEL ADMIN (caché par défaut) -->
+    <div id="admin-panel" style="display:none;">
+        <div class="admin-panel">
+            <h3>&#9997; Publier une nouvelle</h3>
+            <div class="form-row">
+                <label class="form-label">Titre</label>
+                <input id="j-titre" type="text" placeholder="Titre de l'article..." class="form-input">
+            </div>
+            <div class="form-row">
+                <label class="form-label">Catégorie</label>
+                <select id="j-categorie" class="form-input">
+                    <option value="general">&#127758; Général</option>
+                    <option value="trading">&#129302; Bot Trading</option>
+                    <option value="estate">&#127968; E-Estate</option>
+                    <option value="mlm">&#128279; MLM Center</option>
+                    <option value="portage">&#128188; Portage salarial</option>
+                    <option value="site">&#127760; Site</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label class="form-label">Contenu</label>
+                <textarea id="j-contenu" rows="6" placeholder="Rédigez votre article..." class="form-input"></textarea>
+            </div>
+            <div class="form-row">
+                <label class="form-label">Image (URL optionnelle)</label>
+                <input id="j-image" type="text" placeholder="https://..." class="form-input">
+            </div>
+            <div class="form-row" style="display:flex;align-items:center;gap:16px;">
+                <label class="form-label" style="margin:0;">Épingler cet article</label>
+                <div class="switch-wrap" onclick="toggleEpingle()">
+                    <div class="switch" id="switch-epingle"></div>
+                    <span id="epingle-label" style="color:#aaa;font-size:0.85rem;">Non</span>
+                </div>
+            </div>
+            <input type="hidden" id="j-epingle" value="false">
+            <div style="margin-top:20px;display:flex;align-items:center;gap:16px;">
+                <button class="btn-publier" onclick="publierArticle()">
+                    <i class="fa-solid fa-paper-plane" style="margin-right:8px;"></i>Publier
+                </button>
+                <div id="j-msg" style="font-size:0.88rem;display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ONGLETS CATEGORIES -->
+    <div class="cat-tabs">
+        <button class="cat-tab active" data-cat="tous"    onclick="changerCat('tous',this)">&#128240; Tout</button>
+        <button class="cat-tab"        data-cat="general" onclick="changerCat('general',this)">&#127758; Général</button>
+        <button class="cat-tab"        data-cat="trading" onclick="changerCat('trading',this)">&#129302; Bot Trading</button>
+        <button class="cat-tab"        data-cat="estate"  onclick="changerCat('estate',this)">&#127968; E-Estate</button>
+        <button class="cat-tab"        data-cat="mlm"     onclick="changerCat('mlm',this)">&#128279; MLM Center</button>
+        <button class="cat-tab"        data-cat="portage" onclick="changerCat('portage',this)">&#128188; Portage</button>
+        <button class="cat-tab"        data-cat="site"    onclick="changerCat('site',this)">&#127760; Site</button>
+    </div>
+
+    <!-- LISTE ARTICLES -->
+    <div id="articles-liste" style="max-width:800px;margin:0 auto;margin-top:10px;">
+        <p style="text-align:center;color:#555;">Chargement...</p>
+    </div>
+
+</div>
+
+<footer>
+    <p>&copy; 2026 Project inves'T &#8212; Site personnel non professionnel</p>
+</footer>
+
+<script src="menu.js"></script>
+<script src="audio.js"></script>
+<script src="translator.js"></script>
+
+<script>
+var catActuelle = 'tous';
+var epingle     = false;
+
+var catClass = { general:'cat-general', trading:'cat-trading', estate:'cat-estate', mlm:'cat-mlm', portage:'cat-portage', site:'cat-site' };
+var catLabel = { general:'Général', trading:'Bot Trading', estate:'E-Estate', mlm:'MLM Center', portage:'Portage', site:'Site' };
+
+function toggleEpingle() {
+    epingle = !epingle;
+    document.getElementById('j-epingle').value = epingle ? 'true' : 'false';
+    var sw = document.getElementById('switch-epingle');
+    sw.className = 'switch' + (epingle ? ' on' : '');
+    document.getElementById('epingle-label').textContent = epingle ? 'Oui' : 'Non';
+}
+
+function changerCat(cat, el) {
+    catActuelle = cat;
+    document.querySelectorAll('.cat-tab').forEach(function(t){ t.classList.remove('active'); });
+    el.classList.add('active');
+    chargerArticles();
+}
+
+async function chargerArticles() {
+    var liste = document.getElementById('articles-liste');
+    liste.innerHTML = '<p style="text-align:center;color:#555;">Chargement...</p>';
+
+    var query = _sb.from('journal').select('*').order('epingle', { ascending:false }).order('created_at', { ascending:false });
+    if (catActuelle !== 'tous') query = query.eq('categorie', catActuelle);
+    var result = await query;
+    var data = result.data, error = result.error;
+
+    if (error) {
+        liste.innerHTML = '<p style="text-align:center;color:#c9a84c;">Erreur de chargement. Créez la table "journal" dans Supabase.</p>';
+        return;
+    }
+    if (!data.length) {
+        liste.innerHTML = '<p style="text-align:center;color:#555;">Aucune actualité pour le moment.</p>';
+        return;
+    }
+
+    var html = '';
+    data.forEach(function(a) {
+        var date = new Date(a.created_at).toLocaleDateString('fr-FR', { day:'2-digit', month:'long', year:'numeric' });
+        var bc   = catClass[a.categorie] || 'cat-general';
+        var bl   = catLabel[a.categorie] || a.categorie;
+        var pin  = a.epingle ? '<span class="epingle-badge">&#128204; Épinglé</span>' : '';
+        var img  = a.image_url ? '<img src="' + a.image_url + '" class="article-img" alt="">' : '';
+        var del  = isAdmin ? '<button class="btn-suppr" onclick="supprimerArticle(\'' + a.id + '\')">&#128465; Supprimer</button>' : '';
+        html += '<div class="article-card' + (a.epingle?' epingle':'') + '">'
+            + img
+            + '<div class="article-titre">' + a.titre + '</div>'
+            + '<div class="article-meta">'
+            + '<span class="cat-badge ' + bc + '">' + bl + '</span>'
+            + pin
+            + '<span class="article-date">&#128197; ' + date + '</span>'
+            + '</div>'
+            + '<div class="article-contenu">' + a.contenu + '</div>'
+            + del
+            + '</div>';
+    });
+    liste.innerHTML = html;
+}
+
+async function publierArticle() {
+    var titre     = document.getElementById('j-titre').value.trim();
+    var contenu   = document.getElementById('j-contenu').value.trim();
+    var categorie = document.getElementById('j-categorie').value;
+    var image_url = document.getElementById('j-image').value.trim() || null;
+    var ep        = document.getElementById('j-epingle').value === 'true';
+    var msg       = document.getElementById('j-msg');
+
+    if (!titre || !contenu) {
+        msg.style.display='block'; msg.style.color='#ff4466';
+        msg.textContent='Titre et contenu requis.'; return;
+    }
+
+    var r = await _sb.from('journal').insert({ titre:titre, contenu:contenu, categorie:categorie, image_url:image_url, epingle:ep });
+    if (r.error) {
+        msg.style.display='block'; msg.style.color='#ff4466';
+        msg.textContent='Erreur : ' + r.error.message;
+    } else {
+        msg.style.display='block'; msg.style.color='#00ff99';
+        msg.textContent='Article publié !';
+        document.getElementById('j-titre').value='';
+        document.getElementById('j-contenu').value='';
+        document.getElementById('j-image').value='';
+        epingle=false;
+        document.getElementById('switch-epingle').className='switch';
+        document.getElementById('epingle-label').textContent='Non';
+        chargerArticles();
+        setTimeout(function(){ msg.style.display='none'; }, 3000);
+    }
+}
+
+async function supprimerArticle(id) {
+    if (!confirm('Supprimer cet article ?')) return;
+    var r = await _sb.from('journal').delete().eq('id', id);
+    if (!r.error) chargerArticles();
+}
+
+chargerArticles();
+</script>
+</body>
+</html>
