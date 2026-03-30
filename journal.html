@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project inves'T - Journal des projets</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
     <style>
       .line-anim  { stroke-dasharray: 40 960; animation: snake 6s linear infinite, rainbow 5s linear infinite; }
       .line-anim2 { stroke-dasharray: 40 960; animation: snake 8s linear infinite reverse, rainbow 5s linear infinite 1.5s; }
@@ -18,106 +19,203 @@
         80%  { stroke: #00ff99; filter: drop-shadow(0 0 6px #00ff99); }
         100% { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
       }
-      /* ONGLETS */
-      .cat-tabs { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin:30px 0 20px; }
-      .cat-tab {
-        padding:9px 20px; border-radius:30px; font-size:0.88rem; font-weight:700;
-        cursor:pointer; border:2px solid rgba(0,200,255,0.3);
-        background:rgba(0,200,255,0.05); color:#aaa; transition:all 0.25s;
+
+      /* ===== JOURNAL FLIPBOOK ===== */
+      #journal-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 30px auto;
+        position: relative;
       }
-      .cat-tab:hover { border-color:#00c8ff; color:#fff; }
-      .cat-tab.active { background:#00c8ff; border-color:#00c8ff; color:#020a18; box-shadow:0 0 14px rgba(0,200,255,0.4); }
-      /* ARTICLE CARD */
-      .article-card {
-        background:rgba(0,200,255,0.04);
-        border:1px solid rgba(0,200,255,0.15);
-        border-radius:14px; padding:24px 28px; margin-bottom:20px;
-        transition:border-color 0.2s, box-shadow 0.2s;
+      #flipbook-container {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
-      .article-card:hover { border-color:rgba(0,200,255,0.35); box-shadow:0 0 20px rgba(0,200,255,0.07); }
-      .article-card.epingle {
-        border-color:rgba(201,168,76,0.4);
-        background:rgba(201,168,76,0.04);
-        box-shadow:0 0 18px rgba(201,168,76,0.08);
+      /* Pages du journal */
+      .page {
+        background: #f8f3e8;
+        overflow: hidden;
+        box-shadow: inset -3px 0 10px rgba(0,0,0,0.2);
       }
-      .article-titre {
-        font-size:1.15rem; font-weight:800; color:#fff; margin-bottom:10px;
+      .page-inner {
+        width: 100%;
+        height: 100%;
+        padding: 28px 24px;
+        box-sizing: border-box;
+        overflow: hidden;
+        font-family: 'Georgia', serif;
+        color: #1a1a1a;
+        position: relative;
       }
-      .article-meta {
-        display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;
+      /* Couverture */
+      .page-cover { background: linear-gradient(145deg, #020a18 0%, #0a1e3d 60%, #071428 100%); }
+      .page-cover .page-inner { color: #fff; }
+      .cover-logo {
+        text-align: center;
+        padding-top: 30px;
       }
-      .article-date { color:#555; font-size:0.78rem; }
-      .cat-badge { display:inline-block; padding:3px 12px; border-radius:20px; font-size:0.75rem; font-weight:700; }
-      .cat-general  { background:rgba(0,200,255,0.12);  color:#00c8ff; border:1px solid rgba(0,200,255,0.3); }
-      .cat-trading  { background:rgba(0,255,150,0.10);  color:#00ff99; border:1px solid rgba(0,255,150,0.3); }
-      .cat-estate   { background:rgba(120,80,255,0.12); color:#a070ff; border:1px solid rgba(120,80,255,0.3); }
-      .cat-mlm      { background:rgba(255,170,0,0.10);  color:#ffaa00; border:1px solid rgba(255,170,0,0.3); }
-      .cat-portage  { background:rgba(255,60,120,0.10); color:#ff6090; border:1px solid rgba(255,60,120,0.3); }
-      .cat-site     { background:rgba(50,200,100,0.10); color:#32c864; border:1px solid rgba(50,200,100,0.3); }
-      .epingle-badge {
-        display:inline-flex; align-items:center; gap:5px;
-        background:rgba(201,168,76,0.15); color:#c9a84c;
-        border:1px solid rgba(201,168,76,0.35); border-radius:20px;
-        padding:3px 10px; font-size:0.73rem; font-weight:700;
+      .cover-title {
+        font-size: 2rem;
+        font-weight: 900;
+        color: #00c8ff;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+        text-shadow: 0 0 20px rgba(0,200,255,0.6);
+        font-family: 'Arial Black', sans-serif;
       }
-      .article-contenu {
-        color:#ccc; font-size:0.93rem; line-height:1.8; white-space:pre-wrap;
+      .cover-subtitle {
+        font-size: 0.85rem;
+        color: #aaa;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
       }
-      .article-img {
-        width:100%; max-height:320px; object-fit:cover;
-        border-radius:10px; margin-bottom:16px;
-        border:1px solid rgba(0,200,255,0.15);
+      .cover-line {
+        width: 80%;
+        height: 1px;
+        background: linear-gradient(to right, transparent, #00c8ff, transparent);
+        margin: 14px auto;
       }
-      /* BOUTONS ADMIN */
-      .btn-suppr {
-        background:rgba(255,50,80,0.15); color:#ff4466;
-        border:1px solid rgba(255,50,80,0.3); border-radius:6px;
-        padding:4px 12px; font-size:0.78rem; cursor:pointer;
-        transition:all 0.2s; margin-top:12px;
+      .cover-edition {
+        font-size: 0.78rem;
+        color: #555;
+        text-align: center;
+        margin-top: 10px;
       }
-      .btn-suppr:hover { background:rgba(255,50,80,0.3); }
-      /* FORMULAIRE ADMIN */
-      .form-input {
-        width:100%; background:rgba(0,200,255,0.07);
-        border:1px solid rgba(0,200,255,0.3); border-radius:8px;
-        padding:10px 14px; color:#fff; font-size:0.95rem; outline:none;
-        box-sizing:border-box; font-family:inherit;
+      .cover-headlines {
+        margin-top: 30px;
+        padding: 0 10px;
       }
-      .form-input:focus { border-color:#00c8ff; box-shadow:0 0 10px rgba(0,200,255,0.25); }
-      select.form-input option { background:#071020; color:#fff; }
+      .cover-headline {
+        border-top: 1px solid rgba(0,200,255,0.2);
+        padding: 10px 0;
+        font-size: 0.82rem;
+        color: #ccc;
+        line-height: 1.4;
+      }
+      .cover-headline strong { color: #fff; }
+      /* Pages intérieures */
+      .page-header-strip {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #1a1a1a;
+        padding-bottom: 6px;
+        margin-bottom: 14px;
+      }
+      .page-name { font-size: 0.65rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #555; }
+      .page-num  { font-size: 0.65rem; color: #888; }
+      .page-date { font-size: 0.62rem; color: #888; }
+      /* Article dans la page */
+      .article-block { margin-bottom: 18px; }
+      .article-block + .article-block { border-top: 1px solid #ccc; padding-top: 14px; }
+      .article-cat-badge {
+        display: inline-block; font-size: 0.6rem; font-weight: 700;
+        letter-spacing: 2px; text-transform: uppercase;
+        padding: 2px 8px; border-radius: 3px; margin-bottom: 6px;
+      }
+      .badge-general { background: #e8f4fd; color: #1a6fa0; }
+      .badge-trading  { background: #e8fdf0; color: #1a7a4a; }
+      .badge-estate   { background: #f0e8fd; color: #6a1a9a; }
+      .badge-mlm      { background: #fdf5e8; color: #9a6a1a; }
+      .badge-portage  { background: #fde8f0; color: #9a1a5a; }
+      .badge-site     { background: #e8fde8; color: #1a7a1a; }
+      .article-titre-page {
+        font-size: 1.05rem;
+        font-weight: 700;
+        line-height: 1.3;
+        margin-bottom: 8px;
+        color: #111;
+      }
+      .article-titre-page.big { font-size: 1.3rem; }
+      .article-date-page { font-size: 0.62rem; color: #888; margin-bottom: 8px; }
+      .article-contenu-page {
+        font-size: 0.78rem;
+        line-height: 1.65;
+        color: #333;
+        text-align: justify;
+      }
+      .article-img-page {
+        width: 100%; max-height: 130px;
+        object-fit: cover; border-radius: 4px;
+        margin: 8px 0; border: 1px solid #ddd;
+      }
+      .epingle-mark { color: #c9a84c; font-size: 0.7rem; margin-left: 6px; }
+      /* Dernière page */
+      .page-back { background: linear-gradient(145deg, #020a18, #0a1e3d); }
+      .page-back .page-inner { display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; }
+      /* Navigation */
+      .flip-nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        margin-top: 24px;
+      }
+      .flip-btn {
+        background: rgba(0,200,255,0.1);
+        border: 2px solid rgba(0,200,255,0.4);
+        color: #00c8ff;
+        border-radius: 50%;
+        width: 46px; height: 46px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .flip-btn:hover { background: #00c8ff; color: #020a18; box-shadow: 0 0 16px rgba(0,200,255,0.5); }
+      .flip-btn:disabled { opacity: 0.3; cursor: default; }
+      .page-indicator { color: #aaa; font-size: 0.82rem; min-width: 80px; text-align: center; }
+
+      /* PANEL ADMIN */
       .admin-panel {
-        border:1px solid rgba(201,168,76,0.3);
-        background:rgba(201,168,76,0.03);
-        border-radius:14px; padding:28px 32px; margin-bottom:40px;
+        border: 1px solid rgba(201,168,76,0.3);
+        background: rgba(201,168,76,0.03);
+        border-radius: 14px; padding: 28px 32px; margin-bottom: 40px;
+        max-width: 700px; margin-left: auto; margin-right: auto;
       }
-      .admin-panel h3 { color:#c9a84c; margin-bottom:20px; font-size:1rem; letter-spacing:1px; text-transform:uppercase; }
-      .form-row { margin-bottom:16px; }
-      .form-label { color:#aaa; font-size:0.82rem; display:block; margin-bottom:6px; }
+      .admin-panel h3 { color: #c9a84c; margin-bottom: 20px; font-size: 1rem; letter-spacing: 1px; text-transform: uppercase; }
+      .form-input {
+        width: 100%; background: rgba(0,200,255,0.07);
+        border: 1px solid rgba(0,200,255,0.3); border-radius: 8px;
+        padding: 10px 14px; color: #fff; font-size: 0.95rem; outline: none;
+        box-sizing: border-box; font-family: inherit;
+      }
+      .form-input:focus { border-color: #00c8ff; box-shadow: 0 0 10px rgba(0,200,255,0.25); }
+      select.form-input option { background: #071020; color: #fff; }
+      .form-row { margin-bottom: 16px; }
+      .form-label { color: #aaa; font-size: 0.82rem; display: block; margin-bottom: 6px; }
       .btn-publier {
-        background:#c9a84c; color:#020a18; border:none; border-radius:8px;
-        padding:11px 28px; font-size:0.95rem; font-weight:700; cursor:pointer;
-        transition:all 0.3s; box-shadow:0 0 14px rgba(201,168,76,0.3);
+        background: #c9a84c; color: #020a18; border: none; border-radius: 8px;
+        padding: 11px 28px; font-size: 0.95rem; font-weight: 700; cursor: pointer;
+        transition: all 0.3s; box-shadow: 0 0 14px rgba(201,168,76,0.3);
       }
-      .btn-publier:hover { box-shadow:0 0 22px rgba(201,168,76,0.5); }
-      .switch-wrap { display:flex; align-items:center; gap:10px; cursor:pointer; }
-      .switch { width:40px; height:22px; background:rgba(255,255,255,0.1); border-radius:11px; position:relative; transition:background 0.2s; }
-      .switch.on { background:#c9a84c; }
+      .btn-publier:hover { box-shadow: 0 0 22px rgba(201,168,76,0.5); }
+      .switch-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+      .switch { width: 40px; height: 22px; background: rgba(255,255,255,0.1); border-radius: 11px; position: relative; transition: background 0.2s; }
+      .switch.on { background: #c9a84c; }
       .switch::after { content:''; position:absolute; width:16px; height:16px; background:#fff; border-radius:50%; top:3px; left:3px; transition:left 0.2s; }
-      .switch.on::after { left:21px; }
+      .switch.on::after { left: 21px; }
+      #loading-msg { text-align:center; color:#555; padding: 40px 0; }
     </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const _sb=window.supabase.createClient("https://cvggxktybzbrtskcwlxp.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Z2d4a3R5YnpicnRza2N3bHhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyODM2MjcsImV4cCI6MjA4OTg1OTYyN30.cfHsAvmgcXYvedCz1fZCHlxOApupKCxnt8t9e8KzNBs");
-var isAdmin = false;
+var isAdmin=false, pageFlip=null, epingle=false;
 setTimeout(function(){
     _sb.auth.getSession().then(function(r){
         if(!r.data.session){ window.location.href="index.html"; return; }
-        var email = (r.data.session.user.email||'').toLowerCase().trim();
-        var meta  = r.data.session.user.user_metadata||{};
-        isAdmin   = meta.is_admin===true || email==='jhoarau60@gmail.com';
+        var email=(r.data.session.user.email||'').toLowerCase().trim();
+        var meta=r.data.session.user.user_metadata||{};
+        isAdmin=meta.is_admin===true||email==='jhoarau60@gmail.com';
         if(isAdmin) document.getElementById('admin-panel').style.display='block';
+        chargerJournal();
     });
-}, 800);
+},800);
 </script>
 <link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#00c8ff">
 </head>
@@ -126,9 +224,9 @@ setTimeout(function(){
 <div id="bg-curves">
   <svg viewBox="0 0 1700 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
     <defs><filter id="glow-line"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-    <path class="line-anim"  d="M-100,300 C200,100 400,500 800,250 S1200,50 1700,300"  fill="none" stroke="rgba(0,200,255,0.2)"  stroke-width="2" filter="url(#glow-line)"/>
+    <path class="line-anim"  d="M-100,300 C200,100 400,500 800,250 S1200,50 1700,300" fill="none" stroke="rgba(0,200,255,0.2)" stroke-width="2" filter="url(#glow-line)"/>
     <path class="line-anim2" d="M-100,600 C300,400 600,800 1000,550 S1400,300 1700,600" fill="none" stroke="rgba(26,127,219,0.25)" stroke-width="2" filter="url(#glow-line)"/>
-    <path class="line-anim3" d="M-100,150 C300,50 700,350 1100,150 S1450,0 1700,180"   fill="none" stroke="rgba(0,200,255,0.12)" stroke-width="1.5" filter="url(#glow-line)"/>
+    <path class="line-anim3" d="M-100,150 C300,50 700,350 1100,150 S1450,0 1700,180" fill="none" stroke="rgba(0,200,255,0.12)" stroke-width="1.5" filter="url(#glow-line)"/>
     <circle cx="200" cy="180" r="130" fill="none" stroke="rgba(0,200,255,0.15)" stroke-width="1.5"/>
     <circle cx="1500" cy="700" r="160" fill="none" stroke="rgba(26,127,219,0.2)" stroke-width="1.5"/>
   </svg>
@@ -178,10 +276,10 @@ setTimeout(function(){
 
 <div class="section">
 
-    <!-- PANEL ADMIN (caché par défaut) -->
-    <div id="admin-panel" style="display:none;">
+    <!-- PANEL ADMIN -->
+    <div id="admin-panel" style="display:none;margin-bottom:40px;">
         <div class="admin-panel">
-            <h3>&#9997; Publier une nouvelle</h3>
+            <h3>&#9997; Publier un article</h3>
             <div class="form-row">
                 <label class="form-label">Titre</label>
                 <input id="j-titre" type="text" placeholder="Titre de l'article..." class="form-input">
@@ -199,14 +297,14 @@ setTimeout(function(){
             </div>
             <div class="form-row">
                 <label class="form-label">Contenu</label>
-                <textarea id="j-contenu" rows="6" placeholder="Rédigez votre article..." class="form-input"></textarea>
+                <textarea id="j-contenu" rows="5" placeholder="Rédigez votre article..." class="form-input"></textarea>
             </div>
             <div class="form-row">
                 <label class="form-label">Image (URL optionnelle)</label>
                 <input id="j-image" type="text" placeholder="https://..." class="form-input">
             </div>
             <div class="form-row" style="display:flex;align-items:center;gap:16px;">
-                <label class="form-label" style="margin:0;">Épingler cet article</label>
+                <label class="form-label" style="margin:0;">Épingler en couverture</label>
                 <div class="switch-wrap" onclick="toggleEpingle()">
                     <div class="switch" id="switch-epingle"></div>
                     <span id="epingle-label" style="color:#aaa;font-size:0.85rem;">Non</span>
@@ -222,20 +320,21 @@ setTimeout(function(){
         </div>
     </div>
 
-    <!-- ONGLETS CATEGORIES -->
-    <div class="cat-tabs">
-        <button class="cat-tab active" data-cat="tous"    onclick="changerCat('tous',this)">&#128240; Tout</button>
-        <button class="cat-tab"        data-cat="general" onclick="changerCat('general',this)">&#127758; Général</button>
-        <button class="cat-tab"        data-cat="trading" onclick="changerCat('trading',this)">&#129302; Bot Trading</button>
-        <button class="cat-tab"        data-cat="estate"  onclick="changerCat('estate',this)">&#127968; E-Estate</button>
-        <button class="cat-tab"        data-cat="mlm"     onclick="changerCat('mlm',this)">&#128279; MLM Center</button>
-        <button class="cat-tab"        data-cat="portage" onclick="changerCat('portage',this)">&#128188; Portage</button>
-        <button class="cat-tab"        data-cat="site"    onclick="changerCat('site',this)">&#127760; Site</button>
-    </div>
+    <!-- JOURNAL FLIPBOOK -->
+    <div id="loading-msg">Chargement du journal...</div>
 
-    <!-- LISTE ARTICLES -->
-    <div id="articles-liste" style="max-width:800px;margin:0 auto;margin-top:10px;">
-        <p style="text-align:center;color:#555;">Chargement...</p>
+    <div id="journal-wrapper" style="display:none;">
+        <div id="flipbook-container">
+            <div id="flipbook"></div>
+        </div>
+        <div class="flip-nav">
+            <button class="flip-btn" id="btn-prev" onclick="pageFlip.flipPrev()" title="Page précédente">&#8592;</button>
+            <div class="page-indicator" id="page-indicator">Page 1</div>
+            <button class="flip-btn" id="btn-next" onclick="pageFlip.flipNext()" title="Page suivante">&#8594;</button>
+        </div>
+        <div style="text-align:center;margin-top:10px;color:#555;font-size:0.78rem;">
+            Cliquez sur les bords du journal pour tourner les pages
+        </div>
     </div>
 
 </div>
@@ -249,85 +348,176 @@ setTimeout(function(){
 <script src="translator.js"></script>
 
 <script>
-var catActuelle = 'tous';
-var epingle     = false;
-
-var catClass = { general:'cat-general', trading:'cat-trading', estate:'cat-estate', mlm:'cat-mlm', portage:'cat-portage', site:'cat-site' };
+var catBadge = { general:'badge-general', trading:'badge-trading', estate:'badge-estate', mlm:'badge-mlm', portage:'badge-portage', site:'badge-site' };
 var catLabel = { general:'Général', trading:'Bot Trading', estate:'E-Estate', mlm:'MLM Center', portage:'Portage', site:'Site' };
 
-function toggleEpingle() {
-    epingle = !epingle;
-    document.getElementById('j-epingle').value = epingle ? 'true' : 'false';
-    var sw = document.getElementById('switch-epingle');
-    sw.className = 'switch' + (epingle ? ' on' : '');
-    document.getElementById('epingle-label').textContent = epingle ? 'Oui' : 'Non';
+function toggleEpingle(){
+    epingle=!epingle;
+    document.getElementById('j-epingle').value=epingle?'true':'false';
+    var sw=document.getElementById('switch-epingle');
+    sw.className='switch'+(epingle?' on':'');
+    document.getElementById('epingle-label').textContent=epingle?'Oui':'Non';
 }
 
-function changerCat(cat, el) {
-    catActuelle = cat;
-    document.querySelectorAll('.cat-tab').forEach(function(t){ t.classList.remove('active'); });
-    el.classList.add('active');
-    chargerArticles();
+function tronquer(txt, max){
+    if(!txt) return '';
+    return txt.length > max ? txt.substring(0, max) + '...' : txt;
 }
 
-async function chargerArticles() {
-    var liste = document.getElementById('articles-liste');
-    liste.innerHTML = '<p style="text-align:center;color:#555;">Chargement...</p>';
-
-    var query = _sb.from('journal').select('*').order('epingle', { ascending:false }).order('created_at', { ascending:false });
-    if (catActuelle !== 'tous') query = query.eq('categorie', catActuelle);
-    var result = await query;
-    var data = result.data, error = result.error;
-
-    if (error) {
-        liste.innerHTML = '<p style="text-align:center;color:#c9a84c;">Erreur de chargement. Créez la table "journal" dans Supabase.</p>';
-        return;
-    }
-    if (!data.length) {
-        liste.innerHTML = '<p style="text-align:center;color:#555;">Aucune actualité pour le moment.</p>';
-        return;
-    }
-
-    var html = '';
-    data.forEach(function(a) {
-        var date = new Date(a.created_at).toLocaleDateString('fr-FR', { day:'2-digit', month:'long', year:'numeric' });
-        var bc   = catClass[a.categorie] || 'cat-general';
-        var bl   = catLabel[a.categorie] || a.categorie;
-        var pin  = a.epingle ? '<span class="epingle-badge">&#128204; Épinglé</span>' : '';
-        var img  = a.image_url ? '<img src="' + a.image_url + '" class="article-img" alt="">' : '';
-        var del  = isAdmin ? '<button class="btn-suppr" onclick="supprimerArticle(\'' + a.id + '\')">&#128465; Supprimer</button>' : '';
-        html += '<div class="article-card' + (a.epingle?' epingle':'') + '">'
-            + img
-            + '<div class="article-titre">' + a.titre + '</div>'
-            + '<div class="article-meta">'
-            + '<span class="cat-badge ' + bc + '">' + bl + '</span>'
-            + pin
-            + '<span class="article-date">&#128197; ' + date + '</span>'
-            + '</div>'
-            + '<div class="article-contenu">' + a.contenu + '</div>'
-            + del
-            + '</div>';
+function buildCoverPage(articles){
+    var today = new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    var epingles = articles.filter(function(a){ return a.epingle; }).slice(0,3);
+    var headlines = epingles.length ? epingles : articles.slice(0,3);
+    var hl = '';
+    headlines.forEach(function(a){
+        hl += '<div class="cover-headline"><strong>' + a.titre + '</strong><br>' + tronquer(a.contenu, 80) + '</div>';
     });
-    liste.innerHTML = html;
+    return '<div class="page page-cover"><div class="page-inner">'
+        + '<div class="cover-logo">'
+        + '<div class="cover-title">P inves\'T</div>'
+        + '<div class="cover-subtitle">Journal officiel des projets</div>'
+        + '<div class="cover-line"></div>'
+        + '<div class="cover-edition">' + today + ' &mdash; ' + articles.length + ' article' + (articles.length>1?'s':'') + '</div>'
+        + '</div>'
+        + '<div class="cover-headlines">' + hl + '</div>'
+        + '</div></div>';
 }
 
-async function publierArticle() {
+function buildArticlePage(articles, startIdx, pageNum, totalPages){
+    var today = new Date().toLocaleDateString('fr-FR');
+    var html = '<div class="page"><div class="page-inner">'
+        + '<div class="page-header-strip">'
+        + '<span class="page-name">P inves\'T &mdash; Journal</span>'
+        + '<span class="page-date">' + today + '</span>'
+        + '<span class="page-num">Page ' + pageNum + ' / ' + totalPages + '</span>'
+        + '</div>';
+
+    var a = articles[startIdx];
+    if(a){
+        var bc   = catBadge[a.categorie]||'badge-general';
+        var bl   = catLabel[a.categorie]||a.categorie;
+        var dstr = new Date(a.created_at).toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+        var pin  = a.epingle ? '<span class="epingle-mark">&#128204;</span>' : '';
+        html += '<div class="article-block">'
+            + '<div><span class="article-cat-badge ' + bc + '">' + bl + '</span></div>'
+            + '<div class="article-titre-page big">' + a.titre + pin + '</div>'
+            + '<div class="article-date-page">Publié le ' + dstr + '</div>';
+        if(a.image_url) html += '<img src="' + a.image_url + '" class="article-img-page" alt="">';
+        html += '<div class="article-contenu-page">' + tronquer(a.contenu, 500) + '</div>'
+            + '</div>';
+    }
+
+    var b = articles[startIdx + 1];
+    if(b){
+        var bc2 = catBadge[b.categorie]||'badge-general';
+        var bl2 = catLabel[b.categorie]||b.categorie;
+        var dstr2 = new Date(b.created_at).toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+        var pin2 = b.epingle ? '<span class="epingle-mark">&#128204;</span>' : '';
+        html += '<div class="article-block">'
+            + '<div><span class="article-cat-badge ' + bc2 + '">' + bl2 + '</span></div>'
+            + '<div class="article-titre-page">' + b.titre + pin2 + '</div>'
+            + '<div class="article-date-page">Publié le ' + dstr2 + '</div>'
+            + '<div class="article-contenu-page">' + tronquer(b.contenu, 220) + '</div>'
+            + '</div>';
+    }
+
+    html += '</div></div>';
+    return html;
+}
+
+function buildBackPage(){
+    return '<div class="page page-back"><div class="page-inner">'
+        + '<div style="color:#00c8ff;font-size:1.5rem;font-weight:900;letter-spacing:3px;font-family:Arial Black,sans-serif;">P inves\'T</div>'
+        + '<div style="color:#555;font-size:0.8rem;margin-top:10px;letter-spacing:2px;">JOURNAL DES PROJETS</div>'
+        + '<div style="width:60%;height:1px;background:linear-gradient(to right,transparent,#00c8ff,transparent);margin:20px auto;"></div>'
+        + '<div style="color:#444;font-size:0.72rem;">&copy; 2026 Project inves\'T</div>'
+        + '</div></div>';
+}
+
+async function chargerJournal(){
+    var result = await _sb.from('journal').select('*').order('epingle',{ascending:false}).order('created_at',{ascending:false});
+    document.getElementById('loading-msg').style.display='none';
+
+    if(result.error || !result.data){
+        document.getElementById('loading-msg').style.display='block';
+        document.getElementById('loading-msg').innerHTML='<span style="color:#c9a84c;">Erreur de chargement.</span>';
+        return;
+    }
+
+    var articles = result.data;
+    if(!articles.length){
+        document.getElementById('loading-msg').style.display='block';
+        document.getElementById('loading-msg').textContent='Aucun article publié pour le moment.';
+        return;
+    }
+
+    // Calcul du nombre de pages : couverture + pages articles (2 par page) + dos
+    var nbPageArticles = Math.ceil(articles.length / 2);
+    var totalPages = 1 + nbPageArticles + 1; // couv + articles + dos
+
+    // Construire le HTML du flipbook
+    var fb = document.getElementById('flipbook');
+    fb.innerHTML = '';
+
+    // Couverture
+    fb.innerHTML += buildCoverPage(articles);
+
+    // Pages d'articles
+    for(var i=0; i<nbPageArticles; i++){
+        var pageNum = i + 2;
+        fb.innerHTML += buildArticlePage(articles, i*2, pageNum, totalPages);
+    }
+
+    // Dos
+    fb.innerHTML += buildBackPage();
+
+    // Taille responsive
+    var W = Math.min(window.innerWidth - 60, 440);
+    var H = Math.round(W * 1.41);
+
+    document.getElementById('journal-wrapper').style.display='flex';
+
+    pageFlip = new St.PageFlip(document.getElementById('flipbook'), {
+        width: W,
+        height: H,
+        showCover: true,
+        mobileScrollSupport: false,
+        flippingTime: 700,
+        usePortrait: true,
+        startZIndex: 10,
+        autoSize: false,
+        maxShadowOpacity: 0.5,
+    });
+
+    pageFlip.loadFromHTML(document.querySelectorAll('#flipbook .page'));
+
+    pageFlip.on('flip', function(e){
+        var cur  = e.data + 1;
+        var tot  = pageFlip.getPageCount();
+        document.getElementById('page-indicator').textContent = 'Page ' + cur + ' / ' + tot;
+        document.getElementById('btn-prev').disabled = (e.data === 0);
+        document.getElementById('btn-next').disabled = (e.data >= tot - 1);
+    });
+
+    document.getElementById('page-indicator').textContent = 'Page 1 / ' + pageFlip.getPageCount();
+    document.getElementById('btn-prev').disabled = true;
+}
+
+async function publierArticle(){
     var titre     = document.getElementById('j-titre').value.trim();
     var contenu   = document.getElementById('j-contenu').value.trim();
     var categorie = document.getElementById('j-categorie').value;
-    var image_url = document.getElementById('j-image').value.trim() || null;
-    var ep        = document.getElementById('j-epingle').value === 'true';
+    var image_url = document.getElementById('j-image').value.trim()||null;
+    var ep        = document.getElementById('j-epingle').value==='true';
     var msg       = document.getElementById('j-msg');
-
-    if (!titre || !contenu) {
+    if(!titre||!contenu){
         msg.style.display='block'; msg.style.color='#ff4466';
         msg.textContent='Titre et contenu requis.'; return;
     }
-
-    var r = await _sb.from('journal').insert({ titre:titre, contenu:contenu, categorie:categorie, image_url:image_url, epingle:ep });
-    if (r.error) {
+    var r=await _sb.from('journal').insert({titre:titre,contenu:contenu,categorie:categorie,image_url:image_url,epingle:ep});
+    if(r.error){
         msg.style.display='block'; msg.style.color='#ff4466';
-        msg.textContent='Erreur : ' + r.error.message;
+        msg.textContent='Erreur : '+r.error.message;
     } else {
         msg.style.display='block'; msg.style.color='#00ff99';
         msg.textContent='Article publié !';
@@ -337,18 +527,14 @@ async function publierArticle() {
         epingle=false;
         document.getElementById('switch-epingle').className='switch';
         document.getElementById('epingle-label').textContent='Non';
-        chargerArticles();
-        setTimeout(function(){ msg.style.display='none'; }, 3000);
+        // Recharger le journal
+        if(pageFlip){ pageFlip.destroy(); pageFlip=null; }
+        document.getElementById('journal-wrapper').style.display='none';
+        document.getElementById('flipbook').innerHTML='';
+        chargerJournal();
+        setTimeout(function(){ msg.style.display='none'; },3000);
     }
 }
-
-async function supprimerArticle(id) {
-    if (!confirm('Supprimer cet article ?')) return;
-    var r = await _sb.from('journal').delete().eq('id', id);
-    if (!r.error) chargerArticles();
-}
-
-chargerArticles();
 </script>
 </body>
 </html>
