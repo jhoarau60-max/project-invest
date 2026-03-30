@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project inves'T - Journal des projets</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
     <style>
       .line-anim  { stroke-dasharray: 40 960; animation: snake 6s linear infinite, rainbow 5s linear infinite; }
@@ -20,165 +21,311 @@
         100% { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
       }
 
-      /* ===== JOURNAL FLIPBOOK ===== */
-      #journal-wrapper {
+      /* ===== LIVRE MAGIQUE ===== */
+      #book-scene {
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin: 30px auto;
+        margin: 10px auto 40px;
         position: relative;
       }
+
+      /* Lueur magique autour du livre */
+      #book-glow {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        filter: blur(40px);
+        background: radial-gradient(ellipse at center, rgba(120,80,255,0.18) 0%, rgba(0,200,255,0.1) 40%, transparent 70%);
+        animation: glowPulse 4s ease-in-out infinite;
+      }
+      @keyframes glowPulse {
+        0%,100% { opacity: 0.7; transform: scale(1); }
+        50%      { opacity: 1;   transform: scale(1.05); }
+      }
+
       #flipbook-container {
         position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        z-index: 1;
+        filter: drop-shadow(0 20px 60px rgba(0,0,0,0.8)) drop-shadow(0 0 30px rgba(120,80,255,0.3));
       }
-      /* Pages du journal */
+
+      /* ===== PAGES ===== */
       .page {
-        background: #f8f3e8;
+        background: #f5ead6;
         overflow: hidden;
-        box-shadow: inset -3px 0 10px rgba(0,0,0,0.2);
       }
       .page-inner {
         width: 100%;
         height: 100%;
-        padding: 28px 24px;
+        padding: 26px 22px;
         box-sizing: border-box;
         overflow: hidden;
-        font-family: 'Georgia', serif;
-        color: #1a1a1a;
         position: relative;
+        font-family: 'EB Garamond', Georgia, serif;
+        color: #2a1a08;
+        background-image:
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
       }
-      /* Couverture */
-      .page-cover { background: linear-gradient(145deg, #020a18 0%, #0a1e3d 60%, #071428 100%); }
-      .page-cover .page-inner { color: #fff; }
-      .cover-logo {
+      /* Coins décorés */
+      .page-inner::before, .page-inner::after {
+        content: '✦';
+        position: absolute;
+        font-size: 0.9rem;
+        color: rgba(160,110,30,0.4);
+      }
+      .page-inner::before { top: 10px; left: 12px; }
+      .page-inner::after  { bottom: 10px; right: 12px; }
+
+      /* Bordure intérieure ornementale */
+      .page-border {
+        position: absolute;
+        inset: 8px;
+        border: 1px solid rgba(160,110,30,0.25);
+        pointer-events: none;
+      }
+
+      /* ===== COUVERTURE ===== */
+      .page-cover {
+        background: linear-gradient(160deg, #1a0a2e 0%, #2d1060 40%, #150830 100%);
+      }
+      .page-cover .page-inner {
+        background-image: none;
+        color: #f0e6c8;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         text-align: center;
-        padding-top: 30px;
       }
-      .cover-title {
+      .page-cover .page-inner::before,
+      .page-cover .page-inner::after { color: rgba(201,168,76,0.6); font-size: 1.1rem; }
+
+      /* Ornement couverture */
+      .cover-ornament {
         font-size: 2rem;
+        color: #c9a84c;
+        filter: drop-shadow(0 0 8px rgba(201,168,76,0.7));
+        margin-bottom: 8px;
+        animation: ornamentGlow 3s ease-in-out infinite;
+      }
+      @keyframes ornamentGlow {
+        0%,100% { filter: drop-shadow(0 0 8px rgba(201,168,76,0.5)); }
+        50%      { filter: drop-shadow(0 0 18px rgba(201,168,76,0.9)); }
+      }
+      .cover-title-book {
+        font-family: 'Cinzel', serif;
+        font-size: 1.3rem;
         font-weight: 900;
-        color: #00c8ff;
+        color: #c9a84c;
         letter-spacing: 3px;
         text-transform: uppercase;
-        margin-bottom: 6px;
-        text-shadow: 0 0 20px rgba(0,200,255,0.6);
-        font-family: 'Arial Black', sans-serif;
+        line-height: 1.3;
+        text-shadow: 0 0 20px rgba(201,168,76,0.5);
+        margin-bottom: 4px;
       }
-      .cover-subtitle {
-        font-size: 0.85rem;
-        color: #aaa;
-        letter-spacing: 4px;
-        text-transform: uppercase;
-        margin-bottom: 20px;
-      }
-      .cover-line {
-        width: 80%;
-        height: 1px;
-        background: linear-gradient(to right, transparent, #00c8ff, transparent);
-        margin: 14px auto;
-      }
-      .cover-edition {
-        font-size: 0.78rem;
-        color: #555;
-        text-align: center;
-        margin-top: 10px;
-      }
-      .cover-headlines {
-        margin-top: 30px;
-        padding: 0 10px;
-      }
-      .cover-headline {
-        border-top: 1px solid rgba(0,200,255,0.2);
-        padding: 10px 0;
+      .cover-subtitle-book {
+        font-family: 'EB Garamond', serif;
+        font-style: italic;
         font-size: 0.82rem;
-        color: #ccc;
-        line-height: 1.4;
+        color: rgba(240,230,200,0.7);
+        letter-spacing: 2px;
+        margin-bottom: 14px;
       }
-      .cover-headline strong { color: #fff; }
-      /* Pages intérieures */
+      .cover-divider {
+        width: 70%;
+        height: 1px;
+        background: linear-gradient(to right, transparent, #c9a84c, transparent);
+        margin: 10px auto;
+        position: relative;
+      }
+      .cover-divider::before {
+        content: '❧';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        background: #2d1060;
+        padding: 0 6px;
+        color: #c9a84c;
+        font-size: 0.9rem;
+      }
+      .cover-date {
+        font-family: 'Cinzel', serif;
+        font-size: 0.62rem;
+        color: rgba(201,168,76,0.6);
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-top: 8px;
+      }
+      .cover-headlines-book {
+        margin-top: 16px;
+        width: 100%;
+        text-align: left;
+      }
+      .cover-hl {
+        border-top: 1px solid rgba(201,168,76,0.2);
+        padding: 7px 0;
+        font-size: 0.73rem;
+        color: rgba(240,230,200,0.75);
+        line-height: 1.4;
+        font-family: 'EB Garamond', serif;
+      }
+      .cover-hl strong { color: #e8d8a0; }
+
+      /* ===== PAGES INTÉRIEURES ===== */
       .page-header-strip {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 2px solid #1a1a1a;
+        border-bottom: 1px solid rgba(160,110,30,0.4);
         padding-bottom: 6px;
-        margin-bottom: 14px;
+        margin-bottom: 12px;
       }
-      .page-name { font-size: 0.65rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #555; }
-      .page-num  { font-size: 0.65rem; color: #888; }
-      .page-date { font-size: 0.62rem; color: #888; }
+      .page-name-book {
+        font-family: 'Cinzel', serif;
+        font-size: 0.58rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: rgba(160,110,30,0.7);
+      }
+      .page-num-book { font-size: 0.6rem; color: rgba(160,110,30,0.5); font-family: 'EB Garamond', serif; }
+
       /* Article dans la page */
-      .article-block { margin-bottom: 18px; }
-      .article-block + .article-block { border-top: 1px solid #ccc; padding-top: 14px; }
+      .article-block { margin-bottom: 14px; }
+      .article-block + .article-block {
+        border-top: 1px solid rgba(160,110,30,0.25);
+        padding-top: 12px;
+        margin-top: 4px;
+      }
+      /* Séparateur ornemental entre articles */
+      .article-sep {
+        text-align: center;
+        color: rgba(160,110,30,0.4);
+        font-size: 0.75rem;
+        letter-spacing: 4px;
+        margin: 6px 0;
+      }
       .article-cat-badge {
-        display: inline-block; font-size: 0.6rem; font-weight: 700;
-        letter-spacing: 2px; text-transform: uppercase;
-        padding: 2px 8px; border-radius: 3px; margin-bottom: 6px;
+        font-family: 'Cinzel', serif;
+        font-size: 0.55rem;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        padding: 2px 8px;
+        border-radius: 2px;
+        display: inline-block;
+        margin-bottom: 5px;
       }
-      .badge-general { background: #e8f4fd; color: #1a6fa0; }
-      .badge-trading  { background: #e8fdf0; color: #1a7a4a; }
-      .badge-estate   { background: #f0e8fd; color: #6a1a9a; }
-      .badge-mlm      { background: #fdf5e8; color: #9a6a1a; }
-      .badge-portage  { background: #fde8f0; color: #9a1a5a; }
-      .badge-site     { background: #e8fde8; color: #1a7a1a; }
-      .article-titre-page {
-        font-size: 1.05rem;
-        font-weight: 700;
+      .badge-general { background: #e8f0e0; color: #3a6020; border: 1px solid #b8d098; }
+      .badge-trading  { background: #e0f0e8; color: #205a3a; border: 1px solid #98d0b8; }
+      .badge-estate   { background: #e8e0f0; color: #4a2080; border: 1px solid #b898d8; }
+      .badge-mlm      { background: #f0ece0; color: #6a4a10; border: 1px solid #d8b878; }
+      .badge-portage  { background: #f0e0e8; color: #7a1a4a; border: 1px solid #d898b8; }
+      .badge-site     { background: #e0eef0; color: #106070; border: 1px solid #88c8d8; }
+
+      .article-titre-book {
+        font-family: 'Cinzel', serif;
+        font-size: 0.95rem;
+        font-weight: 600;
         line-height: 1.3;
-        margin-bottom: 8px;
-        color: #111;
+        color: #1a0a08;
+        margin-bottom: 5px;
       }
-      .article-titre-page.big { font-size: 1.3rem; }
-      .article-date-page { font-size: 0.62rem; color: #888; margin-bottom: 8px; }
-      .article-contenu-page {
-        font-size: 0.78rem;
-        line-height: 1.65;
-        color: #333;
+      .article-titre-book.big { font-size: 1.15rem; }
+      .article-date-book {
+        font-size: 0.6rem;
+        color: rgba(100,60,20,0.6);
+        font-style: italic;
+        margin-bottom: 7px;
+        font-family: 'EB Garamond', serif;
+      }
+      .article-contenu-book {
+        font-size: 0.76rem;
+        line-height: 1.7;
+        color: #3a2010;
         text-align: justify;
+        font-family: 'EB Garamond', serif;
       }
-      .article-img-page {
-        width: 100%; max-height: 130px;
-        object-fit: cover; border-radius: 4px;
-        margin: 8px 0; border: 1px solid #ddd;
+      .article-img-book {
+        width: 100%; max-height: 110px;
+        object-fit: cover; border-radius: 3px;
+        margin: 7px 0;
+        border: 1px solid rgba(160,110,30,0.3);
+        box-shadow: 2px 2px 6px rgba(0,0,0,0.15);
       }
-      .epingle-mark { color: #c9a84c; font-size: 0.7rem; margin-left: 6px; }
-      /* Dernière page */
-      .page-back { background: linear-gradient(145deg, #020a18, #0a1e3d); }
-      .page-back .page-inner { display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; }
-      /* Navigation */
-      .flip-nav {
+      .epingle-star { color: #c9a84c; font-size: 0.65rem; }
+
+      /* ===== PAGE DOS ===== */
+      .page-back { background: linear-gradient(160deg, #150830 0%, #2d1060 60%, #1a0a2e 100%); }
+      .page-back .page-inner {
+        background-image: none;
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        text-align: center; color: #f0e6c8;
+      }
+      .page-back .page-inner::before,
+      .page-back .page-inner::after { color: rgba(201,168,76,0.5); }
+
+      /* ===== NAVIGATION ===== */
+      .book-nav {
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 20px;
-        margin-top: 24px;
+        margin-top: 20px;
+        position: relative;
+        z-index: 2;
       }
-      .flip-btn {
-        background: rgba(0,200,255,0.1);
-        border: 2px solid rgba(0,200,255,0.4);
-        color: #00c8ff;
+      .book-btn {
+        width: 50px; height: 50px;
         border-radius: 50%;
-        width: 46px; height: 46px;
-        font-size: 1.2rem;
+        background: linear-gradient(135deg, #2d1060, #1a0a2e);
+        border: 1px solid rgba(201,168,76,0.5);
+        color: #c9a84c;
+        font-size: 1.1rem;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: all 0.3s;
         display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 0 15px rgba(120,80,255,0.3);
       }
-      .flip-btn:hover { background: #00c8ff; color: #020a18; box-shadow: 0 0 16px rgba(0,200,255,0.5); }
-      .flip-btn:disabled { opacity: 0.3; cursor: default; }
-      .page-indicator { color: #aaa; font-size: 0.82rem; min-width: 80px; text-align: center; }
+      .book-btn:hover {
+        background: linear-gradient(135deg, #3d2080, #2a1050);
+        box-shadow: 0 0 25px rgba(201,168,76,0.4);
+        border-color: #c9a84c;
+      }
+      .book-btn:disabled { opacity: 0.3; cursor: default; box-shadow: none; }
+      .book-indicator {
+        font-family: 'Cinzel', serif;
+        font-size: 0.78rem;
+        color: rgba(201,168,76,0.7);
+        letter-spacing: 2px;
+        min-width: 100px;
+        text-align: center;
+      }
+      .book-hint {
+        text-align: center;
+        margin-top: 8px;
+        font-family: 'EB Garamond', serif;
+        font-style: italic;
+        color: rgba(201,168,76,0.4);
+        font-size: 0.78rem;
+        position: relative;
+        z-index: 2;
+      }
 
-      /* PANEL ADMIN */
+      /* ===== ADMIN PANEL ===== */
       .admin-panel {
         border: 1px solid rgba(201,168,76,0.3);
         background: rgba(201,168,76,0.03);
         border-radius: 14px; padding: 28px 32px; margin-bottom: 40px;
         max-width: 700px; margin-left: auto; margin-right: auto;
       }
-      .admin-panel h3 { color: #c9a84c; margin-bottom: 20px; font-size: 1rem; letter-spacing: 1px; text-transform: uppercase; }
+      .admin-panel h3 {
+        font-family: 'Cinzel', serif;
+        color: #c9a84c; margin-bottom: 20px; font-size: 1rem; letter-spacing: 1px;
+      }
       .form-input {
         width: 100%; background: rgba(0,200,255,0.07);
         border: 1px solid rgba(0,200,255,0.3); border-radius: 8px;
@@ -193,14 +340,14 @@
         background: #c9a84c; color: #020a18; border: none; border-radius: 8px;
         padding: 11px 28px; font-size: 0.95rem; font-weight: 700; cursor: pointer;
         transition: all 0.3s; box-shadow: 0 0 14px rgba(201,168,76,0.3);
+        font-family: 'Cinzel', serif;
       }
-      .btn-publier:hover { box-shadow: 0 0 22px rgba(201,168,76,0.5); }
+      .btn-publier:hover { box-shadow: 0 0 22px rgba(201,168,76,0.6); }
       .switch-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; }
       .switch { width: 40px; height: 22px; background: rgba(255,255,255,0.1); border-radius: 11px; position: relative; transition: background 0.2s; }
       .switch.on { background: #c9a84c; }
       .switch::after { content:''; position:absolute; width:16px; height:16px; background:#fff; border-radius:50%; top:3px; left:3px; transition:left 0.2s; }
       .switch.on::after { left: 21px; }
-      #loading-msg { text-align:center; color:#555; padding: 40px 0; }
     </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -270,8 +417,8 @@ setTimeout(function(){
 </header>
 
 <div class="page-header">
-    <h1><i class="fa-solid fa-newspaper" style="margin-right:12px;color:#00c8ff;"></i>Journal des projets</h1>
-    <p>Toutes les actualités et informations sur nos projets</p>
+    <h1 style="font-family:'Cinzel',serif;"><i class="fa-solid fa-book-open" style="margin-right:12px;color:#c9a84c;"></i>Journal des Projets</h1>
+    <p style="font-family:'EB Garamond',serif;font-style:italic;">Les chroniques et actualités de nos investissements</p>
 </div>
 
 <div class="section">
@@ -279,7 +426,7 @@ setTimeout(function(){
     <!-- PANEL ADMIN -->
     <div id="admin-panel" style="display:none;margin-bottom:40px;">
         <div class="admin-panel">
-            <h3>&#9997; Publier un article</h3>
+            <h3>&#9997; Écrire un nouvel article</h3>
             <div class="form-row">
                 <label class="form-label">Titre</label>
                 <input id="j-titre" type="text" placeholder="Titre de l'article..." class="form-input">
@@ -287,12 +434,12 @@ setTimeout(function(){
             <div class="form-row">
                 <label class="form-label">Catégorie</label>
                 <select id="j-categorie" class="form-input">
-                    <option value="general">&#127758; Général</option>
-                    <option value="trading">&#129302; Bot Trading</option>
-                    <option value="estate">&#127968; E-Estate</option>
-                    <option value="mlm">&#128279; MLM Center</option>
-                    <option value="portage">&#128188; Portage salarial</option>
-                    <option value="site">&#127760; Site</option>
+                    <option value="general">Général</option>
+                    <option value="trading">Bot Trading</option>
+                    <option value="estate">E-Estate</option>
+                    <option value="mlm">MLM Center</option>
+                    <option value="portage">Portage salarial</option>
+                    <option value="site">Site</option>
                 </select>
             </div>
             <div class="form-row">
@@ -312,29 +459,28 @@ setTimeout(function(){
             </div>
             <input type="hidden" id="j-epingle" value="false">
             <div style="margin-top:20px;display:flex;align-items:center;gap:16px;">
-                <button class="btn-publier" onclick="publierArticle()">
-                    <i class="fa-solid fa-paper-plane" style="margin-right:8px;"></i>Publier
-                </button>
+                <button class="btn-publier" onclick="publierArticle()">&#128214; Publier</button>
                 <div id="j-msg" style="font-size:0.88rem;display:none;"></div>
             </div>
         </div>
     </div>
 
-    <!-- JOURNAL FLIPBOOK -->
-    <div id="loading-msg">Chargement du journal...</div>
+    <!-- LIVRE -->
+    <div id="book-loading" style="text-align:center;color:#c9a84c;padding:40px;font-family:'EB Garamond',serif;font-style:italic;font-size:1.1rem;">
+        Ouverture du livre...
+    </div>
 
-    <div id="journal-wrapper" style="display:none;">
+    <div id="book-scene" style="display:none;">
+        <div id="book-glow"></div>
         <div id="flipbook-container">
             <div id="flipbook"></div>
         </div>
-        <div class="flip-nav">
-            <button class="flip-btn" id="btn-prev" onclick="pageFlip.flipPrev()" title="Page précédente">&#8592;</button>
-            <div class="page-indicator" id="page-indicator">Page 1</div>
-            <button class="flip-btn" id="btn-next" onclick="pageFlip.flipNext()" title="Page suivante">&#8594;</button>
+        <div class="book-nav">
+            <button class="book-btn" id="btn-prev" onclick="pageFlip.flipPrev()">&#8592;</button>
+            <div class="book-indicator" id="page-indicator">I / I</div>
+            <button class="book-btn" id="btn-next" onclick="pageFlip.flipNext()">&#8594;</button>
         </div>
-        <div style="text-align:center;margin-top:10px;color:#555;font-size:0.78rem;">
-            Cliquez sur les bords du journal pour tourner les pages
-        </div>
+        <div class="book-hint">Cliquez sur les coins des pages pour tourner</div>
     </div>
 
 </div>
@@ -350,6 +496,9 @@ setTimeout(function(){
 <script>
 var catBadge = { general:'badge-general', trading:'badge-trading', estate:'badge-estate', mlm:'badge-mlm', portage:'badge-portage', site:'badge-site' };
 var catLabel = { general:'Général', trading:'Bot Trading', estate:'E-Estate', mlm:'MLM Center', portage:'Portage', site:'Site' };
+var romans   = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX'];
+
+function toRoman(n){ return romans[n-1] || String(n); }
 
 function toggleEpingle(){
     epingle=!epingle;
@@ -365,45 +514,46 @@ function tronquer(txt, max){
 }
 
 function buildCoverPage(articles){
-    var today = new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    var today = new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
     var epingles = articles.filter(function(a){ return a.epingle; }).slice(0,3);
     var headlines = epingles.length ? epingles : articles.slice(0,3);
     var hl = '';
     headlines.forEach(function(a){
-        hl += '<div class="cover-headline"><strong>' + a.titre + '</strong><br>' + tronquer(a.contenu, 80) + '</div>';
+        hl += '<div class="cover-hl"><strong>' + a.titre + '</strong><br>' + tronquer(a.contenu, 70) + '</div>';
     });
     return '<div class="page page-cover"><div class="page-inner">'
-        + '<div class="cover-logo">'
-        + '<div class="cover-title">P inves\'T</div>'
-        + '<div class="cover-subtitle">Journal officiel des projets</div>'
-        + '<div class="cover-line"></div>'
-        + '<div class="cover-edition">' + today + ' &mdash; ' + articles.length + ' article' + (articles.length>1?'s':'') + '</div>'
+        + '<div class="cover-ornament">&#10038;</div>'
+        + '<div class="cover-title-book">P inves\'T</div>'
+        + '<div class="cover-subtitle-book">Journal des Projets</div>'
+        + '<div class="cover-divider"></div>'
+        + '<div class="cover-date">' + today + '</div>'
+        + '<div class="cover-headlines-book">' + hl + '</div>'
+        + '<div style="margin-top:auto;padding-top:14px;"><div class="cover-divider"></div>'
+        + '<div style="font-family:EB Garamond,serif;font-style:italic;font-size:0.65rem;color:rgba(201,168,76,0.45);margin-top:6px;">' + articles.length + ' article' + (articles.length>1?'s':'') + ' publi' + (articles.length>1?'és':'é') + '</div>'
         + '</div>'
-        + '<div class="cover-headlines">' + hl + '</div>'
         + '</div></div>';
 }
 
 function buildArticlePage(articles, startIdx, pageNum, totalPages){
-    var today = new Date().toLocaleDateString('fr-FR');
     var html = '<div class="page"><div class="page-inner">'
+        + '<div class="page-border"></div>'
         + '<div class="page-header-strip">'
-        + '<span class="page-name">P inves\'T &mdash; Journal</span>'
-        + '<span class="page-date">' + today + '</span>'
-        + '<span class="page-num">Page ' + pageNum + ' / ' + totalPages + '</span>'
+        + '<span class="page-name-book">P inves\'T &mdash; Journal</span>'
+        + '<span class="page-num-book">Page ' + toRoman(pageNum) + '</span>'
         + '</div>';
 
     var a = articles[startIdx];
     if(a){
-        var bc   = catBadge[a.categorie]||'badge-general';
-        var bl   = catLabel[a.categorie]||a.categorie;
-        var dstr = new Date(a.created_at).toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
-        var pin  = a.epingle ? '<span class="epingle-mark">&#128204;</span>' : '';
+        var bc = catBadge[a.categorie]||'badge-general';
+        var bl = catLabel[a.categorie]||a.categorie;
+        var dstr = new Date(a.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+        var pin = a.epingle ? '<span class="epingle-star"> &#9733;</span>' : '';
         html += '<div class="article-block">'
-            + '<div><span class="article-cat-badge ' + bc + '">' + bl + '</span></div>'
-            + '<div class="article-titre-page big">' + a.titre + pin + '</div>'
-            + '<div class="article-date-page">Publié le ' + dstr + '</div>';
-        if(a.image_url) html += '<img src="' + a.image_url + '" class="article-img-page" alt="">';
-        html += '<div class="article-contenu-page">' + tronquer(a.contenu, 500) + '</div>'
+            + '<span class="article-cat-badge ' + bc + '">' + bl + '</span>'
+            + '<div class="article-titre-book big">' + a.titre + pin + '</div>'
+            + '<div class="article-date-book">Le ' + dstr + '</div>';
+        if(a.image_url) html += '<img src="' + a.image_url + '" class="article-img-book" alt="">';
+        html += '<div class="article-contenu-book">' + tronquer(a.contenu, 480) + '</div>'
             + '</div>';
     }
 
@@ -411,13 +561,14 @@ function buildArticlePage(articles, startIdx, pageNum, totalPages){
     if(b){
         var bc2 = catBadge[b.categorie]||'badge-general';
         var bl2 = catLabel[b.categorie]||b.categorie;
-        var dstr2 = new Date(b.created_at).toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
-        var pin2 = b.epingle ? '<span class="epingle-mark">&#128204;</span>' : '';
-        html += '<div class="article-block">'
-            + '<div><span class="article-cat-badge ' + bc2 + '">' + bl2 + '</span></div>'
-            + '<div class="article-titre-page">' + b.titre + pin2 + '</div>'
-            + '<div class="article-date-page">Publié le ' + dstr2 + '</div>'
-            + '<div class="article-contenu-page">' + tronquer(b.contenu, 220) + '</div>'
+        var dstr2 = new Date(b.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+        var pin2 = b.epingle ? '<span class="epingle-star"> &#9733;</span>' : '';
+        html += '<div class="article-sep">&#10022; &#10022; &#10022;</div>'
+            + '<div class="article-block">'
+            + '<span class="article-cat-badge ' + bc2 + '">' + bl2 + '</span>'
+            + '<div class="article-titre-book">' + b.titre + pin2 + '</div>'
+            + '<div class="article-date-book">Le ' + dstr2 + '</div>'
+            + '<div class="article-contenu-book">' + tronquer(b.contenu, 200) + '</div>'
             + '</div>';
     }
 
@@ -427,79 +578,67 @@ function buildArticlePage(articles, startIdx, pageNum, totalPages){
 
 function buildBackPage(){
     return '<div class="page page-back"><div class="page-inner">'
-        + '<div style="color:#00c8ff;font-size:1.5rem;font-weight:900;letter-spacing:3px;font-family:Arial Black,sans-serif;">P inves\'T</div>'
-        + '<div style="color:#555;font-size:0.8rem;margin-top:10px;letter-spacing:2px;">JOURNAL DES PROJETS</div>'
-        + '<div style="width:60%;height:1px;background:linear-gradient(to right,transparent,#00c8ff,transparent);margin:20px auto;"></div>'
-        + '<div style="color:#444;font-size:0.72rem;">&copy; 2026 Project inves\'T</div>'
+        + '<div class="cover-ornament">&#10038;</div>'
+        + '<div class="cover-title-book" style="font-size:1rem;">P inves\'T</div>'
+        + '<div class="cover-subtitle-book">Fin du journal</div>'
+        + '<div class="cover-divider"></div>'
+        + '<div style="font-family:EB Garamond,serif;font-style:italic;font-size:0.72rem;color:rgba(201,168,76,0.5);margin-top:16px;">&copy; 2026 Project inves\'T</div>'
         + '</div></div>';
 }
 
 async function chargerJournal(){
     var result = await _sb.from('journal').select('*').order('epingle',{ascending:false}).order('created_at',{ascending:false});
-    document.getElementById('loading-msg').style.display='none';
+    document.getElementById('book-loading').style.display='none';
 
-    if(result.error || !result.data){
-        document.getElementById('loading-msg').style.display='block';
-        document.getElementById('loading-msg').innerHTML='<span style="color:#c9a84c;">Erreur de chargement.</span>';
+    if(result.error){
+        document.getElementById('book-loading').style.display='block';
+        document.getElementById('book-loading').innerHTML='<span style="color:#ff4466;">Erreur de chargement.</span>';
         return;
     }
-
-    var articles = result.data;
+    var articles = result.data || [];
     if(!articles.length){
-        document.getElementById('loading-msg').style.display='block';
-        document.getElementById('loading-msg').textContent='Aucun article publié pour le moment.';
+        document.getElementById('book-loading').style.display='block';
+        document.getElementById('book-loading').innerHTML='<span style="font-family:EB Garamond,serif;font-style:italic;color:rgba(201,168,76,0.6);">Le journal est vide pour le moment...</span>';
         return;
     }
 
-    // Calcul du nombre de pages : couverture + pages articles (2 par page) + dos
     var nbPageArticles = Math.ceil(articles.length / 2);
-    var totalPages = 1 + nbPageArticles + 1; // couv + articles + dos
-
-    // Construire le HTML du flipbook
     var fb = document.getElementById('flipbook');
     fb.innerHTML = '';
-
-    // Couverture
     fb.innerHTML += buildCoverPage(articles);
-
-    // Pages d'articles
     for(var i=0; i<nbPageArticles; i++){
-        var pageNum = i + 2;
-        fb.innerHTML += buildArticlePage(articles, i*2, pageNum, totalPages);
+        fb.innerHTML += buildArticlePage(articles, i*2, i+2, nbPageArticles+2);
     }
-
-    // Dos
     fb.innerHTML += buildBackPage();
 
-    // Taille responsive
-    var W = Math.min(window.innerWidth - 60, 440);
-    var H = Math.round(W * 1.41);
+    var W = Math.min(window.innerWidth - 280, 380);
+    var H = Math.round(W * 1.45);
 
-    document.getElementById('journal-wrapper').style.display='flex';
+    document.getElementById('book-scene').style.display='flex';
 
     pageFlip = new St.PageFlip(document.getElementById('flipbook'), {
-        width: W,
-        height: H,
+        width: W, height: H,
         showCover: true,
         mobileScrollSupport: false,
-        flippingTime: 700,
+        flippingTime: 800,
         usePortrait: true,
-        startZIndex: 10,
         autoSize: false,
-        maxShadowOpacity: 0.5,
+        maxShadowOpacity: 0.6,
+        startZIndex: 10,
     });
 
     pageFlip.loadFromHTML(document.querySelectorAll('#flipbook .page'));
 
     pageFlip.on('flip', function(e){
-        var cur  = e.data + 1;
-        var tot  = pageFlip.getPageCount();
-        document.getElementById('page-indicator').textContent = 'Page ' + cur + ' / ' + tot;
+        var cur = e.data + 1;
+        var tot = pageFlip.getPageCount();
+        document.getElementById('page-indicator').textContent = toRoman(cur) + ' / ' + toRoman(tot);
         document.getElementById('btn-prev').disabled = (e.data === 0);
         document.getElementById('btn-next').disabled = (e.data >= tot - 1);
     });
 
-    document.getElementById('page-indicator').textContent = 'Page 1 / ' + pageFlip.getPageCount();
+    var tot = pageFlip.getPageCount();
+    document.getElementById('page-indicator').textContent = 'I / ' + toRoman(tot);
     document.getElementById('btn-prev').disabled = true;
 }
 
@@ -527,9 +666,10 @@ async function publierArticle(){
         epingle=false;
         document.getElementById('switch-epingle').className='switch';
         document.getElementById('epingle-label').textContent='Non';
-        // Recharger le journal
         if(pageFlip){ pageFlip.destroy(); pageFlip=null; }
-        document.getElementById('journal-wrapper').style.display='none';
+        document.getElementById('book-scene').style.display='none';
+        document.getElementById('book-loading').style.display='block';
+        document.getElementById('book-loading').innerHTML='Ouverture du livre...';
         document.getElementById('flipbook').innerHTML='';
         chargerJournal();
         setTimeout(function(){ msg.style.display='none'; },3000);
