@@ -600,7 +600,9 @@ function chargerTelegramPourLivre() {
             header: true,
             complete: function(results) {
                 var messages = (results.data || []).filter(function(m){
-                    return m.Date && m.Message && m.Message.trim().toLowerCase().indexOf('#journal') === 0;
+                    if (!m.Date) return false;
+                    if (m.type === 'image' && m.url) return true;
+                    return m.Message && m.Message.trim().toLowerCase().indexOf('#journal') === 0;
                 });
                 var sevenDaysAgo = new Date();
                 sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
