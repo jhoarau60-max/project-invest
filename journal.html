@@ -382,7 +382,6 @@ setTimeout(function(){
         isAdmin=meta.is_admin===true||email==='jhoarau60@gmail.com'||email==='projectinvest@gmail.com'||email==='teamlivematch@gmail.com';
         if(isAdmin) document.getElementById('admin-panel').style.display='block';
         chargerJournal();
-        chargerTelegramSemaine();
     });
 },800);
 </script>
@@ -505,14 +504,6 @@ setTimeout(function(){
         <div class="book-hint">Cliquez sur les coins des pages pour tourner</div>
     </div>
 
-<!-- RÉSUMÉ TELEGRAM SEMAINE -->
-<div class="section" style="margin-top:0;">
-    <div class="telegram-section-title">📱 Messages de la semaine</div>
-    <div id="telegram-semaine" style="max-width:700px;margin:0 auto;">
-        <p style="text-align:center;color:rgba(201,168,76,0.5);font-style:italic;font-family:'EB Garamond',serif;">Chargement...</p>
-    </div>
-</div>
-
 <footer>
     <p>&copy; 2026 Project inves'T &#8212; Site personnel non professionnel</p>
 </footer>
@@ -614,8 +605,41 @@ function buildBackPage(){
         + '</div></div>';
 }
 
+function chargerTelegramPourLivre() {
+    return new Promise(function(resolve) {
+        var csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRW8hTQuHFblsW-DUxl7BJvaAuLn0PKKR2o5EdMIVThrMJr7YiZYZaKvCCX653bAnwTPRidH2Hq5lrF/pub?gid=0&single=true&output=csv';
+        Papa.parse(csvUrl, {
+            download: true,
+            header: true,
+            complete: function(results) {
+                var messages = (results.data || []).filter(function(m){
+                    return m.Date && m.Message && m.Message.trim() !== '' && m.Message.trim().charAt(0) !== '/';
+                });
+                var sevenDaysAgo = new Date();
+                sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+                var recent = messages.filter(function(m){
+                    return new Date(m.Date) >= sevenDaysAgo;
+                });
+                var articles = recent.map(function(m) {
+                    return {
+                        titre: '📱 ' + (m.Auteur || 'Telegram'),
+                        contenu: m.Message,
+                        categorie: 'general',
+                        image_url: (m.type === 'image' && m.url) ? m.url : null,
+                        created_at: m.Date,
+                        epingle: false
+                    };
+                });
+                resolve(articles);
+            },
+            error: function() { resolve([]); }
+        });
+    });
+}
+
 async function chargerJournal(){
     var result = await _sb.from('journal').select('*').order('epingle',{ascending:false}).order('created_at',{ascending:false});
+    var telegramArticles = await chargerTelegramPourLivre();
     document.getElementById('book-loading').style.display='none';
 
     if(result.error){
@@ -623,7 +647,7 @@ async function chargerJournal(){
         document.getElementById('book-loading').innerHTML='<span style="color:#ff4466;">Erreur de chargement.</span>';
         return;
     }
-    var articles = result.data || [];
+    var articles = (result.data || []).concat(telegramArticles);
     if(!articles.length){
         document.getElementById('book-loading').style.display='block';
         document.getElementById('book-loading').innerHTML='<span style="font-family:EB Garamond,serif;font-style:italic;color:rgba(201,168,76,0.6);">Le journal est vide pour le moment...</span>';
@@ -671,40 +695,6 @@ async function chargerJournal(){
     document.getElementById('btn-prev').disabled = true;
 }
 
-function chargerTelegramSemaine() {
-    var csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRW8hTQuHFblsW-DUxl7BJvaAuLn0PKKR2o5EdMIVThrMJr7YiZYZaKvCCX653bAnwTPRidH2Hq5lrF/pub?gid=0&single=true&output=csv';
-    Papa.parse(csvUrl, {
-        download: true,
-        header: true,
-        complete: function(results) {
-            var messages = (results.data || []).filter(function(m){ return m.Date; });
-            var sevenDaysAgo = new Date();
-            sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-            var recent = messages.filter(function(m){
-                return m.Date && new Date(m.Date) >= sevenDaysAgo;
-            });
-            var container = document.getElementById('telegram-semaine');
-            if (!recent.length) {
-                container.innerHTML = '<p style="text-align:center;color:rgba(201,168,76,0.5);font-style:italic;font-family:EB Garamond,serif;">Aucun message cette semaine.</p>';
-                return;
-            }
-            var html = '';
-            recent.forEach(function(m) {
-                var d = '';
-                try { d = new Date(m.Date).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}); } catch(e){}
-                html += '<div class="telegram-msg">';
-                html += '<div class="telegram-date">' + d + (m.Auteur ? ' — ' + m.Auteur : '') + '</div>';
-                if (m.Message) html += '<div class="telegram-texte">' + m.Message + '</div>';
-                if (m.type === 'image' && m.url) html += '<img src="' + m.url + '" class="telegram-img">';
-                html += '</div>';
-            });
-            container.innerHTML = html;
-        },
-        error: function() {
-            document.getElementById('telegram-semaine').innerHTML = '<p style="color:#ff4466;text-align:center;">Impossible de charger les messages.</p>';
-        }
-    });
-}
 
 async function publierArticle(){
     var titre     = document.getElementById('j-titre').value.trim();
