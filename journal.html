@@ -559,7 +559,7 @@ function buildArticlePage(articles, startIdx, pageNum, totalPages){
             + '<div class="article-titre-book big">' + a.titre + pin + '</div>'
             + '<div class="article-date-book">Le ' + dstr + '</div>';
         if(a.image_url) html += '<img src="' + a.image_url + '" class="article-img-book" alt="">';
-        html += '<div class="article-contenu-book">' + tronquer(a.contenu, 480) + '</div>'
+        html += '<div class="article-contenu-book">' + tronquer(a.contenu, 1200) + '</div>'
             + '</div>';
     }
 
