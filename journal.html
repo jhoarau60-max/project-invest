@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
       .line-anim  { stroke-dasharray: 40 960; animation: snake 6s linear infinite, rainbow 5s linear infinite; }
       .line-anim2 { stroke-dasharray: 40 960; animation: snake 8s linear infinite reverse, rainbow 5s linear infinite 1.5s; }
@@ -328,6 +329,13 @@
         z-index: 2;
       }
 
+      /* ===== MESSAGES TELEGRAM ===== */
+      .telegram-section-title { font-family:'Cinzel',serif; font-size:1.1rem; color:#c9a84c; text-align:center; margin:40px 0 24px; letter-spacing:2px; }
+      .telegram-msg { border:1px solid rgba(201,168,76,0.2); border-radius:10px; padding:16px 20px; margin-bottom:16px; background:rgba(201,168,76,0.04); }
+      .telegram-date { font-family:'EB Garamond',serif; font-style:italic; font-size:0.78rem; color:rgba(201,168,76,0.6); margin-bottom:8px; }
+      .telegram-texte { font-family:'EB Garamond',serif; font-size:0.95rem; color:#e0d4b8; line-height:1.6; }
+      .telegram-img { max-width:100%; border-radius:8px; margin-top:10px; border:1px solid rgba(201,168,76,0.3); }
+
       /* ===== ADMIN PANEL ===== */
       .admin-panel {
         border: 1px solid rgba(201,168,76,0.3);
@@ -374,6 +382,7 @@ setTimeout(function(){
         isAdmin=meta.is_admin===true||email==='jhoarau60@gmail.com'||email==='projectinvest@gmail.com'||email==='teamlivematch@gmail.com';
         if(isAdmin) document.getElementById('admin-panel').style.display='block';
         chargerJournal();
+        chargerTelegramSemaine();
     });
 },800);
 </script>
@@ -496,6 +505,12 @@ setTimeout(function(){
         <div class="book-hint">Cliquez sur les coins des pages pour tourner</div>
     </div>
 
+<!-- RÉSUMÉ TELEGRAM SEMAINE -->
+<div class="section" style="margin-top:0;">
+    <div class="telegram-section-title">📱 Messages de la semaine</div>
+    <div id="telegram-semaine" style="max-width:700px;margin:0 auto;">
+        <p style="text-align:center;color:rgba(201,168,76,0.5);font-style:italic;font-family:'EB Garamond',serif;">Chargement...</p>
+    </div>
 </div>
 
 <footer>
@@ -654,6 +669,41 @@ async function chargerJournal(){
     var tot = pageFlip.getPageCount();
     document.getElementById('page-indicator').textContent = 'I / ' + toRoman(tot);
     document.getElementById('btn-prev').disabled = true;
+}
+
+function chargerTelegramSemaine() {
+    var csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRW8hTQuHFblsW-DUxl7BJvaAuLn0PKKR2o5EdMIVThrMJr7YiZYZaKvCCX653bAnwTPRidH2Hq5lrF/pub?gid=0&single=true&output=csv';
+    Papa.parse(csvUrl, {
+        download: true,
+        header: true,
+        complete: function(results) {
+            var messages = (results.data || []).filter(function(m){ return m.Date; });
+            var sevenDaysAgo = new Date();
+            sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+            var recent = messages.filter(function(m){
+                return m.Date && new Date(m.Date) >= sevenDaysAgo;
+            });
+            var container = document.getElementById('telegram-semaine');
+            if (!recent.length) {
+                container.innerHTML = '<p style="text-align:center;color:rgba(201,168,76,0.5);font-style:italic;font-family:EB Garamond,serif;">Aucun message cette semaine.</p>';
+                return;
+            }
+            var html = '';
+            recent.forEach(function(m) {
+                var d = '';
+                try { d = new Date(m.Date).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}); } catch(e){}
+                html += '<div class="telegram-msg">';
+                html += '<div class="telegram-date">' + d + (m.Auteur ? ' — ' + m.Auteur : '') + '</div>';
+                if (m.Message) html += '<div class="telegram-texte">' + m.Message + '</div>';
+                if (m.type === 'image' && m.url) html += '<img src="' + m.url + '" class="telegram-img">';
+                html += '</div>';
+            });
+            container.innerHTML = html;
+        },
+        error: function() {
+            document.getElementById('telegram-semaine').innerHTML = '<p style="color:#ff4466;text-align:center;">Impossible de charger les messages.</p>';
+        }
+    });
 }
 
 async function publierArticle(){
