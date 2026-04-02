@@ -613,7 +613,7 @@ function chargerTelegramPourLivre() {
             header: true,
             complete: function(results) {
                 var messages = (results.data || []).filter(function(m){
-                    return m.Date && m.Message && m.Message.trim() !== '' && m.Message.trim().charAt(0) !== '/';
+                    return m.Date && m.Message && m.Message.trim().toLowerCase().indexOf('#journal') === 0;
                 });
                 var sevenDaysAgo = new Date();
                 sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
@@ -621,9 +621,10 @@ function chargerTelegramPourLivre() {
                     return new Date(m.Date) >= sevenDaysAgo;
                 });
                 var articles = recent.map(function(m) {
+                    var texte = m.Message.replace(/^#journal\s*/i, '').trim();
                     return {
                         titre: '📱 ' + (m.Auteur || 'Telegram'),
-                        contenu: m.Message,
+                        contenu: texte,
                         categorie: 'general',
                         image_url: (m.type === 'image' && m.url) ? m.url : null,
                         created_at: m.Date,
