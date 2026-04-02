@@ -533,23 +533,10 @@ function tronquer(txt, max){
 }
 
 function buildCoverPage(articles){
-    var today = new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
-    var epingles = articles.filter(function(a){ return a.epingle; }).slice(0,3);
-    var headlines = epingles.length ? epingles : articles.slice(0,3);
-    var hl = '';
-    headlines.forEach(function(a){
-        hl += '<div class="cover-hl"><strong>' + a.titre + '</strong><br>' + tronquer(a.contenu, 70) + '</div>';
-    });
     return '<div class="page page-cover"><div class="page-inner">'
-        + '<img src="logo-project-invest.jpg" style="width:70px;height:70px;border-radius:50%;object-fit:cover;border:2px solid rgba(201,168,76,0.6);box-shadow:0 0 16px rgba(201,168,76,0.4);margin-bottom:8px;" alt="Logo">'
+        + '<img src="logo-project-invest.jpg" style="width:90px;height:90px;border-radius:50%;object-fit:cover;border:2px solid rgba(201,168,76,0.6);box-shadow:0 0 20px rgba(201,168,76,0.4);margin-bottom:16px;" alt="Logo">'
         + '<div class="cover-title-book">Journal d\'Actualité</div>'
-        + '<div class="cover-subtitle-book">Project inves\'T — depuis 2026</div>'
         + '<div class="cover-divider"></div>'
-        + '<div class="cover-date">' + today + '</div>'
-        + '<div class="cover-headlines-book">' + hl + '</div>'
-        + '<div style="margin-top:auto;padding-top:14px;"><div class="cover-divider"></div>'
-        + '<div style="font-family:EB Garamond,serif;font-style:italic;font-size:0.65rem;color:rgba(201,168,76,0.45);margin-top:6px;">' + articles.length + ' article' + (articles.length>1?'s':'') + ' publi' + (articles.length>1?'és':'é') + '</div>'
-        + '</div>'
         + '</div></div>';
 }
 
