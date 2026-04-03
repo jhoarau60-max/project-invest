@@ -350,51 +350,14 @@
       .telegram-texte { font-family:'EB Garamond',serif; font-size:0.95rem; color:#e0d4b8; line-height:1.6; }
       .telegram-img { max-width:100%; border-radius:8px; margin-top:10px; border:1px solid rgba(201,168,76,0.3); }
 
-      /* ===== ADMIN PANEL ===== */
-      .admin-panel {
-        border: 1px solid rgba(201,168,76,0.3);
-        background: rgba(201,168,76,0.03);
-        border-radius: 14px; padding: 28px 32px; margin-bottom: 40px;
-        max-width: 700px; margin-left: auto; margin-right: auto;
-      }
-      .admin-panel h3 {
-        font-family: 'Cinzel', serif;
-        color: #c9a84c; margin-bottom: 20px; font-size: 1rem; letter-spacing: 1px;
-      }
-      .form-input {
-        width: 100%; background: rgba(0,200,255,0.07);
-        border: 1px solid rgba(0,200,255,0.3); border-radius: 8px;
-        padding: 10px 14px; color: #fff; font-size: 0.95rem; outline: none;
-        box-sizing: border-box; font-family: inherit;
-      }
-      .form-input:focus { border-color: #00c8ff; box-shadow: 0 0 10px rgba(0,200,255,0.25); }
-      select.form-input option { background: #071020; color: #fff; }
-      .form-row { margin-bottom: 16px; }
-      .form-label { color: #aaa; font-size: 0.82rem; display: block; margin-bottom: 6px; }
-      .btn-publier {
-        background: #c9a84c; color: #020a18; border: none; border-radius: 8px;
-        padding: 11px 28px; font-size: 0.95rem; font-weight: 700; cursor: pointer;
-        transition: all 0.3s; box-shadow: 0 0 14px rgba(201,168,76,0.3);
-        font-family: 'Cinzel', serif;
-      }
-      .btn-publier:hover { box-shadow: 0 0 22px rgba(201,168,76,0.6); }
-      .switch-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-      .switch { width: 40px; height: 22px; background: rgba(255,255,255,0.1); border-radius: 11px; position: relative; transition: background 0.2s; }
-      .switch.on { background: #c9a84c; }
-      .switch::after { content:''; position:absolute; width:16px; height:16px; background:#fff; border-radius:50%; top:3px; left:3px; transition:left 0.2s; }
-      .switch.on::after { left: 21px; }
     </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const _sb=window.supabase.createClient("https://cvggxktybzbrtskcwlxp.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Z2d4a3R5YnpicnRza2N3bHhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyODM2MjcsImV4cCI6MjA4OTg1OTYyN30.cfHsAvmgcXYvedCz1fZCHlxOApupKCxnt8t9e8KzNBs");
-var isAdmin=false, pageFlip=null, epingle=false;
+var pageFlip=null;
 setTimeout(function(){
     _sb.auth.getSession().then(function(r){
         if(!r.data.session){ window.location.href="index.html"; return; }
-        var email=(r.data.session.user.email||'').toLowerCase().trim();
-        var meta=r.data.session.user.user_metadata||{};
-        isAdmin=meta.is_admin===true||email==='jhoarau60@gmail.com'||email==='projectinvest@gmail.com'||email==='teamlivematch@gmail.com';
-        if(isAdmin) document.getElementById('admin-panel').style.display='block';
         chargerJournal();
     });
 },800);
@@ -458,47 +421,6 @@ setTimeout(function(){
 
 <div class="section">
 
-    <!-- PANEL ADMIN -->
-    <div id="admin-panel" style="display:none;margin-bottom:40px;">
-        <div class="admin-panel">
-            <h3>&#9997; Écrire un nouvel article</h3>
-            <div class="form-row">
-                <label class="form-label">Titre</label>
-                <input id="j-titre" type="text" placeholder="Titre de l'article..." class="form-input">
-            </div>
-            <div class="form-row">
-                <label class="form-label">Catégorie</label>
-                <select id="j-categorie" class="form-input">
-                    <option value="general">Général</option>
-                    <option value="trading">Bot Trading</option>
-                    <option value="estate">E-Estate</option>
-                    <option value="mlm">MLM Center</option>
-                    <option value="portage">Portage salarial</option>
-                    <option value="site">Site</option>
-                </select>
-            </div>
-            <div class="form-row">
-                <label class="form-label">Contenu</label>
-                <textarea id="j-contenu" rows="5" placeholder="Rédigez votre article..." class="form-input"></textarea>
-            </div>
-            <div class="form-row">
-                <label class="form-label">Image (URL optionnelle)</label>
-                <input id="j-image" type="text" placeholder="https://..." class="form-input">
-            </div>
-            <div class="form-row" style="display:flex;align-items:center;gap:16px;">
-                <label class="form-label" style="margin:0;">Épingler en couverture</label>
-                <div class="switch-wrap" onclick="toggleEpingle()">
-                    <div class="switch" id="switch-epingle"></div>
-                    <span id="epingle-label" style="color:#aaa;font-size:0.85rem;">Non</span>
-                </div>
-            </div>
-            <input type="hidden" id="j-epingle" value="false">
-            <div style="margin-top:20px;display:flex;align-items:center;gap:16px;">
-                <button class="btn-publier" onclick="publierArticle()">&#128214; Publier</button>
-                <div id="j-msg" style="font-size:0.88rem;display:none;"></div>
-            </div>
-        </div>
-    </div>
 
     <!-- LIVRE -->
     <div id="book-loading" style="text-align:center;color:#c9a84c;padding:40px;font-family:'EB Garamond',serif;font-style:italic;font-size:1.1rem;">
@@ -533,13 +455,6 @@ var romans   = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','X
 
 function toRoman(n){ return romans[n-1] || String(n); }
 
-function toggleEpingle(){
-    epingle=!epingle;
-    document.getElementById('j-epingle').value=epingle?'true':'false';
-    var sw=document.getElementById('switch-epingle');
-    sw.className='switch'+(epingle?' on':'');
-    document.getElementById('epingle-label').textContent=epingle?'Oui':'Non';
-}
 
 function tronquer(txt, max){
     if(!txt) return '';
@@ -690,39 +605,6 @@ async function chargerJournal(){
 }
 
 
-async function publierArticle(){
-    var titre     = document.getElementById('j-titre').value.trim();
-    var contenu   = document.getElementById('j-contenu').value.trim();
-    var categorie = document.getElementById('j-categorie').value;
-    var image_url = document.getElementById('j-image').value.trim()||null;
-    var ep        = document.getElementById('j-epingle').value==='true';
-    var msg       = document.getElementById('j-msg');
-    if(!titre||!contenu){
-        msg.style.display='block'; msg.style.color='#ff4466';
-        msg.textContent='Titre et contenu requis.'; return;
-    }
-    var r=await _sb.from('journal').insert({titre:titre,contenu:contenu,categorie:categorie,image_url:image_url,epingle:ep});
-    if(r.error){
-        msg.style.display='block'; msg.style.color='#ff4466';
-        msg.textContent='Erreur : '+r.error.message;
-    } else {
-        msg.style.display='block'; msg.style.color='#00ff99';
-        msg.textContent='Article publié !';
-        document.getElementById('j-titre').value='';
-        document.getElementById('j-contenu').value='';
-        document.getElementById('j-image').value='';
-        epingle=false;
-        document.getElementById('switch-epingle').className='switch';
-        document.getElementById('epingle-label').textContent='Non';
-        if(pageFlip){ pageFlip.destroy(); pageFlip=null; }
-        document.getElementById('book-scene').style.display='none';
-        document.getElementById('book-loading').style.display='block';
-        document.getElementById('book-loading').innerHTML='Ouverture du livre...';
-        document.getElementById('flipbook').innerHTML='';
-        chargerJournal();
-        setTimeout(function(){ msg.style.display='none'; },3000);
-    }
-}
 </script>
 </body>
 </html>
