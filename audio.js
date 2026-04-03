@@ -76,8 +76,8 @@
 
   function updateBtn() {
     btn.innerHTML = playing
-      ? '<i class="fa-solid fa-volume-high" style="color:#fff;font-size:1rem;"></i>'
-      : '<i class="fa-solid fa-volume-xmark" style="color:#fff;font-size:1rem;"></i>';
+      ? '<i class="fa-solid fa-volume-high" style="color:#fff;font-size:0.85rem;margin-right:5px;"></i> Musique'
+      : '<i class="fa-solid fa-volume-xmark" style="color:#fff;font-size:0.85rem;margin-right:5px;"></i> Musique';
   }
 
   function startMusic() {

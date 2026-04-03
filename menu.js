@@ -230,6 +230,8 @@
       justify-content: flex-end !important;
       gap: 12px !important;
     }
+    /* Cacher le logo dans le header-top (il est dans la sidebar) */
+    .header-top .logo-svg { display: none !important; }
     #user-badge {
       display: inline-flex;
       align-items: center;
