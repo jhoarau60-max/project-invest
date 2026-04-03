@@ -252,19 +252,27 @@
       color: #6a90b0 !important;
     }
     .nav-sub li a:hover { color: #00c8ff !important; background: rgba(0,200,255,0.08) !important; }
+    @keyframes arrowShimmer {
+      0%   { color: #00c8ff; text-shadow: none; }
+      50%  { color: #ffffff; text-shadow: 0 0 8px #00c8ff, 0 0 16px #00c8ff; }
+      100% { color: #00c8ff; text-shadow: none; }
+    }
     .nav-has-sub > a .nav-arrow {
       margin-left: auto !important;
       font-size: 1.3rem !important;
       line-height: 1 !important;
       color: #00c8ff !important;
       font-weight: 300 !important;
-      transition: transform 0.2s, color 0.2s !important;
+      transition: transform 0.2s !important;
       flex-shrink: 0 !important;
       display: inline-block !important;
+      animation: arrowShimmer 2.5s ease-in-out infinite !important;
     }
     .nav-has-sub.open > a .nav-arrow {
       transform: rotate(90deg) !important;
+      animation: none !important;
       color: #ffffff !important;
+      text-shadow: 0 0 8px #00c8ff !important;
     }
 
     /* Masquer les boutons sociaux texte du header */
