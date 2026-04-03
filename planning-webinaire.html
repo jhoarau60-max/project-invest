@@ -330,7 +330,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         // Colonne Statut
         var statutHtml = '';
         if (REPLAYS[dateKey]) {
-          statutHtml = '<a href="' + REPLAYS[dateKey] + '" target="_blank" style="background:#ffffff;color:#FF0000;padding:5px 10px;border-radius:3px;border:1px solid #FF0000;text-decoration:none;font-weight:700;font-size:0.78rem;white-space:nowrap;display:inline-block;">▶ Voir le replay</a>';
+          statutHtml = '<a href="' + REPLAYS[dateKey] + '" target="_blank" style="display:inline-block;padding:5px 14px;background:linear-gradient(135deg,#0080c0,#00c8ff);color:#ffffff;border-radius:20px;font-size:0.78rem;font-weight:700;text-decoration:none;box-shadow:0 0 10px rgba(0,200,255,0.3);"><i class="fa-brands fa-youtube" style="margin-right:5px;color:#ffffff;"></i>Voir le replay</a>';
         } else if (isPast) {
           if (last3Past.indexOf(i) !== -1) {
             statutHtml = '<span style="color:#aaa;font-size:0.8rem;">Bientôt disponible</span>';
