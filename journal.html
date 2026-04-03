@@ -38,13 +38,112 @@
         height: 100%;
         pointer-events: none;
         z-index: 0;
-        filter: blur(40px);
-        background: radial-gradient(ellipse at center, rgba(160,100,20,0.25) 0%, rgba(100,60,10,0.12) 50%, transparent 75%);
+        filter: blur(50px);
+        background: radial-gradient(ellipse at 40% 60%, rgba(0,200,255,0.12) 0%, rgba(160,100,20,0.2) 40%, rgba(100,60,10,0.08) 65%, transparent 80%);
         animation: glowPulse 5s ease-in-out infinite;
       }
       @keyframes glowPulse {
         0%,100% { opacity: 0.7; transform: scale(1); }
-        50%      { opacity: 1;   transform: scale(1.05); }
+        50%      { opacity: 1;   transform: scale(1.08); }
+      }
+
+      /* ===== PARTICULES MAGIQUES ===== */
+      .book-particle {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 3;
+        animation: particleFloat linear infinite;
+      }
+      @keyframes particleFloat {
+        0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+        15%  { opacity: 1; }
+        85%  { opacity: 0.6; }
+        100% { transform: translateY(-260px) translateX(var(--drift)) scale(0.3); opacity: 0; }
+      }
+
+      /* ===== ANIMATION ENTRÉE LIVRE ===== */
+      @keyframes bookEntrance {
+        0%   { opacity: 0; transform: perspective(1800px) rotateX(18deg) translateY(50px) scale(0.92); }
+        100% { opacity: 1; transform: perspective(1800px) rotateX(4deg) translateY(0) scale(1); }
+      }
+      .book-entrance {
+        animation: bookEntrance 1.4s cubic-bezier(0.22,1,0.36,1) forwards;
+      }
+
+      /* ===== DROP CAP ===== */
+      .article-contenu-book p:first-child::first-letter {
+        font-family: 'Cinzel', serif;
+        font-size: 2.8em;
+        font-weight: 900;
+        float: left;
+        line-height: 0.75;
+        margin: 2px 5px 0 0;
+        color: #00c8ff;
+        text-shadow: 0 0 10px rgba(0,200,255,0.3);
+      }
+
+      /* ===== BOUGIE ===== */
+      #candle-wrap {
+        position: absolute;
+        right: -70px;
+        bottom: 20px;
+        z-index: 5;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        pointer-events: none;
+      }
+      .candle-flame {
+        width: 12px;
+        height: 22px;
+        background: radial-gradient(ellipse at 50% 80%, #fff 0%, #ffdd44 30%, #ff8800 70%, transparent 100%);
+        border-radius: 50% 50% 30% 30%;
+        animation: flicker 1.5s ease-in-out infinite alternate;
+        box-shadow: 0 0 12px 4px rgba(255,160,30,0.5), 0 0 30px 10px rgba(255,120,0,0.2);
+        margin-bottom: 2px;
+      }
+      @keyframes flicker {
+        0%   { transform: scaleX(1) scaleY(1) rotate(-2deg); opacity: 0.95; }
+        33%  { transform: scaleX(0.85) scaleY(1.1) rotate(1deg); opacity: 1; }
+        66%  { transform: scaleX(1.1) scaleY(0.95) rotate(-1deg); opacity: 0.9; }
+        100% { transform: scaleX(0.9) scaleY(1.05) rotate(2deg); opacity: 1; }
+      }
+      .candle-body {
+        width: 14px;
+        height: 55px;
+        background: linear-gradient(to right, #f0e8d8, #fff8f0, #e8dcc8);
+        border-radius: 3px 3px 2px 2px;
+        box-shadow: 1px 0 4px rgba(0,0,0,0.2);
+        position: relative;
+      }
+      .candle-body::after {
+        content: '';
+        position: absolute;
+        top: -3px; left: 50%; transform: translateX(-50%);
+        width: 2px; height: 6px;
+        background: #333;
+        border-radius: 1px;
+      }
+      .candle-base {
+        width: 22px;
+        height: 6px;
+        background: linear-gradient(to right, #c8b898, #e8d8b8, #c0b090);
+        border-radius: 2px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      }
+      .candle-glow {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        background: radial-gradient(ellipse, rgba(255,160,30,0.25) 0%, transparent 70%);
+        top: -30px; left: -34px;
+        pointer-events: none;
+        animation: glowFlicker 1.5s ease-in-out infinite alternate;
+      }
+      @keyframes glowFlicker {
+        0%   { opacity: 0.7; transform: scale(1); }
+        100% { opacity: 1; transform: scale(1.15); }
       }
 
       #flipbook-container {
@@ -567,6 +666,13 @@ setTimeout(function(){
                 <div id="marque-page">
                     <span>📖</span>
                 </div>
+                <!-- Bougie décorative -->
+                <div id="candle-wrap">
+                    <div class="candle-glow"></div>
+                    <div class="candle-flame"></div>
+                    <div class="candle-body"></div>
+                    <div class="candle-base"></div>
+                </div>
             </div>
             <button class="book-btn" id="btn-next" onclick="pageFlip.flipNext()">&#8594;</button>
         </div>
@@ -595,6 +701,30 @@ var romans   = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','X
 var tousArticles = [];
 
 function toRoman(n){ return romans[n-1] || String(n); }
+
+function lancerParticules(){
+    var scene = document.getElementById('book-scene');
+    // Supprimer anciennes particules
+    scene.querySelectorAll('.book-particle').forEach(function(p){ p.remove(); });
+    for(var i = 0; i < 18; i++){
+        var p = document.createElement('div');
+        p.className = 'book-particle';
+        var size = 2 + Math.random() * 3.5;
+        var isBlue = Math.random() > 0.5;
+        p.style.cssText = [
+            'width:' + size + 'px',
+            'height:' + size + 'px',
+            'left:' + (15 + Math.random() * 70) + '%',
+            'bottom:' + (10 + Math.random() * 50) + '%',
+            'background:' + (isBlue ? 'rgba(0,200,255,0.7)' : 'rgba(201,168,76,0.7)'),
+            'box-shadow: 0 0 ' + (size*2) + 'px ' + (isBlue ? 'rgba(0,200,255,0.5)' : 'rgba(201,168,76,0.5)'),
+            'animation-duration:' + (3 + Math.random() * 5) + 's',
+            'animation-delay:' + (Math.random() * 6) + 's',
+            '--drift:' + (Math.random() * 60 - 30) + 'px'
+        ].join(';');
+        scene.appendChild(p);
+    }
+}
 
 function extractCategorie(message) {
     var m = message.toLowerCase();
@@ -782,6 +912,13 @@ function afficherLivre(articles){
     var H = Math.round(W * 1.45);
 
     document.getElementById('book-scene').style.display='flex';
+
+    // Animation entrée + particules
+    var fc = document.getElementById('flipbook-container');
+    fc.classList.remove('book-entrance');
+    void fc.offsetWidth;
+    fc.classList.add('book-entrance');
+    lancerParticules();
 
     pageFlip = new St.PageFlip(document.getElementById('flipbook'), {
         width: W, height: H,
