@@ -247,12 +247,12 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
       var d = new Date(year, month, 1);
       while (d.getMonth() === month) {
         var day = d.getDay();
-        // Jeudi (4) → 21h00, Samedi (6) → 19h00
+        // Jeudi (4) → 21h00, Samedi (6) → 17h00
         if (day === 4 || day === 6) {
           var isJeudi = day === 4;
           rows.push({
             dateObj: new Date(d),
-            heure: isJeudi ? '21h00' : '19h00',
+            heure: isJeudi ? '21h00' : '17h00',
             sujet: 'Présentation de société E-estate',
             intervenant: 'Hoarau Johnny',
             lien: isJeudi ? ZOOM_JEUDI : ZOOM_SAMEDI,

@@ -244,7 +244,7 @@ const _sb = window.supabase.createClient(
     <!-- Samedi -->
     <div class="card" style="text-align:center; min-width:260px; flex:1; max-width:340px;">
       <div style="margin-bottom:12px;"><i class="fa-solid fa-calendar-check" style="font-size:2.2rem;color:#c9a84c;filter:drop-shadow(0 0 10px rgba(201,168,76,0.6));"></i></div>
-      <h3 style="color:#c9a84c;">Samedi — 19h00</h3>
+      <h3 style="color:#c9a84c;">Samedi — 17h00</h3>
       <p style="color:#aaa; font-size:0.9rem; margin:8px 0;">Présentation E-estate</p>
       <p id="countdown-saturday" style="color:#c9a84c; font-size:1.3rem; font-weight:700; margin:12px 0;">--:--:--</p>
       <a href="https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1" target="_blank"
@@ -280,8 +280,8 @@ function updateCountdowns() {
     (hT > 23 ? Math.floor(hT/24) + 'j ' + (hT%24) : hT) + 'h ' +
     String(mT).padStart(2,'0') + 'min ' + String(sT).padStart(2,'0') + 'sec';
 
-  // Samedi = 6, 19h00
-  var nextSaturday = getNextDay(6, 19, 0);
+  // Samedi = 6, 17h00
+  var nextSaturday = getNextDay(6, 17, 0);
   var diffS = nextSaturday - now;
   var hS = Math.floor(diffS / 3600000);
   var mS = Math.floor((diffS % 3600000) / 60000);
