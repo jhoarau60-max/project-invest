@@ -356,36 +356,41 @@
       .journal-filtres {
         display: flex;
         justify-content: center;
-        gap: 10px;
+        gap: 0;
         flex-wrap: wrap;
-        margin-bottom: 24px;
+        margin-bottom: 28px;
+        border-bottom: 1px solid rgba(201,168,76,0.2);
+        padding-bottom: 0;
       }
       .filtre-btn {
         display: flex;
         align-items: center;
         gap: 7px;
-        padding: 7px 16px;
-        border-radius: 20px;
-        border: 1px solid rgba(201,168,76,0.4);
-        background: rgba(201,168,76,0.05);
-        color: rgba(201,168,76,0.7);
+        padding: 11px 22px;
+        border: none;
+        border-bottom: 3px solid transparent;
+        background: transparent;
+        color: rgba(201,168,76,0.5);
         cursor: pointer;
         font-family: 'Cinzel', serif;
-        font-size: 0.68rem;
-        letter-spacing: 1px;
-        transition: all 0.2s;
+        font-size: 0.7rem;
+        letter-spacing: 1.5px;
+        transition: all 0.25s;
+        margin-bottom: -1px;
+        text-transform: uppercase;
       }
-      .filtre-btn img {
-        width: 20px; height: 20px;
+      .filtre-btn .dot {
+        width: 8px; height: 8px;
         border-radius: 50%;
-        object-fit: cover;
+        display: inline-block;
       }
-      .filtre-btn.actif, .filtre-btn:hover {
-        background: rgba(201,168,76,0.18);
-        border-color: #c9a84c;
-        color: #c9a84c;
-        box-shadow: 0 0 12px rgba(201,168,76,0.25);
-      }
+      .filtre-btn:hover { color: rgba(201,168,76,0.85); }
+      .filtre-btn.actif { color: #c9a84c; border-bottom-color: #c9a84c; }
+      .filtre-btn[data-cat="tous"] .dot    { background: #c9a84c; }
+      .filtre-btn[data-cat="estate"] .dot  { background: #2ecc71; }
+      .filtre-btn[data-cat="smart"] .dot   { background: #3498db; }
+      .filtre-btn[data-cat="mlm"] .dot     { background: #e67e22; }
+      .filtre-btn[data-cat="arbcore"] .dot { background: #9b59b6; }
 
       /* ===== MESSAGES TELEGRAM ===== */
       .telegram-section-title { font-family:'Cinzel',serif; font-size:1.1rem; color:#c9a84c; text-align:center; margin:40px 0 24px; letter-spacing:2px; }
@@ -468,11 +473,11 @@ setTimeout(function(){
 
     <!-- FILTRES -->
     <div class="journal-filtres">
-        <button class="filtre-btn actif" onclick="filtrer('tous',this)">📋 Tous</button>
-        <button class="filtre-btn" onclick="filtrer('estate',this)"><img src="logo-estate.png" alt=""> E-Estate</button>
-        <button class="filtre-btn" onclick="filtrer('smart',this)"><img src="logo-smarts.png" alt=""> Smart Bot</button>
-        <button class="filtre-btn" onclick="filtrer('mlm',this)"><img src="logo-mlm.png" alt=""> MLM</button>
-        <button class="filtre-btn" onclick="filtrer('arbcore',this)">⚙️ ArbCore</button>
+        <button class="filtre-btn actif" data-cat="tous" onclick="filtrer('tous',this)"><span class="dot"></span> Tous</button>
+        <button class="filtre-btn" data-cat="estate" onclick="filtrer('estate',this)"><span class="dot"></span> E-Estate</button>
+        <button class="filtre-btn" data-cat="smart" onclick="filtrer('smart',this)"><span class="dot"></span> Smart Bot</button>
+        <button class="filtre-btn" data-cat="mlm" onclick="filtrer('mlm',this)"><span class="dot"></span> MLM</button>
+        <button class="filtre-btn" data-cat="arbcore" onclick="filtrer('arbcore',this)"><span class="dot"></span> ArbCore</button>
     </div>
 
     <!-- LIVRE -->
