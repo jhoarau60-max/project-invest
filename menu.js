@@ -269,14 +269,18 @@
 
     /* BARRE SOCIALE FLOTTANTE */
     #social-float {
-      position: fixed;
-      right: 18px;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+      position: fixed !important;
+      right: 18px !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      left: auto !important;
+      bottom: auto !important;
+      margin: 0 !important;
+      z-index: 9999 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 10px !important;
+      width: auto !important;
     }
     .sfloat-btn {
       width: 46px; height: 46px;
