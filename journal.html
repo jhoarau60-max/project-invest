@@ -617,11 +617,12 @@ function chargerTelegramPourLivre() {
                     var message = row[messageIdx] || '';
                     var type = row[typeIdx] || '';
                     var imgUrl = row[urlIdx] || '';
-                    if (!date || new Date(date) < sevenDaysAgo) continue;
-                    if (type === 'image' && imgUrl) {
-                        articles.push({ titre: '📱 ' + (auteur||'Telegram'), contenu: message.replace(/^#journal\s*/i,'').trim(), categorie:'general', image_url: imgUrl, created_at: date, epingle: false });
+                    if (date && new Date(date) < sevenDaysAgo) continue;
+                    var dateAffichage = date || new Date().toISOString();
+                    if (type.toLowerCase() === 'image' && imgUrl) {
+                        articles.push({ titre: '📱 ' + (auteur||'Telegram'), contenu: message.replace(/^#journal\s*/i,'').trim(), categorie:'general', image_url: imgUrl, created_at: dateAffichage, epingle: false });
                     } else if (message && message.trim().toLowerCase().indexOf('#journal') === 0) {
-                        articles.push({ titre: '📱 ' + (auteur||'Telegram'), contenu: message.replace(/^#journal\s*/i,'').trim(), categorie:'general', image_url: null, created_at: date, epingle: false });
+                        articles.push({ titre: '📱 ' + (auteur||'Telegram'), contenu: message.replace(/^#journal\s*/i,'').trim(), categorie:'general', image_url: null, created_at: dateAffichage, epingle: false });
                     }
                 }
                 resolve(articles);
