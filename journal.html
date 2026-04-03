@@ -347,21 +347,38 @@
 
       /* ===== PAGES INTÉRIEURES ===== */
       .page-header-strip {
-        display: flex;
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
         align-items: center;
-        border-bottom: 1px solid rgba(160,110,30,0.4);
-        padding-bottom: 6px;
+        border-bottom: none;
+        padding-bottom: 8px;
         margin-bottom: 12px;
+        background: linear-gradient(to right, transparent, rgba(160,110,30,0.5) 20%, rgba(160,110,30,0.5) 80%, transparent);
+        background-size: 100% 1px;
+        background-repeat: no-repeat;
+        background-position: bottom;
       }
       .page-name-book {
         font-family: 'Cinzel', serif;
-        font-size: 0.58rem;
+        font-size: 0.6rem;
         letter-spacing: 2px;
         text-transform: uppercase;
-        color: rgba(160,110,30,0.7);
+        color: rgba(130,85,20,0.9);
+        font-weight: 700;
       }
-      .page-num-book { font-size: 0.6rem; color: rgba(160,110,30,0.5); font-family: 'EB Garamond', serif; }
+      .page-ornament {
+        font-size: 0.75rem;
+        color: rgba(160,110,30,0.6);
+        padding: 0 6px;
+        line-height: 1;
+      }
+      .page-num-book {
+        font-size: 0.6rem;
+        color: rgba(130,85,20,0.8);
+        font-family: 'Cinzel', serif;
+        font-weight: 700;
+        text-align: right;
+      }
 
       /* Article dans la page */
       .article-block { margin-bottom: 14px; }
@@ -811,6 +828,7 @@ function buildArticlePage(articles, idx, pageNum, totalPages){
         + '<div class="page-border"></div>'
         + '<div class="page-header-strip">'
         + '<span class="page-name-book">P inves\'T &mdash; Journal</span>'
+        + '<span class="page-ornament">&#10022;</span>'
         + '<span class="page-num-book">Page ' + toRoman(pageNum) + '</span>'
         + '</div>';
 
