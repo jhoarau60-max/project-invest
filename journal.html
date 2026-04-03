@@ -601,10 +601,10 @@ function chargerTelegramPourLivre() {
             .then(function(data) {
                 var rows = data.values || [];
                 if (rows.length < 2) { resolve([]); return; }
-                var headers = rows[0];
-                var dateIdx = headers.indexOf('Date');
-                var auteurIdx = headers.indexOf('Auteur');
-                var messageIdx = headers.indexOf('Message');
+                var headers = rows[0].map(function(h){ return h.toLowerCase().trim(); });
+                var dateIdx = headers.indexOf('date');
+                var auteurIdx = headers.indexOf('auteur');
+                var messageIdx = headers.indexOf('message');
                 var typeIdx = headers.indexOf('type');
                 var urlIdx = headers.indexOf('url');
                 var sevenDaysAgo = new Date();
