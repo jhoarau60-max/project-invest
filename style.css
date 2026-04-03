@@ -360,41 +360,44 @@ nav ul li.has-submenu .submenu li a.active {
 }
 
 .hero h1 {
-    font-size: 3rem;
-    color: #3ab8d4;
-    text-shadow: none;
-    -webkit-text-stroke: 0.4px rgba(255,255,255,0.6);
+    font-size: 3.2rem;
+    background: linear-gradient(135deg, #ffffff 0%, #00c8ff 55%, #7850ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     margin-bottom: 20px;
-    text-shadow: none;
-    -webkit-text-stroke: 0.4px rgba(255,255,255,0.6);
+    line-height: 1.2;
+    filter: drop-shadow(0 0 30px rgba(0,200,255,0.3));
 }
 
 .hero p {
-    font-size: 1.2rem;
-    max-width: 700px;
-    margin: 0 auto 30px;
-    color: #e8f4ff;
-    line-height: 1.7;
+    font-size: 1.1rem;
+    max-width: 650px;
+    margin: 0 auto 36px;
+    color: rgba(220,240,255,0.85);
+    line-height: 1.8;
 }
 
 .btn {
     display: inline-block;
-    background: linear-gradient(135deg, #2a7abf, #3ab8d4);
-    color: #122035;
-    padding: 14px 32px;
+    background: linear-gradient(135deg, #0080c0, #00c8ff);
+    color: #020a18;
+    padding: 14px 36px;
     text-decoration: none;
     font-weight: 700;
-    border-radius: 6px;
-    font-size: 1rem;
-    transition: all 0.3s;
-    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0,200,255,0.4);
     cursor: pointer;
+    box-shadow: 0 0 20px rgba(0,200,255,0.3), 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .btn:hover {
-    background: linear-gradient(135deg, #3ab8d4, #2a7abf);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(0,200,255,0.5);
+    background: linear-gradient(135deg, #00a0e0, #40d8ff);
+    transform: translateY(-3px);
+    box-shadow: 0 0 40px rgba(0,200,255,0.6), 0 8px 25px rgba(0,0,0,0.4);
 }
 
 .btn-outline {
@@ -419,11 +422,13 @@ nav ul li.has-submenu .submenu li a.active {
 
 .section-title {
     font-size: 2rem;
-    color: #3ab8d4;
+    background: linear-gradient(135deg, #ffffff 0%, #00c8ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     margin-bottom: 10px;
     text-align: center;
-    text-shadow: none;
-    -webkit-text-stroke: 0.4px rgba(255,255,255,0.6);
+    font-weight: 700;
 }
 
 .section-subtitle {
@@ -434,11 +439,12 @@ nav ul li.has-submenu .submenu li a.active {
 }
 
 .divider {
-    width: 120px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(58,184,212,0.7), transparent);
+    width: 180px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00c8ff, #7850ff, #00c8ff, transparent);
     margin: 15px auto 40px;
-    box-shadow: 0 0 6px rgba(58,184,212,0.3);
+    box-shadow: 0 0 12px rgba(0,200,255,0.5);
+    border-radius: 2px;
 }
 
 /* CARDS */
