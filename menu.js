@@ -254,11 +254,15 @@
     .nav-sub li a:hover { color: #00c8ff !important; background: rgba(0,200,255,0.08) !important; }
     .nav-has-sub > a .nav-arrow {
       margin-left: auto !important;
-      font-size: 0.85rem !important;
-      color: #00c8ff !important;
+      font-size: 1rem !important;
+      color: #ffffff !important;
       transition: transform 0.2s !important;
       flex-shrink: 0 !important;
       opacity: 1 !important;
+      width: auto !important;
+      background: rgba(0,200,255,0.25) !important;
+      border-radius: 4px !important;
+      padding: 2px 5px !important;
     }
     .nav-has-sub.open > a .nav-arrow { transform: rotate(90deg) !important; }
 
