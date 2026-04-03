@@ -18,6 +18,10 @@
         80%  { stroke: #00ff99; filter: drop-shadow(0 0 6px #00ff99); }
         100% { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
       }
+      @keyframes glowPulse {
+        0%,100% { opacity:1; box-shadow:0 0 8px #00c8ff; }
+        50% { opacity:0.4; box-shadow:0 0 3px #00c8ff; }
+      }
       @keyframes floatBubble {
         0%   { transform: translateY(0px) translateX(0px); opacity: 0.6; }
         25%  { transform: translateY(-30px) translateX(15px); opacity: 0.8; }
@@ -207,10 +211,16 @@ const _sb = window.supabase.createClient(
 
 <!-- HERO -->
 <section class="hero">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.3);border-radius:30px;padding:6px 18px;margin-bottom:22px;font-size:0.78rem;letter-spacing:2px;color:#00c8ff;text-transform:uppercase;font-weight:600;">
+        <span style="width:7px;height:7px;background:#00c8ff;border-radius:50%;display:inline-block;box-shadow:0 0 8px #00c8ff;animation:glowPulse 2s infinite;"></span>
+        Plateforme d'investissement privée
+    </div>
     <h1 id="welcome-title">Bienvenue sur Project inves'T</h1>
-    <p>Site créé à titre personnel par un investisseur passionné. Rejoignez une communauté de personnes motivées et découvrez des opportunités d'investissement fiables et accessibles à tous.</p>
-    <a href="investissements.html" class="btn">Découvrir les opportunités</a>
-    <a href="https://www.skool.com/academie-invest-3966" target="_blank" class="btn">Rejoindre la communauté</a>
+    <p>Rejoignez une communauté d'investisseurs passionnés. Découvrez des opportunités d'investissement sélectionnées dans l'immobilier tokenisé, le trading algorithmique et le MLM.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:8px;">
+        <a href="investissements.html" class="btn">Découvrir les opportunités</a>
+        <a href="https://www.skool.com/academie-invest-3966" target="_blank" class="btn btn-outline">Rejoindre la communauté</a>
+    </div>
 </section>
 
 <!-- CADRAN PROCHAIN ZOOM -->
