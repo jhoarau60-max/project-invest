@@ -164,7 +164,7 @@ const _sb = window.supabase.createClient(
   var ZOOM_JEUDI = "https://us06web.zoom.us/j/81085168637?pwd=GF0VuD3kpQq8UPoilGrJwj9ubJVQly.1";
   var ZOOM_SAMEDI = "https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1";
 
-  // Vérifie si on est 10 min avant un Zoom (jeudi 21h ou samedi 19h)
+  // Vérifie si on est 10 min avant un Zoom (jeudi 21h ou samedi 17h)
   function checkZoomSoon() {
     var now = new Date();
     var day = now.getDay(); // 0=dim, 4=jeu, 6=sam
@@ -179,8 +179,8 @@ const _sb = window.supabase.createClient(
     var zoomMin = -1, zoomLink = '';
     // Jeudi 21h = 1260min → fenêtre 20h50 à 21h05
     if (day === 4 && totalMin >= 1250 && totalMin < 1265) { zoomMin = 1260; zoomLink = ZOOM_JEUDI; }
-    // Samedi 19h = 1140min → fenêtre 18h50 à 19h05
-    else if (day === 6 && totalMin >= 1130 && totalMin < 1145) { zoomMin = 1140; zoomLink = ZOOM_SAMEDI; }
+    // Samedi 17h = 1020min → fenêtre 16h50 à 17h05
+    else if (day === 6 && totalMin >= 1010 && totalMin < 1025) { zoomMin = 1020; zoomLink = ZOOM_SAMEDI; }
 
     if (zoomMin > 0) {
       var diff = zoomMin - totalMin;
@@ -399,7 +399,7 @@ setInterval(updateCountdowns, 1000);
         <h3>Webinaire — Tous les jeudis & samedis</h3>
         <p>Rejoignez nos webinaires en direct sur Zoom et YouTube. Posez vos questions en temps réel.</p>
         <br>
-        <p style="color:#c9a84c; font-size:1.1rem; font-weight:700;">📅 Jeudis à 21h00 — Samedis à 19h00</p>
+        <p style="color:#c9a84c; font-size:1.1rem; font-weight:700;">📅 Jeudis à 21h00 — Samedis à 17h00</p>
         <br>
         <a href="planning-webinaire.html" class="btn">Voir tout le planning</a>
     </div>
