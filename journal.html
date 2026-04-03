@@ -352,6 +352,41 @@
         z-index: 2;
       }
 
+      /* ===== FILTRES ===== */
+      .journal-filtres {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 24px;
+      }
+      .filtre-btn {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 7px 16px;
+        border-radius: 20px;
+        border: 1px solid rgba(201,168,76,0.4);
+        background: rgba(201,168,76,0.05);
+        color: rgba(201,168,76,0.7);
+        cursor: pointer;
+        font-family: 'Cinzel', serif;
+        font-size: 0.68rem;
+        letter-spacing: 1px;
+        transition: all 0.2s;
+      }
+      .filtre-btn img {
+        width: 20px; height: 20px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      .filtre-btn.actif, .filtre-btn:hover {
+        background: rgba(201,168,76,0.18);
+        border-color: #c9a84c;
+        color: #c9a84c;
+        box-shadow: 0 0 12px rgba(201,168,76,0.25);
+      }
+
       /* ===== MESSAGES TELEGRAM ===== */
       .telegram-section-title { font-family:'Cinzel',serif; font-size:1.1rem; color:#c9a84c; text-align:center; margin:40px 0 24px; letter-spacing:2px; }
       .telegram-msg { border:1px solid rgba(201,168,76,0.2); border-radius:10px; padding:16px 20px; margin-bottom:16px; background:rgba(201,168,76,0.04); }
@@ -431,6 +466,15 @@ setTimeout(function(){
 <div class="section">
 
 
+    <!-- FILTRES -->
+    <div class="journal-filtres">
+        <button class="filtre-btn actif" onclick="filtrer('tous',this)">📋 Tous</button>
+        <button class="filtre-btn" onclick="filtrer('estate',this)"><img src="logo-estate.png" alt=""> E-Estate</button>
+        <button class="filtre-btn" onclick="filtrer('smart',this)"><img src="logo-smarts.png" alt=""> Smart Bot</button>
+        <button class="filtre-btn" onclick="filtrer('mlm',this)"><img src="logo-mlm.png" alt=""> MLM</button>
+        <button class="filtre-btn" onclick="filtrer('arbcore',this)">⚙️ ArbCore</button>
+    </div>
+
     <!-- LIVRE -->
     <div id="book-loading" style="text-align:center;color:#c9a84c;padding:40px;font-family:'EB Garamond',serif;font-style:italic;font-size:1.1rem;">
         Ouverture du livre...
@@ -460,11 +504,40 @@ setTimeout(function(){
 <script src="translator.js"></script>
 
 <script>
-var catBadge = { general:'badge-general', trading:'badge-trading', estate:'badge-estate', mlm:'badge-mlm', portage:'badge-portage', site:'badge-site' };
-var catLabel = { general:'Général', trading:'Bot Trading', estate:'E-Estate', mlm:'MLM Center', portage:'Portage', site:'Site' };
+var catBadge = { general:'badge-general', trading:'badge-trading', estate:'badge-estate', mlm:'badge-mlm', portage:'badge-portage', site:'badge-site', smart:'badge-trading', arbcore:'badge-general' };
+var catLabel = { general:'Général', trading:'Bot Trading', estate:'E-Estate', mlm:'MLM Center', portage:'Portage', site:'Site', smart:'Smart Bot', arbcore:'ArbCore' };
+var catLogo  = { estate:'logo-estate.png', smart:'logo-smarts.png', mlm:'logo-mlm.png', arbcore:'logo-project-invest.jpg', general:'logo-project-invest.jpg' };
 var romans   = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX'];
+var tousArticles = [];
 
 function toRoman(n){ return romans[n-1] || String(n); }
+
+function extractCategorie(message) {
+    var m = message.toLowerCase();
+    if (m.indexOf('#estate') !== -1) return 'estate';
+    if (m.indexOf('#smart') !== -1 || m.indexOf('#trading') !== -1) return 'smart';
+    if (m.indexOf('#mlm') !== -1) return 'mlm';
+    if (m.indexOf('#arbcore') !== -1) return 'arbcore';
+    return 'general';
+}
+
+function nettoyerMessage(message) {
+    return message
+        .replace(/^#journal\s*/i, '')
+        .replace(/#estate\s*/gi, '')
+        .replace(/#smart\s*/gi, '')
+        .replace(/#trading\s*/gi, '')
+        .replace(/#mlm\s*/gi, '')
+        .replace(/#arbcore\s*/gi, '')
+        .trim();
+}
+
+function filtrer(cat, btn) {
+    document.querySelectorAll('.filtre-btn').forEach(function(b){ b.classList.remove('actif'); });
+    btn.classList.add('actif');
+    var articles = cat === 'tous' ? tousArticles : tousArticles.filter(function(a){ return a.categorie === cat; });
+    afficherLivre(articles);
+}
 
 
 function tronquer(txt, max){
@@ -492,10 +565,14 @@ function buildArticlePage(articles, idx, pageNum, totalPages){
     if(a){
         var bc = catBadge[a.categorie]||'badge-general';
         var bl = catLabel[a.categorie]||a.categorie;
+        var logo = catLogo[a.categorie]||'logo-project-invest.jpg';
         var dstr = new Date(a.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
         var pin = a.epingle ? '<span class="epingle-star"> &#9733;</span>' : '';
         html += '<div class="article-block">'
+            + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">'
+            + '<img src="' + logo + '" style="width:28px;height:28px;border-radius:50%;object-fit:cover;border:1px solid rgba(201,168,76,0.4);" onerror="this.style.display=\'none\'">'
             + '<span class="article-cat-badge ' + bc + '">' + bl + '</span>'
+            + '</div>'
             + '<div class="article-titre-book big">' + a.titre + pin + '</div>'
             + '<div class="article-date-book">Le ' + dstr + '</div>';
         if(a.image_url) html += '<img src="' + a.image_url + '" class="article-img-book" alt="" onerror="this.style.display=\'none\'">';
@@ -545,10 +622,12 @@ function chargerTelegramPourLivre() {
                     var imgUrl = row[urlIdx] || '';
                     if (date && new Date(date) < sevenDaysAgo) continue;
                     var dateAffichage = date || new Date().toISOString();
+                    var cat = extractCategorie(message);
+                    var contenu = nettoyerMessage(message);
                     if (type.toLowerCase() === 'image' && imgUrl) {
-                        articles.push({ titre: '📱 ' + (auteur||'Telegram'), contenu: message.replace(/^#journal\s*/i,'').trim(), categorie:'general', image_url: imgUrl, created_at: dateAffichage, epingle: false });
+                        articles.push({ titre: '📱 ' + (auteur||'Telegram'), contenu: contenu, categorie: cat, image_url: imgUrl, created_at: dateAffichage, epingle: false });
                     } else if (message && message.trim().toLowerCase().indexOf('#journal') === 0) {
-                        articles.push({ titre: '📱 ' + (auteur||'Telegram'), contenu: message.replace(/^#journal\s*/i,'').trim(), categorie:'general', image_url: null, created_at: dateAffichage, epingle: false });
+                        articles.push({ titre: '📱 ' + (auteur||'Telegram'), contenu: contenu, categorie: cat, image_url: null, created_at: dateAffichage, epingle: false });
                     }
                 }
                 resolve(articles);
@@ -567,19 +646,31 @@ async function chargerJournal(){
         document.getElementById('book-loading').innerHTML='<span style="color:#ff4466;">Erreur de chargement.</span>';
         return;
     }
-    var articles = (result.data || []).concat(telegramArticles);
-    if(!articles.length){
+    tousArticles = (result.data || []).concat(telegramArticles);
+    if(!tousArticles.length){
         document.getElementById('book-loading').style.display='block';
         document.getElementById('book-loading').innerHTML='<span style="font-family:EB Garamond,serif;font-style:italic;color:rgba(201,168,76,0.6);">Le journal est vide pour le moment...</span>';
         return;
     }
+    afficherLivre(tousArticles);
+}
 
-    var nbPageArticles = articles.length;
+function afficherLivre(articles){
+    if(pageFlip){ pageFlip.destroy(); pageFlip=null; }
+    document.getElementById('book-scene').style.display='none';
+    document.getElementById('book-loading').style.display='none';
+
+    if(!articles.length){
+        document.getElementById('book-loading').style.display='block';
+        document.getElementById('book-loading').innerHTML='<span style="font-family:EB Garamond,serif;font-style:italic;color:rgba(201,168,76,0.6);">Aucun article dans cette section...</span>';
+        return;
+    }
+
     var fb = document.getElementById('flipbook');
     fb.innerHTML = '';
     fb.innerHTML += buildCoverPage(articles);
-    for(var i=0; i<nbPageArticles; i++){
-        fb.innerHTML += buildArticlePage(articles, i, i+2, nbPageArticles+2);
+    for(var i=0; i<articles.length; i++){
+        fb.innerHTML += buildArticlePage(articles, i, i+2, articles.length+2);
     }
     fb.innerHTML += buildBackPage();
 
