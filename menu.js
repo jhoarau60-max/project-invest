@@ -267,48 +267,21 @@
       display: none !important;
     }
 
-    /* BARRE SOCIALE FLOTTANTE */
+    /* RÉSEAUX SOCIAUX SIDEBAR */
     #social-float {
-      position: fixed !important;
-      right: 18px !important;
-      top: 50% !important;
-      transform: translateY(-50%) !important;
-      left: auto !important;
-      bottom: auto !important;
-      margin: 0 !important;
-      z-index: 9999 !important;
-      display: flex !important;
-      flex-direction: column !important;
-      gap: 10px !important;
-      width: auto !important;
+      border-top: 1px solid rgba(0,200,255,0.12) !important;
+      margin-top: auto !important;
+      flex-shrink: 0 !important;
     }
     .sfloat-btn {
-      width: 46px; height: 46px;
+      width: 40px; height: 40px;
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       text-decoration: none;
-      font-size: 1.15rem;
-      transition: all 0.3s ease;
-      position: relative;
-      backdrop-filter: blur(8px);
+      font-size: 1.1rem;
+      transition: all 0.25s ease;
     }
-    .sfloat-btn:hover { transform: scale(1.18) translateX(-3px); }
-    .sfloat-btn .sfloat-tip {
-      position: absolute;
-      right: 54px;
-      white-space: nowrap;
-      background: rgba(5,15,35,0.92);
-      color: #fff;
-      padding: 5px 12px;
-      border-radius: 6px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    .sfloat-btn:hover .sfloat-tip { opacity: 1; }
+    .sfloat-btn:hover { transform: scale(1.15); }
     .sfloat-telegram {
       background: rgba(34,158,217,0.15);
       border: 1px solid rgba(34,158,217,0.6);
@@ -413,24 +386,24 @@
       });
     }
 
-    // Barre sociale flottante
+    // Réseaux sociaux en bas de la sidebar
     var sf = document.createElement('div');
     sf.id = 'social-float';
     sf.innerHTML = `
-      <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" class="sfloat-btn sfloat-telegram" title="Telegram">
-        <i class="fa-brands fa-telegram"></i>
-        <span class="sfloat-tip">Telegram</span>
-      </a>
-      <a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" class="sfloat-btn sfloat-youtube" title="YouTube">
-        <i class="fa-brands fa-youtube"></i>
-        <span class="sfloat-tip">YouTube</span>
-      </a>
-      <a href="https://wa.me/320492931040" target="_blank" class="sfloat-btn sfloat-whatsapp" title="WhatsApp">
-        <i class="fa-brands fa-whatsapp"></i>
-        <span class="sfloat-tip">WhatsApp</span>
-      </a>
+      <div style="padding:8px 12px 4px;font-size:0.65rem;letter-spacing:2px;color:rgba(200,220,255,0.4);text-transform:uppercase;font-weight:600;">Nous suivre</div>
+      <div style="display:flex;gap:8px;padding:0 12px 16px;">
+        <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" class="sfloat-btn sfloat-telegram" title="Telegram">
+          <i class="fa-brands fa-telegram"></i>
+        </a>
+        <a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" class="sfloat-btn sfloat-youtube" title="YouTube">
+          <i class="fa-brands fa-youtube"></i>
+        </a>
+        <a href="https://wa.me/320492931040" target="_blank" class="sfloat-btn sfloat-whatsapp" title="WhatsApp">
+          <i class="fa-brands fa-whatsapp"></i>
+        </a>
+      </div>
     `;
-    document.body.appendChild(sf);
+    nav.appendChild(sf);
 
     // Renommer + icônes + sous-menus
     nav.querySelectorAll('ul > li').forEach(function (li) {
