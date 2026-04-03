@@ -336,7 +336,8 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 
 <!-- STATS -->
 <div class="section">
-    <div class="arb-stats">
+    <!-- Ligne 1 : 4 cadrans -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:30px 0 16px;">
         <div class="arb-stat">
             <div class="arb-stat-val">1.07%</div>
             <div class="arb-stat-label">Écart net / jour</div>
@@ -353,6 +354,9 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             <div class="arb-stat-val">50$</div>
             <div class="arb-stat-label">Minimum départ</div>
         </div>
+    </div>
+    <!-- Ligne 2 : 1 cadran centré -->
+    <div style="display:flex;justify-content:center;margin-bottom:30px;">
         <div class="arb-stat">
             <div class="arb-stat-val">3–5</div>
             <div class="arb-stat-label">Mois (contrat)</div>
