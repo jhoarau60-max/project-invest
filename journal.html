@@ -596,36 +596,40 @@ function buildBackPage(){
 
 function chargerTelegramPourLivre() {
     return new Promise(function(resolve) {
-        var csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRW8hTQuHFblsW-DUxl7BJvaAuLn0PKKR2o5EdMIVThrMJr7YiZYZaKvCCX653bAnwTPRidH2Hq5lrF/pub?gid=0&single=true&output=csv';
-        Papa.parse(csvUrl, {
-            download: true,
-            header: true,
-            complete: function(results) {
-                var messages = (results.data || []).filter(function(m){
-                    if (!m.Date) return false;
-                    if (m.type === 'image' && m.url) return true;
-                    return m.Message && m.Message.trim().toLowerCase().indexOf('#journal') === 0;
-                });
+        var spreadsheetId = '1-v3xjrj6vCefaLfh5oy5YWATQshU1KS5ciutpFATdZE';
+        var apiKey = 'AIzaSyCD5y6s4DMJXV7FK8r3jy_tLGYp3B2DbYw';
+        var url = 'https://sheets.googleapis.com/v4/spreadsheets/' + spreadsheetId + '/values/Feuille%201?key=' + apiKey;
+        fetch(url)
+            .then(function(r){ return r.json(); })
+            .then(function(data) {
+                var rows = data.values || [];
+                if (rows.length < 2) { resolve([]); return; }
+                var headers = rows[0];
+                var dateIdx = headers.indexOf('Date');
+                var auteurIdx = headers.indexOf('Auteur');
+                var messageIdx = headers.indexOf('Message');
+                var typeIdx = headers.indexOf('type');
+                var urlIdx = headers.indexOf('url');
                 var sevenDaysAgo = new Date();
                 sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-                var recent = messages.filter(function(m){
-                    return new Date(m.Date) >= sevenDaysAgo;
-                });
-                var articles = recent.map(function(m) {
-                    var texte = m.Message.replace(/^#journal\s*/i, '').trim();
-                    return {
-                        titre: '📱 ' + (m.Auteur || 'Telegram'),
-                        contenu: texte,
-                        categorie: 'general',
-                        image_url: (m.type === 'image' && m.url) ? m.url : null,
-                        created_at: m.Date,
-                        epingle: false
-                    };
-                });
+                var articles = [];
+                for (var i = 1; i < rows.length; i++) {
+                    var row = rows[i];
+                    var date = row[dateIdx] || '';
+                    var auteur = row[auteurIdx] || '';
+                    var message = row[messageIdx] || '';
+                    var type = row[typeIdx] || '';
+                    var imgUrl = row[urlIdx] || '';
+                    if (!date || new Date(date) < sevenDaysAgo) continue;
+                    if (type === 'image' && imgUrl) {
+                        articles.push({ titre: '📱 ' + (auteur||'Telegram'), contenu: message.replace(/^#journal\s*/i,'').trim(), categorie:'general', image_url: imgUrl, created_at: date, epingle: false });
+                    } else if (message && message.trim().toLowerCase().indexOf('#journal') === 0) {
+                        articles.push({ titre: '📱 ' + (auteur||'Telegram'), contenu: message.replace(/^#journal\s*/i,'').trim(), categorie:'general', image_url: null, created_at: date, epingle: false });
+                    }
+                }
                 resolve(articles);
-            },
-            error: function() { resolve([]); }
-        });
+            })
+            .catch(function(){ resolve([]); });
     });
 }
 
