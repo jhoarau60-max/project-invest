@@ -260,22 +260,72 @@
     }
     .nav-has-sub.open > a .nav-arrow { transform: rotate(90deg) !important; }
 
-    /* Effet ombre lumineuse sur les boutons du header */
-    /* Boutons sociaux fond blanc couleur spécifique */
-    .social-links a[href*="t.me"] {
-      background: #ffffff !important; color: #229ED9 !important;
-      border-color: rgba(255,255,255,0.75) !important; font-weight: 700 !important;
-    }
-    .social-links a[href*="t.me"] i { color: #229ED9 !important; }
-    .social-links a[href*="youtube"], .social-links a[href*="youtube.com"] {
-      background: #ffffff !important; color: #FF0000 !important;
-      border-color: rgba(255,255,255,0.75) !important; font-weight: 700 !important;
-    }
+    /* Masquer les boutons sociaux texte du header */
+    .social-links a[href*="t.me"],
+    .social-links a[href*="youtube"],
     .social-links a[href*="wa.me"] {
-      background: #ffffff !important; color: #25D366 !important;
-      border-color: rgba(255,255,255,0.75) !important; font-weight: 700 !important;
+      display: none !important;
     }
-    .social-links a[href*="wa.me"] i { color: #25D366 !important; }
+
+    /* BARRE SOCIALE FLOTTANTE */
+    #social-float {
+      position: fixed;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .sfloat-btn {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none;
+      font-size: 1.15rem;
+      transition: all 0.3s ease;
+      position: relative;
+      backdrop-filter: blur(8px);
+    }
+    .sfloat-btn:hover { transform: scale(1.18) translateX(-3px); }
+    .sfloat-btn .sfloat-tip {
+      position: absolute;
+      right: 54px;
+      white-space: nowrap;
+      background: rgba(5,15,35,0.92);
+      color: #fff;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .sfloat-btn:hover .sfloat-tip { opacity: 1; }
+    .sfloat-telegram {
+      background: rgba(34,158,217,0.15);
+      border: 1px solid rgba(34,158,217,0.6);
+      color: #229ED9;
+      box-shadow: 0 0 15px rgba(34,158,217,0.25);
+    }
+    .sfloat-telegram:hover { box-shadow: 0 0 28px rgba(34,158,217,0.55); }
+    .sfloat-youtube {
+      background: rgba(255,0,0,0.12);
+      border: 1px solid rgba(255,60,60,0.6);
+      color: #ff4444;
+      box-shadow: 0 0 15px rgba(255,0,0,0.2);
+    }
+    .sfloat-youtube:hover { box-shadow: 0 0 28px rgba(255,0,0,0.45); }
+    .sfloat-whatsapp {
+      background: rgba(37,211,102,0.12);
+      border: 1px solid rgba(37,211,102,0.6);
+      color: #25D366;
+      box-shadow: 0 0 15px rgba(37,211,102,0.2);
+    }
+    .sfloat-whatsapp:hover { box-shadow: 0 0 28px rgba(37,211,102,0.45); }
 
     .social-links a[href="parametres.html"]:not(#user-badge) { display: none !important; }
 
@@ -358,6 +408,25 @@
 
       });
     }
+
+    // Barre sociale flottante
+    var sf = document.createElement('div');
+    sf.id = 'social-float';
+    sf.innerHTML = `
+      <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" class="sfloat-btn sfloat-telegram" title="Telegram">
+        <i class="fa-brands fa-telegram"></i>
+        <span class="sfloat-tip">Telegram</span>
+      </a>
+      <a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" class="sfloat-btn sfloat-youtube" title="YouTube">
+        <i class="fa-brands fa-youtube"></i>
+        <span class="sfloat-tip">YouTube</span>
+      </a>
+      <a href="https://wa.me/320492931040" target="_blank" class="sfloat-btn sfloat-whatsapp" title="WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span class="sfloat-tip">WhatsApp</span>
+      </a>
+    `;
+    document.body.appendChild(sf);
 
     // Renommer + icônes + sous-menus
     nav.querySelectorAll('ul > li').forEach(function (li) {
