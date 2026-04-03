@@ -26,7 +26,7 @@
         background:rgba(0,200,255,0.05); color:#aaa; transition:all 0.25s;
       }
       .cat-tab:hover { border-color:#00c8ff; color:#fff; }
-      .cat-tab.active { background:#00c8ff; border-color:#00c8ff; color:#020a18; box-shadow:0 0 16px rgba(0,200,255,0.5); }
+      .cat-tab.active { background:#00c8ff; border-color:#00c8ff; color:#ffffff; box-shadow:0 0 16px rgba(0,200,255,0.5); }
       input[type=range] {
         -webkit-appearance:none; width:100%; height:8px;
         background:linear-gradient(to right,#00c8ff var(--val,50%),rgba(0,200,255,0.15) var(--val,50%));
@@ -62,7 +62,7 @@
         cursor:pointer; border:2px solid rgba(0,200,255,0.3);
         background:rgba(0,200,255,0.05); color:#aaa; transition:all 0.2s;
       }
-      .cat-select-btn.selected { background:#00c8ff; border-color:#00c8ff; color:#020a18; }
+      .cat-select-btn.selected { background:#00c8ff; border-color:#00c8ff; color:#ffffff; }
     </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -101,7 +101,7 @@ setTimeout(function(){ _sb.auth.getSession().then(function(r){ if(!r.data.sessio
             <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="background:#229ED9;color:#fff;border-color:#229ED9;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-telegram"></i> Telegram</a>
             <a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" style="background:#FF0000;color:#fff;border-color:#FF0000;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;">&#9654; YouTube</a>
             <a href="https://wa.me/320492931040" target="_blank" style="background:#25D366;color:#fff;border-color:#25D366;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-            <a href="#" onclick="_sb.auth.signOut().then(function(){window.location.href='index.html'})" style="background:#00c8ff;color:#020a18;border-color:#00c8ff;font-weight:700;">&#9211; Déconnexion</a>
+            <a href="#" onclick="_sb.auth.signOut().then(function(){window.location.href='index.html'})" style="background:#00c8ff;color:#ffffff;border-color:#00c8ff;font-weight:700;">&#9211; Déconnexion</a>
         </div>
     </div>
     <nav>
@@ -187,7 +187,7 @@ setTimeout(function(){ _sb.auth.getSession().then(function(r){ if(!r.data.sessio
         </div>
 
         <button type="button" id="avis-submit" onclick="soumettreAvis()"
-            style="width:100%;background:#c9a84c;color:#020a18;border:none;border-radius:8px;padding:12px;font-size:1rem;font-weight:700;cursor:pointer;transition:all 0.3s;box-shadow:0 0 14px rgba(201,168,76,0.4);">
+            style="width:100%;background:#c9a84c;color:#ffffff;border:none;border-radius:8px;padding:12px;font-size:1rem;font-weight:700;cursor:pointer;transition:all 0.3s;box-shadow:0 0 14px rgba(201,168,76,0.4);">
             <i class="fa-solid fa-paper-plane" style="margin-right:8px;"></i>Publier mon avis
         </button>
         <div id="avis-msg" style="text-align:center;margin-top:12px;font-size:0.88rem;display:none;"></div>
