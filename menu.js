@@ -254,17 +254,18 @@
     .nav-sub li a:hover { color: #00c8ff !important; background: rgba(0,200,255,0.08) !important; }
     .nav-has-sub > a .nav-arrow {
       margin-left: auto !important;
-      font-size: 1rem !important;
-      color: #ffffff !important;
-      transition: transform 0.2s !important;
+      font-size: 1.3rem !important;
+      line-height: 1 !important;
+      color: #00c8ff !important;
+      font-weight: 300 !important;
+      transition: transform 0.2s, color 0.2s !important;
       flex-shrink: 0 !important;
-      opacity: 1 !important;
-      width: auto !important;
-      background: rgba(0,200,255,0.25) !important;
-      border-radius: 4px !important;
-      padding: 2px 5px !important;
+      display: inline-block !important;
     }
-    .nav-has-sub.open > a .nav-arrow { transform: rotate(90deg) !important; }
+    .nav-has-sub.open > a .nav-arrow {
+      transform: rotate(90deg) !important;
+      color: #ffffff !important;
+    }
 
     /* Masquer les boutons sociaux texte du header */
     .social-links a[href*="t.me"],
@@ -441,8 +442,9 @@
         li.classList.add('nav-has-sub');
 
         // Flèche
-        var arrow = document.createElement('i');
-        arrow.className = 'nav-arrow fa-solid fa-chevron-right';
+        var arrow = document.createElement('span');
+        arrow.className = 'nav-arrow';
+        arrow.textContent = '›';
         a.appendChild(arrow);
 
         // Liste enfants
