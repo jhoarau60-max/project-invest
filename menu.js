@@ -50,7 +50,7 @@
   var SUB_ITEMS = {
     'arbcore.html': [
       { href: 'arbcore.html',    label: 'ArbCore',              icon: 'fa-chart-line' },
-      { href: 'https://acrobat.adobe.com/id/urn:aaid:sc:EU:e912d680-b12a-4dab-9fe9-c506fcc115d8', label: 'Documentation PDF', icon: 'fa-file-pdf' },
+      { href: 'pdf-arbcore.html',  label: 'Documentation PDF', icon: 'fa-file-pdf' },
       { href: 'videos-arbcore.html',                             label: 'Vidéo',                icon: 'fa-video' },
     ],
     'e-state-immobilier.html': [
