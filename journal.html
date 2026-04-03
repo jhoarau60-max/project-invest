@@ -590,7 +590,10 @@ function buildArticlePage(articles, idx, pageNum, totalPages){
             + '<div class="article-titre-book big">' + a.titre + pin + '</div>'
             + '<div class="article-date-book">Le ' + dstr + '</div>';
         if(a.image_url) html += '<img src="' + a.image_url + '" class="article-img-book" alt="" onerror="this.style.display=\'none\'">';
-        var contenuFormate = (a.contenu||'').split(/\n+/).map(function(p){ return p.trim(); }).filter(function(p){ return p.length > 0; }).map(function(p){ return '<p>' + p + '</p>'; }).join('');
+        var contenuFormate = (a.contenu||'').split(/\n+/).map(function(p){ return p.trim(); }).filter(function(p){ return p.length > 0; }).map(function(p){
+            p = p.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" style="color:#8b4513;text-decoration:underline;word-break:break-all;">$1</a>');
+            return '<p>' + p + '</p>';
+        }).join('');
         html += '<div class="article-contenu-book">' + contenuFormate + '</div>'
             + '</div>';
     }
