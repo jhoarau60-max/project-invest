@@ -332,6 +332,42 @@
       .page-back .page-inner::before,
       .page-back .page-inner::after { color: rgba(100,70,20,0.4); }
 
+      /* ===== MARQUE-PAGE ===== */
+      #marque-page {
+        position: absolute;
+        top: -38px;
+        right: 18%;
+        width: 36px;
+        z-index: 200;
+        pointer-events: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      #marque-page::before {
+        content: '';
+        display: block;
+        width: 36px;
+        height: 60px;
+        background: linear-gradient(160deg, #00c8ff 0%, #1a7fdb 60%, #0050a0 100%);
+        border-radius: 3px 3px 0 0;
+        box-shadow: 2px 2px 8px rgba(0,0,0,0.4), inset 0 0 8px rgba(255,255,255,0.1);
+      }
+      #marque-page::after {
+        content: '';
+        display: block;
+        width: 0;
+        height: 0;
+        border-left: 18px solid transparent;
+        border-right: 18px solid transparent;
+        border-top: 14px solid #0050a0;
+      }
+      #marque-page span {
+        position: absolute;
+        top: 14px;
+        font-size: 1.1rem;
+      }
+
       /* ===== NAVIGATION ===== */
       #book-row {
         display: flex;
@@ -527,6 +563,10 @@ setTimeout(function(){
             <button class="book-btn" id="btn-prev" onclick="pageFlip.flipPrev()">&#8592;</button>
             <div id="flipbook-container">
                 <div id="flipbook"></div>
+                <!-- Marque-page décoratif -->
+                <div id="marque-page">
+                    <span>📖</span>
+                </div>
             </div>
             <button class="book-btn" id="btn-next" onclick="pageFlip.flipNext()">&#8594;</button>
         </div>
