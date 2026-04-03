@@ -326,10 +326,22 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 
 <!-- HERO -->
 <div class="arb-hero">
-    <div class="arb-logo-wrap">
-        <span>⚡</span>
+    <!-- Logo ArbCore SVG -->
+    <div style="margin-bottom:18px;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 70" width="260" height="70">
+        <defs>
+          <filter id="arb-glow"><feGaussianBlur stdDeviation="2" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <!-- Icône : grand triangle cyan -->
+        <polygon points="30,8 52,48 8,48" fill="#00c8ff" filter="url(#arb-glow)"/>
+        <!-- Découpe intérieure (triangle blanc/fond) -->
+        <polygon points="30,18 46,44 14,44" fill="#070e1a"/>
+        <!-- Petit triangle solide en bas -->
+        <polygon points="30,28 40,44 20,44" fill="#00c8ff"/>
+        <!-- Texte ARBCORE -->
+        <text x="64" y="46" font-family="Arial Black, sans-serif" font-size="28" font-weight="900" fill="#ffffff" letter-spacing="2" filter="url(#arb-glow)">ARBCORE</text>
+      </svg>
     </div>
-    <div class="arb-title">ARBCORE</div>
     <div class="arb-subtitle">Arbitrage Crypto — Ouvert &amp; Automatisé</div>
     <div class="legal-badge">&#9989; Société licenciée — Hong Kong</div>
 </div>
