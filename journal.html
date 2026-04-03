@@ -277,6 +277,12 @@
         background: rgba(100,60,20,0.3);
         border-radius: 3px;
       }
+      .article-contenu-book p {
+        margin: 0 0 10px 0;
+      }
+      .article-contenu-book p:last-child {
+        margin-bottom: 0;
+      }
       .article-img-book {
         width: 100%; max-height: 320px;
         object-fit: contain; border-radius: 4px;
@@ -583,7 +589,8 @@ function buildArticlePage(articles, idx, pageNum, totalPages){
             + '<div class="article-titre-book big">' + a.titre + pin + '</div>'
             + '<div class="article-date-book">Le ' + dstr + '</div>';
         if(a.image_url) html += '<img src="' + a.image_url + '" class="article-img-book" alt="" onerror="this.style.display=\'none\'">';
-        html += '<div class="article-contenu-book">' + (a.contenu||'') + '</div>'
+        var contenuFormate = (a.contenu||'').split(/\n+/).map(function(p){ return p.trim(); }).filter(function(p){ return p.length > 0; }).map(function(p){ return '<p>' + p + '</p>'; }).join('');
+        html += '<div class="article-contenu-book">' + contenuFormate + '</div>'
             + '</div>';
     }
 
