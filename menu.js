@@ -252,17 +252,16 @@
       color: #6a90b0 !important;
     }
     .nav-sub li a:hover { color: #00c8ff !important; background: rgba(0,200,255,0.08) !important; }
-    .nav-has-sub > a i.nav-arrow,
     .nav-has-sub > a .nav-arrow {
       margin-left: auto !important;
-      font-size: 0.75rem !important;
+      font-size: 1.3rem !important;
       line-height: 1 !important;
       color: #00c8ff !important;
+      font-weight: 300 !important;
       transition: transform 0.2s, color 0.2s !important;
       flex-shrink: 0 !important;
       display: inline-block !important;
     }
-    .nav-has-sub.open > a i.nav-arrow,
     .nav-has-sub.open > a .nav-arrow {
       transform: rotate(90deg) !important;
       color: #ffffff !important;
@@ -443,8 +442,9 @@
         li.classList.add('nav-has-sub');
 
         // Flèche
-        var arrow = document.createElement('i');
-        arrow.className = 'nav-arrow fa-solid fa-chevron-right';
+        var arrow = document.createElement('span');
+        arrow.className = 'nav-arrow';
+        arrow.textContent = '›';
         a.appendChild(arrow);
 
         // Liste enfants
