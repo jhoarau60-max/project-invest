@@ -48,6 +48,11 @@
 
   // Sous-menus
   var SUB_ITEMS = {
+    'arbcore.html': [
+      { href: 'arbcore.html',    label: 'ArbCore',              icon: 'fa-chart-line' },
+      { href: 'https://acrobat.adobe.com/id/urn:aaid:sc:EU:e912d680-b12a-4dab-9fe9-c506fcc115d8', label: 'Documentation PDF', icon: 'fa-file-pdf' },
+      { href: 'https://arbcore.app/?frenID=IFK2MAN6',           label: 'S\'inscrire',          icon: 'fa-arrow-right-to-bracket' },
+    ],
     'e-state-immobilier.html': [
       { href: 'bibliotheque-immobilier.html', label: 'Biens Immobiliers', icon: 'fa-building' },
       { href: 'videos-immobilier.html',       label: 'Outils Vidéo',     icon: 'fa-video' },
