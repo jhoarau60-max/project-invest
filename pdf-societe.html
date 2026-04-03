@@ -125,7 +125,8 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
     <h2 class="section-title">Documents Disponibles</h2>
     <div class="divider"></div>
 
-    <div class="cards-grid">
+    <!-- Ligne 1 : 4 cartes -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-bottom:24px;">
         <div class="card" style="text-align:center;">
             <div style="width:64px;height:64px;border-radius:50%;background:rgba(0,200,255,0.1);border:1px solid rgba(0,200,255,0.35);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 0 18px rgba(0,200,255,0.15);">
               <i class="fa-solid fa-building" style="font-size:1.6rem;color:#00c8ff;filter:drop-shadow(0 0 6px rgba(0,200,255,0.6));"></i>
@@ -133,7 +134,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             <h3>E-state Immobilier</h3>
             <p>Présentation officielle, plan marketing, conditions générales et informations légales.</p>
             <br>
-            <a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:88db548b-52c9-48b9-8593-904d3cd8575e" target="_blank" class="btn" style="font-size:0.85rem; padding:10px 20px;"><i class="fa-solid fa-file-arrow-down"></i> Télécharger PDF</a>
+            <a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:88db548b-52c9-48b9-8593-904d3cd8575e" target="_blank" class="btn" style="font-size:0.85rem;padding:10px 20px;"><i class="fa-solid fa-file-arrow-down"></i> Télécharger PDF</a>
         </div>
         <div class="card" style="text-align:center;">
             <div style="width:64px;height:64px;border-radius:50%;background:rgba(0,200,255,0.1);border:1px solid rgba(0,200,255,0.35);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 0 18px rgba(0,200,255,0.15);">
@@ -142,7 +143,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             <h3>SMART MEV Trading</h3>
             <p>Livre blanc, algorithme de trading, résultats historiques et conditions d'utilisation.</p>
             <br>
-            <a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:bfe30a6a-869e-4a96-8605-e68ee4725afa" target="_blank" class="btn" style="font-size:0.85rem; padding:10px 20px;"><i class="fa-solid fa-file-arrow-down"></i> Télécharger PDF</a>
+            <a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:df45750c-0481-46b2-abaa-80321a7823d1" target="_blank" class="btn" style="font-size:0.85rem;padding:10px 20px;"><i class="fa-solid fa-file-arrow-down"></i> Télécharger PDF</a>
         </div>
         <div class="card" style="text-align:center;">
             <div style="width:64px;height:64px;border-radius:50%;background:rgba(0,200,255,0.1);border:1px solid rgba(0,200,255,0.35);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 0 18px rgba(0,200,255,0.15);">
@@ -151,7 +152,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             <h3>Plan de Rémunération MLM</h3>
             <p>Structure complète du plan de compensation, niveaux, bonus et conditions de parrainage.</p>
             <br>
-            <a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:01bb7d2d-b091-4aa0-97a9-e408b11ff9f5" target="_blank" class="btn" style="font-size:0.85rem; padding:10px 20px;"><i class="fa-solid fa-file-arrow-down"></i> Télécharger PDF</a>
+            <a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:01bb7d2d-b091-4aa0-97a9-e408b11ff9f5" target="_blank" class="btn" style="font-size:0.85rem;padding:10px 20px;"><i class="fa-solid fa-file-arrow-down"></i> Télécharger PDF</a>
         </div>
         <div class="card" style="text-align:center;">
             <div style="width:64px;height:64px;border-radius:50%;background:rgba(0,200,255,0.1);border:1px solid rgba(0,200,255,0.35);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 0 18px rgba(0,200,255,0.15);">
@@ -160,9 +161,21 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             <h3>Portage Salarial</h3>
             <p>Guide complet du portage salarial, avantages fiscaux et conditions de démarrage.</p>
             <br>
-            <a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:7c338d2d-3e84-47ba-bf13-37693e3295fd" target="_blank" class="btn" style="font-size:0.85rem; padding:10px 20px;"><i class="fa-solid fa-file-arrow-down"></i> Télécharger PDF</a>
+            <a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:7c338d2d-3e84-47ba-bf13-37693e3295fd" target="_blank" class="btn" style="font-size:0.85rem;padding:10px 20px;"><i class="fa-solid fa-file-arrow-down"></i> Télécharger PDF</a>
         </div>
-        <div class="card" style="text-align:center;">
+    </div>
+    <!-- Ligne 2 : 3 cartes centrées -->
+    <div style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap;">
+        <div class="card" style="text-align:center;flex:0 1 calc(33% - 16px);min-width:220px;max-width:340px;">
+            <div style="width:64px;height:64px;border-radius:50%;background:rgba(0,200,255,0.1);border:1px solid rgba(0,200,255,0.35);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 0 18px rgba(0,200,255,0.15);">
+              <i class="fa-solid fa-chart-line" style="font-size:1.6rem;color:#00c8ff;filter:drop-shadow(0 0 6px rgba(0,200,255,0.6));"></i>
+            </div>
+            <h3>ArbCore</h3>
+            <p>Présentation du système d'arbitrage crypto, conditions du contrat et plan de rémunération.</p>
+            <br>
+            <a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:e912d680-b12a-4dab-9fe9-c506fcc115d8" target="_blank" class="btn" style="font-size:0.85rem;padding:10px 20px;"><i class="fa-solid fa-file-arrow-down"></i> Télécharger PDF</a>
+        </div>
+        <div class="card" style="text-align:center;flex:0 1 calc(33% - 16px);min-width:220px;max-width:340px;">
             <div style="width:64px;height:64px;border-radius:50%;background:rgba(0,200,255,0.1);border:1px solid rgba(0,200,255,0.35);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 0 18px rgba(0,200,255,0.15);">
               <i class="fa-solid fa-headset" style="font-size:1.6rem;color:#00c8ff;filter:drop-shadow(0 0 6px rgba(0,200,255,0.6));"></i>
             </div>
@@ -174,14 +187,14 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                 <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" class="btn" style="font-size:0.85rem;padding:10px 20px;background:#229ED9;border-color:#229ED9;"><i class="fa-brands fa-telegram"></i> Telegram</a>
             </div>
         </div>
-        <div class="card" style="text-align:center;">
+        <div class="card" style="text-align:center;flex:0 1 calc(33% - 16px);min-width:220px;max-width:340px;">
             <div style="width:64px;height:64px;border-radius:50%;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 0 18px rgba(201,168,76,0.15);">
               <i class="fa-solid fa-calculator" style="font-size:1.6rem;color:#c9a84c;filter:drop-shadow(0 0 6px rgba(201,168,76,0.6));"></i>
             </div>
             <h3>Calculateur de Rendement</h3>
             <p>Estimez vos gains avec le calcul simple ou à intérêt composé, par jour, mois ou année.</p>
             <br>
-            <a href="#calculateur" class="btn" style="font-size:0.85rem; padding:10px 20px;"><i class="fa-solid fa-arrow-down"></i> Utiliser</a>
+            <a href="#calculateur" class="btn" style="font-size:0.85rem;padding:10px 20px;"><i class="fa-solid fa-arrow-down"></i> Utiliser</a>
         </div>
     </div>
 
