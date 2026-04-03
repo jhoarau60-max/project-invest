@@ -47,6 +47,35 @@
         50%      { opacity: 1;   transform: scale(1.08); }
       }
 
+      /* ===== INTÉRIEUR COUVERTURE ===== */
+      #inside-cover {
+        position: absolute;
+        top: 0; left: 0;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(135deg, #1a1230 0%, #0e0a20 50%, #12102a 100%);
+        border-right: 1px solid rgba(201,168,76,0.15);
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      #inside-cover::before {
+        content: '';
+        position: absolute;
+        inset: 12px;
+        border: 1px solid rgba(201,168,76,0.15);
+        border-radius: 2px;
+      }
+      #inside-cover::after {
+        content: '✦';
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%,-50%);
+        font-size: 3rem;
+        color: rgba(201,168,76,0.08);
+        letter-spacing: 0;
+      }
+
       /* ===== PARTICULES MAGIQUES ===== */
       .book-particle {
         position: absolute;
@@ -58,8 +87,8 @@
       @keyframes particleFloat {
         0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
         15%  { opacity: 1; }
-        85%  { opacity: 0.6; }
-        100% { transform: translateY(-260px) translateX(var(--drift)) scale(0.3); opacity: 0; }
+        85%  { opacity: 0.7; }
+        100% { transform: translateY(-280px) translateX(var(--drift)) scale(0.2); opacity: 0; }
       }
 
       /* ===== ANIMATION ENTRÉE LIVRE ===== */
@@ -661,6 +690,8 @@ setTimeout(function(){
         <div id="book-row">
             <button class="book-btn" id="btn-prev" onclick="pageFlip.flipPrev()">&#8592;</button>
             <div id="flipbook-container">
+                <!-- Intérieur couverture gauche -->
+                <div id="inside-cover"></div>
                 <div id="flipbook"></div>
                 <!-- Marque-page décoratif -->
                 <div id="marque-page">
@@ -702,7 +733,7 @@ function lancerParticules(){
     for(var i = 0; i < 18; i++){
         var p = document.createElement('div');
         p.className = 'book-particle';
-        var size = 2 + Math.random() * 3.5;
+        var size = 3 + Math.random() * 5;
         var isBlue = Math.random() > 0.5;
         p.style.cssText = [
             'width:' + size + 'px',
