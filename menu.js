@@ -274,11 +274,11 @@
       flex-shrink: 0 !important;
     }
     .sfloat-btn {
-      width: 46px; height: 46px;
+      width: 58px; height: 58px;
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       text-decoration: none;
-      font-size: 1.3rem;
+      font-size: 1.7rem;
       transition: all 0.25s ease;
     }
     .sfloat-btn:hover { transform: scale(1.15); }
