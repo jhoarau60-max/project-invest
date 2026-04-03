@@ -554,7 +554,7 @@ function buildCoverPage(articles){
         + '</div></div>';
 }
 
-function buildArticlePage(articles, startIdx, pageNum, totalPages){
+function buildArticlePage(articles, idx, pageNum, totalPages){
     var html = '<div class="page"><div class="page-inner">'
         + '<div class="page-border"></div>'
         + '<div class="page-header-strip">'
@@ -562,7 +562,7 @@ function buildArticlePage(articles, startIdx, pageNum, totalPages){
         + '<span class="page-num-book">Page ' + toRoman(pageNum) + '</span>'
         + '</div>';
 
-    var a = articles[startIdx];
+    var a = articles[idx];
     if(a){
         var bc = catBadge[a.categorie]||'badge-general';
         var bl = catLabel[a.categorie]||a.categorie;
@@ -572,23 +572,8 @@ function buildArticlePage(articles, startIdx, pageNum, totalPages){
             + '<span class="article-cat-badge ' + bc + '">' + bl + '</span>'
             + '<div class="article-titre-book big">' + a.titre + pin + '</div>'
             + '<div class="article-date-book">Le ' + dstr + '</div>';
-        if(a.image_url) html += '<img src="' + a.image_url + '" class="article-img-book" alt="">';
+        if(a.image_url) html += '<img src="' + a.image_url + '" class="article-img-book" alt="" onerror="this.style.display=\'none\'">';
         html += '<div class="article-contenu-book">' + (a.contenu||'') + '</div>'
-            + '</div>';
-    }
-
-    var b = articles[startIdx + 1];
-    if(b){
-        var bc2 = catBadge[b.categorie]||'badge-general';
-        var bl2 = catLabel[b.categorie]||b.categorie;
-        var dstr2 = new Date(b.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
-        var pin2 = b.epingle ? '<span class="epingle-star"> &#9733;</span>' : '';
-        html += '<div class="article-sep">&#10022; &#10022; &#10022;</div>'
-            + '<div class="article-block">'
-            + '<span class="article-cat-badge ' + bc2 + '">' + bl2 + '</span>'
-            + '<div class="article-titre-book">' + b.titre + pin2 + '</div>'
-            + '<div class="article-date-book">Le ' + dstr2 + '</div>'
-            + '<div class="article-contenu-book">' + tronquer(b.contenu, 200) + '</div>'
             + '</div>';
     }
 
@@ -662,12 +647,12 @@ async function chargerJournal(){
         return;
     }
 
-    var nbPageArticles = Math.ceil(articles.length / 2);
+    var nbPageArticles = articles.length;
     var fb = document.getElementById('flipbook');
     fb.innerHTML = '';
     fb.innerHTML += buildCoverPage(articles);
     for(var i=0; i<nbPageArticles; i++){
-        fb.innerHTML += buildArticlePage(articles, i*2, i+2, nbPageArticles+2);
+        fb.innerHTML += buildArticlePage(articles, i, i+2, nbPageArticles+2);
     }
     fb.innerHTML += buildBackPage();
 
