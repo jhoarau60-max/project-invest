@@ -427,6 +427,17 @@
     `;
     nav.appendChild(sf);
 
+    // Ajouter Boutique si absent du nav
+    var ul = nav.querySelector('ul');
+    if (ul && !ul.querySelector('a[href="boutique.html"]')) {
+      var liB = document.createElement('li');
+      var aB  = document.createElement('a');
+      aB.href = 'boutique.html';
+      aB.textContent = 'Boutique';
+      liB.appendChild(aB);
+      ul.appendChild(liB);
+    }
+
     // Renommer + icônes + sous-menus
     nav.querySelectorAll('ul > li').forEach(function (li) {
       var a = li.querySelector('a');
