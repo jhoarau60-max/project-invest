@@ -736,10 +736,13 @@ setTimeout(function(){
 <script src="translator.js"></script>
 
 <script>
-var catBadge = { general:'badge-general', trading:'badge-trading', estate:'badge-estate', mlm:'badge-mlm', portage:'badge-portage', site:'badge-site', smart:'badge-trading', arbcore:'badge-general' };
-var catLabel = { general:'Général', trading:'Bot Trading', estate:'E-Estate', mlm:'MLM Center', portage:'Portage', site:'Site', smart:'Smart Bot', arbcore:'ArbCore' };
-var catLogo  = { estate:'logo-estate.png', smart:'logo-smarts.png', mlm:'logo-mlm.png', arbcore:'logo-project-invest.jpg', general:'logo-project-invest.jpg' };
-var romans   = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX'];
+var catBadge  = { general:'badge-general', trading:'badge-trading', estate:'badge-estate', mlm:'badge-mlm', portage:'badge-portage', site:'badge-site', smart:'badge-trading', arbcore:'badge-general' };
+var catLabel  = { general:'Général', trading:'Bot Trading', estate:'E-Estate', mlm:'MLM Center', portage:'Portage', site:'Site', smart:'Smart Bot', arbcore:'ArbCore' };
+var catLogo   = { estate:'logo-estate.png', smart:'logo-smarts.png', mlm:'logo-mlm.png', arbcore:'logo-project-invest.jpg', general:'logo-project-invest.jpg' };
+var catColor  = { estate:'#2ecc71', smart:'#3498db', mlm:'#e67e22', arbcore:'#9b59b6', general:'#c9a84c' };
+var romans    = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX'];
+var CAT_ORDER = ['estate','smart','mlm','arbcore','general'];
+var catPageMap = {};
 var tousArticles = [];
 
 function toRoman(n){ return romans[n-1] || String(n); }
@@ -791,14 +794,33 @@ function nettoyerMessage(message) {
 function filtrer(cat, btn) {
     document.querySelectorAll('.filtre-btn').forEach(function(b){ b.classList.remove('actif'); });
     btn.classList.add('actif');
-    var articles = cat === 'tous' ? tousArticles : tousArticles.filter(function(a){ return a.categorie === cat; });
-    afficherLivre(articles);
+    if(!pageFlip) return;
+    if(cat === 'tous') {
+        pageFlip.flip(0);
+    } else if(catPageMap[cat] !== undefined) {
+        pageFlip.flip(catPageMap[cat]);
+    }
 }
 
 
 function tronquer(txt, max){
     if(!txt) return '';
     return txt.length > max ? txt.substring(0, max) + '...' : txt;
+}
+
+function buildSeparatorPage(cat){
+    var color = catColor[cat] || '#c9a84c';
+    var label = catLabel[cat] || cat;
+    return '<div class="page"><div class="page-inner">'
+        + '<div class="page-border"></div>'
+        + '<div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;">'
+        + '<div style="width:80px;height:80px;border-radius:50%;background:' + color + ';opacity:0.15;position:absolute;"></div>'
+        + '<div style="font-family:Cinzel,serif;font-size:0.7rem;font-weight:700;letter-spacing:5px;color:rgba(80,40,10,0.5);text-transform:uppercase;position:relative;">Section</div>'
+        + '<div style="font-family:Cinzel,serif;font-size:2rem;font-weight:900;color:' + color + ';letter-spacing:3px;text-transform:uppercase;position:relative;text-shadow:0 0 20px ' + color + '55;">' + label + '</div>'
+        + '<div style="width:70%;height:1px;background:linear-gradient(to right,transparent,' + color + ',transparent);position:relative;"></div>'
+        + '<div style="font-family:EB Garamond,serif;font-style:italic;font-size:0.85rem;color:rgba(80,40,10,0.6);position:relative;">Dernières actualités</div>'
+        + '</div>'
+        + '</div></div>';
 }
 
 function buildCoverPage(articles){
@@ -951,12 +973,25 @@ function afficherLivre(articles){
     fb.id = 'flipbook';
     container.insertBefore(fb, marque);
 
+    // Construire le livre groupé par catégorie avec séparateurs
+    catPageMap = {};
     var pages = '';
     pages += buildCoverPage(articles);
     pages += buildWelcomePage();
-    for(var i=0; i<articles.length; i++){
-        pages += buildArticlePage(articles, i, i+3, articles.length+3);
-    }
+    var pageIdx = 2; // 0=cover, 1=welcome
+
+    CAT_ORDER.forEach(function(cat){
+        var catArticles = articles.filter(function(a){ return a.categorie === cat; });
+        if(!catArticles.length) return;
+        catPageMap[cat] = pageIdx;
+        pages += buildSeparatorPage(cat);
+        pageIdx++;
+        catArticles.forEach(function(a){
+            pages += buildArticlePage([a], 0, pageIdx - 1, articles.length + CAT_ORDER.length + 2);
+            pageIdx++;
+        });
+    });
+
     pages += buildBackPage();
     fb.innerHTML = pages;
 
