@@ -56,7 +56,7 @@
         const boutiqueBtn = document.createElement('a');
         boutiqueBtn.id = 'boutique-btn';
         boutiqueBtn.href = 'boutique.html';
-        boutiqueBtn.innerHTML = '<i class="fa-solid fa-store"></i> Boutique PLR';
+        boutiqueBtn.innerHTML = '<i class="fa-solid fa-store"></i> Numérique';
         headerTop.insertBefore(boutiqueBtn, btn.nextSibling);
       }
     } else {
