@@ -446,6 +446,10 @@
       // Icône
       var iconClass = PAGE_ICONS[href];
       if (iconClass) {
+        // Supprimer les emojis/symboles en tête du texte (ex: ⚙ Paramètres)
+        a.childNodes.forEach(function(node){
+          if(node.nodeType === 3) node.textContent = node.textContent.replace(/^[^\wÀ-ÿ]+\s*/, '');
+        });
         var icon = document.createElement('i');
         icon.className = 'fa-solid ' + iconClass;
         a.insertBefore(icon, a.firstChild);
