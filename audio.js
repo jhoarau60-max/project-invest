@@ -21,45 +21,34 @@
   function placeBtn() {
     const headerTop = document.querySelector('.header-top');
     if (headerTop) {
-      // Bouton son : icône seule, carré arrondi
-      btn.style.cssText = 'color:#fff;font-size:0.9rem;font-weight:700;padding:6px 10px;border:1px solid #229ED9;border-radius:20px;transition:all 0.3s;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:#229ED9;';
+      // Bouton son : icône seule, reste à gauche
+      btn.style.cssText = 'color:#fff;font-size:0.9rem;padding:6px 10px;border:1px solid #229ED9;border-radius:20px;transition:all 0.3s;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:#229ED9;';
       headerTop.insertBefore(btn, headerTop.firstChild);
 
-      // Bouton Boutique spécial
+      // Bouton Boutique — à gauche avec margin-right:auto pour pousser les liens sociaux à droite
       if (!document.getElementById('boutique-btn')) {
         const style = document.createElement('style');
         style.textContent = `
-          @keyframes boutiqueGlow {
-            0%,100% { box-shadow: 0 0 8px rgba(255,170,0,0.6), 0 0 20px rgba(255,100,0,0.3); }
-            50%      { box-shadow: 0 0 16px rgba(255,170,0,0.9), 0 0 35px rgba(255,100,0,0.5); }
-          }
-          @keyframes boutiquePulse {
-            0%,100% { transform: scale(1); }
-            50%      { transform: scale(1.04); }
-          }
           #boutique-btn {
             display: inline-flex;
             align-items: center;
             gap: 7px;
-            padding: 6px 16px;
+            padding: 5px 14px;
             border-radius: 20px;
             font-size: 0.82rem;
-            font-weight: 800;
-            letter-spacing: 0.5px;
+            font-weight: 700;
             text-decoration: none;
             flex-shrink: 0;
-            background: linear-gradient(135deg, #ff9500, #ff5500);
+            background: linear-gradient(135deg, #ff9500, #e65c00);
             color: #fff;
-            border: 1px solid rgba(255,170,0,0.6);
-            cursor: pointer;
-            animation: boutiqueGlow 2.5s ease-in-out infinite, boutiquePulse 2.5s ease-in-out infinite;
-            text-transform: uppercase;
+            border: 1px solid rgba(255,150,0,0.5);
+            box-shadow: 0 0 10px rgba(255,120,0,0.35);
+            margin-right: auto;
+            transition: box-shadow 0.3s, transform 0.2s;
           }
           #boutique-btn:hover {
-            background: linear-gradient(135deg, #ffaa00, #ff6600);
-            transform: scale(1.07) !important;
-            animation: none;
-            box-shadow: 0 0 24px rgba(255,170,0,0.9);
+            box-shadow: 0 0 18px rgba(255,150,0,0.7);
+            transform: scale(1.04);
           }
         `;
         document.head.appendChild(style);
