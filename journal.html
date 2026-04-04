@@ -782,7 +782,6 @@ function extractCategorie(message) {
 
 function nettoyerMessage(message) {
     return message
-        .replace(/^#journal\s*/i, '')
         .replace(/#estate\s*/gi, '')
         .replace(/#smart\s*/gi, '')
         .replace(/#trading\s*/gi, '')
@@ -922,10 +921,8 @@ function chargerTelegramPourLivre() {
                     var dateAffichage = date || new Date().toISOString();
                     var cat = extractCategorie(message);
                     var contenu = nettoyerMessage(message);
-                    if (type.toLowerCase() === 'image' && imgUrl) {
-                        articles.push({ titre: '📱 ' + (auteur||'Telegram'), contenu: contenu, categorie: cat, image_url: imgUrl, created_at: dateAffichage, epingle: false });
-                    } else if (message && message.trim().toLowerCase().indexOf('#journal') === 0) {
-                        articles.push({ titre: '📱 ' + (auteur||'Telegram'), contenu: contenu, categorie: cat, image_url: null, created_at: dateAffichage, epingle: false });
+                    if (message || imgUrl) {
+                        articles.push({ titre: '📱 ' + (auteur||'Telegram'), contenu: contenu, categorie: cat, image_url: (type.toLowerCase() === 'image' ? imgUrl : null), created_at: dateAffichage, epingle: false });
                     }
                 }
                 resolve(articles);
