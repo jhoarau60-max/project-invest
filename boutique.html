@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project inves'T - Boutique Numérique</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+      .line-anim  { stroke-dasharray: 40 960; animation: snake 6s linear infinite, rainbow 5s linear infinite; }
+      .line-anim2 { stroke-dasharray: 40 960; animation: snake 8s linear infinite reverse, rainbow 5s linear infinite 1.5s; }
+      .line-anim3 { stroke-dasharray: 40 960; animation: snake 7s linear infinite, rainbow 5s linear infinite 3s; }
+      @keyframes snake { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: -1000; } }
+      @keyframes rainbow {
+        0%   { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
+        20%  { stroke: #7850ff; filter: drop-shadow(0 0 6px #7850ff); }
+        40%  { stroke: #ff3399; filter: drop-shadow(0 0 6px #ff3399); }
+        60%  { stroke: #ffaa00; filter: drop-shadow(0 0 6px #ffaa00); }
+        80%  { stroke: #00ff99; filter: drop-shadow(0 0 6px #00ff99); }
+        100% { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
+      }
+
+      @keyframes pulse-ring {
+        0%   { transform: scale(1);   opacity: 0.6; }
+        50%  { transform: scale(1.12); opacity: 0.3; }
+        100% { transform: scale(1);   opacity: 0.6; }
+      }
+      @keyframes float-icon {
+        0%,100% { transform: translateY(0px); }
+        50%      { transform: translateY(-12px); }
+      }
+      @keyframes shimmer-text {
+        0%,100% { opacity: 1; }
+        50%      { opacity: 0.6; }
+      }
+
+      .boutique-soon {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 60px 20px 80px;
+        gap: 28px;
+      }
+
+      .soon-icon-wrap {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .soon-ring {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        border: 2px solid rgba(0,200,255,0.3);
+        animation: pulse-ring 3s ease-in-out infinite;
+      }
+      .soon-ring2 {
+        position: absolute;
+        inset: -16px;
+        border-radius: 50%;
+        border: 1px solid rgba(0,200,255,0.15);
+        animation: pulse-ring 3s ease-in-out infinite 0.5s;
+      }
+      .soon-icon {
+        font-size: 3.5rem;
+        animation: float-icon 4s ease-in-out infinite;
+        position: relative;
+        z-index: 1;
+      }
+
+      .soon-title {
+        font-size: 2rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #00c8ff, #7850ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: 2px;
+      }
+
+      .soon-subtitle {
+        font-size: 1.05rem;
+        color: #aaa;
+        max-width: 500px;
+        line-height: 1.7;
+      }
+
+      .soon-features {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 10px;
+      }
+      .soon-feature {
+        background: rgba(0,200,255,0.06);
+        border: 1px solid rgba(0,200,255,0.15);
+        border-radius: 12px;
+        padding: 18px 24px;
+        min-width: 160px;
+        text-align: center;
+      }
+      .soon-feature i {
+        font-size: 1.5rem;
+        color: #00c8ff;
+        margin-bottom: 10px;
+        display: block;
+      }
+      .soon-feature span {
+        font-size: 0.85rem;
+        color: #ccc;
+        font-weight: 600;
+      }
+
+      .soon-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: linear-gradient(135deg, rgba(0,200,255,0.15), rgba(120,80,255,0.15));
+        border: 1px solid rgba(0,200,255,0.3);
+        border-radius: 20px;
+        padding: 8px 20px;
+        font-size: 0.85rem;
+        color: #00c8ff;
+        font-weight: 700;
+        letter-spacing: 1px;
+        animation: shimmer-text 3s ease-in-out infinite;
+      }
+    </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const _sb=window.supabase.createClient("https://cvggxktybzbrtskcwlxp.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Z2d4a3R5YnpicnRza2N3bHhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyODM2MjcsImV4cCI6MjA4OTg1OTYyN30.cfHsAvmgcXYvedCz1fZCHlxOApupKCxnt8t9e8KzNBs");
+setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window.location.href="index.html"; }); }, 800);
+</script>
+<link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#00c8ff">
+</head>
+<body>
+<div id="bg-curves">
+  <svg viewBox="0 0 1700 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs><filter id="glow-line"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    <path class="line-anim"  d="M-100,300 C200,100 400,500 800,250 S1200,50 1700,300"  fill="none" stroke="rgba(0,200,255,0.2)"  stroke-width="2" filter="url(#glow-line)"/>
+    <path class="line-anim2" d="M-100,600 C300,400 600,800 1000,550 S1400,300 1700,600" fill="none" stroke="rgba(26,127,219,0.25)" stroke-width="2" filter="url(#glow-line)"/>
+    <path class="line-anim3" d="M-100,150 C300,50 700,350 1100,150 S1450,0 1700,180"   fill="none" stroke="rgba(0,200,255,0.12)" stroke-width="1.5" filter="url(#glow-line)"/>
+    <circle cx="200" cy="180" r="130" fill="none" stroke="rgba(0,200,255,0.15)" stroke-width="1.5"/>
+    <circle cx="1500" cy="700" r="160" fill="none" stroke="rgba(26,127,219,0.2)" stroke-width="1.5"/>
+  </svg>
+</div>
+
+<header>
+    <div class="header-top">
+        <a href="home.html" class="logo-svg">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 75" height="70" width="310">
+    <defs><filter id="glow"><feGaussianBlur stdDeviation="2.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    <path d="M 51,15 A 28,28 0 1,0 51,60" fill="none" stroke="#00c8ff" stroke-width="2.5" filter="url(#glow)"/>
+    <path d="M 46,22 A 20,20 0 1,0 46,53" fill="none" stroke="#1a7fdb" stroke-width="1.2" opacity="0.6"/>
+    <line x1="51" y1="15" x2="305" y2="15" stroke="#00c8ff" stroke-width="1.8" opacity="0.9" filter="url(#glow)"/>
+    <line x1="51" y1="60" x2="305" y2="60" stroke="#1a9fff" stroke-width="1.8" opacity="0.9" filter="url(#glow)"/>
+    <text x="20" y="44" font-family="Arial Black,sans-serif" font-size="23" font-weight="900" fill="#ffffff" filter="url(#glow)">P</text>
+    <text x="57" y="47" font-family="Arial Black,sans-serif" font-size="28" font-weight="900" fill="#ffffff" letter-spacing="1">inves<tspan fill="#00c8ff" filter="url(#glow)">'T</tspan></text>
+  </svg>
+</a>
+        <div class="social-links">
+            <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="background:#229ED9;color:#fff;border-color:#229ED9;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-telegram"></i> Telegram</a>
+            <a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" style="background:#FF0000;color:#fff;border-color:#FF0000;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;">▶ YouTube</a>
+            <a href="https://wa.me/320492931040" target="_blank" style="background:#25D366;color:#fff;border-color:#25D366;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+            <a href="#" onclick="_sb.auth.signOut().then(()=>window.location.href='index.html')" style="background:#229ED9;color:#fff;border:1px solid #229ED9;border-radius:20px;font-weight:700;display:inline-flex;align-items:center;gap:6px;">⏻ Déconnexion</a>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="home.html">Accueil</a></li>
+            <li><a href="parametres.html">⚙ Paramètres</a></li>
+            <li><a href="investissements.html">Investissements</a></li>
+            <li><a href="pdf-societe.html">PDF de société</a></li>
+            <li><a href="planning-webinaire.html">Planning webinaire 2026</a></li>
+            <li><a href="arbcore.html"><i class="fa-solid fa-chart-line" style="color:#c9a84c;font-size:0.85rem;"></i> ArbCore</a></li>
+            <li><a href="e-state-immobilier.html">E-state Immobilier Tokénisé</a></li>
+            <li><a href="smart-mev-trading.html">SMART MEV Trading</a></li>
+            <li><a href="mlm-center.html">MLM Center</a></li>
+            <li><a href="portage-salarial.html">Portage salarial</a></li>
+            <li><a href="journal.html">Journal</a></li>
+            <li><a href="bibliotheque-mlm.html">Avis Clients</a></li>
+            <li><a href="boutique.html" class="active">Boutique</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="page-header">
+    <h1><i class="fa-solid fa-store" style="margin-right:12px;color:#00c8ff;"></i>Boutique Numérique</h1>
+    <p>Produits numériques PLR — Payez en crypto</p>
+</div>
+
+<div class="section">
+    <div class="boutique-soon">
+
+        <div class="soon-badge">
+            <i class="fa-solid fa-clock"></i> OUVERTURE PROCHAINE
+        </div>
+
+        <div class="soon-icon-wrap">
+            <div class="soon-ring"></div>
+            <div class="soon-ring2"></div>
+            <div class="soon-icon"><i class="fa-solid fa-store" style="color:#00c8ff;"></i></div>
+        </div>
+
+        <div class="soon-title">Boutique en préparation</div>
+
+        <p class="soon-subtitle">
+            Notre boutique de produits numériques PLR arrive bientôt.<br>
+            Paiements acceptés exclusivement en <strong style="color:#f7931a;">crypto-monnaies</strong>.
+        </p>
+
+        <div class="soon-features">
+            <div class="soon-feature">
+                <i class="fa-solid fa-file-zipper"></i>
+                <span>Produits PLR</span>
+            </div>
+            <div class="soon-feature">
+                <i class="fa-brands fa-bitcoin" style="color:#f7931a;"></i>
+                <span>Paiement Crypto</span>
+            </div>
+            <div class="soon-feature">
+                <i class="fa-solid fa-bolt"></i>
+                <span>Livraison instantanée</span>
+            </div>
+            <div class="soon-feature">
+                <i class="fa-solid fa-infinity"></i>
+                <span>Droits PLR inclus</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 Project inves'T — Site personnel, non professionnel. Les investissements comportent des risques.</p>
+</footer>
+
+<script src="menu.js"></script>
+<script src="audio.js"></script>
+<script src="translator.js"></script>
+</body>
+</html>
