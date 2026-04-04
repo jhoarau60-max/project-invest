@@ -932,7 +932,7 @@ async function chargerJournal(){
 }
 
 function afficherLivre(articles){
-    if(pageFlip){ pageFlip.destroy(); pageFlip=null; }
+    if(pageFlip){ try { pageFlip.destroy(); } catch(e){} pageFlip=null; }
     document.getElementById('book-scene').style.display='none';
     document.getElementById('book-loading').style.display='none';
 
@@ -942,14 +942,23 @@ function afficherLivre(articles){
         return;
     }
 
-    var fb = document.getElementById('flipbook');
-    fb.innerHTML = '';
-    fb.innerHTML += buildCoverPage(articles);
-    fb.innerHTML += buildWelcomePage();
+    // Recréer #flipbook proprement pour éviter l'état corrompu de page-flip après destroy()
+    var container = document.getElementById('flipbook-container');
+    var marque = document.getElementById('marque-page');
+    var oldFb = document.getElementById('flipbook');
+    if(oldFb) container.removeChild(oldFb);
+    var fb = document.createElement('div');
+    fb.id = 'flipbook';
+    container.insertBefore(fb, marque);
+
+    var pages = '';
+    pages += buildCoverPage(articles);
+    pages += buildWelcomePage();
     for(var i=0; i<articles.length; i++){
-        fb.innerHTML += buildArticlePage(articles, i, i+3, articles.length+3);
+        pages += buildArticlePage(articles, i, i+3, articles.length+3);
     }
-    fb.innerHTML += buildBackPage();
+    pages += buildBackPage();
+    fb.innerHTML = pages;
 
     var W = Math.min(Math.floor((window.innerWidth - 120) / 2), 400);
     var H = Math.round(W * 1.45);
