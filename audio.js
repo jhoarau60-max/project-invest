@@ -21,9 +21,55 @@
   function placeBtn() {
     const headerTop = document.querySelector('.header-top');
     if (headerTop) {
-      // Premier élément du header avec margin-right:auto pour rester à gauche
-      btn.style.cssText = 'color:#fff;font-size:0.85rem;font-weight:700;padding:5px 12px;border:1px solid #229ED9;border-radius:20px;transition:all 0.3s;cursor:pointer;display:inline-flex;align-items:center;flex-shrink:0;margin-right:auto;background:#229ED9;';
+      // Bouton son : icône seule, carré arrondi
+      btn.style.cssText = 'color:#fff;font-size:0.9rem;font-weight:700;padding:6px 10px;border:1px solid #229ED9;border-radius:20px;transition:all 0.3s;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:#229ED9;';
       headerTop.insertBefore(btn, headerTop.firstChild);
+
+      // Bouton Boutique spécial
+      if (!document.getElementById('boutique-btn')) {
+        const style = document.createElement('style');
+        style.textContent = `
+          @keyframes boutiqueGlow {
+            0%,100% { box-shadow: 0 0 8px rgba(255,170,0,0.6), 0 0 20px rgba(255,100,0,0.3); }
+            50%      { box-shadow: 0 0 16px rgba(255,170,0,0.9), 0 0 35px rgba(255,100,0,0.5); }
+          }
+          @keyframes boutiquePulse {
+            0%,100% { transform: scale(1); }
+            50%      { transform: scale(1.04); }
+          }
+          #boutique-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, #ff9500, #ff5500);
+            color: #fff;
+            border: 1px solid rgba(255,170,0,0.6);
+            cursor: pointer;
+            animation: boutiqueGlow 2.5s ease-in-out infinite, boutiquePulse 2.5s ease-in-out infinite;
+            text-transform: uppercase;
+          }
+          #boutique-btn:hover {
+            background: linear-gradient(135deg, #ffaa00, #ff6600);
+            transform: scale(1.07) !important;
+            animation: none;
+            box-shadow: 0 0 24px rgba(255,170,0,0.9);
+          }
+        `;
+        document.head.appendChild(style);
+
+        const boutiqueBtn = document.createElement('a');
+        boutiqueBtn.id = 'boutique-btn';
+        boutiqueBtn.href = 'boutique.html';
+        boutiqueBtn.innerHTML = '<i class="fa-solid fa-store"></i> Boutique PLR';
+        headerTop.insertBefore(boutiqueBtn, btn.nextSibling);
+      }
     } else {
       // Page de connexion : fixe en haut à gauche
       btn.style.cssText = 'position:fixed;top:20px;left:20px;z-index:9999;background:rgba(10,42,94,0.7);border:1px solid rgba(0,200,255,0.4);border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(10px);font-size:1.2rem;transition:all 0.3s;';
@@ -76,8 +122,8 @@
 
   function updateBtn() {
     btn.innerHTML = playing
-      ? '<i class="fa-solid fa-volume-high" style="color:#fff;font-size:0.85rem;margin-right:5px;"></i> Musique'
-      : '<i class="fa-solid fa-volume-xmark" style="color:#fff;font-size:0.85rem;margin-right:5px;"></i> Musique';
+      ? '<i class="fa-solid fa-volume-high" style="color:#fff;font-size:0.9rem;"></i>'
+      : '<i class="fa-solid fa-volume-xmark" style="color:#fff;font-size:0.9rem;"></i>';
   }
 
   function startMusic() {
