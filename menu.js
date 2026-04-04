@@ -236,13 +236,13 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      color: #e8f4ff;
+      color: #ffffff !important;
       font-size: 0.82rem;
-      font-weight: 400;
-      padding: 5px 14px;
-      border: 1px solid rgba(58,184,212,0.7) !important;
-      border-radius: 3px !important;
-      background: transparent !important;
+      font-weight: 700 !important;
+      padding: 5px 12px !important;
+      border: 1px solid #229ED9 !important;
+      border-radius: 20px !important;
+      background: #229ED9 !important;
       white-space: nowrap;
     }
     #user-badge i { font-size: 0.85rem; }
@@ -329,10 +329,9 @@
     .social-links a[href="parametres.html"]:not(#user-badge) { display: none !important; }
 
     .social-links a,
-    #lang-btn,
-    #user-badge {
+    #lang-btn {
       box-shadow: none !important;
-      border-radius: 3px !important;
+      border-radius: 20px !important;
       border: 1px solid rgba(255,255,255,0.75) !important;
       transition: border-color 0.3s, background 0.3s !important;
     }
