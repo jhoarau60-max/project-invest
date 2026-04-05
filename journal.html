@@ -950,8 +950,6 @@ function chargerTelegramPourLivre() {
                 var messageIdx = headers.indexOf('message');
                 var typeIdx = headers.indexOf('type');
                 var urlIdx = headers.indexOf('url');
-                var sevenDaysAgo = new Date();
-                sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
                 var articles = [];
                 for (var i = 1; i < rows.length; i++) {
                     var row = rows[i];
@@ -960,7 +958,6 @@ function chargerTelegramPourLivre() {
                     var message = row[messageIdx] || '';
                     var type = row[typeIdx] || '';
                     var imgUrl = row[urlIdx] || '';
-                    if (date && new Date(date) < sevenDaysAgo) continue;
                     var dateAffichage = date || new Date().toISOString();
                     var cat = extractCategorie(message);
                     var contenu = nettoyerMessage(message);
@@ -985,11 +982,6 @@ async function chargerJournal(){
         return;
     }
     tousArticles = (result.data || []).concat(telegramArticles);
-    if(!tousArticles.length){
-        document.getElementById('book-loading').style.display='block';
-        document.getElementById('book-loading').innerHTML='<span style="font-family:EB Garamond,serif;font-style:italic;color:rgba(201,168,76,0.6);">Le journal est vide pour le moment...</span>';
-        return;
-    }
     afficherLivre(tousArticles);
 }
 
@@ -998,11 +990,7 @@ function afficherLivre(articles){
     document.getElementById('book-scene').style.display='none';
     document.getElementById('book-loading').style.display='none';
 
-    if(!articles.length){
-        document.getElementById('book-loading').style.display='block';
-        document.getElementById('book-loading').innerHTML='<span style="font-family:EB Garamond,serif;font-style:italic;color:rgba(201,168,76,0.6);">Aucun article dans cette section...</span>';
-        return;
-    }
+    // On affiche toujours le livre (les 2 pages fixes restent visibles même sans articles)
 
     // Recréer #flipbook proprement pour éviter l'état corrompu de page-flip après destroy()
     var container = document.getElementById('flipbook-container');
