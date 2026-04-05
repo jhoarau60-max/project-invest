@@ -438,7 +438,14 @@
       liB.appendChild(aB);
       ul.appendChild(liB);
     }
-    // roue.html masqué du menu (en développement)
+    if (ul && !ul.querySelector('a[href="roue.html"]')) {
+      var liR = document.createElement('li');
+      var aR  = document.createElement('a');
+      aR.href = 'roue.html';
+      aR.innerHTML = '🪙 Coffre des Gains <span style="font-size:0.65rem;background:#7850ff;color:#fff;border-radius:4px;padding:1px 5px;vertical-align:middle;margin-left:4px;">BÊTA</span>';
+      liR.appendChild(aR);
+      ul.appendChild(liR);
+    }
 
     // Renommer + icônes + sous-menus
     nav.querySelectorAll('ul > li').forEach(function (li) {
