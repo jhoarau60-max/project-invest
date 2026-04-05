@@ -880,6 +880,50 @@ function buildArticlePage(articles, idx, pageNum, totalPages){
     return html;
 }
 
+function buildInfoPage1(){
+    return '<div class="page"><div class="page-inner">'
+        + '<div class="page-border"></div>'
+        + '<div class="page-header-strip">'
+        + '<span class="page-name-book">P inves\'T &mdash; Journal</span>'
+        + '<span class="page-ornament">&#10022;</span>'
+        + '<span class="page-num-book">Message</span>'
+        + '</div>'
+        + '<div class="article-block" style="gap:0;">'
+        + '<div style="font-size:1.1rem;font-weight:900;color:#c9a84c;font-family:\'Cinzel\',serif;text-align:center;margin-bottom:10px;line-height:1.4;">✨ INFORMATION IMPORTANTE<br>CAP SUR LA PHASE 2 ! ✨</div>'
+        + '<div class="article-contenu-book" style="font-size:0.78rem;line-height:1.65;">'
+        + '<p>Bonjour à tous ! 👋 C\'est avec une joie immense que nous entamons la suite de notre aventure ! 🚀 Pour que notre stratégie soit réellement <strong>PAYANTE</strong> 💰 et que nous avancions ensemble, il est temps de repartir sur un groupe <strong>SAIN et PROPRE</strong> ! 💎</p>'
+        + '<p><strong>🔹 LA QUALITÉ AVANT LE NOMBRE 🎯</strong> : Je construis une <strong>VÉRITABLE COMMUNAUTÉ</strong> 🤝 et non un groupe de touristes de passage ! Ce qui m\'importe, c\'est votre engagement et votre envie de réussir ensemble ! 🔥</p>'
+        + '<p><strong>🔹 AUTHENTIFICATION ✅</strong> : Pour que je puisse vous <strong>AUTHENTIFIER COMME ACTIF</strong> ✨, mettez simplement un petit message sous ce post.</p>'
+        + '<p><strong>🔹 DÈS CE MARDI 7 AVRIL 📅</strong> : Un minimum sera demandé chaque jour : <strong>UN BONJOUR !</strong> 🙋 C\'est la base pour se connaître et donner de la vie à notre groupe ! 🌈</p>'
+        + '<p><strong>🔹 LIBERTÉ TOTALE 🕊️</strong> : Ceux qui n\'ont pas envie de s\'impliquer peuvent partir sans obligation. 👋</p>'
+        + '<p>Sachez que tout ceci sera <strong>SURVEILLÉ DE TRÈS PRÈS</strong> 👀 car je veux le meilleur pour ceux qui restent ! 🌟</p>'
+        + '<p style="text-align:center;font-weight:700;color:#c9a84c;">On repart sur de bonnes bases, dans la joie et la réussite ! 🚀💪</p>'
+        + '</div></div>'
+        + '</div></div>';
+}
+
+function buildInfoPage2(){
+    return '<div class="page"><div class="page-inner">'
+        + '<div class="page-border"></div>'
+        + '<div class="page-header-strip">'
+        + '<span class="page-name-book">P inves\'T &mdash; Journal</span>'
+        + '<span class="page-ornament">&#10022;</span>'
+        + '<span class="page-num-book">Message</span>'
+        + '</div>'
+        + '<div class="article-block" style="gap:0;">'
+        + '<div style="font-size:1rem;font-weight:900;color:#c9a84c;font-family:\'Cinzel\',serif;text-align:center;margin-bottom:10px;line-height:1.4;">📢 Information Importante<br>Project Invest 🚀</div>'
+        + '<div class="article-contenu-book" style="font-size:0.78rem;line-height:1.65;">'
+        + '<p><strong>✅ Focus &amp; Stabilité :</strong> D\'ici fin 2026, je ne vais plus intégrer de nouveaux projets. On s\'appuie sur nos piliers solides :</p>'
+        + '<p>• <strong>Estate et Smart</strong> : qui existent déjà depuis un an.<br>• <strong>Arbcore et Athéna</strong> : nos deux nouveaux projets.</p>'
+        + '<p><strong>🏆 Mon classement personnel :</strong> Estate — Athéna — Smart — Arbcore <em>(cela n\'engage que moi, ce n\'est pas une obligation)</em></p>'
+        + '<p><strong>🌐 Nouveau Site :</strong> Toutes les infos, vidéos et PDF se trouvent sur ce site. ⏳ Vous y trouverez tout le nécessaire.</p>'
+        + '<p><strong>💬 Besoin d\'aide ?</strong> Un support est disponible pour vos questions directement sur le site. 🤝</p>'
+        + '<p><strong>⚠️ Rappel Essentiel :</strong> C\'est mon avis personnel, pas une obligation. Chaque investissement reste un risque — chacun investit en son libre arbitre. Soyez responsables et avisés. 🧠</p>'
+        + '<p style="text-align:center;font-weight:700;color:#c9a84c;">On continue d\'avancer ensemble ! 🔥</p>'
+        + '</div></div>'
+        + '</div></div>';
+}
+
 function buildBackPage(){
     return '<div class="page page-back"><div class="page-inner">'
         + '<div class="cover-ornament">&#10038;</div>'
@@ -974,7 +1018,9 @@ function afficherLivre(articles){
     var pages = '';
     pages += buildCoverPage(articles);
     pages += buildWelcomePage();
-    var pageIdx = 2; // 0=cover, 1=welcome
+    pages += buildInfoPage1();
+    pages += buildInfoPage2();
+    var pageIdx = 4; // 0=cover, 1=welcome, 2=info1, 3=info2
 
     CAT_ORDER.forEach(function(cat){
         var catArticles = articles.filter(function(a){ return a.categorie === cat; });
