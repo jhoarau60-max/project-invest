@@ -43,7 +43,7 @@
             color: #fff;
             border: 1px solid rgba(255,150,0,0.5);
             box-shadow: 0 0 10px rgba(255,120,0,0.35);
-            margin-right: auto;
+            margin-right: 0;
             transition: box-shadow 0.3s, transform 0.2s;
           }
           #boutique-btn:hover {
@@ -65,7 +65,7 @@
         const installBtn = document.createElement('button');
         installBtn.id = 'install-btn';
         installBtn.title = "Installer l'application";
-        installBtn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:0.82rem;font-weight:700;border:1px solid #229ED9;background:#229ED9;color:#fff;cursor:pointer;flex-shrink:0;';
+        installBtn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:0.82rem;font-weight:700;border:1px solid #229ED9;background:#229ED9;color:#fff;cursor:pointer;flex-shrink:0;margin-right:auto;';
         installBtn.innerHTML = '<i class="fa-solid fa-mobile-screen"></i> Installer';
         const boutiqueRef = document.getElementById('boutique-btn') || btn;
         headerTop.insertBefore(installBtn, boutiqueRef.nextSibling);
