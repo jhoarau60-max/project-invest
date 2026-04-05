@@ -474,6 +474,23 @@
     // Déplacer le nav dans body (hors header)
     document.body.appendChild(nav);
 
+    // ── Contrôle du nav via styles inline (priorité absolue sur tout CSS) ──
+    function setNavStyle(open) {
+      var isMob = window.innerWidth <= 768;
+      if (isMob) {
+        nav.style.setProperty('width', '270px', 'important');
+        nav.style.setProperty('transition', 'transform 0.35s cubic-bezier(0.4,0,0.2,1)', 'important');
+        nav.style.setProperty('transform', open ? 'translateX(0)' : 'translateX(-100%)', 'important');
+        nav.style.setProperty('z-index', '9999', 'important');
+      } else {
+        nav.style.setProperty('transform', 'none', 'important');
+        nav.style.setProperty('width', SW + 'px', 'important');
+        nav.style.setProperty('transition', 'none', 'important');
+      }
+    }
+    setNavStyle(false);
+    window.addEventListener('resize', function() { syncLayout(); setNavStyle(false); });
+
     // ── Bouton hamburger mobile ──
     var hamburger = document.createElement('div');
     hamburger.id = 'mobile-menu-btn';
@@ -487,17 +504,17 @@
     document.body.appendChild(overlay);
 
     function openNav() {
-      nav.classList.add('mobile-open');
+      setNavStyle(true);
       overlay.classList.add('open');
       hamburger.classList.add('open');
     }
     function closeNav() {
-      nav.classList.remove('mobile-open');
+      setNavStyle(false);
       overlay.classList.remove('open');
       hamburger.classList.remove('open');
     }
     hamburger.addEventListener('click', function() {
-      nav.classList.contains('mobile-open') ? closeNav() : openNav();
+      hamburger.classList.contains('open') ? closeNav() : openNav();
     });
     overlay.addEventListener('click', closeNav);
     // Fermer quand on clique un lien du menu (navigation)
