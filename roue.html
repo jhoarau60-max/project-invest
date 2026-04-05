@@ -6,8 +6,8 @@
   <title>Project inves'T - Coffre des Gains</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* ===== FOND SALLE DES COFFRES ===== */
-    body { background:#07060e !important; }
+    /* ===== FOND CASINO ===== */
+    body { background:#08070f !important; }
     #bg-curves { position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:hidden; }
 
     /* Dial tournant */
@@ -356,7 +356,7 @@ setTimeout(function(){
 
 <div id="bg-curves">
 <canvas id="bg-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;"></canvas>
-<svg viewBox="0 0 1700 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;width:100%;height:100%;">
+<svg id="bg-svg-unused" style="display:none;" viewBox="0 0 1700 900" xmlns="http://www.w3.org/2000/svg">
 <defs>
   <!-- Gradients métalliques -->
   <linearGradient id="metal-h" x1="0" y1="0" x2="1" y2="0">
@@ -912,91 +912,221 @@ setTimeout(function(){
 <script src="audio.js"></script>
 <script src="translator.js"></script>
 
-<!-- ===== PARTICULES FOND ===== -->
+<!-- ===== FOND CASINO ===== -->
 <script>
 (function(){
   var cv = document.getElementById('bg-canvas');
   var ctx = cv.getContext('2d');
   var W, H;
-  function resize(){ W=cv.width=window.innerWidth; H=cv.height=window.innerHeight; }
+
+  function resize(){
+    W = cv.width  = window.innerWidth;
+    H = cv.height = window.innerHeight;
+  }
   resize();
   window.addEventListener('resize', resize);
 
-  var SYMBOLS = ['🪙','⭐','✨','💰','🌟','💫'];
-  var particles = [];
-
   function rand(a,b){ return a + Math.random()*(b-a); }
 
-  // Créer particules initiales
-  for(var i=0;i<55;i++){
-    particles.push({
-      x: rand(0, window.innerWidth),
-      y: rand(0, window.innerHeight),
-      sym: SYMBOLS[Math.floor(Math.random()*SYMBOLS.length)],
-      size: rand(10,24),
-      vy: rand(-0.3,-0.9),
-      vx: rand(-0.3,0.3),
-      alpha: rand(0.15,0.55),
-      rot: rand(0,360),
-      rotV: rand(-0.8,0.8),
-      pulse: rand(0,Math.PI*2),
-      pulseSpeed: rand(0.01,0.03)
-    });
-  }
+  /* ── 1. SPOTLIGHTS ─────────────────────────── */
+  var spots = [
+    { phase:0,      speed:0.007, baseX:0.18, range:0.14, r:280, c:'255,180,0'   },
+    { phase:2.1,    speed:0.005, baseX:0.50, range:0.18, r:340, c:'180,100,255' },
+    { phase:4.4,    speed:0.006, baseX:0.82, range:0.14, r:260, c:'255,210,60'  },
+  ];
 
-  // Étoiles fixes scintillantes
-  var stars = [];
-  for(var s=0;s<80;s++){
-    stars.push({
-      x: rand(0, window.innerWidth),
-      y: rand(0, window.innerHeight),
-      r: rand(0.5,2),
+  /* ── 2. PARTICULES DORÉES ───────────────────── */
+  var dust = [];
+  for(var i=0;i<160;i++){
+    dust.push({
+      x: rand(0,1), y: rand(0,1),
+      r: rand(0.4,2.2),
+      vy: rand(0.0003,0.0012),
+      vx: rand(-0.0003,0.0003),
       alpha: rand(0.1,0.5),
       phase: rand(0,Math.PI*2),
-      speed: rand(0.01,0.04)
+      ps: rand(0.01,0.03)
     });
   }
 
-  function draw(){
-    ctx.clearRect(0,0,W,H);
+  /* ── 3. SYMBOLES CARTES ─────────────────────── */
+  var suits = ['♠','♥','♦','♣'];
+  var suitColors = {'♠':'255,255,255','♥':'220,30,60','♦':'220,30,60','♣':'255,255,255'};
+  var cards = [];
+  for(var c=0;c<9;c++){
+    var sym = suits[Math.floor(Math.random()*4)];
+    cards.push({
+      sym: sym,
+      x: rand(0.05,0.95), y: rand(0.05,0.95),
+      size: rand(70,160),
+      rot: rand(0,Math.PI*2),
+      rotV: rand(-0.0008,0.0008),
+      vx: rand(-0.00015,0.00015),
+      vy: rand(-0.0001,0.0001),
+      alpha: rand(0.03,0.08),
+      col: suitColors[sym]
+    });
+  }
 
-    // Étoiles scintillantes
-    stars.forEach(function(s){
+  /* ── 4. JETONS (chips) ─────────────────────── */
+  var chips = [];
+  var chipCols=['#c8a050','#7850ff','#00c8ff','#ff3399','#c8a050'];
+  for(var k=0;k<7;k++){
+    chips.push({
+      x: rand(0.05,0.95), y: rand(0.05,0.95),
+      r: rand(18,36),
+      vx: rand(-0.00012,0.00012),
+      vy: rand(-0.00008,0.00008),
+      rot: rand(0,Math.PI*2),
+      rotV: rand(-0.003,0.003),
+      alpha: rand(0.05,0.13),
+      col: chipCols[k % chipCols.length]
+    });
+  }
+
+  /* ── TEXTURE FEUTRE ─────────────────────────── */
+  function drawFelt(){
+    ctx.fillStyle = '#08070f';
+    ctx.fillRect(0,0,W,H);
+    /* Damier très subtil */
+    ctx.save();
+    ctx.globalAlpha = 0.028;
+    ctx.strokeStyle = '#c8a050';
+    ctx.lineWidth = 0.6;
+    var sp = 48;
+    for(var gx=0;gx<W+sp;gx+=sp){
+      for(var gy=0;gy<H+sp;gy+=sp){
+        ctx.beginPath();
+        ctx.moveTo(gx, gy-sp/2);
+        ctx.lineTo(gx+sp/2, gy);
+        ctx.lineTo(gx, gy+sp/2);
+        ctx.lineTo(gx-sp/2, gy);
+        ctx.closePath();
+        ctx.stroke();
+      }
+    }
+    ctx.restore();
+  }
+
+  /* ── SPOTLIGHTS ─────────────────────────────── */
+  function drawSpots(){
+    spots.forEach(function(s){
       s.phase += s.speed;
-      var a = s.alpha * (0.5 + 0.5*Math.sin(s.phase));
+      var cx = (s.baseX + Math.sin(s.phase)*s.range) * W;
+      /* Cône depuis le haut */
+      var grd = ctx.createRadialGradient(cx,-20,0, cx,H*0.55,s.r*3.5);
+      grd.addColorStop(0,   'rgba('+s.c+',0.18)');
+      grd.addColorStop(0.3, 'rgba('+s.c+',0.07)');
+      grd.addColorStop(1,   'rgba('+s.c+',0)');
       ctx.save();
-      ctx.globalAlpha = a;
-      ctx.fillStyle = Math.random()>0.5 ? '#ffd700' : '#ffffff';
+      ctx.fillStyle = grd;
       ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.moveTo(cx, -10);
+      ctx.lineTo(cx - s.r*2.2, H);
+      ctx.lineTo(cx + s.r*2.2, H);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+      /* Lentille en haut */
+      var lg = ctx.createRadialGradient(cx,0,0,cx,0,40);
+      lg.addColorStop(0,'rgba('+s.c+',0.55)');
+      lg.addColorStop(1,'rgba('+s.c+',0)');
+      ctx.save(); ctx.globalAlpha=1; ctx.fillStyle=lg;
+      ctx.beginPath(); ctx.arc(cx,0,40,0,Math.PI*2); ctx.fill();
+      ctx.restore();
+    });
+  }
+
+  /* ── SYMBOLES CARTES ─────────────────────────── */
+  function drawCards(){
+    cards.forEach(function(c){
+      c.x += c.vx; c.y += c.vy; c.rot += c.rotV;
+      if(c.x<-0.1) c.x=1.1; if(c.x>1.1) c.x=-0.1;
+      if(c.y<-0.1) c.y=1.1; if(c.y>1.1) c.y=-0.1;
+      ctx.save();
+      ctx.globalAlpha = c.alpha;
+      ctx.translate(c.x*W, c.y*H);
+      ctx.rotate(c.rot);
+      ctx.font = 'bold '+c.size+'px Georgia,serif';
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillStyle = 'rgba('+c.col+',1)';
+      ctx.shadowColor = 'rgba('+c.col+',0.4)';
+      ctx.shadowBlur = 20;
+      ctx.fillText(c.sym,0,0);
+      ctx.restore();
+    });
+  }
+
+  /* ── JETONS (chips en arrière plan) ─────────── */
+  function drawChips(){
+    chips.forEach(function(c){
+      c.x+=c.vx; c.y+=c.vy; c.rot+=c.rotV;
+      if(c.x<-0.05) c.x=1.05; if(c.x>1.05) c.x=-0.05;
+      if(c.y<-0.05) c.y=1.05; if(c.y>1.05) c.y=-0.05;
+      var px=c.x*W, py=c.y*H;
+      ctx.save();
+      ctx.globalAlpha=c.alpha;
+      ctx.translate(px,py); ctx.rotate(c.rot);
+      /* Corps du jeton */
+      ctx.beginPath(); ctx.arc(0,0,c.r,0,Math.PI*2);
+      ctx.strokeStyle=c.col; ctx.lineWidth=3; ctx.stroke();
+      /* Anneau intérieur */
+      ctx.beginPath(); ctx.arc(0,0,c.r*0.65,0,Math.PI*2);
+      ctx.lineWidth=1.5; ctx.stroke();
+      /* Segments */
+      for(var seg=0;seg<8;seg++){
+        var a=seg*Math.PI/4;
+        ctx.beginPath();
+        ctx.moveTo(Math.cos(a)*c.r*0.68,Math.sin(a)*c.r*0.68);
+        ctx.lineTo(Math.cos(a)*c.r*0.98,Math.sin(a)*c.r*0.98);
+        ctx.lineWidth=2; ctx.stroke();
+      }
+      ctx.restore();
+    });
+  }
+
+  /* ── POUSSIÈRE DORÉE ─────────────────────────── */
+  function drawDust(){
+    dust.forEach(function(p){
+      p.x+=p.vx; p.y-=p.vy;
+      p.phase+=p.ps;
+      if(p.y<-0.01){p.y=1.01;p.x=rand(0,1);}
+      var a=p.alpha*(0.5+0.5*Math.sin(p.phase));
+      ctx.save();
+      ctx.globalAlpha=a;
+      ctx.shadowBlur=6; ctx.shadowColor='#ffd700';
+      ctx.fillStyle='#ffd700';
+      ctx.beginPath();
+      ctx.arc(p.x*W,p.y*H,p.r,0,Math.PI*2);
       ctx.fill();
       ctx.restore();
     });
-
-    // Symboles flottants
-    particles.forEach(function(p){
-      p.y += p.vy;
-      p.x += p.vx;
-      p.rot += p.rotV;
-      p.pulse += p.pulseSpeed;
-      var a = p.alpha * (0.7 + 0.3*Math.sin(p.pulse));
-      if(p.y < -40) { p.y = H + 20; p.x = rand(0,W); }
-      if(p.x < -40) p.x = W + 20;
-      if(p.x > W+40) p.x = -20;
-      ctx.save();
-      ctx.globalAlpha = a;
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.rot * Math.PI/180);
-      ctx.font = p.size+'px serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(p.sym, 0, 0);
-      ctx.restore();
-    });
-
-    requestAnimationFrame(draw);
   }
-  draw();
+
+  /* ── VIGNETTE BORDS ──────────────────────────── */
+  function drawVignette(){
+    var v=ctx.createRadialGradient(W/2,H/2,H*0.25,W/2,H/2,H*0.85);
+    v.addColorStop(0,'rgba(0,0,0,0)');
+    v.addColorStop(1,'rgba(0,0,0,0.65)');
+    ctx.fillStyle=v; ctx.fillRect(0,0,W,H);
+    /* Barre lumineuse en haut */
+    var top=ctx.createLinearGradient(0,0,W,0);
+    top.addColorStop(0,'transparent');
+    top.addColorStop(0.5,'rgba(255,180,0,0.08)');
+    top.addColorStop(1,'transparent');
+    ctx.fillStyle=top; ctx.fillRect(0,0,W,2);
+  }
+
+  function loop(){
+    drawFelt();
+    drawSpots();
+    drawCards();
+    drawChips();
+    drawDust();
+    drawVignette();
+    requestAnimationFrame(loop);
+  }
+  loop();
 })();
 </script>
 
