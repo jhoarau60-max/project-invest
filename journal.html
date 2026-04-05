@@ -795,11 +795,6 @@ function initFaders(){
             thumb.style.top = (ratio * avail) + 'px';
         }
 
-        function checkOverflow(){
-            fw.style.display = target.scrollHeight > target.clientHeight + 2 ? 'flex' : 'none';
-            updateThumb();
-        }
-
         target.addEventListener('scroll', updateThumb);
 
         function getY(e){ return e.touches ? e.touches[0].clientY : e.clientY; }
@@ -842,7 +837,7 @@ function initFaders(){
         fw.addEventListener('mousedown',  function(e){ e.stopPropagation(); });
         fw.addEventListener('touchstart', function(e){ e.stopPropagation(); }, {passive:false});
 
-        setTimeout(checkOverflow, 200);
+        setTimeout(updateThumb, 300);
     });
 }
 
