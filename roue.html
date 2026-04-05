@@ -9,12 +9,12 @@
     /* ===== FOND IMMERSIF ===== */
     body { background: radial-gradient(ellipse at 50% 0%, #1a0a2e 0%, #0d1a3a 40%, #060e1f 100%) !important; }
     #bg-curves { position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:hidden; }
-    #bg-canvas  { position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none; }
+    /* #bg-canvas est dans #bg-curves, position gérée inline */
 
     /* Rayons de lumière */
     .light-rays {
-      position:fixed; top:-10%; left:50%; transform:translateX(-50%);
-      width:180%; height:130%; z-index:0; pointer-events:none;
+      position:absolute; top:-10%; left:50%; transform:translateX(-50%);
+      width:180%; height:130%; pointer-events:none;
       background: conic-gradient(from 260deg at 50% -10%,
         transparent 0deg, rgba(255,215,0,0.04) 8deg, transparent 16deg,
         transparent 26deg, rgba(255,180,0,0.03) 34deg, transparent 42deg,
@@ -31,8 +31,8 @@
 
     /* Lueur centrale */
     .glow-center {
-      position:fixed; top:30%; left:50%; transform:translate(-50%,-50%);
-      width:600px; height:600px; border-radius:50%; z-index:0; pointer-events:none;
+      position:absolute; top:30%; left:50%; transform:translate(-50%,-50%);
+      width:600px; height:600px; border-radius:50%; pointer-events:none;
       background: radial-gradient(ellipse, rgba(255,180,0,0.08) 0%, rgba(120,50,200,0.06) 40%, transparent 70%);
       animation: pulseGlow 4s ease-in-out infinite alternate;
     }
@@ -363,15 +363,14 @@ setTimeout(function(){
   </div>
 </div>
 
-<!-- Rayons + lueur -->
-<div class="light-rays"></div>
-<div class="glow-center"></div>
-
-<!-- Canvas particules -->
-<canvas id="bg-canvas"></canvas>
-
 <div id="bg-curves">
-  <svg viewBox="0 0 1700 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <!-- Rayons dorés rotatifs -->
+  <div class="light-rays"></div>
+  <!-- Lueur centrale pulsante -->
+  <div class="glow-center"></div>
+  <!-- Canvas particules -->
+  <canvas id="bg-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;"></canvas>
+  <svg viewBox="0 0 1700 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;width:100%;height:100%;">
     <defs><filter id="glow-line"><feGaussianBlur stdDeviation="4" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
     <path class="line-anim"  d="M-100,300 C200,100 400,500 800,250 S1200,50 1700,300"  fill="none" stroke="rgba(255,200,0,0.15)"  stroke-width="2" filter="url(#glow-line)"/>
     <path class="line-anim2" d="M-100,600 C300,400 600,800 1000,550 S1400,300 1700,600" fill="none" stroke="rgba(200,80,255,0.15)" stroke-width="2" filter="url(#glow-line)"/>
