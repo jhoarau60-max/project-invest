@@ -443,40 +443,45 @@
       }
       .article-contenu-book::-webkit-scrollbar { display: none; }
 
-      /* Flèches de scroll */
-      .scroll-arrows {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
+      /* Fader de mixage */
+      .contenu-wrap { position: relative; padding-right: 22px; }
+      .fader-wrap {
         position: absolute;
-        right: 4px;
+        right: 0; top: 0; bottom: 0;
+        width: 18px;
+        display: flex;
+        justify-content: center;
+      }
+      .fader-track {
+        width: 3px;
+        background: rgba(160,100,20,0.18);
+        border-radius: 2px;
+        position: relative;
+        margin: 6px 0;
+        flex: 1;
+      }
+      .fader-thumb {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 13px;
+        height: 30px;
+        background: linear-gradient(180deg, #e8c45a 0%, #c9a84c 40%, #a0721e 100%);
+        border-radius: 4px;
+        cursor: grab;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
         top: 0;
-        bottom: 0;
-        padding: 2px 0;
+        touch-action: none;
       }
-      .scroll-btn {
-        width: 28px; height: 28px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #c9a84c, #a0721e);
-        border: 2px solid rgba(201,168,76,0.8);
-        color: #fff;
-        font-size: 0.7rem;
-        cursor: pointer;
-        display: flex; align-items: center; justify-content: center;
-        user-select: none;
-        transition: all 0.2s;
-        line-height: 1;
-        box-shadow: 0 2px 8px rgba(160,100,20,0.4);
-        font-weight: 900;
+      .fader-thumb::before {
+        content: '';
+        position: absolute;
+        left: 2px; right: 2px; top: 9px;
+        height: 1px;
+        background: rgba(255,255,255,0.45);
+        box-shadow: 0 5px 0 rgba(255,255,255,0.45), 0 10px 0 rgba(255,255,255,0.45);
       }
-      .scroll-btn:hover {
-        background: linear-gradient(135deg, #e0b84e, #c9a84c);
-        box-shadow: 0 3px 12px rgba(160,100,20,0.65);
-        transform: scale(1.12);
-      }
-      .scroll-btn:active { transform: scale(0.95); }
-      .contenu-wrap { position: relative; }
+      .fader-thumb:active { cursor: grabbing; }
       .article-contenu-book p {
         margin: 0 0 10px 0;
       }
@@ -774,9 +779,71 @@ var tousArticles = [];
 
 function toRoman(n){ return romans[n-1] || String(n); }
 
-function scrollCnt(id, delta){
-    var el = document.getElementById(id);
-    if(el) el.scrollTop += delta;
+function initFaders(){
+    document.querySelectorAll('.fader-wrap').forEach(function(fw){
+        var tid = fw.id.replace('fw-','');
+        var target = document.getElementById(tid);
+        if(!target) return;
+        var track = fw.querySelector('.fader-track');
+        var thumb = fw.querySelector('.fader-thumb');
+        var dragging = false, startY = 0, startTop = 0;
+
+        function updateThumb(){
+            var avail = track.offsetHeight - thumb.offsetHeight;
+            if(avail <= 0) return;
+            var ratio = target.scrollTop / (target.scrollHeight - target.clientHeight) || 0;
+            thumb.style.top = (ratio * avail) + 'px';
+        }
+
+        function checkOverflow(){
+            fw.style.display = target.scrollHeight > target.clientHeight + 2 ? 'flex' : 'none';
+            updateThumb();
+        }
+
+        target.addEventListener('scroll', updateThumb);
+
+        function getY(e){ return e.touches ? e.touches[0].clientY : e.clientY; }
+
+        thumb.addEventListener('mousedown', function(e){
+            e.stopPropagation(); e.preventDefault();
+            dragging = true;
+            startY = getY(e);
+            startTop = parseInt(thumb.style.top)||0;
+        });
+        thumb.addEventListener('touchstart', function(e){
+            e.stopPropagation(); e.preventDefault();
+            dragging = true;
+            startY = getY(e);
+            startTop = parseInt(thumb.style.top)||0;
+        }, {passive:false});
+
+        document.addEventListener('mousemove', function(e){
+            if(!dragging) return;
+            e.preventDefault();
+            var dy = getY(e) - startY;
+            var avail = track.offsetHeight - thumb.offsetHeight;
+            var newTop = Math.max(0, Math.min(avail, startTop + dy));
+            thumb.style.top = newTop + 'px';
+            target.scrollTop = (newTop / avail) * (target.scrollHeight - target.clientHeight);
+        });
+        document.addEventListener('touchmove', function(e){
+            if(!dragging) return;
+            e.preventDefault();
+            var dy = getY(e) - startY;
+            var avail = track.offsetHeight - thumb.offsetHeight;
+            var newTop = Math.max(0, Math.min(avail, startTop + dy));
+            thumb.style.top = newTop + 'px';
+            target.scrollTop = (newTop / avail) * (target.scrollHeight - target.clientHeight);
+        }, {passive:false});
+        document.addEventListener('mouseup',  function(){ dragging = false; });
+        document.addEventListener('touchend', function(){ dragging = false; });
+
+        /* Bloquer la propagation sur toute la zone fader pour pas tourner la page */
+        fw.addEventListener('mousedown',  function(e){ e.stopPropagation(); });
+        fw.addEventListener('touchstart', function(e){ e.stopPropagation(); }, {passive:false});
+
+        setTimeout(checkOverflow, 200);
+    });
 }
 
 function lancerParticules(){
@@ -907,10 +974,7 @@ function buildArticlePage(articles, idx, pageNum, totalPages){
         var cid = 'cnt-' + pageNum;
         html += '<div class="contenu-wrap">'
             + '<div class="article-contenu-book" id="' + cid + '">' + contenuFormate + '</div>'
-            + '<div class="scroll-arrows">'
-            + '<div class="scroll-btn" onclick="scrollCnt(\'' + cid + '\',-60)">▲</div>'
-            + '<div class="scroll-btn" onclick="scrollCnt(\'' + cid + '\',60)">▼</div>'
-            + '</div>'
+            + '<div class="fader-wrap" id="fw-' + cid + '"><div class="fader-track"><div class="fader-thumb"></div></div></div>'
             + '</div>'
             + '</div>';
     }
@@ -939,7 +1003,7 @@ function buildInfoPage1(){
         + '<p>Sachez que tout ceci sera <strong>SURVEILLÉ DE TRÈS PRÈS</strong> 👀 car je veux le meilleur pour ceux qui restent ! 🌟</p>'
         + '<p style="text-align:center;font-weight:700;color:#c9a84c;">On repart sur de bonnes bases, dans la joie et la réussite ! 🚀💪</p>'
         + '</div>'
-        + '<div class="scroll-arrows"><div class="scroll-btn" onclick="scrollCnt(\'info1\',-60)">▲</div><div class="scroll-btn" onclick="scrollCnt(\'info1\',60)">▼</div></div>'
+        + '<div class="fader-wrap" id="fw-info1"><div class="fader-track"><div class="fader-thumb"></div></div></div>'
         + '</div></div>'
         + '</div></div>';
 }
@@ -964,7 +1028,7 @@ function buildInfoPage2(){
         + '<p><strong>⚠️ Rappel Essentiel :</strong> C\'est mon avis personnel, pas une obligation. Chaque investissement reste un risque — chacun investit en son libre arbitre. Soyez responsables et avisés. 🧠</p>'
         + '<p style="text-align:center;font-weight:700;color:#c9a84c;">On continue d\'avancer ensemble ! 🔥</p>'
         + '</div>'
-        + '<div class="scroll-arrows"><div class="scroll-btn" onclick="scrollCnt(\'info2\',-60)">▲</div><div class="scroll-btn" onclick="scrollCnt(\'info2\',60)">▼</div></div>'
+        + '<div class="fader-wrap" id="fw-info2"><div class="fader-track"><div class="fader-thumb"></div></div></div>'
         + '</div></div>'
         + '</div></div>';
 }
@@ -1107,6 +1171,8 @@ function afficherLivre(articles){
     var tot = pageFlip.getPageCount();
     document.getElementById('page-indicator').textContent = 'I / ' + toRoman(tot);
     document.getElementById('btn-prev').disabled = true;
+
+    setTimeout(initFaders, 400);
 }
 
 
