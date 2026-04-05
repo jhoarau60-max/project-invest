@@ -29,6 +29,7 @@
     'bibliotheque-mlm.html':         'fa-star',
     'journal.html':                  'fa-newspaper',
     'boutique.html':                 'fa-store',
+    'roue.html':                     'fa-vault',
     'admin.html':                    'fa-shield-halved',
   };
 
@@ -436,6 +437,14 @@
       aB.textContent = 'Boutique';
       liB.appendChild(aB);
       ul.appendChild(liB);
+    }
+    if (ul && !ul.querySelector('a[href="roue.html"]')) {
+      var liR = document.createElement('li');
+      var aR  = document.createElement('a');
+      aR.href = 'roue.html';
+      aR.textContent = 'Coffre des Gains';
+      liR.appendChild(aR);
+      ul.appendChild(liR);
     }
 
     // Renommer + icônes + sous-menus
