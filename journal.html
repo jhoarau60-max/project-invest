@@ -438,18 +438,37 @@
         font-weight: 600;
         overflow-y: auto;
         max-height: 300px;
-        padding-right: 8px;
+        padding-right: 4px;
+        scrollbar-width: none;
       }
-      .article-contenu-book::-webkit-scrollbar {
-        width: 3px;
+      .article-contenu-book::-webkit-scrollbar { display: none; }
+
+      /* Flèches de scroll */
+      .scroll-arrows {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
       }
-      .article-contenu-book::-webkit-scrollbar-track {
-        background: transparent;
+      .scroll-btn {
+        width: 22px; height: 22px;
+        border-radius: 50%;
+        background: rgba(160,100,20,0.12);
+        border: 1px solid rgba(160,100,20,0.3);
+        color: rgba(100,60,10,0.7);
+        font-size: 0.65rem;
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        user-select: none;
+        transition: background 0.2s;
+        line-height: 1;
       }
-      .article-contenu-book::-webkit-scrollbar-thumb {
-        background: rgba(100,60,20,0.3);
-        border-radius: 3px;
-      }
+      .scroll-btn:hover { background: rgba(160,100,20,0.28); color: #5a3000; }
+      .contenu-wrap { position: relative; }
       .article-contenu-book p {
         margin: 0 0 10px 0;
       }
@@ -747,6 +766,11 @@ var tousArticles = [];
 
 function toRoman(n){ return romans[n-1] || String(n); }
 
+function scrollCnt(id, delta){
+    var el = document.getElementById(id);
+    if(el) el.scrollTop += delta;
+}
+
 function lancerParticules(){
     var scene = document.getElementById('book-scene');
     // Supprimer anciennes particules
@@ -872,7 +896,14 @@ function buildArticlePage(articles, idx, pageNum, totalPages){
             p = p.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" style="color:#8b4513;text-decoration:underline;word-break:break-all;">$1</a>');
             return '<p>' + p + '</p>';
         }).join('');
-        html += '<div class="article-contenu-book">' + contenuFormate + '</div>'
+        var cid = 'cnt-' + pageNum;
+        html += '<div class="contenu-wrap">'
+            + '<div class="article-contenu-book" id="' + cid + '">' + contenuFormate + '</div>'
+            + '<div class="scroll-arrows">'
+            + '<div class="scroll-btn" onclick="scrollCnt(\'' + cid + '\',-60)">▲</div>'
+            + '<div class="scroll-btn" onclick="scrollCnt(\'' + cid + '\',60)">▼</div>'
+            + '</div>'
+            + '</div>'
             + '</div>';
     }
 
@@ -890,7 +921,8 @@ function buildInfoPage1(){
         + '</div>'
         + '<div class="article-block" style="gap:0;">'
         + '<div style="font-size:1.1rem;font-weight:900;color:#c9a84c;font-family:\'Cinzel\',serif;text-align:center;margin-bottom:10px;line-height:1.4;">✨ INFORMATION IMPORTANTE<br>CAP SUR LA PHASE 2 ! ✨</div>'
-        + '<div class="article-contenu-book" style="font-size:0.78rem;line-height:1.65;">'
+        + '<div class="contenu-wrap">'
+        + '<div class="article-contenu-book" id="info1" style="font-size:0.78rem;line-height:1.65;">'
         + '<p>Bonjour à tous ! 👋 C\'est avec une joie immense que nous entamons la suite de notre aventure ! 🚀 Pour que notre stratégie soit réellement <strong>PAYANTE</strong> 💰 et que nous avancions ensemble, il est temps de repartir sur un groupe <strong>SAIN et PROPRE</strong> ! 💎</p>'
         + '<p><strong>🔹 LA QUALITÉ AVANT LE NOMBRE 🎯</strong> : Je construis une <strong>VÉRITABLE COMMUNAUTÉ</strong> 🤝 et non un groupe de touristes de passage ! Ce qui m\'importe, c\'est votre engagement et votre envie de réussir ensemble ! 🔥</p>'
         + '<p><strong>🔹 AUTHENTIFICATION ✅</strong> : Pour que je puisse vous <strong>AUTHENTIFIER COMME ACTIF</strong> ✨, mettez simplement un petit message sous ce post.</p>'
@@ -898,6 +930,8 @@ function buildInfoPage1(){
         + '<p><strong>🔹 LIBERTÉ TOTALE 🕊️</strong> : Ceux qui n\'ont pas envie de s\'impliquer peuvent partir sans obligation. 👋</p>'
         + '<p>Sachez que tout ceci sera <strong>SURVEILLÉ DE TRÈS PRÈS</strong> 👀 car je veux le meilleur pour ceux qui restent ! 🌟</p>'
         + '<p style="text-align:center;font-weight:700;color:#c9a84c;">On repart sur de bonnes bases, dans la joie et la réussite ! 🚀💪</p>'
+        + '</div>'
+        + '<div class="scroll-arrows"><div class="scroll-btn" onclick="scrollCnt(\'info1\',-60)">▲</div><div class="scroll-btn" onclick="scrollCnt(\'info1\',60)">▼</div></div>'
         + '</div></div>'
         + '</div></div>';
 }
@@ -912,7 +946,8 @@ function buildInfoPage2(){
         + '</div>'
         + '<div class="article-block" style="gap:0;">'
         + '<div style="font-size:1rem;font-weight:900;color:#c9a84c;font-family:\'Cinzel\',serif;text-align:center;margin-bottom:10px;line-height:1.4;">📢 Information Importante<br>Project Invest 🚀</div>'
-        + '<div class="article-contenu-book" style="font-size:0.78rem;line-height:1.65;">'
+        + '<div class="contenu-wrap">'
+        + '<div class="article-contenu-book" id="info2" style="font-size:0.78rem;line-height:1.65;">'
         + '<p><strong>✅ Focus &amp; Stabilité :</strong> D\'ici fin 2026, je ne vais plus intégrer de nouveaux projets. On s\'appuie sur nos piliers solides :</p>'
         + '<p>• <strong>Estate et Smart</strong> : qui existent déjà depuis un an.<br>• <strong>Arbcore et Athéna</strong> : nos deux nouveaux projets.</p>'
         + '<p><strong>🏆 Mon classement personnel :</strong> Estate — Athéna — Smart — Arbcore <em>(cela n\'engage que moi, ce n\'est pas une obligation)</em></p>'
@@ -920,6 +955,8 @@ function buildInfoPage2(){
         + '<p><strong>💬 Besoin d\'aide ?</strong> Un support est disponible pour vos questions directement sur le site. 🤝</p>'
         + '<p><strong>⚠️ Rappel Essentiel :</strong> C\'est mon avis personnel, pas une obligation. Chaque investissement reste un risque — chacun investit en son libre arbitre. Soyez responsables et avisés. 🧠</p>'
         + '<p style="text-align:center;font-weight:700;color:#c9a84c;">On continue d\'avancer ensemble ! 🔥</p>'
+        + '</div>'
+        + '<div class="scroll-arrows"><div class="scroll-btn" onclick="scrollCnt(\'info2\',-60)">▲</div><div class="scroll-btn" onclick="scrollCnt(\'info2\',60)">▼</div></div>'
         + '</div></div>'
         + '</div></div>';
 }
