@@ -31,7 +31,7 @@
         const installBtn = document.createElement('button');
         installBtn.id = 'install-btn';
         installBtn.title = "Installer l'application";
-        installBtn.style.cssText = 'display:none;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:0.82rem;font-weight:700;border:1px solid #229ED9;background:#229ED9;color:#fff;cursor:pointer;flex-shrink:0;';
+        installBtn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:0.82rem;font-weight:700;border:1px solid #229ED9;background:#229ED9;color:#fff;cursor:pointer;flex-shrink:0;';
         installBtn.innerHTML = '<i class="fa-solid fa-mobile-screen"></i> Installer';
         headerTop.insertBefore(installBtn, btn.nextSibling);
 
@@ -39,7 +39,6 @@
         window.addEventListener('beforeinstallprompt', function(e) {
           e.preventDefault();
           deferredPrompt = e;
-          installBtn.style.display = 'inline-flex';
         });
         installBtn.addEventListener('click', function() {
           if (deferredPrompt) {
