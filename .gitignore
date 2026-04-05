@@ -1,0 +1,6 @@
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Pages en développement secret (ne jamais pousser sur Vercel)
+# surprise.html   ← décommenter et renommer quand on aura le nom de la page
