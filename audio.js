@@ -26,32 +26,6 @@
       headerTop.insertBefore(btn, headerTop.firstChild);
 
       // Bouton Boutique — à gauche avec margin-right:auto pour pousser les liens sociaux à droite
-      // Bouton installer l'app
-      if (!document.getElementById('install-btn')) {
-        const installBtn = document.createElement('button');
-        installBtn.id = 'install-btn';
-        installBtn.title = "Installer l'application";
-        installBtn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:0.82rem;font-weight:700;border:1px solid #229ED9;background:#229ED9;color:#fff;cursor:pointer;flex-shrink:0;';
-        installBtn.innerHTML = '<i class="fa-solid fa-mobile-screen"></i> Installer';
-        headerTop.insertBefore(installBtn, btn.nextSibling);
-
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', function(e) {
-          e.preventDefault();
-          deferredPrompt = e;
-        });
-        installBtn.addEventListener('click', function() {
-          if (deferredPrompt) {
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then(function() { deferredPrompt = null; installBtn.style.display = 'none'; });
-          } else {
-            // iOS : instructions manuelles
-            alert("Sur iPhone :\n1. Appuyez sur le bouton Partage (carré avec flèche)\n2. Choisissez 'Sur l'écran d'accueil'\n\nSur Android :\nMenu (3 points) → 'Ajouter à l'écran d'accueil'");
-          }
-        });
-        window.addEventListener('appinstalled', function() { installBtn.style.display = 'none'; });
-      }
-
       if (!document.getElementById('boutique-btn')) {
         const style = document.createElement('style');
         style.textContent = `
@@ -84,6 +58,31 @@
         boutiqueBtn.href = 'boutique.html';
         boutiqueBtn.innerHTML = '<i class="fa-solid fa-store"></i> Numérique';
         headerTop.insertBefore(boutiqueBtn, btn.nextSibling);
+
+        // Bouton installer — juste après Numérique
+        if (!document.getElementById('install-btn')) {
+          const installBtn = document.createElement('button');
+          installBtn.id = 'install-btn';
+          installBtn.title = "Installer l'application";
+          installBtn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:0.82rem;font-weight:700;border:1px solid #229ED9;background:#229ED9;color:#fff;cursor:pointer;flex-shrink:0;';
+          installBtn.innerHTML = '<i class="fa-solid fa-mobile-screen"></i> Installer';
+          headerTop.insertBefore(installBtn, boutiqueBtn.nextSibling);
+
+          let deferredPrompt;
+          window.addEventListener('beforeinstallprompt', function(e) {
+            e.preventDefault();
+            deferredPrompt = e;
+          });
+          installBtn.addEventListener('click', function() {
+            if (deferredPrompt) {
+              deferredPrompt.prompt();
+              deferredPrompt.userChoice.then(function() { deferredPrompt = null; installBtn.style.display = 'none'; });
+            } else {
+              alert("Sur iPhone :\n1. Appuyez sur le bouton Partage (carré avec flèche)\n2. Choisissez 'Sur l'écran d'accueil'\n\nSur Android :\nMenu (3 points) → 'Ajouter à l'écran d'accueil'");
+            }
+          });
+          window.addEventListener('appinstalled', function() { installBtn.style.display = 'none'; });
+        }
       }
     } else {
       // Page de connexion : fixe en haut à gauche
