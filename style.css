@@ -713,7 +713,43 @@ footer p {
 /* RESPONSIVE */
 @media (max-width: 768px) {
     .hero h1 { font-size: 2rem; }
+    .hero { padding: 60px 15px; }
+    .hero p { font-size: 1rem; }
+    .section { padding: 40px 15px; }
+    .section-title { font-size: 1.5rem; }
+    .page-header h1 { font-size: 1.8rem; }
+    .page-header { padding: 40px 15px; }
+
+    /* Header */
     nav ul { flex-direction: column; }
-    .header-top { flex-direction: column; gap: 10px; }
-    .social-links { flex-wrap: wrap; justify-content: center; }
+    .header-top {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 10px 0;
+    }
+    .social-links { flex-wrap: wrap; gap: 6px; }
+
+    /* Buttons smaller on mobile */
+    .social-links a {
+        font-size: 0.75rem !important;
+        padding: 6px 10px !important;
+    }
+    #boutique-btn, #install-btn, #pwa-install-btn {
+        font-size: 0.75rem !important;
+        padding: 5px 10px !important;
+    }
+
+    /* Cards full-width */
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    .card { padding: 20px; }
+
+    /* Table scroll */
+    table { display: block; overflow-x: auto; }
+
+    /* Buttons */
+    .btn { padding: 12px 24px; font-size: 0.9rem; }
+    .btn-outline { margin-left: 0; margin-top: 10px; }
 }

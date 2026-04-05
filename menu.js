@@ -257,6 +257,58 @@
     header {
       width: calc(100% - ${SW}px) !important;
     }
+
+    /* ── MOBILE (≤ 768px) ── */
+    @media (max-width: 768px) {
+      nav {
+        transform: translateX(-100%) !important;
+        transition: transform 0.35s cubic-bezier(0.4,0,0.2,1) !important;
+        width: 260px !important;
+        z-index: 9999 !important;
+      }
+      nav.mobile-open {
+        transform: translateX(0) !important;
+      }
+      body > header,
+      body > section,
+      body > footer,
+      body > div:not(#bg-curves):not(#nav-overlay):not(.settings-wrapper):not(#crop-modal):not(#lang-menu):not(.section) {
+        margin-left: 0 !important;
+      }
+      body > .section {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+      }
+      body > .settings-wrapper {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        width: calc(100% - 30px) !important;
+        max-width: 600px !important;
+      }
+      header {
+        width: 100% !important;
+      }
+      .header-top {
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+        padding: 10px 0 !important;
+      }
+      #mobile-menu-btn {
+        display: flex !important;
+      }
+      #nav-mobile-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.6);
+        z-index: 9998;
+        backdrop-filter: blur(2px);
+      }
+      #nav-mobile-overlay.open { display: block !important; }
+    }
     .header-top {
       justify-content: flex-end !important;
       gap: 12px !important;
@@ -359,6 +411,35 @@
 
     .social-links a[href="parametres.html"]:not(#user-badge) { display: none !important; }
 
+    /* Hamburger mobile */
+    #mobile-menu-btn {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 40px;
+      height: 40px;
+      padding: 8px;
+      border: 1px solid rgba(0,200,255,0.45);
+      border-radius: 8px;
+      background: rgba(0,200,255,0.08);
+      cursor: pointer;
+      flex-shrink: 0;
+      order: -1;
+    }
+    #mobile-menu-btn span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #3ab8d4;
+      border-radius: 2px;
+      transition: all 0.3s;
+      transform-origin: center;
+    }
+    #mobile-menu-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #mobile-menu-btn.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    #mobile-menu-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
     .social-links a,
     #lang-btn {
       box-shadow: none !important;
@@ -387,6 +468,38 @@
 
     // Déplacer le nav dans body (hors header)
     document.body.appendChild(nav);
+
+    // ── Bouton hamburger mobile ──
+    var hamburger = document.createElement('div');
+    hamburger.id = 'mobile-menu-btn';
+    hamburger.innerHTML = '<span></span><span></span><span></span>';
+    var headerTop = document.querySelector('.header-top');
+    if (headerTop) headerTop.insertBefore(hamburger, headerTop.firstChild);
+
+    // Overlay mobile
+    var overlay = document.createElement('div');
+    overlay.id = 'nav-mobile-overlay';
+    document.body.appendChild(overlay);
+
+    function openNav() {
+      nav.classList.add('mobile-open');
+      overlay.classList.add('open');
+      hamburger.classList.add('open');
+    }
+    function closeNav() {
+      nav.classList.remove('mobile-open');
+      overlay.classList.remove('open');
+      hamburger.classList.remove('open');
+    }
+    hamburger.addEventListener('click', function() {
+      nav.classList.contains('mobile-open') ? closeNav() : openNav();
+    });
+    overlay.addEventListener('click', closeNav);
+    // Fermer quand on clique un lien du menu (navigation)
+    nav.addEventListener('click', function(e) {
+      var a = e.target.closest('a');
+      if (a && !a.parentElement.classList.contains('nav-has-sub')) closeNav();
+    });
 
     // Mettre le logo en haut de la sidebar avec la nouvelle image
     if (logo) {
