@@ -9,180 +9,248 @@
     .line-anim  { stroke-dasharray:40 960; animation:snake 6s linear infinite,rainbow 5s linear infinite; }
     .line-anim2 { stroke-dasharray:40 960; animation:snake 8s linear infinite reverse,rainbow 5s linear infinite 1.5s; }
     .line-anim3 { stroke-dasharray:40 960; animation:snake 7s linear infinite,rainbow 5s linear infinite 3s; }
-    @keyframes snake { from{stroke-dashoffset:1000}to{stroke-dashoffset:-1000} }
-    @keyframes rainbow {
-      0%  {stroke:#00c8ff;filter:drop-shadow(0 0 6px #00c8ff)}
-      20% {stroke:#7850ff;filter:drop-shadow(0 0 6px #7850ff)}
-      40% {stroke:#ff3399;filter:drop-shadow(0 0 6px #ff3399)}
-      60% {stroke:#ffaa00;filter:drop-shadow(0 0 6px #ffaa00)}
-      80% {stroke:#00ff99;filter:drop-shadow(0 0 6px #00ff99)}
-      100%{stroke:#00c8ff;filter:drop-shadow(0 0 6px #00c8ff)}
+    @keyframes snake{from{stroke-dashoffset:1000}to{stroke-dashoffset:-1000}}
+    @keyframes rainbow{0%{stroke:#00c8ff;filter:drop-shadow(0 0 6px #00c8ff)}20%{stroke:#7850ff;filter:drop-shadow(0 0 6px #7850ff)}40%{stroke:#ff3399;filter:drop-shadow(0 0 6px #ff3399)}60%{stroke:#ffaa00;filter:drop-shadow(0 0 6px #ffaa00)}80%{stroke:#00ff99;filter:drop-shadow(0 0 6px #00ff99)}100%{stroke:#00c8ff;filter:drop-shadow(0 0 6px #00c8ff)}}
+
+    /* ===== ACCROCHE ===== */
+    .hero-coffre {
+      text-align:center; padding:40px 20px 10px;
+      display:flex; flex-direction:column; align-items:center; gap:16px;
+    }
+    .hero-prize {
+      font-size:4rem; font-weight:900; line-height:1;
+      background:linear-gradient(135deg,#ffd700,#ff8c00,#ffd700);
+      background-size:200% auto;
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      animation:prizeShine 2s linear infinite;
+    }
+    @keyframes prizeShine{0%{background-position:0%}100%{background-position:200%}}
+    .hero-label { font-size:0.8rem; letter-spacing:4px; text-transform:uppercase; color:#aaa; }
+    .hero-desc  { font-size:1rem; color:#ccc; max-width:420px; line-height:1.6; }
+    .hero-stats {
+      display:flex; gap:20px; flex-wrap:wrap; justify-content:center; margin-top:4px;
+    }
+    .hstat {
+      background:rgba(0,200,255,0.07); border:1px solid rgba(0,200,255,0.15);
+      border-radius:10px; padding:10px 18px; text-align:center;
+    }
+    .hstat strong { display:block; font-size:1.1rem; color:#00c8ff; }
+    .hstat span   { font-size:0.72rem; color:#888; }
+
+    /* Pièce attrayante en accroche */
+    .coin-hero {
+      width:80px; height:80px; border-radius:50%;
+      background:linear-gradient(145deg,#ffe066,#ffd700,#cc8800,#ffd700);
+      box-shadow:0 0 30px rgba(255,215,0,0.5), inset 0 2px 4px rgba(255,255,255,0.4);
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.6rem; font-weight:900; color:#7a5000;
+      animation:coinFloat 2.5s ease-in-out infinite, coinGlow 2.5s ease-in-out infinite alternate;
+      cursor:pointer; position:relative;
+    }
+    @keyframes coinFloat{0%,100%{transform:translateY(0) rotateY(0deg)}50%{transform:translateY(-12px) rotateY(180deg)}}
+    @keyframes coinGlow{from{box-shadow:0 0 20px rgba(255,215,0,0.4)}to{box-shadow:0 0 50px rgba(255,215,0,0.9)}}
+    .coin-hero::after {
+      content:'Cliquez pour jouer !';
+      position:absolute; bottom:-28px; left:50%; transform:translateX(-50%);
+      font-size:0.68rem; color:#ffd700; white-space:nowrap; letter-spacing:1px;
+      animation:blinkText 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes blinkText{from{opacity:0.5}to{opacity:1}}
+
+    /* ===== MODAL SONDAGE ===== */
+    .survey-backdrop {
+      display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85);
+      z-index:5000; align-items:center; justify-content:center; padding:20px;
+    }
+    .survey-backdrop.show { display:flex; }
+    .survey-box {
+      background:linear-gradient(160deg,#0d1a2e,#091420);
+      border:1px solid rgba(0,200,255,0.25); border-radius:20px;
+      padding:32px 28px; max-width:480px; width:100%;
+      box-shadow:0 0 60px rgba(0,200,255,0.1);
+    }
+    .survey-step { display:none; }
+    .survey-step.active { display:block; }
+    .survey-title {
+      font-size:1.1rem; font-weight:800; color:#00c8ff; margin-bottom:6px;
+      display:flex; align-items:center; gap:10px;
+    }
+    .survey-q { font-size:0.95rem; color:#e0e0e0; margin:16px 0 14px; line-height:1.5; }
+    .survey-options { display:flex; flex-direction:column; gap:10px; }
+    .sopt {
+      padding:11px 16px; border-radius:10px; border:1px solid rgba(0,200,255,0.2);
+      background:rgba(0,200,255,0.05); color:#ccc; font-size:0.88rem;
+      cursor:pointer; transition:all 0.2s; text-align:left;
+    }
+    .sopt:hover, .sopt.selected {
+      background:rgba(0,200,255,0.15); border-color:rgba(0,200,255,0.5); color:#fff;
+    }
+    .survey-text {
+      width:100%; background:rgba(0,200,255,0.05); border:1px solid rgba(0,200,255,0.2);
+      border-radius:10px; padding:10px 14px; color:#fff; font-size:0.88rem;
+      resize:none; outline:none; margin-top:4px;
+    }
+    .survey-text:focus { border-color:rgba(0,200,255,0.5); }
+    .survey-nav {
+      display:flex; justify-content:space-between; align-items:center; margin-top:20px;
+    }
+    .survey-prog { font-size:0.72rem; color:#666; letter-spacing:1px; }
+    .btn-survey-next {
+      padding:10px 26px; border-radius:20px; border:none; cursor:pointer;
+      background:linear-gradient(135deg,#00c8ff,#7850ff); color:#fff;
+      font-weight:700; font-size:0.88rem; transition:all 0.2s;
+    }
+    .btn-survey-next:hover { transform:scale(1.05); }
+
+    /* ===== ANIMATION PIÈCE ===== */
+    #falling-coin {
+      display:none; position:fixed; z-index:6000;
+      width:60px; height:60px; border-radius:50%;
+      background:linear-gradient(145deg,#ffe066,#ffd700,#cc8800,#ffd700);
+      box-shadow:0 0 20px rgba(255,215,0,0.7), inset 0 2px 4px rgba(255,255,255,0.4);
+      align-items:center; justify-content:center;
+      font-size:1.2rem; font-weight:900; color:#7a5000;
+      pointer-events:none;
+    }
+    @keyframes coinDrop {
+      0%   { transform:translateY(-120px) rotateY(0deg) scale(1); opacity:1; }
+      70%  { transform:translateY(var(--drop-dist)) rotateY(900deg) scale(1); opacity:1; }
+      85%  { transform:translateY(calc(var(--drop-dist) - 12px)) rotateY(1020deg) scale(0.8); opacity:0.8; }
+      100% { transform:translateY(var(--drop-dist)) rotateY(1080deg) scale(0); opacity:0; }
     }
 
-    /* ===== LAYOUT ===== */
-    .coffre-page { display:flex; flex-direction:column; align-items:center; gap:40px; padding:30px 20px 70px; }
+    /* ===== LAYOUT COFFRE ===== */
+    .coffre-page { display:flex; flex-direction:column; align-items:center; gap:36px; padding:16px 20px 70px; }
 
-    /* ===== POINTS BOX ===== */
+    /* POINTS BOX */
     .points-box {
-      background:linear-gradient(135deg,rgba(0,200,255,0.08),rgba(120,80,255,0.08));
-      border:1px solid rgba(0,200,255,0.2);
-      border-radius:14px; padding:16px 24px;
-      display:flex; align-items:center; gap:20px; flex-wrap:wrap;
-      justify-content:center; width:100%; max-width:500px;
-    }
-    .points-token {
-      display:flex; flex-direction:column; align-items:center; gap:4px;
+      background:linear-gradient(135deg,rgba(255,180,0,0.07),rgba(120,80,255,0.07));
+      border:1px solid rgba(255,180,0,0.2); border-radius:14px;
+      padding:14px 22px; display:flex; align-items:center; gap:18px;
+      flex-wrap:wrap; justify-content:center; width:100%; max-width:500px;
     }
     .token-icon {
-      width:48px; height:48px; border-radius:50%;
+      width:46px; height:46px; border-radius:50%;
       background:linear-gradient(135deg,#ffd700,#ff8c00);
       display:flex; align-items:center; justify-content:center;
-      font-size:1.2rem; font-weight:900; color:#1a0a00;
+      font-size:1rem; font-weight:900; color:#1a0a00;
       box-shadow:0 0 16px rgba(255,180,0,0.4);
-      animation:tokenPulse 2.5s ease-in-out infinite alternate;
+      animation:tPulse 2.5s ease-in-out infinite alternate; flex-shrink:0;
     }
-    @keyframes tokenPulse {
-      from{ box-shadow:0 0 8px rgba(255,180,0,0.3); }
-      to  { box-shadow:0 0 24px rgba(255,180,0,0.7); }
-    }
-    .token-label { font-size:0.65rem; color:#aaa; letter-spacing:1px; text-transform:uppercase; }
-    .points-info { flex:1; min-width:180px; }
-    .points-count { font-size:1.6rem; font-weight:900; color:#ffd700; }
-    .points-count span { font-size:0.85rem; color:#666; font-weight:400; }
-    .points-bar-wrap {
-      background:rgba(255,255,255,0.06); border-radius:10px; height:8px;
-      margin-top:6px; overflow:hidden;
-    }
-    .points-bar {
-      height:100%; border-radius:10px;
-      background:linear-gradient(to right,#ffd700,#ff8c00);
-      transition:width 0.6s ease;
-    }
-    .points-sub { font-size:0.72rem; color:#888; margin-top:4px; }
-    .points-unlock {
+    @keyframes tPulse{from{box-shadow:0 0 8px rgba(255,180,0,0.3)}to{box-shadow:0 0 24px rgba(255,180,0,0.7)}}
+    .points-info { flex:1; min-width:160px; }
+    .pts-count { font-size:1.5rem; font-weight:900; color:#ffd700; }
+    .pts-count small { font-size:0.8rem; color:#666; font-weight:400; }
+    .pts-bar-wrap { background:rgba(255,255,255,0.06); border-radius:10px; height:7px; margin-top:5px; overflow:hidden; }
+    .pts-bar { height:100%; border-radius:10px; background:linear-gradient(to right,#ffd700,#ff8c00); transition:width 0.6s ease; }
+    .pts-sub { font-size:0.7rem; color:#888; margin-top:4px; }
+    .btn-unlock {
       display:none; padding:7px 16px; border-radius:20px; border:none; cursor:pointer;
       background:linear-gradient(135deg,#ffd700,#ff8c00);
-      color:#1a0a00; font-weight:800; font-size:0.8rem;
-      animation:tokenPulse 1.5s ease-in-out infinite alternate;
+      color:#1a0a00; font-weight:800; font-size:0.78rem;
     }
 
-    /* ===== DEUX COLONNES ===== */
-    .coffre-grid {
-      display:grid; grid-template-columns:1fr 1fr; gap:32px;
-      width:100%; max-width:820px; align-items:start;
-    }
-    @media(max-width:700px){ .coffre-grid{ grid-template-columns:1fr; } }
+    /* GRILLE */
+    .coffre-grid { display:grid; grid-template-columns:1fr 1fr; gap:28px; width:100%; max-width:800px; align-items:start; }
+    @media(max-width:680px){ .coffre-grid{ grid-template-columns:1fr; } }
 
-    /* ===== PANEL ===== */
+    /* PANEL */
     .panel {
-      background:rgba(0,10,25,0.6); border:1px solid rgba(0,200,255,0.15);
-      border-radius:18px; padding:28px 24px;
-      display:flex; flex-direction:column; align-items:center; gap:18px;
+      background:rgba(5,14,28,0.7); border:1px solid rgba(0,200,255,0.14);
+      border-radius:18px; padding:26px 20px;
+      display:flex; flex-direction:column; align-items:center; gap:16px;
     }
-    .panel-title {
-      font-size:1rem; font-weight:800; letter-spacing:2px; text-transform:uppercase;
-      color:#00c8ff; text-align:center;
-    }
-    .panel-sub { font-size:0.78rem; color:#888; text-align:center; line-height:1.5; }
+    .panel-title { font-size:0.9rem; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#00c8ff; }
+    .panel-sub { font-size:0.76rem; color:#888; text-align:center; line-height:1.5; }
 
-    /* ===== COFFRE FORT ===== */
-    .vault-scene { position:relative; width:220px; height:220px; display:flex; align-items:center; justify-content:center; }
-    .vault-glow {
-      position:absolute; inset:-24px; border-radius:50%;
-      background:radial-gradient(ellipse,rgba(0,200,255,0.1) 0%,transparent 70%);
-      animation:vaultBreath 3s ease-in-out infinite;
-    }
-    @keyframes vaultBreath { 0%,100%{opacity:0.6;transform:scale(1)}50%{opacity:1;transform:scale(1.1)} }
+    /* COFFRE */
+    .vault-scene { position:relative; width:200px; height:200px; display:flex; align-items:center; justify-content:center; }
+    .vault-glow { position:absolute; inset:-20px; border-radius:50%; background:radial-gradient(ellipse,rgba(0,200,255,0.1) 0%,transparent 70%); animation:vBreath 3s ease-in-out infinite; }
+    @keyframes vBreath{0%,100%{opacity:0.5;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}
     .vault-body {
-      width:180px; height:180px; border-radius:14px;
+      width:168px; height:168px; border-radius:14px;
       background:linear-gradient(160deg,#1a2a3a,#0d1a28,#091420);
-      border:2px solid rgba(0,200,255,0.25);
-      box-shadow:0 0 30px rgba(0,200,255,0.1),inset 0 0 30px rgba(0,0,0,0.5);
-      position:relative; overflow:visible; transition:all 0.8s ease;
+      border:2px solid rgba(0,200,255,0.22);
+      box-shadow:0 0 28px rgba(0,200,255,0.08),inset 0 0 28px rgba(0,0,0,0.5);
+      position:relative; transition:all 0.8s ease; overflow:visible;
     }
-    .vault-body.opening { transform:perspective(600px) rotateY(-22deg) translateX(-16px); box-shadow:0 0 60px rgba(255,215,0,0.4); }
-    .vault-body.shake { animation:vaultShake 0.5s ease; }
-    @keyframes vaultShake { 0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)} }
-    .rivet { position:absolute; width:9px; height:9px; border-radius:50%; background:radial-gradient(circle at 35% 35%,#3a5a7a,#1a3a5a); border:1px solid rgba(0,200,255,0.2); }
-    .rivet.tl{top:10px;left:10px} .rivet.tr{top:10px;right:10px} .rivet.bl{bottom:10px;left:10px} .rivet.br{bottom:10px;right:10px}
-    .vault-lbl { position:absolute;top:12px;left:50%;transform:translateX(-50%);font-size:0.5rem;letter-spacing:3px;color:rgba(0,200,255,0.4);white-space:nowrap;font-weight:700;text-transform:uppercase; }
+    .vault-body.opening { transform:perspective(600px) rotateY(-22deg) translateX(-14px); box-shadow:0 0 60px rgba(255,215,0,0.5); }
+    .vault-body.shake { animation:vShake 0.5s ease; }
+    @keyframes vShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+    .rivet { position:absolute; width:8px; height:8px; border-radius:50%; background:radial-gradient(circle at 35% 35%,#3a5a7a,#1a3a5a); border:1px solid rgba(0,200,255,0.2); }
+    .rivet.tl{top:9px;left:9px}.rivet.tr{top:9px;right:9px}.rivet.bl{bottom:9px;left:9px}.rivet.br{bottom:9px;right:9px}
+    .vault-lbl { position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:0.45rem;letter-spacing:3px;color:rgba(0,200,255,0.35);white-space:nowrap;font-weight:700;text-transform:uppercase; }
     .vault-dial {
-      width:72px; height:72px; border-radius:50%;
+      width:68px; height:68px; border-radius:50%;
       background:radial-gradient(circle at 40% 35%,#2a4a6a,#0d1e2e);
-      border:2px solid rgba(0,200,255,0.35);
-      box-shadow:0 0 16px rgba(0,200,255,0.15),inset 0 0 16px rgba(0,0,0,0.5);
-      display:flex;align-items:center;justify-content:center;
-      margin:0 auto; animation:dialSpin 8s linear infinite;
+      border:2px solid rgba(0,200,255,0.3);
+      box-shadow:0 0 14px rgba(0,200,255,0.12),inset 0 0 14px rgba(0,0,0,0.5);
+      display:flex; align-items:center; justify-content:center;
+      margin:0 auto; animation:dSpin 8s linear infinite;
     }
-    @keyframes dialSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-    .vault-dial.fast{animation:dialFast 0.25s linear infinite}
-    @keyframes dialFast{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+    @keyframes dSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+    .vault-dial.fast{animation:dFast 0.2s linear infinite}
+    @keyframes dFast{from{transform:rotate(0)}to{transform:rotate(360deg)}}
     .vault-dial.stop{animation:none}
-    .dial-inner { width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,rgba(0,200,255,0.15),rgba(120,80,255,0.15));border:1px solid rgba(0,200,255,0.3);display:flex;align-items:center;justify-content:center;font-size:0.55rem;font-weight:900;color:#00c8ff;animation:dialSpin 8s linear infinite reverse;z-index:1; }
-    .vault-dial.fast .dial-inner{animation:dialFast 0.25s linear infinite reverse}
+    .dial-inner { width:26px;height:26px;border-radius:50%;background:rgba(0,200,255,0.1);border:1px solid rgba(0,200,255,0.3);display:flex;align-items:center;justify-content:center;font-size:0.5rem;font-weight:900;color:#00c8ff;animation:dSpin 8s linear infinite reverse; }
+    .vault-dial.fast .dial-inner{animation:dFast 0.2s linear infinite reverse}
     .vault-dial.stop .dial-inner{animation:none}
-    .vault-center { display:flex;align-items:center;justify-content:center;height:calc(100% - 30px); }
-    .vault-handle { position:absolute;right:-16px;top:50%;transform:translateY(-50%);width:18px;height:58px;border-radius:9px;background:linear-gradient(to right,#1a3a5a,#2a5a7a,#1a3a5a);border:1px solid rgba(0,200,255,0.25); }
-    .vault-handle::before{content:'';position:absolute;width:7px;height:7px;border-radius:50%;background:#00c8ff;top:50%;left:50%;transform:translate(-50%,-50%);box-shadow:0 0 6px rgba(0,200,255,0.8);}
-    .vault-slot{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);width:50px;height:3px;border-radius:2px;background:rgba(0,200,255,0.12);border:1px solid rgba(0,200,255,0.18);}
-
-    /* ===== BOUTONS ===== */
-    .btn-vault {
-      padding:12px 32px; border-radius:28px; border:none; cursor:pointer;
-      font-size:0.88rem; font-weight:800; letter-spacing:1px; text-transform:uppercase;
-      background:linear-gradient(135deg,#00c8ff,#7850ff); color:#fff;
-      box-shadow:0 0 20px rgba(0,200,255,0.3); transition:all 0.3s;
+    .vault-center{display:flex;align-items:center;justify-content:center;height:calc(100% - 28px);}
+    .vault-handle{position:absolute;right:-15px;top:50%;transform:translateY(-50%);width:17px;height:55px;border-radius:8px;background:linear-gradient(to right,#1a3a5a,#2a5a7a,#1a3a5a);border:1px solid rgba(0,200,255,0.22);}
+    .vault-handle::before{content:'';position:absolute;width:6px;height:6px;border-radius:50%;background:#00c8ff;top:50%;left:50%;transform:translate(-50%,-50%);box-shadow:0 0 6px rgba(0,200,255,0.8);}
+    /* Fente pour la pièce — bien visible */
+    .vault-slot {
+      position:absolute; bottom:16px; left:50%; transform:translateX(-50%);
+      width:44px; height:6px; border-radius:3px;
+      background:rgba(0,0,0,0.8); border:1px solid rgba(0,200,255,0.4);
+      box-shadow:0 0 8px rgba(0,200,255,0.3),inset 0 0 4px rgba(0,0,0,0.9);
     }
-    .btn-vault:hover{transform:scale(1.05);box-shadow:0 0 32px rgba(0,200,255,0.5);}
-    .btn-vault:disabled{opacity:0.35;cursor:not-allowed;transform:none;box-shadow:none;}
-    .btn-vault.gold{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#1a0a00;box-shadow:0 0 20px rgba(255,180,0,0.3);}
-    .btn-vault.gold:hover{box-shadow:0 0 32px rgba(255,180,0,0.6);}
-    .btn-vault.crypto{background:linear-gradient(135deg,#f7931a,#e5530a);color:#fff;font-size:0.8rem;}
+    .vault-slot::after{content:'';position:absolute;top:50%;left:10%;right:10%;height:1px;background:rgba(0,200,255,0.3);transform:translateY(-50%);}
 
-    /* ===== DAILY SPIN ===== */
+    /* BOUTONS */
+    .btn-vault {
+      padding:11px 30px; border-radius:26px; border:none; cursor:pointer;
+      font-size:0.85rem; font-weight:800; letter-spacing:1px; text-transform:uppercase;
+      background:linear-gradient(135deg,#00c8ff,#7850ff); color:#fff;
+      box-shadow:0 0 18px rgba(0,200,255,0.28); transition:all 0.3s;
+    }
+    .btn-vault:hover{transform:scale(1.05);box-shadow:0 0 30px rgba(0,200,255,0.5);}
+    .btn-vault:disabled{opacity:0.35;cursor:not-allowed;transform:none;box-shadow:none;}
+    .btn-vault.crypto{background:linear-gradient(135deg,#f7931a,#e5530a);color:#fff;font-size:0.78rem;box-shadow:0 0 16px rgba(247,147,26,0.3);}
+
+    .vault-status{font-size:0.78rem;color:rgba(0,200,255,0.6);text-align:center;min-height:18px;}
+    .vault-result{display:none;text-align:center;padding:14px 18px;border-radius:10px;}
+    .vault-result.lose{background:rgba(255,50,80,0.07);border:1px solid rgba(255,50,80,0.18);}
+    .vault-result h4{margin:0 0 5px;font-size:0.95rem;}
+    .vault-result p{color:#aaa;font-size:0.78rem;margin:0;line-height:1.5;}
+
+    /* DAILY ORB */
     .daily-orb {
-      width:110px; height:110px; border-radius:50%;
+      width:100px; height:100px; border-radius:50%;
       background:radial-gradient(circle at 40% 35%,#1a2a4a,#0a1525);
       border:2px solid rgba(120,80,255,0.4);
-      box-shadow:0 0 30px rgba(120,80,255,0.15),inset 0 0 20px rgba(0,0,0,0.5);
-      display:flex;align-items:center;justify-content:center;
-      font-size:2.2rem; cursor:pointer; position:relative;
-      transition:all 0.3s; animation:orbPulse 3s ease-in-out infinite;
+      box-shadow:0 0 28px rgba(120,80,255,0.12),inset 0 0 18px rgba(0,0,0,0.5);
+      display:flex; align-items:center; justify-content:center;
+      font-size:2rem; cursor:pointer; transition:all 0.3s;
+      animation:orbPulse 3s ease-in-out infinite;
     }
-    @keyframes orbPulse{0%,100%{box-shadow:0 0 20px rgba(120,80,255,0.15)}50%{box-shadow:0 0 40px rgba(120,80,255,0.4)}}
-    .daily-orb:hover{transform:scale(1.06);}
+    @keyframes orbPulse{0%,100%{box-shadow:0 0 18px rgba(120,80,255,0.12)}50%{box-shadow:0 0 38px rgba(120,80,255,0.4)}}
+    .daily-orb:hover:not(.disabled){transform:scale(1.07);}
     .daily-orb.disabled{opacity:0.4;cursor:not-allowed;animation:none;}
-
-    .daily-result {
-      min-height:40px; text-align:center;
-    }
-    .pts-gained {
-      font-size:2rem; font-weight:900; color:#ffd700;
-      animation:ptsBounce 0.6s ease;
-    }
+    .pts-gained{font-size:2rem;font-weight:900;color:#ffd700;text-align:center;animation:ptsBounce 0.5s ease;}
     @keyframes ptsBounce{0%{transform:scale(0);opacity:0}60%{transform:scale(1.3)}100%{transform:scale(1);opacity:1}}
-    .pts-zero { font-size:1rem; color:#666; }
 
-    /* ===== STATUS ===== */
-    .vault-status { font-size:0.8rem; color:rgba(0,200,255,0.6); text-align:center; min-height:18px; }
-
-    /* ===== RÉSULTAT COFFRE ===== */
-    .vault-result { display:none; text-align:center; padding:18px 22px; border-radius:12px; }
-    .vault-result.lose{ background:rgba(255,50,80,0.07); border:1px solid rgba(255,50,80,0.2); }
-    .vault-result h4{margin:0 0 6px;font-size:1rem;}
-    .vault-result p{color:#aaa;font-size:0.82rem;margin:0;line-height:1.5;}
-
-    /* ===== OVERLAY GAGNANT ===== */
+    /* OVERLAY GAGNANT */
     #fw-canvas{position:fixed;inset:0;pointer-events:none;z-index:9999;display:none;}
-    .winner-overlay{display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.92);align-items:center;justify-content:center;flex-direction:column;gap:16px;text-align:center;padding:28px;}
+    .winner-overlay{display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.92);align-items:center;justify-content:center;flex-direction:column;gap:14px;text-align:center;padding:28px;}
     .winner-overlay.show{display:flex;}
     .w-trophy{font-size:5rem;animation:tBounce 1s ease-in-out infinite alternate;}
     @keyframes tBounce{from{transform:translateY(0) rotate(-4deg)}to{transform:translateY(-14px) rotate(4deg)}}
     .w-title{font-size:1.9rem;font-weight:900;background:linear-gradient(135deg,#ffd700,#ff8c00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
     .w-amount{font-size:3.5rem;font-weight:900;color:#ffd700;text-shadow:0 0 40px rgba(255,215,0,0.9);animation:aPulse 1.5s ease-in-out infinite alternate;}
     @keyframes aPulse{from{transform:scale(1)}to{transform:scale(1.07)}}
-    .w-sub{color:#ddd;font-size:0.9rem;max-width:460px;line-height:1.7;}
-    .w-close{padding:12px 34px;border-radius:24px;border:none;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#1a0a00;font-weight:800;font-size:0.9rem;cursor:pointer;margin-top:8px;}
+    .w-sub{color:#ddd;font-size:0.88rem;max-width:440px;line-height:1.7;}
+    .w-close{padding:11px 32px;border-radius:22px;border:none;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#1a0a00;font-weight:800;font-size:0.88rem;cursor:pointer;margin-top:6px;}
   </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -202,12 +270,65 @@ setTimeout(function(){
 <body>
 
 <canvas id="fw-canvas"></canvas>
+<div id="falling-coin" style="display:none;position:fixed;z-index:6000;width:60px;height:60px;border-radius:50%;background:linear-gradient(145deg,#ffe066,#ffd700,#cc8800,#ffd700);box-shadow:0 0 20px rgba(255,215,0,0.7);display:none;align-items:center;justify-content:center;font-size:1.2rem;font-weight:900;color:#7a5000;pointer-events:none;">P</div>
+
+<!-- OVERLAY GAGNANT -->
 <div class="winner-overlay" id="winner-overlay">
   <div class="w-trophy">🏆</div>
   <div class="w-title">Grand Gagnant du Mois !</div>
   <div class="w-amount">50 $</div>
   <div class="w-sub">Félicitations ! Vous remportez <strong style="color:#ffd700;">50$</strong> à investir sur le produit de votre choix.<br><br>Vous allez recevoir les instructions dans vos <strong style="color:#00c8ff;">notifications</strong>.</div>
   <button class="w-close" onclick="document.getElementById('winner-overlay').classList.remove('show');stopFW();">Fermer</button>
+</div>
+
+<!-- MODAL SONDAGE -->
+<div class="survey-backdrop" id="survey-backdrop">
+  <div class="survey-box">
+
+    <!-- Étape 1 -->
+    <div class="survey-step active" id="step-1">
+      <div class="survey-title">💬 Avant de jouer...</div>
+      <div class="survey-q">Comment as-tu découvert Project inves'T ?</div>
+      <div class="survey-options">
+        <button class="sopt" onclick="selectOpt(this,'q1')">📱 Réseaux sociaux</button>
+        <button class="sopt" onclick="selectOpt(this,'q1')">👥 Bouche à oreille</button>
+        <button class="sopt" onclick="selectOpt(this,'q1')">🔍 Recherche internet</button>
+        <button class="sopt" onclick="selectOpt(this,'q1')">📨 Message direct</button>
+      </div>
+      <div class="survey-nav">
+        <span class="survey-prog">1 / 3</span>
+        <button class="btn-survey-next" onclick="nextStep(2)">Suivant →</button>
+      </div>
+    </div>
+
+    <!-- Étape 2 -->
+    <div class="survey-step" id="step-2">
+      <div class="survey-title">⭐ Ton avis compte</div>
+      <div class="survey-q">Qu'est-ce que tu aimes le plus sur le site ?</div>
+      <div class="survey-options">
+        <button class="sopt" onclick="selectOpt(this,'q2')">🎨 Le design / les couleurs</button>
+        <button class="sopt" onclick="selectOpt(this,'q2')">💰 Les opportunités d'investissement</button>
+        <button class="sopt" onclick="selectOpt(this,'q2')">📚 Le contenu / les informations</button>
+        <button class="sopt" onclick="selectOpt(this,'q2')">🎯 La communauté</button>
+      </div>
+      <div class="survey-nav">
+        <span class="survey-prog">2 / 3</span>
+        <button class="btn-survey-next" onclick="nextStep(3)">Suivant →</button>
+      </div>
+    </div>
+
+    <!-- Étape 3 -->
+    <div class="survey-step" id="step-3">
+      <div class="survey-title">🚀 Dernière question !</div>
+      <div class="survey-q">Qu'est-ce que tu améliorerais sur le site ? <small style="color:#666;">(optionnel)</small></div>
+      <textarea class="survey-text" id="q3-text" rows="3" placeholder="Ton idée ici..."></textarea>
+      <div class="survey-nav">
+        <span class="survey-prog">3 / 3</span>
+        <button class="btn-survey-next" style="background:linear-gradient(135deg,#ffd700,#ff8c00);color:#1a0a00;" onclick="terminerSondage()">🪙 Lancer la pièce !</button>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <div id="bg-curves">
@@ -258,77 +379,83 @@ setTimeout(function(){
 
 <div class="page-header">
   <h1><i class="fa-solid fa-vault" style="margin-right:12px;color:#00c8ff;"></i>Coffre des Gains</h1>
-  <p>1 Grand Gagnant par mois — 50$ sur le produit de votre choix</p>
+  <p>Tentez votre chance — 50$ sur le produit de votre choix</p>
 </div>
 
 <div class="section">
 <div class="coffre-page">
 
+  <!-- ACCROCHE -->
+  <div class="hero-coffre">
+    <div class="hero-label">Lot du mois</div>
+    <div class="hero-prize">50 $</div>
+    <div class="hero-desc">Un bon d'investissement de 50$ offert à un membre chanceux. Reviens chaque jour tenter ta chance — ou rejoue pour 2$.</div>
+
+    <div class="hero-stats">
+      <div class="hstat"><strong id="stat-participants">—</strong><span>participants ce mois</span></div>
+      <div class="hstat"><strong>50 $</strong><span>à gagner</span></div>
+      <div class="hstat"><strong>∞</strong><span>tentatives possibles</span></div>
+    </div>
+
+    <!-- PIÈCE ACCROCHE -->
+    <div style="margin-top:14px;position:relative;">
+      <div class="coin-hero" id="coin-hero" onclick="ouvrirSondage()">P</div>
+    </div>
+  </div>
+
   <!-- POINTS BOX -->
-  <div class="points-box" id="points-box">
-    <div class="points-token">
-      <div class="token-icon">P</div>
-      <div class="token-label">Project Jeton</div>
-    </div>
+  <div class="points-box">
+    <div class="token-icon">PJ</div>
     <div class="points-info">
-      <div class="points-count" id="pts-display">0 <span>/ 200 pts</span></div>
-      <div class="points-bar-wrap"><div class="points-bar" id="pts-bar" style="width:0%"></div></div>
-      <div class="points-sub" id="pts-sub">Gagnez des points chaque jour pour débloquer un tour gratuit</div>
+      <div class="pts-count" id="pts-display">0 <small>/ 200 Project Jetons</small></div>
+      <div class="pts-bar-wrap"><div class="pts-bar" id="pts-bar" style="width:0%"></div></div>
+      <div class="pts-sub" id="pts-sub">Gagnez des Project Jetons chaque jour pour débloquer un tour gratuit</div>
     </div>
-    <button class="points-unlock" id="pts-unlock-btn" onclick="utiliserPointsTour()">
-      🎯 Utiliser mon tour
-    </button>
+    <button class="btn-unlock" id="btn-unlock" onclick="utiliserJetons()">🎯 Utiliser</button>
   </div>
 
   <!-- GRILLE -->
   <div class="coffre-grid">
 
-    <!-- COFFRE FORT -->
+    <!-- COFFRE -->
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-vault"></i> &nbsp;Le Coffre</div>
-      <div class="panel-sub">1 seul gagnant par mois remporte 50$ d'investissement</div>
+      <div class="panel-sub">Tentez d'ouvrir le coffre — 1 tour gratuit par mois</div>
 
       <div class="vault-scene">
         <div class="vault-glow"></div>
         <div class="vault-body" id="vault-body">
           <div class="rivet tl"></div><div class="rivet tr"></div>
           <div class="rivet bl"></div><div class="rivet br"></div>
-          <div class="vault-lbl">P inves'T — COFFRE</div>
+          <div class="vault-lbl">P inves'T</div>
           <div class="vault-center">
             <div class="vault-dial" id="vault-dial">
               <div class="dial-inner">P'T</div>
             </div>
           </div>
-          <div class="vault-slot"></div>
+          <div class="vault-slot" id="vault-slot"></div>
           <div class="vault-handle"></div>
         </div>
       </div>
 
       <div class="vault-status" id="vault-status">Chargement...</div>
-
-      <button class="btn-vault" id="btn-coffre" onclick="tenterCoffre()" disabled>
-        <i class="fa-solid fa-lock-open"></i> &nbsp;Ouvrir le Coffre
-      </button>
-
+      <div class="vault-result" id="vault-result"></div>
       <button class="btn-vault crypto" id="btn-crypto" onclick="payerCrypto()" style="display:none;">
         <i class="fa-brands fa-bitcoin"></i> &nbsp;Rejouer 2$ crypto
       </button>
-
-      <div class="vault-result" id="vault-result"></div>
     </div>
 
     <!-- TOUR QUOTIDIEN -->
     <div class="panel">
-      <div class="panel-title"><i class="fa-solid fa-coins"></i> &nbsp;Points du Jour</div>
-      <div class="panel-sub">Revenez chaque jour pour gagner des points Project Jeton.<br>À 200 points → 1 tour coffre gratuit !</div>
+      <div class="panel-title"><i class="fa-solid fa-coins"></i> &nbsp;Project Jetons</div>
+      <div class="panel-sub">Chaque jour, gagnez 0 à 3 Project Jetons.<br>200 jetons = 1 tour coffre gratuit !</div>
 
       <div class="daily-orb" id="daily-orb" onclick="tourQuotidien()">
         <span id="orb-icon">⚡</span>
       </div>
 
-      <div class="vault-status" id="daily-status">Cliquez l'orbe pour gagner des points !</div>
-
-      <div class="daily-result" id="daily-result"></div>
+      <div class="vault-status" id="daily-status">Cliquez l'orbe pour gagner des jetons !</div>
+      <div id="daily-result"></div>
     </div>
 
   </div>
@@ -346,10 +473,59 @@ setTimeout(function(){
 <script>
 /* ===== HELPERS ===== */
 function getMonthYear(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'); }
-function getToday(){ var d=new Date(); return d.toISOString().split('T')[0]; }
+function getToday(){ return new Date().toISOString().split('T')[0]; }
 
-var vaultBusy=false, dailyBusy=false;
-var userPoints=0;
+var vaultBusy=false, dailyBusy=false, userPoints=0;
+var surveyAnswers={};
+
+/* ===== SONS (Web Audio API) ===== */
+function playSound(type){
+  try{
+    var ctx=new(window.AudioContext||window.webkitAudioContext)();
+    if(type==='coin'){
+      // Cliquetis de pièce
+      var o=ctx.createOscillator(); var g=ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type='sine';
+      o.frequency.setValueAtTime(1400,ctx.currentTime);
+      o.frequency.exponentialRampToValueAtTime(900,ctx.currentTime+0.08);
+      o.frequency.exponentialRampToValueAtTime(1200,ctx.currentTime+0.15);
+      g.gain.setValueAtTime(0.3,ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.35);
+      o.start(ctx.currentTime); o.stop(ctx.currentTime+0.35);
+    } else if(type==='dial'){
+      // Mécanique cadran
+      var o=ctx.createOscillator(); var g=ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type='square'; o.frequency.value=80;
+      g.gain.setValueAtTime(0.1,ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.1);
+      o.start(ctx.currentTime); o.stop(ctx.currentTime+0.1);
+    } else if(type==='win'){
+      // Fanfare victoire
+      var notes=[523,659,784,1047];
+      notes.forEach(function(freq,i){
+        var o=ctx.createOscillator(); var g=ctx.createGain();
+        o.connect(g); g.connect(ctx.destination);
+        o.type='sine'; o.frequency.value=freq;
+        g.gain.setValueAtTime(0,ctx.currentTime+i*0.12);
+        g.gain.linearRampToValueAtTime(0.25,ctx.currentTime+i*0.12+0.05);
+        g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+i*0.12+0.3);
+        o.start(ctx.currentTime+i*0.12);
+        o.stop(ctx.currentTime+i*0.12+0.3);
+      });
+    } else if(type==='lose'){
+      var o=ctx.createOscillator(); var g=ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type='sine';
+      o.frequency.setValueAtTime(400,ctx.currentTime);
+      o.frequency.exponentialRampToValueAtTime(200,ctx.currentTime+0.4);
+      g.gain.setValueAtTime(0.2,ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.4);
+      o.start(ctx.currentTime); o.stop(ctx.currentTime+0.4);
+    }
+  }catch(e){}
+}
 
 /* ===== INIT ===== */
 async function init(){
@@ -357,54 +533,179 @@ async function init(){
   var month=getMonthYear();
   var today=getToday();
 
-  /* --- Points --- */
+  // Stats participants
+  var {count}=await _sb.from('spin_participations').select('*',{count:'exact',head:true}).eq('month_year',month);
+  document.getElementById('stat-participants').textContent=(count||0);
+
+  // Points
   var {data:pts}=await _sb.from('user_points').select('*').eq('user_id',uid).maybeSingle();
   userPoints=pts?pts.total_points:0;
-  updatePointsUI();
+  updatePtsUI();
 
-  /* --- Tour coffre du mois --- */
+  // Tour coffre du mois
   var {data:part}=await _sb.from('spin_participations').select('*').eq('user_id',uid).eq('month_year',month).maybeSingle();
-  var btnCoffre=document.getElementById('btn-coffre');
-  var btnCrypto=document.getElementById('btn-crypto');
   var vStatus=document.getElementById('vault-status');
   if(!part){
-    btnCoffre.disabled=false;
-    vStatus.textContent='Votre tour gratuit du mois est disponible.';
+    vStatus.textContent='Votre tour gratuit du mois est disponible — cliquez la pièce !';
   } else {
-    btnCoffre.style.display='none';
-    btnCrypto.style.display='block';
-    vStatus.textContent='Tour du mois utilisé — rejouez avec points ou crypto.';
+    document.getElementById('coin-hero').style.opacity='0.4';
+    document.getElementById('coin-hero').style.cursor='default';
+    document.getElementById('coin-hero').onclick=null;
+    document.getElementById('btn-crypto').style.display='block';
+    vStatus.textContent='Tour du mois utilisé.';
   }
 
-  /* --- Tour quotidien --- */
+  // Tour quotidien
   var {data:daily}=await _sb.from('daily_spins').select('*').eq('user_id',uid).eq('day',today).maybeSingle();
   var orb=document.getElementById('daily-orb');
-  var dStatus=document.getElementById('daily-status');
   if(daily){
     orb.classList.add('disabled');
-    dStatus.textContent='Points du jour déjà récoltés. Revenez demain !';
     document.getElementById('orb-icon').textContent='✓';
-  } else {
-    dStatus.textContent='Cliquez l\'orbe pour gagner des points !';
+    document.getElementById('daily-status').textContent='Jetons du jour récoltés. Revenez demain !';
   }
 }
 
 /* ===== POINTS UI ===== */
-function updatePointsUI(){
+function updatePtsUI(){
   var pct=Math.min((userPoints/200)*100,100);
-  document.getElementById('pts-display').innerHTML=userPoints+' <span>/ 200 pts</span>';
+  document.getElementById('pts-display').innerHTML=userPoints+' <small>/ 200 Project Jetons</small>';
   document.getElementById('pts-bar').style.width=pct+'%';
   var sub=document.getElementById('pts-sub');
-  var unlockBtn=document.getElementById('pts-unlock-btn');
+  var btn=document.getElementById('btn-unlock');
   if(userPoints>=200){
-    sub.textContent='🎉 Vous avez assez de points pour un tour gratuit !';
+    sub.textContent='🎉 Vous avez 200 Project Jetons — un tour gratuit vous attend !';
     sub.style.color='#ffd700';
-    unlockBtn.style.display='block';
+    btn.style.display='block';
   } else {
-    sub.textContent=(200-userPoints)+' points restants pour un tour gratuit';
-    sub.style.color='';
-    unlockBtn.style.display='none';
+    sub.textContent=(200-userPoints)+' jetons restants pour un tour gratuit';
+    sub.style.color=''; btn.style.display='none';
   }
+}
+
+/* ===== SONDAGE ===== */
+function ouvrirSondage(){
+  document.getElementById('survey-backdrop').classList.add('show');
+}
+function selectOpt(el,q){
+  el.closest('.survey-options').querySelectorAll('.sopt').forEach(function(b){b.classList.remove('selected');});
+  el.classList.add('selected');
+  surveyAnswers[q]=el.textContent.trim();
+}
+function nextStep(n){
+  document.querySelectorAll('.survey-step').forEach(function(s){s.classList.remove('active');});
+  var next=document.getElementById('step-'+n);
+  if(next) next.classList.add('active');
+}
+async function terminerSondage(){
+  surveyAnswers['q3']=document.getElementById('q3-text').value;
+  // Sauvegarder le sondage
+  try{
+    await _sb.from('survey_responses').insert({
+      user_id:currentUser.id,
+      q1:surveyAnswers.q1||'',
+      q2:surveyAnswers.q2||'',
+      q3:surveyAnswers.q3||''
+    });
+  }catch(e){}
+  document.getElementById('survey-backdrop').classList.remove('show');
+  // Lancer animation pièce
+  lancerPiece();
+}
+
+/* ===== ANIMATION PIÈCE ===== */
+function lancerPiece(){
+  // Trouver position de la fente du coffre
+  var slot=document.getElementById('vault-slot');
+  var rect=slot.getBoundingClientRect();
+  var coin=document.getElementById('falling-coin');
+
+  coin.style.cssText='display:flex;position:fixed;z-index:6000;width:60px;height:60px;border-radius:50%;background:linear-gradient(145deg,#ffe066,#ffd700,#cc8800,#ffd700);box-shadow:0 0 20px rgba(255,215,0,0.7);align-items:center;justify-content:center;font-size:1.2rem;font-weight:900;color:#7a5000;pointer-events:none;';
+  coin.style.left=(rect.left+rect.width/2-30)+'px';
+  coin.style.top='-80px';
+  coin.style.transition='none';
+
+  var dropDist=(rect.top+rect.height/2+80)+'px';
+  coin.style.setProperty('--drop-dist',dropDist);
+  coin.style.animation='coinDrop 1.2s cubic-bezier(0.25,0.46,0.45,0.94) forwards';
+
+  playSound('coin');
+
+  setTimeout(function(){
+    coin.style.display='none';
+    coin.style.animation='';
+    playSound('dial');
+    tenterCoffre();
+  },1300);
+}
+
+/* ===== TENTER COFFRE ===== */
+async function tenterCoffre(){
+  if(vaultBusy)return;
+  vaultBusy=true;
+  var dial=document.getElementById('vault-dial');
+  var body=document.getElementById('vault-body');
+  var status=document.getElementById('vault-status');
+  status.textContent='Déchiffrage en cours...';
+
+  var month=getMonthYear();
+  var uid=currentUser.id;
+
+  await _sb.from('spin_participations').insert({user_id:uid,month_year:month,spin_count:1});
+
+  var {data:cfg}=await _sb.from('monthly_config').select('*').eq('month_year',month).maybeSingle();
+  var totalSpins=(cfg?cfg.total_spins:0)+1;
+  var winTicket=cfg?cfg.winning_ticket:(Math.floor(Math.random()*25)+5);
+  if(!cfg){ await _sb.from('monthly_config').insert({month_year:month,winning_ticket:winTicket,total_spins:1}); }
+  else { await _sb.from('monthly_config').update({total_spins:totalSpins}).eq('id',cfg.id); }
+
+  var {data:winner}=await _sb.from('monthly_winner').select('*').eq('month_year',month).maybeSingle();
+  var isWinner=!winner&&(totalSpins===winTicket);
+
+  dial.className='vault-dial fast';
+  // Son cadran en boucle pendant l'animation
+  var dialInt=setInterval(function(){playSound('dial');},300);
+
+  setTimeout(async function(){
+    clearInterval(dialInt);
+    dial.className='vault-dial stop';
+    status.textContent='';
+
+    if(isWinner){
+      body.classList.add('opening');
+      await _sb.from('monthly_winner').insert({user_id:uid,month_year:month,winning_ticket:totalSpins});
+      await _sb.from('notifications').insert({user_id:uid,title:'🏆 Grand Gagnant du Mois !',message:'Félicitations ! Vous avez remporté 50$ à investir sur le produit de votre choix. Contactez-nous sur Telegram pour recevoir votre bon.'});
+      playSound('win');
+      document.getElementById('fw-canvas').style.display='block';
+      lancerFeux();
+      setTimeout(function(){ document.getElementById('winner-overlay').classList.add('show'); },800);
+    } else {
+      body.classList.add('shake');
+      playSound('lose');
+      setTimeout(function(){ body.classList.remove('shake'); },600);
+      var res=document.getElementById('vault-result');
+      res.style.display='block'; res.className='vault-result lose';
+      res.innerHTML='<h4 style="color:#ff6666;"><i class="fa-solid fa-lock"></i> Coffre verrouillé</h4>'
+        +'<p>Pas cette fois... Gagnez des Project Jetons quotidiennement ou rejouez pour 2$.</p>';
+      document.getElementById('btn-crypto').style.display='block';
+      // Mettre à jour stats
+      document.getElementById('stat-participants').textContent=totalSpins;
+    }
+    vaultBusy=false;
+  },2600);
+}
+
+/* ===== UTILISER JETONS ===== */
+async function utiliserJetons(){
+  if(userPoints<200)return;
+  var uid=currentUser.id;
+  var newTotal=userPoints-200;
+  await _sb.from('user_points').update({total_points:newTotal}).eq('user_id',uid);
+  userPoints=newTotal; updatePtsUI();
+  document.getElementById('vault-status').textContent='Tour débloqué ! Cliquez la pièce pour jouer.';
+  var coinHero=document.getElementById('coin-hero');
+  coinHero.style.opacity='1'; coinHero.style.cursor='pointer';
+  coinHero.onclick=ouvrirSondage;
+  document.getElementById('btn-crypto').style.display='none';
 }
 
 /* ===== TOUR QUOTIDIEN ===== */
@@ -412,139 +713,47 @@ async function tourQuotidien(){
   var orb=document.getElementById('daily-orb');
   if(orb.classList.contains('disabled')||dailyBusy)return;
   dailyBusy=true;
-  orb.style.transform='scale(0.9)';
+  orb.style.transform='scale(0.88)';
   setTimeout(function(){orb.style.transform='';},200);
 
-  var uid=currentUser.id;
-  var today=getToday();
-  var pts=[0,1,2,3][Math.floor(Math.random()*4)];
+  var uid=currentUser.id; var today=getToday();
+  var pts=[0,0,1,1,2,3][Math.floor(Math.random()*6)];
+  playSound('coin');
 
-  /* Enregistrer spin quotidien */
   await _sb.from('daily_spins').insert({user_id:uid,day:today,points_gained:pts});
-
-  /* Mettre à jour les points */
   var {data:existing}=await _sb.from('user_points').select('*').eq('user_id',uid).maybeSingle();
   var newTotal=(existing?existing.total_points:0)+pts;
-  if(!existing){
-    await _sb.from('user_points').insert({user_id:uid,total_points:newTotal});
-  } else {
-    await _sb.from('user_points').update({total_points:newTotal}).eq('user_id',uid);
-  }
-  userPoints=newTotal;
-  updatePointsUI();
+  if(!existing){ await _sb.from('user_points').insert({user_id:uid,total_points:newTotal}); }
+  else { await _sb.from('user_points').update({total_points:newTotal}).eq('user_id',uid); }
+  userPoints=newTotal; updatePtsUI();
 
-  /* Afficher résultat */
   var res=document.getElementById('daily-result');
-  var dStatus=document.getElementById('daily-status');
-  if(pts>0){
-    res.innerHTML='<div class="pts-gained">+'+pts+' pts</div>';
-  } else {
-    res.innerHTML='<div class="pts-zero">0 point aujourd\'hui... Revenez demain !</div>';
-  }
-
+  res.innerHTML=pts>0?'<div class="pts-gained">+'+pts+' Jeton'+(pts>1?'s':'')+'</div>':'<div style="color:#666;text-align:center;font-size:0.9rem;">0 jeton aujourd\'hui...</div>';
   orb.classList.add('disabled');
   document.getElementById('orb-icon').textContent='✓';
-  dStatus.textContent='Points du jour récoltés. Revenez demain !';
+  document.getElementById('daily-status').textContent='Jetons récoltés. Revenez demain !';
   dailyBusy=false;
 }
 
-/* ===== UTILISER POINTS POUR UN TOUR ===== */
-async function utiliserPointsTour(){
-  if(userPoints<200)return;
-  var uid=currentUser.id;
-  /* Déduire 200 points */
-  var newTotal=userPoints-200;
-  await _sb.from('user_points').update({total_points:newTotal}).eq('user_id',uid);
-  userPoints=newTotal;
-  updatePointsUI();
-  /* Activer bouton coffre */
-  var btnCoffre=document.getElementById('btn-coffre');
-  btnCoffre.style.display='block';
-  btnCoffre.disabled=false;
-  document.getElementById('vault-status').textContent='Tour débloqué par vos Project Jetons — bonne chance !';
-  document.getElementById('btn-crypto').style.display='none';
-}
-
-/* ===== TENTER COFFRE ===== */
-async function tenterCoffre(){
-  if(vaultBusy)return;
-  vaultBusy=true;
-  var btnCoffre=document.getElementById('btn-coffre');
-  var dial=document.getElementById('vault-dial');
-  var body=document.getElementById('vault-body');
-  var status=document.getElementById('vault-status');
-  btnCoffre.disabled=true;
-  status.textContent='Analyse du coffre en cours...';
-
-  var month=getMonthYear();
-  var uid=currentUser.id;
-
-  /* Enregistrer participation */
-  await _sb.from('spin_participations').insert({user_id:uid,month_year:month,spin_count:1});
-
-  /* Config mois */
-  var {data:cfg}=await _sb.from('monthly_config').select('*').eq('month_year',month).maybeSingle();
-  var totalSpins=(cfg?cfg.total_spins:0)+1;
-  var winTicket=cfg?cfg.winning_ticket:(Math.floor(Math.random()*30)+5);
-  if(!cfg){
-    await _sb.from('monthly_config').insert({month_year:month,winning_ticket:winTicket,total_spins:1});
-  } else {
-    await _sb.from('monthly_config').update({total_spins:totalSpins}).eq('id',cfg.id);
-  }
-
-  /* Gagnant existant ? */
-  var {data:winner}=await _sb.from('monthly_winner').select('*').eq('month_year',month).maybeSingle();
-  var isWinner=!winner&&(totalSpins===winTicket);
-
-  /* Animation cadran */
-  dial.className='vault-dial fast';
-  status.textContent='Déchiffrage en cours...';
-
-  setTimeout(async function(){
-    dial.className='vault-dial stop';
-    status.textContent='';
-    if(isWinner){
-      body.classList.add('opening');
-      await _sb.from('monthly_winner').insert({user_id:uid,month_year:month,winning_ticket:totalSpins});
-      await _sb.from('notifications').insert({user_id:uid,title:'🏆 Grand Gagnant du Mois !',message:'Félicitations ! Vous avez remporté 50$ à investir sur le produit de votre choix. Contactez-nous sur Telegram pour recevoir votre bon.'});
-      document.getElementById('fw-canvas').style.display='block';
-      lancerFeux();
-      setTimeout(function(){ document.getElementById('winner-overlay').classList.add('show'); },800);
-    } else {
-      body.classList.add('shake');
-      setTimeout(function(){ body.classList.remove('shake'); },600);
-      var res=document.getElementById('vault-result');
-      res.style.display='block'; res.className='vault-result lose';
-      res.innerHTML='<h4 style="color:#ff6666;"><i class="fa-solid fa-lock"></i> Coffre verrouillé</h4>'
-        +'<p>Ce n\'était pas le bon moment ce mois-ci.<br>Gagnez des points quotidiens ou rejouez pour 2$.</p>';
-      btnCoffre.style.display='none';
-      document.getElementById('btn-crypto').style.display='block';
-    }
-    vaultBusy=false;
-  },2800);
-}
-
-/* ===== PAYER CRYPTO ===== */
+/* ===== CRYPTO ===== */
 function payerCrypto(){
   alert('Paiement crypto bientôt disponible.\nContactez-nous sur Telegram pour un tour supplémentaire.');
 }
 
-/* ===== FEUX D\'ARTIFICE ===== */
+/* ===== FEUX D'ARTIFICE ===== */
 var fwC,fwX,fwP=[],fwF;
 function lancerFeux(){
   fwC=document.getElementById('fw-canvas');
   fwC.width=window.innerWidth; fwC.height=window.innerHeight;
   fwX=fwC.getContext('2d'); fwP=[];
   var cols=['#ffd700','#ff8c00','#00c8ff','#7850ff','#ff3399','#00ff99','#fff'];
-  for(var b=0;b<14;b++){
-    (function(d){setTimeout(function(){
-      var cx=Math.random()*fwC.width, cy=Math.random()*fwC.height*0.5+40;
-      for(var i=0;i<65;i++){
-        var a=(Math.PI*2*i)/65, s=2+Math.random()*6;
-        fwP.push({x:cx,y:cy,vx:Math.cos(a)*s,vy:Math.sin(a)*s,alpha:1,color:cols[Math.floor(Math.random()*cols.length)],size:2+Math.random()*3});
-      }
-    },d);})(b*320);
-  }
+  for(var b=0;b<14;b++){(function(d){setTimeout(function(){
+    var cx=Math.random()*fwC.width, cy=Math.random()*fwC.height*0.5+40;
+    for(var i=0;i<65;i++){
+      var a=(Math.PI*2*i)/65, s=2+Math.random()*6;
+      fwP.push({x:cx,y:cy,vx:Math.cos(a)*s,vy:Math.sin(a)*s,alpha:1,color:cols[Math.floor(Math.random()*cols.length)],size:2+Math.random()*3});
+    }
+  },d);})(b*320);}
   animFW();
 }
 function animFW(){

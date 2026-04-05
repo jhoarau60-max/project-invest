@@ -438,14 +438,7 @@
       liB.appendChild(aB);
       ul.appendChild(liB);
     }
-    if (ul && !ul.querySelector('a[href="roue.html"]')) {
-      var liR = document.createElement('li');
-      var aR  = document.createElement('a');
-      aR.href = 'roue.html';
-      aR.textContent = 'Coffre des Gains';
-      liR.appendChild(aR);
-      ul.appendChild(liR);
-    }
+    // roue.html masqué du menu (en développement)
 
     // Renommer + icônes + sous-menus
     nav.querySelectorAll('ul > li').forEach(function (li) {
