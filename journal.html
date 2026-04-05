@@ -455,19 +455,26 @@
         transform: translateY(-50%);
       }
       .scroll-btn {
-        width: 22px; height: 22px;
+        width: 28px; height: 28px;
         border-radius: 50%;
-        background: rgba(160,100,20,0.12);
-        border: 1px solid rgba(160,100,20,0.3);
-        color: rgba(100,60,10,0.7);
-        font-size: 0.65rem;
+        background: linear-gradient(135deg, #c9a84c, #a0721e);
+        border: 2px solid rgba(201,168,76,0.8);
+        color: #fff;
+        font-size: 0.7rem;
         cursor: pointer;
         display: flex; align-items: center; justify-content: center;
         user-select: none;
-        transition: background 0.2s;
+        transition: all 0.2s;
         line-height: 1;
+        box-shadow: 0 2px 8px rgba(160,100,20,0.4);
+        font-weight: 900;
       }
-      .scroll-btn:hover { background: rgba(160,100,20,0.28); color: #5a3000; }
+      .scroll-btn:hover {
+        background: linear-gradient(135deg, #e0b84e, #c9a84c);
+        box-shadow: 0 3px 12px rgba(160,100,20,0.65);
+        transform: scale(1.12);
+      }
+      .scroll-btn:active { transform: scale(0.95); }
       .contenu-wrap { position: relative; }
       .article-contenu-book p {
         margin: 0 0 10px 0;
