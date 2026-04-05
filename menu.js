@@ -76,6 +76,35 @@
     ],
   };
 
+  // ── PWA : balises iOS + manifest + service worker ──
+  if (!document.querySelector('link[rel="manifest"]')) {
+    var mf = document.createElement('link');
+    mf.rel = 'manifest'; mf.href = '/manifest.json';
+    document.head.appendChild(mf);
+  }
+  if (!document.querySelector('meta[name="theme-color"]')) {
+    var tc = document.createElement('meta');
+    tc.name = 'theme-color'; tc.content = '#00c8ff';
+    document.head.appendChild(tc);
+  }
+  if (!document.querySelector('meta[name="apple-mobile-web-app-capable"]')) {
+    var am = document.createElement('meta');
+    am.name = 'apple-mobile-web-app-capable'; am.content = 'yes';
+    document.head.appendChild(am);
+    var as = document.createElement('meta');
+    as.name = 'apple-mobile-web-app-status-bar-style'; as.content = 'black-translucent';
+    document.head.appendChild(as);
+    var at = document.createElement('meta');
+    at.name = 'apple-mobile-web-app-title'; at.content = "Project inves'T";
+    document.head.appendChild(at);
+    var ai = document.createElement('link');
+    ai.rel = 'apple-touch-icon'; ai.href = '/logo-project-invest.jpg';
+    document.head.appendChild(ai);
+  }
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(function(){});
+  }
+
   // Charger Font Awesome si absent
   if (!document.querySelector('link[href*="font-awesome"]')) {
     var fa = document.createElement('link');
