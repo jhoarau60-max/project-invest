@@ -116,22 +116,35 @@
   // Styles
   var style = document.createElement('style');
   style.textContent = `
-    /* Sidebar toujours visible */
+    /* Sidebar — base commune */
     nav {
       position: fixed !important;
       top: 0 !important; left: 0 !important;
-      width: ${SW}px !important;
       height: 100vh !important;
       background: #0b0f1a !important;
       border-right: 1px solid rgba(0,200,255,0.18) !important;
       z-index: 9998 !important;
-      transform: none !important;
-      transition: none !important;
       overflow-y: auto !important;
       overflow-x: hidden !important;
       padding: 0 !important;
       display: flex !important;
       flex-direction: column !important;
+    }
+    /* Desktop : sidebar fixe visible */
+    body:not(.is-mobile) nav {
+      width: ${SW}px !important;
+      transform: none !important;
+      transition: none !important;
+    }
+    /* Mobile : sidebar cachée par défaut */
+    body.is-mobile nav {
+      width: 270px !important;
+      transform: translateX(-100%) !important;
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1) !important;
+      z-index: 9999 !important;
+    }
+    body.is-mobile nav.mobile-open {
+      transform: translateX(0) !important;
     }
 
     /* Logo dans la sidebar */
@@ -231,84 +244,68 @@
     }
     nav ul li a.active i { color: #c9a84c !important; }
 
-    /* Décaler tout le contenu vers la droite */
-    body > header,
-    body > section,
-    body > footer,
-    body > div:not(#bg-curves):not(#nav-overlay):not(.settings-wrapper):not(#crop-modal):not(#lang-menu):not(.section) {
+    /* ── DESKTOP : décaler le contenu ── */
+    body:not(.is-mobile) > header,
+    body:not(.is-mobile) > section,
+    body:not(.is-mobile) > footer,
+    body:not(.is-mobile) > div:not(#bg-curves):not(#nav-overlay):not(.settings-wrapper):not(#crop-modal):not(#lang-menu):not(.section) {
       margin-left: ${SW}px !important;
     }
-
-    /* Sections : centrées dans la zone de contenu */
-    body > .section {
+    body:not(.is-mobile) > .section {
       margin-left: max(${SW}px, calc(50vw - 550px + ${SW/2}px)) !important;
       margin-right: auto !important;
     }
-
-    /* Settings : centré dans la zone de contenu */
-    body > .settings-wrapper {
+    body:not(.is-mobile) > .settings-wrapper {
       max-width: 600px !important;
       width: 600px !important;
       margin-left: max(${SW}px, calc(50vw - 300px + ${SW/2}px)) !important;
       margin-right: auto !important;
     }
-
-    /* Header ajusté */
-    header {
+    body:not(.is-mobile) header {
       width: calc(100% - ${SW}px) !important;
     }
 
-    /* ── MOBILE (≤ 768px) ── */
-    @media (max-width: 768px) {
-      nav {
-        transform: translateX(-100%) !important;
-        transition: transform 0.35s cubic-bezier(0.4,0,0.2,1) !important;
-        width: 260px !important;
-        z-index: 9999 !important;
-      }
-      nav.mobile-open {
-        transform: translateX(0) !important;
-      }
-      body > header,
-      body > section,
-      body > footer,
-      body > div:not(#bg-curves):not(#nav-overlay):not(.settings-wrapper):not(#crop-modal):not(#lang-menu):not(.section) {
-        margin-left: 0 !important;
-      }
-      body > .section {
-        margin-left: auto !important;
-        margin-right: auto !important;
-        padding-left: 15px !important;
-        padding-right: 15px !important;
-      }
-      body > .settings-wrapper {
-        margin-left: auto !important;
-        margin-right: auto !important;
-        width: calc(100% - 30px) !important;
-        max-width: 600px !important;
-      }
-      header {
-        width: 100% !important;
-      }
-      .header-top {
-        flex-wrap: wrap !important;
-        gap: 8px !important;
-        padding: 10px 0 !important;
-      }
-      #mobile-menu-btn {
-        display: flex !important;
-      }
-      #nav-mobile-overlay {
-        display: none;
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: rgba(0,0,0,0.6);
-        z-index: 9998;
-        backdrop-filter: blur(2px);
-      }
-      #nav-mobile-overlay.open { display: block !important; }
+    /* ── MOBILE : pleine largeur ── */
+    body.is-mobile > header,
+    body.is-mobile > section,
+    body.is-mobile > footer,
+    body.is-mobile > div:not(#bg-curves):not(#nav-overlay):not(.settings-wrapper):not(#crop-modal):not(#lang-menu):not(.section) {
+      margin-left: 0 !important;
     }
+    body.is-mobile > .section {
+      margin-left: auto !important;
+      margin-right: auto !important;
+      padding-left: 15px !important;
+      padding-right: 15px !important;
+    }
+    body.is-mobile > .settings-wrapper {
+      margin-left: auto !important;
+      margin-right: auto !important;
+      width: calc(100% - 30px) !important;
+      max-width: 600px !important;
+    }
+    body.is-mobile header {
+      width: 100% !important;
+    }
+    body.is-mobile .header-top {
+      flex-wrap: wrap !important;
+      gap: 8px !important;
+      padding: 8px 0 !important;
+    }
+    body.is-mobile #mobile-menu-btn { display: flex !important; }
+    body:not(.is-mobile) #mobile-menu-btn { display: none !important; }
+
+    /* Overlay mobile */
+    #nav-mobile-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: 9998;
+      backdrop-filter: blur(2px);
+    }
+    #nav-mobile-overlay.open { display: block !important; }
     .header-top {
       justify-content: flex-end !important;
       gap: 12px !important;
@@ -460,7 +457,15 @@
   `;
   document.head.appendChild(style);
 
+  // ── Détection mobile ──
+  function syncLayout() {
+    document.body.classList.toggle('is-mobile', window.innerWidth <= 768);
+  }
+  syncLayout();
+  window.addEventListener('resize', syncLayout);
+
   window.addEventListener('DOMContentLoaded', function () {
+    syncLayout(); // Re-check after DOM ready
     var nav = document.querySelector('nav');
     var logo = document.querySelector('header .logo-svg');
 
