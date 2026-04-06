@@ -474,10 +474,32 @@
   function syncLayout() {
     var isMobileUA = /android|iphone|ipad|ipod|mobile|miui|xiaomi/i.test(navigator.userAgent);
     var isNarrow = window.innerWidth <= 1024;
-    document.body.classList.toggle('is-mobile', isMobileUA || isNarrow);
+    var isMob = isMobileUA || isNarrow;
+    document.body.classList.toggle('is-mobile', isMob);
+    // Corriger les grilles et flex avec styles inline (ne peuvent pas être écrasés par CSS)
+    if (isMob) {
+      document.querySelectorAll('[style*="grid-template-columns"]').forEach(function(el) {
+        el.style.setProperty('grid-template-columns', '1fr', 'important');
+        el.style.setProperty('gap', '15px', 'important');
+      });
+      document.querySelectorAll('[style*="display:flex"],[style*="display: flex"]').forEach(function(el) {
+        if (el.querySelector('.card') || el.className.indexOf('cards') !== -1) {
+          el.style.setProperty('flex-direction', 'column', 'important');
+          el.style.setProperty('align-items', 'stretch', 'important');
+        }
+      });
+      document.querySelectorAll('.card[style*="min-width"],.card[style*="flex:"],.card[style*="flex: "]').forEach(function(el) {
+        el.style.setProperty('min-width', '0', 'important');
+        el.style.setProperty('max-width', '100%', 'important');
+        el.style.setProperty('flex', '1 1 100%', 'important');
+        el.style.setProperty('width', '100%', 'important');
+      });
+    }
   }
   syncLayout();
   window.addEventListener('resize', syncLayout);
+  // Ré-appliquer après chargement complet (images, scripts)
+  window.addEventListener('load', syncLayout);
 
   window.addEventListener('DOMContentLoaded', function () {
     syncLayout(); // Re-check after DOM ready
