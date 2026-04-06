@@ -1,4 +1,4 @@
-var CACHE = 'pinvest-v4';
+var CACHE = 'pinvest-v5';
 var ASSETS = [
   '/', '/home.html', '/index.html', '/style.css',
   '/menu.js', '/audio.js', '/translator.js',

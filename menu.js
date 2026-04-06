@@ -295,6 +295,26 @@
     body.is-mobile #mobile-menu-btn { display: flex !important; }
     body:not(.is-mobile) #mobile-menu-btn { display: none !important; }
 
+    /* Sur mobile : cacher les boutons non-essentiels du header */
+    body.is-mobile #sound-btn,
+    body.is-mobile #boutique-btn,
+    body.is-mobile #lang-btn,
+    body.is-mobile #lang-widget,
+    body.is-mobile #lang-globe { display: none !important; }
+
+    /* Header mobile : ligne unique propre */
+    body.is-mobile .header-top {
+      flex-wrap: nowrap !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      padding: 10px 0 !important;
+      gap: 8px !important;
+    }
+    body.is-mobile .social-links {
+      gap: 6px !important;
+      flex-wrap: nowrap !important;
+    }
+
     /* Overlay mobile */
     #nav-mobile-overlay {
       display: none;
