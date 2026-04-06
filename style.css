@@ -754,8 +754,39 @@ footer p {
     }
     .card { padding: 20px; }
 
-    /* Table scroll */
-    table { display: block; overflow-x: auto; }
+    /* Tableau investissements → cartes sur mobile */
+    .inv-table { display: block !important; }
+    .inv-table thead { display: none !important; }
+    .inv-table tbody, .inv-table tr { display: block !important; }
+    .inv-table tr {
+        margin-bottom: 14px !important;
+        border-radius: 10px !important;
+        background: rgba(12,28,58,0.7) !important;
+        border: 1px solid rgba(0,200,255,0.18) !important;
+        padding: 10px 12px !important;
+    }
+    .inv-table td {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 6px 0 !important;
+        border-bottom: 1px solid rgba(0,200,255,0.07) !important;
+        font-size: 0.82rem !important;
+        gap: 8px !important;
+    }
+    .inv-table td:last-child { border-bottom: none !important; }
+    .inv-table td::before {
+        content: attr(data-label);
+        color: #00c8ff;
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    /* Autres tableaux : scroll horizontal */
+    table:not(.inv-table) { display: block; overflow-x: auto; }
 
     /* Buttons */
     .btn { padding: 12px 24px; font-size: 0.9rem; }
