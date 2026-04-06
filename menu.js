@@ -197,18 +197,6 @@
       filter: none;
     }
 
-    /* Titre Dashboard */
-    .nav-title {
-      padding: 4px 18px 10px;
-      color: #ffffff;
-      font-size: 1.3rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      font-weight: 300;
-      flex-shrink: 0;
-      border-bottom: 1px solid #ffffff;
-    }
-
     nav ul {
       list-style: none !important;
       display: flex !important;
@@ -390,43 +378,6 @@
       display: none !important;
     }
 
-    /* RÉSEAUX SOCIAUX SIDEBAR */
-    #social-float {
-      border-top: 1px solid rgba(0,200,255,0.12) !important;
-      margin-top: auto !important;
-      flex-shrink: 0 !important;
-    }
-    .sfloat-btn {
-      width: 58px; height: 58px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      text-decoration: none;
-      font-size: 1.7rem;
-      transition: all 0.25s ease;
-    }
-    .sfloat-btn:hover { transform: scale(1.15); }
-    .sfloat-telegram {
-      background: rgba(34,158,217,0.15);
-      border: 1px solid rgba(34,158,217,0.6);
-      color: #229ED9;
-      box-shadow: 0 0 15px rgba(34,158,217,0.25);
-    }
-    .sfloat-telegram:hover { box-shadow: 0 0 28px rgba(34,158,217,0.55); }
-    .sfloat-youtube {
-      background: rgba(255,0,0,0.12);
-      border: 1px solid rgba(255,60,60,0.6);
-      color: #ff4444;
-      box-shadow: 0 0 15px rgba(255,0,0,0.2);
-    }
-    .sfloat-youtube:hover { box-shadow: 0 0 28px rgba(255,0,0,0.45); }
-    .sfloat-whatsapp {
-      background: rgba(37,211,102,0.12);
-      border: 1px solid rgba(37,211,102,0.6);
-      color: #25D366;
-      box-shadow: 0 0 15px rgba(37,211,102,0.2);
-    }
-    .sfloat-whatsapp:hover { box-shadow: 0 0 28px rgba(37,211,102,0.45); }
-
     .social-links a[href="parametres.html"]:not(#user-badge) { display: none !important; }
 
     /* Hamburger mobile */
@@ -575,13 +526,14 @@
       nav.insertBefore(logo, nav.firstChild);
     }
 
-    // Titre Dashboard
-    var title = document.createElement('div');
-    title.className = 'nav-title';
-    title.textContent = 'Dashboard';
-    // Insérer après le logo
+    // Réseaux sociaux sous le logo (petites icônes)
+    var socialTop = document.createElement('div');
+    socialTop.style.cssText = 'display:flex;gap:6px;padding:4px 12px 10px;border-bottom:1px solid rgba(0,200,255,0.12);flex-shrink:0;';
+    socialTop.innerHTML = '<a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" style="width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,0,0,0.12);border:1px solid rgba(255,60,60,0.5);color:#ff4444;font-size:0.85rem;text-decoration:none;" title="YouTube"><i class="fa-brands fa-youtube"></i></a>'
+      + '<a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(34,158,217,0.12);border:1px solid rgba(34,158,217,0.5);color:#229ED9;font-size:0.85rem;text-decoration:none;" title="Telegram"><i class="fa-brands fa-telegram"></i></a>'
+      + '<a href="https://wa.me/320492931040" target="_blank" style="width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.5);color:#25D366;font-size:0.85rem;text-decoration:none;" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>';
     var ul = nav.querySelector('ul');
-    nav.insertBefore(title, ul);
+    nav.insertBefore(socialTop, ul);
 
     // Barre de recherche dans la sidebar (au-dessus d'Accueil)
     var searchSidebar = document.createElement('div');
@@ -629,24 +581,6 @@
       }).catch(function() {});
     }
 
-    // Réseaux sociaux en bas de la sidebar
-    var sf = document.createElement('div');
-    sf.id = 'social-float';
-    sf.innerHTML = `
-      <div style="padding:8px 12px 4px;font-size:0.65rem;letter-spacing:2px;color:rgba(200,220,255,0.4);text-transform:uppercase;font-weight:600;">Nous suivre</div>
-      <div style="display:flex;gap:8px;padding:0 12px 16px;">
-        <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" class="sfloat-btn sfloat-telegram" title="Telegram">
-          <i class="fa-brands fa-telegram"></i>
-        </a>
-        <a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" class="sfloat-btn sfloat-youtube" title="YouTube">
-          <i class="fa-brands fa-youtube"></i>
-        </a>
-        <a href="https://wa.me/320492931040" target="_blank" class="sfloat-btn sfloat-whatsapp" title="WhatsApp">
-          <i class="fa-brands fa-whatsapp"></i>
-        </a>
-      </div>
-    `;
-    nav.appendChild(sf);
 
     // Ajouter Boutique si absent du nav
     var ul = nav.querySelector('ul');
