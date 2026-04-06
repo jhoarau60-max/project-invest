@@ -12,10 +12,19 @@
       body.is-mobile .inner-stat-grid > div[style*="grid-column:span 2"] {
         grid-column: span 1 !important;
       }
-      /* Cartes niveau 1 alignées avec niveaux 2-5 */
+      /* Toutes les cartes : pleine largeur dans les marges normales */
+      body.is-mobile #grid-niveau1 {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+      body.is-mobile #grid-niveau1 .card {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
       body.is-mobile #grid-niveaux25 {
         flex-direction: column !important;
         gap: 12px !important;
+        align-items: stretch !important;
       }
       body.is-mobile #grid-niveaux25 .card {
         width: 100% !important;
