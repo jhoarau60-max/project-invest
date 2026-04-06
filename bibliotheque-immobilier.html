@@ -12,17 +12,12 @@
       body.is-mobile .inner-stat-grid > div[style*="grid-column:span 2"] {
         grid-column: span 1 !important;
       }
-      /* Cartes pleine largeur - annuler le padding de .section */
-      body.is-mobile #grid-niveau1,
+      /* Cartes niveau 1 alignées avec niveaux 2-5 */
       body.is-mobile #grid-niveaux25 {
-        margin-left: -15px !important;
-        margin-right: -15px !important;
-        gap: 10px !important;
         flex-direction: column !important;
+        gap: 12px !important;
       }
-      body.is-mobile #grid-niveau1 .card,
       body.is-mobile #grid-niveaux25 .card {
-        border-radius: 0 !important;
         width: 100% !important;
         max-width: 100% !important;
         min-width: 0 !important;
