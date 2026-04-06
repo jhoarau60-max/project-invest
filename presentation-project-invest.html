@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Project inves'T — Présentation</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;600;700;900&display=swap');
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Montserrat',sans-serif; background:#1a2d4a; }
+
+  #print-btn {
+    position:fixed; top:20px; right:20px; z-index:999;
+    background:linear-gradient(135deg,#00c8ff,#1a7fdb);
+    color:#fff; border:none; border-radius:10px;
+    padding:14px 28px; font-size:1rem; font-weight:700;
+    cursor:pointer; box-shadow:0 4px 20px rgba(0,200,255,0.5);
+    transition: opacity 0.2s;
+  }
+  #print-btn:hover { opacity:0.85; }
+  #print-btn:disabled { opacity:0.5; cursor:wait; }
+  @media print { #print-btn { display:none; } }
+
+  .page {
+    width:210mm; min-height:297mm;
+    margin:0 auto 20px;
+    box-shadow:0 4px 30px rgba(0,0,0,0.3);
+    overflow:hidden; page-break-after:always;
+    background:linear-gradient(160deg,#030d1e 0%,#0d1f3c 50%,#1a2d4a 100%);
+    position:relative;
+  }
+  .page::before {
+    content:'';
+    position:absolute; inset:0; pointer-events:none;
+    background:
+      radial-gradient(ellipse at 80% 15%, rgba(0,200,255,0.07) 0%, transparent 50%),
+      radial-gradient(ellipse at 15% 85%, rgba(26,127,219,0.06) 0%, transparent 50%);
+  }
+
+  /* ── HEADER COMMUN ── */
+  .page-header {
+    background:rgba(0,0,0,0.35);
+    border-bottom:2px solid rgba(0,200,255,0.3);
+    padding:13px 16mm;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .ph-left { display:flex; align-items:center; gap:11px; }
+  .ph-logo-circle {
+    width:34px; height:34px; border-radius:50%;
+    border:2px solid rgba(0,200,255,0.7);
+    background:rgba(0,200,255,0.1);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Cinzel',serif; font-weight:900;
+    font-size:1rem; color:#00c8ff;
+  }
+  .ph-name {
+    font-family:'Cinzel',serif; font-weight:900;
+    font-size:1rem; color:#fff;
+  }
+  .ph-name span { color:#00c8ff; }
+  .ph-tag {
+    font-size:0.6rem; color:rgba(0,200,255,0.55);
+    letter-spacing:3px; text-transform:uppercase;
+  }
+
+  /* ── CORPS ── */
+  .page-body {
+    padding:22px 16mm 14px;
+    position:relative; z-index:1;
+    display:flex; flex-direction:column; min-height:260mm;
+  }
+
+  /* ── PIED ── */
+  .page-footer {
+    padding:10px 16mm;
+    border-top:1px solid rgba(0,200,255,0.15);
+    display:flex; justify-content:space-between; align-items:center;
+    position:relative; z-index:1;
+  }
+  .pf-left { font-size:0.62rem; color:rgba(255,255,255,0.2); letter-spacing:2px; }
+  .pf-right { font-size:0.62rem; color:rgba(255,255,255,0.2); }
+
+  /* ── TYPO ── */
+  .section-title {
+    font-family:'Cinzel',serif; font-weight:900;
+    font-size:1.5rem; color:#fff;
+    margin-bottom:6px;
+  }
+  .section-title::after {
+    content:''; display:block; width:50px; height:3px;
+    background:linear-gradient(to right,#00c8ff,#1a7fdb);
+    border-radius:2px; margin-top:8px; margin-bottom:18px;
+  }
+  .section-intro {
+    font-family:'EB Garamond',serif; font-style:italic;
+    font-size:1.05rem; color:rgba(255,255,255,0.55); line-height:1.7;
+    margin-bottom:22px;
+  }
+
+  /* ── INFO BOX ── */
+  .info-box {
+    border-radius:10px; padding:14px 16px;
+    margin-bottom:14px;
+    display:flex; gap:12px; align-items:flex-start;
+    border-left:4px solid;
+  }
+  .info-box.blue  { background:rgba(0,200,255,0.08); border-color:#00c8ff; }
+  .info-box.gold  { background:rgba(201,168,76,0.1); border-color:#c9a84c; }
+  .info-box.red   { background:rgba(255,60,60,0.08); border-color:#ff4444; }
+  .info-box.green { background:rgba(0,200,150,0.08); border-color:#00c896; }
+  .info-box-icon  { font-size:1.3rem; flex-shrink:0; }
+  .info-box-title { font-weight:700; font-size:0.85rem; color:#fff; margin-bottom:4px; }
+  .info-box-text  { font-size:0.78rem; color:rgba(255,255,255,0.6); line-height:1.65; }
+
+  /* ── LISTE ── */
+  .feature-list { list-style:none; margin-bottom:18px; }
+  .feature-list li {
+    font-size:0.82rem; color:rgba(255,255,255,0.7); line-height:1.6;
+    padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.05);
+    display:flex; gap:10px; align-items:flex-start;
+  }
+  .feature-list li::before { content:'→'; color:#00c8ff; font-weight:700; flex-shrink:0; }
+
+  /* ── CARTES PROJETS ── */
+  .projects-grid {
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:14px; margin-bottom:20px;
+  }
+  .project-card {
+    border-radius:10px; padding:16px;
+    border-left:4px solid;
+    background:rgba(255,255,255,0.04);
+    backdrop-filter:blur(4px);
+  }
+  .project-card.estate  { border-color:#00c8ff; }
+  .project-card.smart   { border-color:#7850ff; }
+  .project-card.arbcore { border-color:#ff8c00; }
+  .project-card.arthena { border-color:#00c896; }
+  .project-card-icon { font-size:1.5rem; margin-bottom:7px; }
+  .project-card-name {
+    font-family:'Cinzel',serif; font-weight:700;
+    font-size:0.9rem; color:#fff; margin-bottom:6px;
+  }
+  .project-card-desc { font-size:0.76rem; color:rgba(255,255,255,0.55); line-height:1.6; }
+  .project-card-badge {
+    display:inline-block; margin-top:8px;
+    font-size:0.62rem; font-weight:700; letter-spacing:1px;
+    text-transform:uppercase; padding:3px 8px; border-radius:20px;
+    background:rgba(0,200,255,0.1); color:rgba(0,200,255,0.8);
+    border:1px solid rgba(0,200,255,0.2);
+  }
+
+  /* ══════════════════════════════════════
+     COUVERTURE
+  ══════════════════════════════════════ */
+  .cover-content {
+    position:relative; z-index:1;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    min-height:297mm; text-align:center; padding:40px;
+  }
+  .cover-logo-circle {
+    width:120px; height:120px; border-radius:50%;
+    border:3px solid rgba(0,200,255,0.7);
+    box-shadow:0 0 50px rgba(0,200,255,0.25), inset 0 0 30px rgba(0,200,255,0.05);
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 28px;
+    background:rgba(0,200,255,0.08);
+    font-family:'Cinzel',serif; font-size:3rem; font-weight:900; color:#00c8ff;
+  }
+  .cover-tag {
+    font-size:0.68rem; letter-spacing:6px; text-transform:uppercase;
+    color:rgba(0,200,255,0.55); margin-bottom:14px; font-weight:600;
+  }
+  .cover-title {
+    font-family:'Cinzel',serif; font-size:4rem; font-weight:900;
+    color:#fff; line-height:1;
+    text-shadow:0 0 50px rgba(0,200,255,0.2); margin-bottom:6px;
+  }
+  .cover-title span { color:#00c8ff; }
+  .cover-subtitle {
+    font-size:0.82rem; letter-spacing:4px; text-transform:uppercase;
+    color:rgba(255,255,255,0.3); margin-bottom:36px; font-weight:300;
+  }
+  .cover-divider {
+    width:100px; height:1px; margin:0 auto 28px;
+    background:linear-gradient(to right,transparent,#00c8ff,transparent);
+  }
+  .cover-desc {
+    font-family:'EB Garamond',serif; font-style:italic;
+    font-size:1.2rem; color:rgba(255,255,255,0.55);
+    max-width:380px; line-height:1.8;
+  }
+  .cover-footer {
+    position:absolute; bottom:36px; left:0; right:0; text-align:center;
+    font-size:0.65rem; color:rgba(255,255,255,0.18);
+    letter-spacing:3px; text-transform:uppercase;
+  }
+
+  /* ══════════════════════════════════════
+     COUVERTURE ARRIÈRE
+  ══════════════════════════════════════ */
+  .back-content {
+    position:relative; z-index:1;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    min-height:297mm; text-align:center; padding:40px;
+  }
+  .back-ornament { font-size:2.5rem; color:rgba(0,200,255,0.3); margin-bottom:24px; }
+  .back-title {
+    font-family:'Cinzel',serif; font-size:2rem; font-weight:900;
+    color:#fff; margin-bottom:16px;
+  }
+  .back-divider {
+    width:80px; height:1px; margin:0 auto 22px;
+    background:linear-gradient(to right,transparent,#00c8ff,transparent);
+  }
+  .back-text {
+    font-family:'EB Garamond',serif; font-style:italic;
+    font-size:1.1rem; color:rgba(255,255,255,0.5);
+    max-width:340px; line-height:1.8; margin-bottom:36px;
+  }
+  .back-telegram {
+    background:rgba(34,158,217,0.12); border:1px solid rgba(34,158,217,0.35);
+    border-radius:12px; padding:16px 28px;
+    color:rgba(255,255,255,0.8); font-size:0.88rem; font-weight:600;
+  }
+  .back-disclaimer {
+    position:absolute; bottom:28px; left:40px; right:40px;
+    font-size:0.62rem; color:rgba(255,255,255,0.15);
+    line-height:1.6; text-align:center;
+  }
+
+  @media print {
+    body { margin:0; background:#030d1e; }
+    .page { margin:0; box-shadow:none; page-break-after:always; }
+  }
+</style>
+</head>
+<body>
+
+<button id="print-btn" onclick="telechargerPDF()">⬇️ Télécharger PDF</button>
+
+<script>
+async function telechargerPDF(){
+  var btn = document.getElementById('print-btn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Génération en cours...';
+
+  var { jsPDF } = window.jspdf;
+  var pdf = new jsPDF('p','mm','a4');
+  var pages = document.querySelectorAll('.page');
+
+  for(var i = 0; i < pages.length; i++){
+    var canvas = await html2canvas(pages[i], {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#030d1e',
+      logging: false
+    });
+    var imgData = canvas.toDataURL('image/jpeg', 0.95);
+    if(i > 0) pdf.addPage();
+    pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
+  }
+
+  pdf.save('Project-InvesT-Presentation.pdf');
+  btn.disabled = false;
+  btn.textContent = '⬇️ Télécharger PDF';
+}
+</script>
+
+<!-- ══ PAGE 1 : COUVERTURE ══ -->
+<div class="page">
+  <div class="cover-content">
+    <div class="cover-logo-circle">P</div>
+    <div class="cover-tag">Document de présentation</div>
+    <div class="cover-title">Project inves<span>'T</span></div>
+    <div class="cover-subtitle">Plateforme d'investissement communautaire</div>
+    <div class="cover-divider"></div>
+    <div class="cover-desc">Une communauté bâtie sur la transparence, la stratégie et la réussite collective.</div>
+  </div>
+  <div class="cover-footer">© 2026 Project inves'T &nbsp;·&nbsp; Confidentiel</div>
+</div>
+
+<!-- ══ PAGE 2 : QUI SOMMES-NOUS ══ -->
+<div class="page">
+  <div class="page-header">
+    <div class="ph-left">
+      <div class="ph-logo-circle">P</div>
+      <div class="ph-name">Project inves<span>'T</span></div>
+    </div>
+    <div class="ph-tag">Présentation générale</div>
+  </div>
+  <div class="page-body">
+    <div class="section-title">Qui sommes-nous ?</div>
+    <div class="section-intro">Project inves'T est une communauté d'investisseurs partageant les mêmes valeurs : transparence, engagement et réussite collective. Notre plateforme regroupe des outils, des ressources et des projets soigneusement sélectionnés.</div>
+
+    <div class="info-box blue">
+      <div class="info-box-icon">🎯</div>
+      <div>
+        <div class="info-box-title">Notre mission</div>
+        <div class="info-box-text">Mettre à disposition de chaque membre les meilleurs outils d'investissement, accompagnés d'une communauté soudée et d'un suivi personnalisé. Nous croyons que la réussite se construit ensemble.</div>
+      </div>
+    </div>
+
+    <div class="info-box gold">
+      <div class="info-box-icon">💎</div>
+      <div>
+        <div class="info-box-title">Nos valeurs</div>
+        <div class="info-box-text">Qualité avant le nombre — Engagement — Transparence — Liberté. Nous construisons une vraie communauté d'actifs, pas un groupe de passage. Chaque membre compte.</div>
+      </div>
+    </div>
+
+    <div class="info-box green">
+      <div class="info-box-icon">🌐</div>
+      <div>
+        <div class="info-box-title">Notre plateforme</div>
+        <div class="info-box-text">Un site privé réservé aux membres avec accès aux vidéos, documents PDF, journal d'actualité, bibliothèque de ressources et outils exclusifs. Tout pour être informé et prendre les bonnes décisions.</div>
+      </div>
+    </div>
+
+    <ul class="feature-list">
+      <li>Accès à un espace membre sécurisé avec toutes les ressources</li>
+      <li>Journal d'actualité mis à jour régulièrement</li>
+      <li>Vidéos explicatives et documents PDF pour chaque projet</li>
+      <li>Communauté active sur Telegram pour le suivi en temps réel</li>
+      <li>Support disponible directement sur la plateforme</li>
+    </ul>
+  </div>
+  <div class="page-footer">
+    <div class="pf-left">PROJECT INVES'T © 2026</div>
+    <div class="pf-right">Page 1</div>
+  </div>
+</div>
+
+<!-- ══ PAGE 3 : NOS PROJETS ══ -->
+<div class="page">
+  <div class="page-header">
+    <div class="ph-left">
+      <div class="ph-logo-circle">P</div>
+      <div class="ph-name">Project inves<span>'T</span></div>
+    </div>
+    <div class="ph-tag">Nos piliers d'investissement</div>
+  </div>
+  <div class="page-body">
+    <div class="section-title">Nos 4 projets</div>
+    <div class="section-intro">Jusqu'à fin 2026, nous nous concentrons sur quatre projets solides et vérifiés. Chacun a ses points forts et a été sélectionné pour son sérieux et son potentiel.</div>
+
+    <div class="projects-grid">
+      <div class="project-card estate">
+        <div class="project-card-icon">🏙️</div>
+        <div class="project-card-name">E-Estate Immobilier</div>
+        <div class="project-card-desc">Investissement dans l'immobilier tokénisé. Accédez au marché immobilier digital avec des entrées accessibles et une gestion simplifiée.</div>
+        <div class="project-card-badge">⭐ Recommandé n°1</div>
+      </div>
+      <div class="project-card arthena">
+        <div class="project-card-icon">🦉</div>
+        <div class="project-card-name">Arthena</div>
+        <div class="project-card-desc">Nouveau projet à fort potentiel. Stratégie diversifiée pensée pour maximiser les rendements dans un cadre maîtrisé.</div>
+        <div class="project-card-badge">⭐ Recommandé n°2</div>
+      </div>
+      <div class="project-card smart">
+        <div class="project-card-icon">🤖</div>
+        <div class="project-card-name">SMART MEV Trading</div>
+        <div class="project-card-desc">Bot de trading automatisé basé sur la technologie MEV. Génération de rendements passifs grâce à l'intelligence artificielle.</div>
+        <div class="project-card-badge">Recommandé n°3</div>
+      </div>
+      <div class="project-card arbcore">
+        <div class="project-card-icon">📊</div>
+        <div class="project-card-name">ArbCore</div>
+        <div class="project-card-desc">Stratégie d'arbitrage avancée. Exploite les différences de prix entre marchés pour générer des gains réguliers.</div>
+        <div class="project-card-badge">Recommandé n°4</div>
+      </div>
+    </div>
+
+    <div class="info-box gold">
+      <div class="info-box-icon">⚠️</div>
+      <div>
+        <div class="info-box-title">Avis personnel — pas une obligation</div>
+        <div class="info-box-text">Ce classement reflète mon avis personnel et n'engage que moi. Ce n'est pas une obligation de suivi. Chaque investisseur reste libre de ses choix et responsable de ses décisions.</div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <div class="pf-left">PROJECT INVES'T © 2026</div>
+    <div class="pf-right">Page 2</div>
+  </div>
+</div>
+
+<!-- ══ PAGE 4 : REJOINDRE + AVERTISSEMENT ══ -->
+<div class="page">
+  <div class="page-header">
+    <div class="ph-left">
+      <div class="ph-logo-circle">P</div>
+      <div class="ph-name">Project inves<span>'T</span></div>
+    </div>
+    <div class="ph-tag">Rejoindre la communauté</div>
+  </div>
+  <div class="page-body">
+    <div class="section-title">Comment ça fonctionne ?</div>
+    <div class="section-intro">Rejoindre Project inves'T c'est intégrer une communauté d'investisseurs actifs avec accès à tous les outils et un suivi régulier.</div>
+
+    <ul class="feature-list">
+      <li>Créez votre compte sur la plateforme privée</li>
+      <li>Accédez à l'espace membre avec tous les projets et ressources</li>
+      <li>Rejoignez le groupe Telegram pour le suivi en temps réel</li>
+      <li>Participez activement — un bonjour quotidien, c'est la base !</li>
+      <li>Consultez le journal d'actualité pour rester informé</li>
+      <li>Posez vos questions via le support intégré au site</li>
+    </ul>
+
+    <div class="info-box green">
+      <div class="info-box-icon">✅</div>
+      <div>
+        <div class="info-box-title">Ce que vous trouvez sur la plateforme</div>
+        <div class="info-box-text">Vidéos explicatives · Documents PDF officiels · Journal d'actualité · Bibliothèque de ressources · Planning des conférences · Application Android · Support communautaire</div>
+      </div>
+    </div>
+
+    <div class="info-box blue">
+      <div class="info-box-icon">📱</div>
+      <div>
+        <div class="info-box-title">Disponible sur tous les appareils</div>
+        <div class="info-box-text">La plateforme fonctionne sur ordinateur, tablette et téléphone. Une application Android est disponible pour un accès rapide et une expérience optimale en mode application.</div>
+      </div>
+    </div>
+
+    <div class="info-box red" style="margin-top:auto;">
+      <div class="info-box-icon">⚠️</div>
+      <div>
+        <div class="info-box-title">Avertissement sur les risques</div>
+        <div class="info-box-text">Tout investissement comporte des risques de perte en capital. Les performances passées ne préjugent pas des performances futures. Chaque membre investit en son libre arbitre et sous sa seule responsabilité. Investissez uniquement ce que vous pouvez vous permettre de perdre.</div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <div class="pf-left">PROJECT INVES'T © 2026</div>
+    <div class="pf-right">Page 3</div>
+  </div>
+</div>
+
+<!-- ══ PAGE 5 : COUVERTURE ARRIÈRE ══ -->
+<div class="page">
+  <div class="back-content">
+    <div class="back-ornament">✦</div>
+    <div class="back-title">Rejoignez l'aventure</div>
+    <div class="back-divider"></div>
+    <div class="back-text">Ensemble, nous avançons vers la liberté financière. Chaque jour, chaque décision, chaque membre compte.</div>
+    <div class="back-telegram">📱 Communauté Telegram · Plateforme privée · Support dédié</div>
+  </div>
+  <div class="back-disclaimer">
+    Ce document est confidentiel et réservé aux membres de Project inves'T. Toute reproduction ou diffusion est interdite sans autorisation.
+    Investir comporte des risques — chaque décision vous appartient. © 2026 Project inves'T.
+  </div>
+</div>
+
+</body>
+</html>

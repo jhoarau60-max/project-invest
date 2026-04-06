@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project inves'T - Document Portage Salarial</title>
+    <title>Project inves'T - Vidéos Arthena</title>
     <link rel="stylesheet" href="style.css">
     <style>
       .line-anim  { stroke-dasharray: 40 960; animation: snake 6s linear infinite, rainbow 5s linear infinite; }
@@ -18,6 +18,39 @@
         80%  { stroke: #00ff99; filter: drop-shadow(0 0 6px #00ff99); }
         100% { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
       }
+      .video-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 24px;
+        margin: 30px 0;
+      }
+      .video-card {
+        background: rgba(168,85,247,0.05);
+        border: 1px solid rgba(168,85,247,0.2);
+        border-radius: 14px;
+        overflow: hidden;
+        transition: all 0.3s;
+      }
+      .video-card:hover {
+        border-color: rgba(168,85,247,0.5);
+        box-shadow: 0 0 20px rgba(168,85,247,0.2);
+      }
+      .video-card iframe {
+        width: 100%; aspect-ratio: 16/9; border: none; display: block;
+      }
+      .video-card-body { padding: 14px 16px; }
+      .video-card-body h3 { color: #fff; font-size: 0.92rem; margin-bottom: 6px; }
+      .video-card-body p  { color: #aaa; font-size: 0.82rem; }
+      .video-coming {
+        aspect-ratio: 16/9;
+        background: rgba(168,85,247,0.05);
+        border: 2px dashed rgba(168,85,247,0.2);
+        border-radius: 14px;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center; gap: 10px;
+      }
+      .video-coming span { font-size: 2.5rem; }
+      .video-coming p { color: #666; font-size: 0.82rem; }
     </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -30,13 +63,14 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 <div id="bg-curves">
   <svg viewBox="0 0 1700 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
     <defs><filter id="glow-line"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-    <path class="line-anim"  d="M-100,300 C200,100 400,500 800,250 S1200,50 1700,300"  fill="none" stroke="rgba(0,200,255,0.2)"  stroke-width="2" filter="url(#glow-line)"/>
-    <path class="line-anim2" d="M-100,600 C300,400 600,800 1000,550 S1400,300 1700,600" fill="none" stroke="rgba(26,127,219,0.25)" stroke-width="2" filter="url(#glow-line)"/>
-    <path class="line-anim3" d="M-100,150 C300,50 700,350 1100,150 S1450,0 1700,180"   fill="none" stroke="rgba(0,200,255,0.12)" stroke-width="1.5" filter="url(#glow-line)"/>
-    <circle cx="200" cy="180" r="130" fill="none" stroke="rgba(0,200,255,0.15)" stroke-width="1.5"/>
-    <circle cx="1500" cy="700" r="160" fill="none" stroke="rgba(26,127,219,0.2)" stroke-width="1.5"/>
+    <path class="line-anim"  d="M-100,300 C200,100 400,500 800,250 S1200,50 1700,300"  fill="none" stroke="rgba(168,85,247,0.2)"  stroke-width="2" filter="url(#glow-line)"/>
+    <path class="line-anim2" d="M-100,600 C300,400 600,800 1000,550 S1400,300 1700,600" fill="none" stroke="rgba(168,85,247,0.15)" stroke-width="2" filter="url(#glow-line)"/>
+    <path class="line-anim3" d="M-100,150 C300,50 700,350 1100,150 S1450,0 1700,180"   fill="none" stroke="rgba(168,85,247,0.1)" stroke-width="1.5" filter="url(#glow-line)"/>
+    <circle cx="200" cy="180" r="130" fill="none" stroke="rgba(168,85,247,0.15)" stroke-width="1.5"/>
+    <circle cx="1500" cy="700" r="160" fill="none" stroke="rgba(168,85,247,0.1)"  stroke-width="1.5"/>
   </svg>
 </div>
+
 <header>
     <div class="header-top">
         <a href="home.html" class="logo-svg">
@@ -51,9 +85,9 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
   </svg>
 </a>
         <div class="social-links">
-            <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="background:#229ED9;color:#fff;border-color:#229ED9;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-telegram" style="font-size:1rem;color:#fff;"></i> Telegram</a>
-            <a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" style="background:#FF0000;color:#fff;border-color:#FF0000;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;">▶ YouTube</a>
-            <a href="https://wa.me/320492931040" target="_blank" style="background:#25D366;color:#fff;border-color:#25D366;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-whatsapp" style="font-size:1rem;color:#fff;"></i> WhatsApp</a>
+            <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="background:#229ED9;color:#fff;border-color:#229ED9;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-telegram"></i> Telegram</a>
+            <a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" style="background:#FF0000;color:#fff;border-color:#FF0000;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;">&#9654; YouTube</a>
+            <a href="https://wa.me/320492931040" target="_blank" style="background:#25D366;color:#fff;border-color:#25D366;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
             <a href="#" onclick="_sb.auth.signOut().then(()=>window.location.href='index.html')" style="background:#229ED9;color:#fff;border:1px solid #229ED9;border-radius:20px;font-weight:700;display:inline-flex;align-items:center;gap:6px;"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
         </div>
     </div>
@@ -69,7 +103,6 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             <li><a href="e-state-immobilier.html">E-state Immobilier Tokénisé</a></li>
             <li><a href="smart-mev-trading.html">SMART MEV Trading</a></li>
             <li><a href="mlm-center.html">MLM Center</a></li>
-            
             <li><a href="portage-salarial.html">Portage salarial</a></li>
             <li><a href="journal.html">Journal</a></li>
             <li><a href="bibliotheque-mlm.html">Avis Clients</a></li>
@@ -78,26 +111,40 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 </header>
 
 <div class="page-header">
-    <h1><i class="fa-solid fa-file-pdf" style="margin-right:12px;color:#00c8ff;"></i>Document — Portage Salarial</h1>
-    <p>Présentation officielle du portage salarial</p>
+    <h1><i class="fa-solid fa-video" style="margin-right:12px;color:#a855f7;"></i>Vidéos Arthena</h1>
+    <p>Présentations, témoignages et tutoriels</p>
 </div>
 
 <div class="section">
-    <h2 class="section-title">Document Portage Salarial</h2>
+    <h2 class="section-title">Vidéos de présentation</h2>
     <div class="divider"></div>
-    <p style="text-align:center;color:#aaa;margin-bottom:40px;font-size:0.95rem;">Consultez la présentation officielle du portage salarial</p>
-    <div style="display:flex;justify-content:center;margin:30px 0;">
-        <div class="card" style="text-align:center;width:220px;padding:30px 20px;">
-            <img src="https://flagcdn.com/w80/fr.png" alt="France" style="width:70px;height:auto;border-radius:6px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,0.4);">
-            <h3 style="color:#fff;margin-bottom:6px;">Français</h3>
-            <p style="color:#888;font-size:0.85rem;margin-bottom:16px;">Présentation portage salarial</p>
-            <a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:cb20c3a0-9ff4-449d-b3e7-782b18fd0a2e" target="_blank" style="display:inline-block;background:linear-gradient(135deg,#00c8ff,#1a7fdb);color:#ffffff;font-weight:700;font-size:0.9rem;padding:10px 22px;border-radius:20px;text-decoration:none;">&#128196; Voir le PDF</a>
+
+    <div class="video-grid">
+        <!-- Vidéos à ajouter ici -->
+        <div class="video-coming">
+            <span>🎥</span>
+            <p>Vidéo à venir</p>
         </div>
+        <div class="video-coming">
+            <span>🎥</span>
+            <p>Vidéo à venir</p>
+        </div>
+        <div class="video-coming">
+            <span>🎥</span>
+            <p>Vidéo à venir</p>
+        </div>
+    </div>
+
+    <br>
+    <div style="text-align:center;">
+        <a href="arthena.html" style="display:inline-flex;align-items:center;gap:8px;color:#a855f7;text-decoration:none;font-size:0.88rem;border:1px solid rgba(168,85,247,0.3);padding:8px 18px;border-radius:20px;transition:all 0.3s;">
+            <i class="fa-solid fa-arrow-left"></i> Retour Arthena
+        </a>
     </div>
 </div>
 
 <footer>
-    <p>&copy; 2026 Project inves'T — Site personnel non professionnel</p>
+    <p>&copy; 2026 Project inves'T &mdash; Site personnel non professionnel</p>
 </footer>
 <script src="menu.js"></script>
 <script src="audio.js"></script>

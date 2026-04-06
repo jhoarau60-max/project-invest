@@ -31,6 +31,9 @@
     'boutique.html':                 'fa-store',
     'roue.html':                     'fa-vault',
     'admin.html':                    'fa-shield-halved',
+    'arthena.html':                  'fa-gem',
+    'pdf-arthena.html':              'fa-file-pdf',
+    'videos-arthena.html':           'fa-video',
   };
 
   // Renommer les onglets
@@ -54,6 +57,11 @@
       { href: 'arbcore.html',    label: 'ArbCore',              icon: 'fa-chart-line' },
       { href: 'pdf-arbcore.html',  label: 'Documentation PDF', icon: 'fa-file-pdf' },
       { href: 'videos-arbcore.html',                             label: 'Vidéo',                icon: 'fa-video' },
+    ],
+    'arthena.html': [
+      { href: 'arthena.html',        label: 'Arthena',          icon: 'fa-gem' },
+      { href: 'pdf-arthena.html',    label: 'Documents PDF',    icon: 'fa-file-pdf' },
+      { href: 'videos-arthena.html', label: 'Vidéos',           icon: 'fa-video' },
     ],
     'e-state-immobilier.html': [
       { href: 'bibliotheque-immobilier.html', label: 'Biens Immobiliers', icon: 'fa-building' },
