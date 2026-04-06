@@ -6,137 +6,217 @@
     <title>Project inves'T - Arthena</title>
     <link rel="stylesheet" href="style.css">
     <style>
-      .line-anim  { stroke-dasharray: 40 960; animation: snake 6s linear infinite, rainbow 5s linear infinite; }
-      .line-anim2 { stroke-dasharray: 40 960; animation: snake 8s linear infinite reverse, rainbow 5s linear infinite 1.5s; }
-      .line-anim3 { stroke-dasharray: 40 960; animation: snake 7s linear infinite, rainbow 5s linear infinite 3s; }
+      .line-anim  { stroke-dasharray: 40 960; animation: snake 6s linear infinite, rainbowL 5s linear infinite; }
+      .line-anim2 { stroke-dasharray: 40 960; animation: snake 8s linear infinite reverse, rainbowL 5s linear infinite 1.5s; }
+      .line-anim3 { stroke-dasharray: 40 960; animation: snake 7s linear infinite, rainbowL 5s linear infinite 3s; }
       @keyframes snake { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: -1000; } }
-      @keyframes rainbow {
-        0%   { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
-        20%  { stroke: #7850ff; filter: drop-shadow(0 0 6px #7850ff); }
-        40%  { stroke: #ff3399; filter: drop-shadow(0 0 6px #ff3399); }
-        60%  { stroke: #ffaa00; filter: drop-shadow(0 0 6px #ffaa00); }
-        80%  { stroke: #00ff99; filter: drop-shadow(0 0 6px #00ff99); }
-        100% { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
+      @keyframes rainbowL {
+        0%   { stroke: #2374F8; filter: drop-shadow(0 0 6px #2374F8); }
+        33%  { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
+        66%  { stroke: #4a9fff; filter: drop-shadow(0 0 6px #4a9fff); }
+        100% { stroke: #2374F8; filter: drop-shadow(0 0 6px #2374F8); }
       }
-      :root { --arth: #a855f7; --arth-light: rgba(168,85,247,0.12); --arth-glow: rgba(168,85,247,0.4); }
 
+      :root { --a: #2374F8; --a-light: rgba(35,116,248,0.12); --a-glow: rgba(35,116,248,0.4); }
+
+      /* Hero */
       .arth-hero {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 40px 20px 20px;
+        display: flex; flex-direction: column; align-items: center;
+        text-align: center; padding: 48px 20px 24px;
       }
       .arth-logo-wrap {
-        width: 110px; height: 110px;
-        border-radius: 50%;
-        border: 2px solid var(--arth);
-        box-shadow: 0 0 30px var(--arth-glow), 0 0 60px rgba(168,85,247,0.2);
+        width: 120px; height: 120px; border-radius: 50%;
+        border: 2px solid var(--a);
+        box-shadow: 0 0 30px var(--a-glow), 0 0 60px rgba(35,116,248,0.2);
         display: flex; align-items: center; justify-content: center;
-        margin-bottom: 20px;
-        background: radial-gradient(circle, rgba(168,85,247,0.15) 0%, transparent 70%);
+        margin-bottom: 22px;
+        background: radial-gradient(circle, rgba(35,116,248,0.15) 0%, transparent 70%);
         animation: arthPulse 3s ease-in-out infinite;
       }
       @keyframes arthPulse {
-        0%,100% { box-shadow: 0 0 30px var(--arth-glow); }
-        50%      { box-shadow: 0 0 50px var(--arth-glow), 0 0 80px rgba(168,85,247,0.3); }
+        0%,100% { box-shadow: 0 0 30px var(--a-glow); }
+        50%      { box-shadow: 0 0 55px var(--a-glow), 0 0 90px rgba(35,116,248,0.25); }
       }
-      .arth-logo-wrap span { font-size: 3rem; }
+      .arth-logo-wrap span { font-size: 3.4rem; }
       .arth-title {
         font-family: 'Arial Black', sans-serif;
-        font-size: 2.8rem;
-        font-weight: 900;
-        letter-spacing: 6px;
-        color: #fff;
-        text-shadow: 0 0 30px var(--arth-glow);
-        margin-bottom: 6px;
+        font-size: 2.8rem; font-weight: 900; letter-spacing: 6px;
+        color: #fff; text-shadow: 0 0 30px var(--a-glow); margin-bottom: 6px;
       }
       .arth-subtitle {
-        color: var(--arth);
-        font-size: 0.9rem;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        margin-bottom: 30px;
+        color: var(--a); font-size: 0.9rem; letter-spacing: 3px;
+        text-transform: uppercase; margin-bottom: 16px;
       }
+      .arth-badge {
+        display: inline-flex; align-items: center; gap: 6px;
+        background: rgba(35,116,248,0.1); border: 1px solid rgba(35,116,248,0.35);
+        color: #2374F8; padding: 6px 18px; border-radius: 20px;
+        font-size: 0.82rem; font-weight: 600; margin-bottom: 10px;
+      }
+
+      /* Stats row */
+      .arth-stats {
+        display: flex; flex-wrap: wrap; gap: 16px;
+        justify-content: center; margin: 30px 0;
+      }
+      .arth-stat {
+        background: rgba(35,116,248,0.07); border: 1px solid rgba(35,116,248,0.25);
+        border-radius: 14px; padding: 20px 28px; text-align: center; min-width: 140px;
+        transition: all 0.3s;
+      }
+      .arth-stat:hover { border-color: rgba(35,116,248,0.5); background: rgba(35,116,248,0.12); }
+      .arth-stat-val { color: #2374F8; font-size: 1.7rem; font-weight: 900; line-height: 1; margin-bottom: 5px; }
+      .arth-stat-label { color: #aaa; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; }
+
+      /* Section title */
+      .arth-sec {
+        color: #2374F8; font-size: 1.05rem; font-weight: 700;
+        text-transform: uppercase; letter-spacing: 2px;
+        margin: 40px 0 18px; display: flex; align-items: center; gap: 10px;
+      }
+      .arth-sec::after {
+        content: ''; flex: 1; height: 1px;
+        background: linear-gradient(to right, rgba(35,116,248,0.4), transparent);
+      }
+
+      /* Cards grid */
       .arth-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px;
-        margin: 30px 0;
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px; margin: 0 0 30px;
       }
       .arth-card {
-        background: rgba(168,85,247,0.05);
-        border: 1px solid rgba(168,85,247,0.2);
-        border-radius: 14px;
-        padding: 24px;
-        transition: all 0.3s;
+        background: rgba(35,116,248,0.05); border: 1px solid rgba(35,116,248,0.2);
+        border-radius: 14px; padding: 22px; transition: all 0.3s;
       }
-      .arth-card:hover {
-        border-color: rgba(168,85,247,0.5);
-        background: rgba(168,85,247,0.08);
-      }
-      .arth-card-icon { font-size: 1.8rem; margin-bottom: 12px; }
+      .arth-card:hover { border-color: rgba(35,116,248,0.5); background: rgba(35,116,248,0.09); }
+      .arth-card-icon { font-size: 1.9rem; margin-bottom: 12px; }
       .arth-card h3 {
-        color: var(--arth);
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 10px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
+        color: #2374F8; font-size: 0.95rem; font-weight: 700;
+        margin-bottom: 9px; text-transform: uppercase; letter-spacing: 1px;
       }
-      .arth-card p {
-        color: #ccc;
-        font-size: 0.88rem;
-        line-height: 1.7;
+      .arth-card p { color: #ccc; font-size: 0.87rem; line-height: 1.7; }
+
+      /* Steps */
+      .arth-steps { display: flex; flex-direction: column; gap: 16px; margin: 0 0 30px; }
+      .arth-step {
+        display: flex; align-items: flex-start; gap: 16px;
+        background: rgba(35,116,248,0.05); border: 1px solid rgba(35,116,248,0.18);
+        border-radius: 12px; padding: 18px 20px;
       }
-      .section-title-arth {
-        color: var(--arth);
-        font-size: 1.1rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        margin: 40px 0 20px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
+      .arth-step-num {
+        width: 38px; height: 38px; border-radius: 50%;
+        background: #2374F8; color: #fff; font-weight: 900; font-size: 1rem;
+        display: flex; align-items: center; justify-content: center; flex-shrink: 0;
       }
-      .section-title-arth::after {
-        content: '';
-        flex: 1;
-        height: 1px;
-        background: linear-gradient(to right, rgba(168,85,247,0.4), transparent);
+      .arth-step h4 { color: #fff; font-size: 0.95rem; margin-bottom: 5px; }
+      .arth-step p  { color: #aaa; font-size: 0.85rem; line-height: 1.6; }
+
+      /* Tables */
+      .arth-table { width: 100%; border-collapse: collapse; margin: 0 0 30px; font-size: 0.88rem; }
+      .arth-table th {
+        background: rgba(35,116,248,0.15); color: #2374F8;
+        padding: 12px 14px; text-align: left; font-size: 0.8rem;
+        text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid rgba(35,116,248,0.3);
       }
+      .arth-table td {
+        padding: 11px 14px; color: #ccc; border-bottom: 1px solid rgba(255,255,255,0.05);
+      }
+      .arth-table tr:hover td { background: rgba(35,116,248,0.05); }
+      .arth-table .highlight { color: #2374F8; font-weight: 700; }
+      .arth-table .green { color: #00e676; font-weight: 700; }
+
+      /* Pass cards */
+      .pass-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin: 0 0 30px; }
+      .pass-card {
+        border-radius: 16px; padding: 28px 22px; text-align: center;
+        border: 2px solid rgba(35,116,248,0.3); background: rgba(35,116,248,0.06);
+        transition: all 0.3s; position: relative; overflow: hidden;
+      }
+      .pass-card.featured {
+        border-color: #2374F8;
+        box-shadow: 0 0 30px rgba(35,116,248,0.25);
+        background: rgba(35,116,248,0.1);
+      }
+      .pass-card-badge {
+        position: absolute; top: 12px; right: 12px;
+        background: #2374F8; color: #fff; font-size: 0.7rem;
+        font-weight: 700; padding: 3px 10px; border-radius: 20px; letter-spacing: 1px;
+      }
+      .pass-card-icon { font-size: 2.5rem; margin-bottom: 12px; }
+      .pass-card h3 { color: #fff; font-size: 1.15rem; font-weight: 800; margin-bottom: 6px; }
+      .pass-card .pass-price { color: #2374F8; font-size: 2rem; font-weight: 900; margin: 12px 0; }
+      .pass-card ul { list-style: none; padding: 0; margin: 0; text-align: left; }
+      .pass-card ul li { color: #bbb; font-size: 0.83rem; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+      .pass-card ul li::before { content: '✓ '; color: #2374F8; font-weight: 700; }
+
+      /* Partners */
+      .partners-wrap {
+        display: flex; flex-wrap: wrap; gap: 12px;
+        justify-content: center; margin: 0 0 30px;
+      }
+      .partner-pill {
+        background: rgba(35,116,248,0.08); border: 1px solid rgba(35,116,248,0.25);
+        border-radius: 20px; padding: 7px 18px; color: #2374F8;
+        font-size: 0.82rem; font-weight: 600; transition: all 0.3s;
+      }
+      .partner-pill:hover { background: rgba(35,116,248,0.18); border-color: rgba(35,116,248,0.5); }
+
+      /* Roadmap */
+      .roadmap { display: flex; flex-direction: column; gap: 0; margin: 0 0 30px; }
+      .roadmap-item {
+        display: flex; gap: 18px; position: relative; padding-bottom: 24px;
+      }
+      .roadmap-item:last-child { padding-bottom: 0; }
+      .roadmap-line {
+        display: flex; flex-direction: column; align-items: center;
+      }
+      .roadmap-dot {
+        width: 14px; height: 14px; border-radius: 50%; background: #2374F8;
+        flex-shrink: 0; box-shadow: 0 0 8px rgba(35,116,248,0.6);
+      }
+      .roadmap-line-bar {
+        flex: 1; width: 2px; background: rgba(35,116,248,0.25); margin-top: 4px;
+      }
+      .roadmap-item:last-child .roadmap-line-bar { display: none; }
+      .roadmap-content { padding-bottom: 4px; }
+      .roadmap-date { color: #2374F8; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; }
+      .roadmap-content h4 { color: #fff; font-size: 0.95rem; margin-bottom: 4px; }
+      .roadmap-content p  { color: #aaa; font-size: 0.83rem; line-height: 1.6; }
+
+      /* CTA */
       .arth-cta {
-        text-align: center;
-        padding: 40px 20px;
-        background: linear-gradient(135deg, rgba(168,85,247,0.08) 0%, transparent 100%);
-        border: 1px solid rgba(168,85,247,0.2);
-        border-radius: 16px;
-        margin: 30px 0;
+        text-align: center; padding: 42px 24px;
+        background: linear-gradient(135deg, rgba(35,116,248,0.1) 0%, transparent 100%);
+        border: 1px solid rgba(35,116,248,0.25); border-radius: 18px; margin: 30px 0;
       }
-      .arth-cta h2 { color: #fff; font-size: 1.5rem; margin-bottom: 12px; }
-      .arth-cta p  { color: #aaa; margin-bottom: 24px; }
+      .arth-cta h2 { color: #fff; font-size: 1.5rem; margin-bottom: 10px; }
+      .arth-cta p  { color: #aaa; margin-bottom: 26px; }
       .arth-btn {
-        display: inline-block;
-        background: var(--arth);
-        color: #fff;
-        padding: 13px 32px;
-        border-radius: 30px;
-        font-weight: 700;
-        font-size: 0.95rem;
-        text-decoration: none;
-        letter-spacing: 1px;
-        box-shadow: 0 0 20px var(--arth-glow);
-        transition: all 0.3s;
+        display: inline-block; background: #2374F8; color: #fff;
+        padding: 13px 32px; border-radius: 30px; font-weight: 700; font-size: 0.95rem;
+        text-decoration: none; letter-spacing: 1px;
+        box-shadow: 0 0 22px rgba(35,116,248,0.4); transition: all 0.3s;
       }
-      .arth-btn:hover { box-shadow: 0 0 35px var(--arth-glow); transform: translateY(-2px); }
-      .coming-soon-badge {
-        display: inline-flex; align-items: center; gap: 6px;
-        background: rgba(168,85,247,0.1);
-        border: 1px solid rgba(168,85,247,0.35);
-        color: #a855f7;
-        padding: 5px 16px; border-radius: 20px;
-        font-size: 0.8rem; font-weight: 600; margin-bottom: 20px;
+      .arth-btn:hover { box-shadow: 0 0 38px rgba(35,116,248,0.6); transform: translateY(-2px); }
+
+      /* Profit sharing */
+      .profit-levels { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin: 0 0 30px; }
+      .profit-level {
+        background: rgba(35,116,248,0.05); border: 1px solid rgba(35,116,248,0.18);
+        border-radius: 10px; padding: 12px 16px; display: flex;
+        justify-content: space-between; align-items: center;
+      }
+      .profit-level .lv { color: #2374F8; font-size: 0.8rem; font-weight: 700; }
+      .profit-level .pct { color: #fff; font-weight: 700; font-size: 0.9rem; }
+
+      @media (max-width: 600px) {
+        .arth-title { font-size: 2rem; letter-spacing: 3px; }
+        .arth-stats { gap: 10px; }
+        .arth-stat { min-width: 120px; padding: 15px 18px; }
+        .arth-stat-val { font-size: 1.4rem; }
+        .pass-grid { grid-template-columns: 1fr; }
+        .arth-grid { grid-template-columns: 1fr; }
+        .profit-levels { grid-template-columns: 1fr 1fr; }
       }
     </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -151,11 +231,11 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 <div id="bg-curves">
   <svg viewBox="0 0 1700 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
     <defs><filter id="glow-line"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-    <path class="line-anim"  d="M-100,300 C200,100 400,500 800,250 S1200,50 1700,300"  fill="none" stroke="rgba(168,85,247,0.2)"  stroke-width="2" filter="url(#glow-line)"/>
-    <path class="line-anim2" d="M-100,600 C300,400 600,800 1000,550 S1400,300 1700,600" fill="none" stroke="rgba(168,85,247,0.15)" stroke-width="2" filter="url(#glow-line)"/>
-    <path class="line-anim3" d="M-100,150 C300,50 700,350 1100,150 S1450,0 1700,180"   fill="none" stroke="rgba(168,85,247,0.1)" stroke-width="1.5" filter="url(#glow-line)"/>
-    <circle cx="200" cy="180" r="130" fill="none" stroke="rgba(168,85,247,0.15)" stroke-width="1.5"/>
-    <circle cx="1500" cy="700" r="160" fill="none" stroke="rgba(168,85,247,0.1)"  stroke-width="1.5"/>
+    <path class="line-anim"  d="M-100,300 C200,100 400,500 800,250 S1200,50 1700,300"  fill="none" stroke="rgba(35,116,248,0.2)"  stroke-width="2" filter="url(#glow-line)"/>
+    <path class="line-anim2" d="M-100,600 C300,400 600,800 1000,550 S1400,300 1700,600" fill="none" stroke="rgba(35,116,248,0.15)" stroke-width="2" filter="url(#glow-line)"/>
+    <path class="line-anim3" d="M-100,150 C300,50 700,350 1100,150 S1450,0 1700,180"   fill="none" stroke="rgba(35,116,248,0.1)" stroke-width="1.5" filter="url(#glow-line)"/>
+    <circle cx="200" cy="180" r="130" fill="none" stroke="rgba(35,116,248,0.15)" stroke-width="1.5"/>
+    <circle cx="1500" cy="700" r="160" fill="none" stroke="rgba(35,116,248,0.1)"  stroke-width="1.5"/>
   </svg>
 </div>
 
@@ -201,33 +281,337 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 <!-- HERO -->
 <div class="arth-hero">
     <div class="arth-logo-wrap">
-        <span>💎</span>
+        <span>🔷</span>
     </div>
     <div class="arth-title">ARTHENA</div>
-    <div class="arth-subtitle">Contenu à venir</div>
-    <div class="coming-soon-badge">⏳ Page en cours de construction</div>
+    <div class="arth-subtitle">Artena Strategic Systems — Club d'Investissement Privé DeFi</div>
+    <div class="arth-badge">🌐 Accès mondial · Rendements hebdomadaires · Tokenisation</div>
 </div>
 
 <div class="section">
 
-    <div class="section-title-arth">📋 Présentation</div>
+    <!-- STATS -->
+    <div class="arth-stats">
+        <div class="arth-stat">
+            <div class="arth-stat-val">50$</div>
+            <div class="arth-stat-label">Entrée Standard</div>
+        </div>
+        <div class="arth-stat">
+            <div class="arth-stat-val">50%</div>
+            <div class="arth-stat-label">Rendement max</div>
+        </div>
+        <div class="arth-stat">
+            <div class="arth-stat-val">15%</div>
+            <div class="arth-stat-label">Profit sharing hebdo</div>
+        </div>
+        <div class="arth-stat">
+            <div class="arth-stat-val">5 000</div>
+            <div class="arth-stat-label">Pass Equity (limité)</div>
+        </div>
+        <div class="arth-stat">
+            <div class="arth-stat-val">10</div>
+            <div class="arth-stat-label">Niveaux de filleuls</div>
+        </div>
+        <div class="arth-stat">
+            <div class="arth-stat-val">21</div>
+            <div class="arth-stat-label">Rangs de leadership</div>
+        </div>
+    </div>
+
+    <!-- QU'EST-CE QUE C'EST -->
+    <div class="arth-sec">🔷 Qu'est-ce qu'Artena Strategic Systems</div>
+    <div class="arth-card" style="margin-bottom:20px;">
+        <p style="font-size:0.93rem;line-height:1.85;color:#ddd;">
+            <strong style="color:#2374F8;">Artena Strategic Systems</strong> est un club d'investissement privé opérant dans l'écosystème DeFi (Finance Décentralisée). La plateforme exploite des stratégies d'arbitrage automatisé, de trading algorithmique et de gestion de liquidités pour générer des rendements stables et compétitifs. Les membres accèdent à un système structuré de distribution de profits hebdomadaires et à un plan de rémunération multi-niveaux permettant de construire une source de revenus passifs durable.
+        </p>
+    </div>
+
+    <!-- COMMENT ÇA MARCHE -->
+    <div class="arth-sec">⚙️ Comment ça marche</div>
+    <div class="arth-steps">
+        <div class="arth-step">
+            <div class="arth-step-num">1</div>
+            <div>
+                <h4>Choisissez votre Pass Membre</h4>
+                <p>Sélectionnez l'accès qui correspond à vos objectifs : Standard (50$), Investor (300$) ou Equity (1 000$ — limité à 5 000 membres). Chaque pass ouvre des droits différents sur les rendements et le profit sharing.</p>
+            </div>
+        </div>
+        <div class="arth-step">
+            <div class="arth-step-num">2</div>
+            <div>
+                <h4>Activez votre Plan d'Investissement</h4>
+                <p>Choisissez parmi 3 plans : Long Terme (12 mois, +30%), Moyen Terme (6 mois, +40%) ou Flexible (clôture à tout moment, +50% prorata). Les profits sont distribués chaque semaine directement dans votre compte.</p>
+            </div>
+        </div>
+        <div class="arth-step">
+            <div class="arth-step-num">3</div>
+            <div>
+                <h4>Bénéficiez du Profit Sharing & Parrainage</h4>
+                <p>15% des profits hebdomadaires de la plateforme sont redistribués sur 10 niveaux de parrainage. Plus votre réseau est actif, plus vos revenus passifs augmentent — jusqu'aux rangs de leadership les plus élevés.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PASS MEMBRES -->
+    <div class="arth-sec">🎫 Pass Membres</div>
+    <div class="pass-grid">
+        <div class="pass-card">
+            <div class="pass-card-icon">⚪</div>
+            <h3>Standard</h3>
+            <div class="pass-price">50 $</div>
+            <ul>
+                <li>Accès à la plateforme</li>
+                <li>Plans d'investissement actifs</li>
+                <li>Profit sharing niveaux 1–3</li>
+                <li>Outils de suivi basiques</li>
+            </ul>
+        </div>
+        <div class="pass-card featured">
+            <div class="pass-card-badge">POPULAIRE</div>
+            <div class="pass-card-icon">🔵</div>
+            <h3>Investor</h3>
+            <div class="pass-price">300 $</div>
+            <ul>
+                <li>Tout le pass Standard</li>
+                <li>Profit sharing niveaux 1–7</li>
+                <li>Accès aux stratégies avancées</li>
+                <li>Dashboard analytique complet</li>
+                <li>Support prioritaire</li>
+            </ul>
+        </div>
+        <div class="pass-card">
+            <div class="pass-card-badge">LIMITÉ 5 000</div>
+            <div class="pass-card-icon">💎</div>
+            <h3>Equity</h3>
+            <div class="pass-price">1 000 $</div>
+            <ul>
+                <li>Tout le pass Investor</li>
+                <li>Profit sharing niveaux 1–10</li>
+                <li>Participation aux décisions</li>
+                <li>Allocation $ARTN (token)</li>
+                <li>Revenus à vie (lifetime)</li>
+                <li>Accès exclusif Conseil Artena</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- PLANS DE PERFORMANCE -->
+    <div class="arth-sec">📈 Plans de Performance</div>
+    <div style="overflow-x:auto;margin-bottom:30px;">
+        <table class="arth-table">
+            <thead>
+                <tr>
+                    <th>Plan</th>
+                    <th>Durée</th>
+                    <th>Rendement</th>
+                    <th>Retrait</th>
+                    <th>Fréquence</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="highlight">Long Terme</td>
+                    <td>12 mois</td>
+                    <td class="green">+30%</td>
+                    <td>À échéance</td>
+                    <td>Profits hebdomadaires</td>
+                </tr>
+                <tr>
+                    <td class="highlight">Moyen Terme</td>
+                    <td>6 mois</td>
+                    <td class="green">+40%</td>
+                    <td>À échéance</td>
+                    <td>Profits hebdomadaires</td>
+                </tr>
+                <tr>
+                    <td class="highlight">Flexible</td>
+                    <td>Libre</td>
+                    <td class="green">+50% (prorata)</td>
+                    <td>À tout moment</td>
+                    <td>Profits hebdomadaires</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ARCHITECTURE STRATÉGIQUE -->
+    <div class="arth-sec">🏗️ Architecture Stratégique</div>
     <div class="arth-grid">
         <div class="arth-card">
-            <div class="arth-card-icon">💎</div>
-            <h3>Arthena</h3>
-            <p>Le contenu détaillé de cette page sera ajouté prochainement. En attendant, retrouvez la documentation PDF et les vidéos de présentation dans les sous-menus.</p>
+            <div class="arth-card-icon">🤖</div>
+            <h3>Arbitrage Automatisé</h3>
+            <p>Algorithmes d'arbitrage inter-exchanges exploitant les écarts de prix entre Binance, OKX, Bybit et Bitget en temps réel. Exécution en millisecondes pour maximiser les opportunités.</p>
         </div>
         <div class="arth-card">
+            <div class="arth-card-icon">📊</div>
+            <h3>Trading Algorithmique</h3>
+            <p>Stratégies quantitatives basées sur l'analyse technique avancée et le machine learning. Gestion du risque intégrée avec des stop-loss dynamiques et une diversification automatique.</p>
+        </div>
+        <div class="arth-card">
+            <div class="arth-card-icon">💧</div>
+            <h3>Gestion de Liquidités DeFi</h3>
+            <p>Participation aux pools de liquidité sur les protocoles DeFi majeurs (AMM). Génération de revenus passifs via les frais de transaction et les récompenses de yield farming.</p>
+        </div>
+        <div class="arth-card">
+            <div class="arth-card-icon">🔒</div>
+            <h3>Sécurité & Custody</h3>
+            <p>Partenariat avec Copper et Fireblocks pour la garde institutionnelle des actifs. Infrastructure sécurisée avec audit multi-signatures et protocoles de conformité stricts.</p>
+        </div>
+    </div>
+
+    <!-- PROFIT SHARING 10 NIVEAUX -->
+    <div class="arth-sec">💰 Profit Sharing — 10 Niveaux</div>
+    <p style="color:#aaa;font-size:0.87rem;margin-bottom:18px;">15% des profits hebdomadaires de la plateforme sont redistribués sur votre réseau de parrainage :</p>
+    <div class="profit-levels">
+        <div class="profit-level"><span class="lv">Niveau 1</span><span class="pct">5%</span></div>
+        <div class="profit-level"><span class="lv">Niveau 2</span><span class="pct">3%</span></div>
+        <div class="profit-level"><span class="lv">Niveau 3</span><span class="pct">2%</span></div>
+        <div class="profit-level"><span class="lv">Niveau 4</span><span class="pct">1.5%</span></div>
+        <div class="profit-level"><span class="lv">Niveau 5</span><span class="pct">1%</span></div>
+        <div class="profit-level"><span class="lv">Niveau 6</span><span class="pct">0.8%</span></div>
+        <div class="profit-level"><span class="lv">Niveau 7</span><span class="pct">0.5%</span></div>
+        <div class="profit-level"><span class="lv">Niveau 8</span><span class="pct">0.5%</span></div>
+        <div class="profit-level"><span class="lv">Niveau 9</span><span class="pct">0.4%</span></div>
+        <div class="profit-level"><span class="lv">Niveau 10</span><span class="pct">0.3%</span></div>
+    </div>
+    <p style="color:#666;font-size:0.8rem;margin-bottom:30px;"><em>* Pass Equity requis pour accéder aux niveaux 8–10. Pass Investor requis pour les niveaux 4–7.</em></p>
+
+    <!-- RANGS DE LEADERSHIP -->
+    <div class="arth-sec">🏆 Rangs de Leadership (21 niveaux)</div>
+    <div style="overflow-x:auto;margin-bottom:30px;">
+        <table class="arth-table">
+            <thead>
+                <tr><th>#</th><th>Rang</th><th>#</th><th>Rang</th><th>#</th><th>Rang</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="highlight">1</td><td>Initié</td>
+                    <td class="highlight">8</td><td>Stratège</td>
+                    <td class="highlight">15</td><td>Architecte Senior</td>
+                </tr>
+                <tr>
+                    <td class="highlight">2</td><td>Associé</td>
+                    <td class="highlight">9</td><td>Stratège Senior</td>
+                    <td class="highlight">16</td><td>Directeur</td>
+                </tr>
+                <tr>
+                    <td class="highlight">3</td><td>Analyste</td>
+                    <td class="highlight">10</td><td>Consultant</td>
+                    <td class="highlight">17</td><td>Directeur Senior</td>
+                </tr>
+                <tr>
+                    <td class="highlight">4</td><td>Analyste Senior</td>
+                    <td class="highlight">11</td><td>Consultant Senior</td>
+                    <td class="highlight">18</td><td>Vice-Président</td>
+                </tr>
+                <tr>
+                    <td class="highlight">5</td><td>Gestionnaire</td>
+                    <td class="highlight">12</td><td>Expert</td>
+                    <td class="highlight">19</td><td>Président</td>
+                </tr>
+                <tr>
+                    <td class="highlight">6</td><td>Gestionnaire Senior</td>
+                    <td class="highlight">13</td><td>Expert Senior</td>
+                    <td class="highlight">20</td><td>Ambassadeur</td>
+                </tr>
+                <tr>
+                    <td class="highlight">7</td><td>Architecte</td>
+                    <td class="highlight">14</td><td>Architecte Senior</td>
+                    <td class="highlight">21</td><td>Conseil Artena</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- PARTENAIRES -->
+    <div class="arth-sec">🤝 Partenaires Institutionnels</div>
+    <div class="partners-wrap">
+        <span class="partner-pill">Binance</span>
+        <span class="partner-pill">OKX</span>
+        <span class="partner-pill">Bybit</span>
+        <span class="partner-pill">Bitget</span>
+        <span class="partner-pill">Copper</span>
+        <span class="partner-pill">Fireblocks</span>
+        <span class="partner-pill">Chainlink</span>
+        <span class="partner-pill">Uniswap</span>
+        <span class="partner-pill">Aave</span>
+        <span class="partner-pill">Compound</span>
+    </div>
+
+    <!-- ROADMAP -->
+    <div class="arth-sec">🗓️ Roadmap</div>
+    <div class="roadmap">
+        <div class="roadmap-item">
+            <div class="roadmap-line">
+                <div class="roadmap-dot" style="background:#00e676;box-shadow:0 0 8px rgba(0,230,118,0.6);"></div>
+                <div class="roadmap-line-bar"></div>
+            </div>
+            <div class="roadmap-content">
+                <div class="roadmap-date">✅ 2025 — Phase 1</div>
+                <h4>Lancement de la plateforme</h4>
+                <p>Mise en ligne d'Artena Strategic Systems. Déploiement des algorithmes d'arbitrage. Ouverture des inscriptions membres.</p>
+            </div>
+        </div>
+        <div class="roadmap-item">
+            <div class="roadmap-line">
+                <div class="roadmap-dot" style="background:#00e676;box-shadow:0 0 8px rgba(0,230,118,0.6);"></div>
+                <div class="roadmap-line-bar"></div>
+            </div>
+            <div class="roadmap-content">
+                <div class="roadmap-date">✅ Q1 2026 — Phase 2</div>
+                <h4>Expansion & Optimisation</h4>
+                <p>Intégration des nouveaux exchanges. Lancement du plan Equity (limité à 5 000 membres). Mise en place du profit sharing 10 niveaux.</p>
+            </div>
+        </div>
+        <div class="roadmap-item">
+            <div class="roadmap-line">
+                <div class="roadmap-dot"></div>
+                <div class="roadmap-line-bar"></div>
+            </div>
+            <div class="roadmap-content">
+                <div class="roadmap-date">🔄 Q3 2026 — Phase 3</div>
+                <h4>DeFi & Liquidités</h4>
+                <p>Déploiement des pools de liquidité. Intégration Chainlink pour les flux de données on-chain. Partenariats Copper & Fireblocks actifs.</p>
+            </div>
+        </div>
+        <div class="roadmap-item">
+            <div class="roadmap-line">
+                <div class="roadmap-dot"></div>
+                <div class="roadmap-line-bar"></div>
+            </div>
+            <div class="roadmap-content">
+                <div class="roadmap-date">🚀 Mars 2027 — Phase 4</div>
+                <h4>Lancement du Token $ARTN</h4>
+                <p>Émission du token natif $ARTN. Allocation exclusive pour les détenteurs du Pass Equity. Listing sur les exchanges partenaires. Gouvernance décentralisée.</p>
+            </div>
+        </div>
+        <div class="roadmap-item">
+            <div class="roadmap-line">
+                <div class="roadmap-dot"></div>
+                <div class="roadmap-line-bar"></div>
+            </div>
+            <div class="roadmap-content">
+                <div class="roadmap-date">🌐 2027+ — Phase 5</div>
+                <h4>Expansion Mondiale</h4>
+                <p>Ouverture de nouveaux marchés géographiques. Développement des produits institutionnels. Atteinte des 21 rangs de leadership actifs.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- DOCUMENTS & VIDÉOS -->
+    <div class="arth-sec">📚 Ressources</div>
+    <div class="arth-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
+        <div class="arth-card" style="text-align:center;">
             <div class="arth-card-icon">📄</div>
-            <h3>Documentation PDF</h3>
-            <p>Téléchargez les documents officiels Arthena : présentation, plan marketing et conditions générales.</p>
+            <h3>Documents PDF</h3>
+            <p>Plan marketing, présentation officielle et documents de référence.</p>
             <br>
             <a href="pdf-arthena.html" class="arth-btn" style="font-size:0.85rem;padding:10px 22px;">Voir les PDF</a>
         </div>
-        <div class="arth-card">
+        <div class="arth-card" style="text-align:center;">
             <div class="arth-card-icon">🎥</div>
             <h3>Vidéos de présentation</h3>
-            <p>Regardez les vidéos de présentation, témoignages et tutoriels sur Arthena.</p>
+            <p>Présentations, témoignages et tutoriels officiels Arthena.</p>
             <br>
             <a href="videos-arthena.html" class="arth-btn" style="font-size:0.85rem;padding:10px 22px;">Voir les vidéos</a>
         </div>
@@ -235,13 +619,14 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 
     <!-- CTA -->
     <div class="arth-cta">
-        <h2>💎 En savoir plus sur Arthena</h2>
-        <p>Rejoignez notre groupe Telegram ou WhatsApp pour recevoir toutes les informations en avant-première.</p>
-        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <h2>🔷 Rejoindre Artena Strategic Systems</h2>
+        <p>Intéressé(e) ? Contactez-nous sur Telegram ou WhatsApp pour en savoir plus et démarrer votre inscription.</p>
+        <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
             <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" class="arth-btn">📲 Telegram</a>
-            <a href="https://wa.me/320492931040" target="_blank" class="arth-btn" style="background:#25D366;box-shadow:0 0 20px rgba(37,211,102,0.4);">💬 WhatsApp</a>
+            <a href="https://wa.me/320492931040" target="_blank" class="arth-btn" style="background:#25D366;box-shadow:0 0 22px rgba(37,211,102,0.4);">💬 WhatsApp</a>
         </div>
     </div>
+
 </div>
 
 <footer>
