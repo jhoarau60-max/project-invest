@@ -582,11 +582,9 @@
           badge.innerHTML = '<i class="fa-solid fa-circle-user" style="font-size:1.4rem;color:#229ED9;flex-shrink:0;"></i><span style="color:#fff;font-size:0.85rem;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + pseudo + '</span>';
         }
         // Insérer entre la barre de recherche et la liste de navigation
-        var searchEl = nav.querySelector('#header-search');
-        var ulEl = nav.querySelector('ul');
-        if (searchEl && ulEl) {
-          nav.insertBefore(badge, ulEl);
-        } else if (ulEl) {
+        // :scope > ul = seulement le ul direct de nav (pas les sous-menus)
+        var ulEl = nav.querySelector(':scope > ul');
+        if (ulEl) {
           nav.insertBefore(badge, ulEl);
         }
 
