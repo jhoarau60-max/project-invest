@@ -330,19 +330,15 @@
     /* Cacher le logo dans le header-top (il est dans la sidebar) */
     .header-top .logo-svg { display: none !important; }
     #user-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
       color: #ffffff !important;
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       font-weight: 700 !important;
-      padding: 5px 12px !important;
-      border: 1px solid #229ED9 !important;
-      border-radius: 20px !important;
-      background: #229ED9 !important;
       white-space: nowrap;
     }
-    #user-badge i { font-size: 0.85rem; }
+    #user-badge:hover {
+      background: rgba(0,200,255,0.15) !important;
+      border-color: rgba(0,200,255,0.4) !important;
+    }
 
     /* Supprimer l'ancien espace réservé au header nav */
     header nav { display: none !important; }
@@ -575,19 +571,24 @@
         var pseudo = meta.username || meta.pseudo || user.email.split('@')[0];
         var avatar = meta.avatar || '';
 
-        // Badge pseudo dans le header (cliquable → paramètres)
+        // Badge pseudo dans la sidebar (entre recherche et Accueil)
         var badge = document.createElement('a');
         badge.id = 'user-badge';
         badge.href = 'parametres.html';
-        badge.style.textDecoration = 'none';
-        badge.style.cursor = 'pointer';
+        badge.style.cssText = 'display:flex;align-items:center;gap:10px;padding:10px 14px;margin:6px 10px;border-radius:10px;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.2);text-decoration:none;cursor:pointer;flex-shrink:0;';
         if (avatar) {
-          badge.innerHTML = '<img src="' + avatar + '" style="width:22px;height:22px;border-radius:50%;object-fit:cover;"> ' + pseudo;
+          badge.innerHTML = '<img src="' + avatar + '" style="width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0;"><span style="color:#fff;font-size:0.85rem;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + pseudo + '</span>';
         } else {
-          badge.innerHTML = '<i class="fa-solid fa-circle-user"></i> ' + pseudo;
+          badge.innerHTML = '<i class="fa-solid fa-circle-user" style="font-size:1.4rem;color:#229ED9;flex-shrink:0;"></i><span style="color:#fff;font-size:0.85rem;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + pseudo + '</span>';
         }
-        var socialLinks = document.querySelector('.social-links');
-        if (socialLinks) socialLinks.insertBefore(badge, socialLinks.firstChild);
+        // Insérer entre la barre de recherche et la liste de navigation
+        var searchEl = nav.querySelector('#header-search');
+        var ulEl = nav.querySelector('ul');
+        if (searchEl && ulEl) {
+          nav.insertBefore(badge, ulEl);
+        } else if (ulEl) {
+          nav.insertBefore(badge, ulEl);
+        }
 
       });
     }
