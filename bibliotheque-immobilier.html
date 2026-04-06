@@ -6,6 +6,14 @@
     <title>Project inves'T - Bibliothèque Immobilier</title>
     <link rel="stylesheet" href="style.css">
     <style>
+      body.is-mobile .inner-stat-grid {
+        grid-template-columns: 1fr !important;
+      }
+      body.is-mobile .inner-stat-grid > div[style*="grid-column:span 2"] {
+        grid-column: span 1 !important;
+      }
+    </style>
+    <style>
       .line-anim  { stroke-dasharray: 40 960; animation: snake 6s linear infinite, rainbow 5s linear infinite; }
       .line-anim2 { stroke-dasharray: 40 960; animation: snake 8s linear infinite reverse, rainbow 5s linear infinite 1.5s; }
       .line-anim3 { stroke-dasharray: 40 960; animation: snake 7s linear infinite, rainbow 5s linear infinite 3s; }
@@ -179,7 +187,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             <span style="color:#00c8ff;font-weight:900;font-size:1.1rem;">Niveau 1</span>
             <span style="color:#aaa;font-size:0.88rem;">— Starter Buyer</span>
         </div>
-        <div id="grid-niveau1" class="grid-2col" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;">
+        <div id="grid-niveau1" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;">
 
             <!-- Appartement Miami — 10$ -->
             <div class="card" style="padding:0;overflow:hidden;border:1px solid rgba(0,200,255,0.2);">
@@ -194,7 +202,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                         </div>
                         <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
                     </div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                    <div class="inner-stat-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
                         <div style="background:rgba(0,200,255,0.06);border-radius:8px;padding:6px 8px;">
                             <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
                             <div style="color:#fff;font-weight:700;font-size:0.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">107 000 EST</div>
@@ -225,7 +233,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                         </div>
                         <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
                     </div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                    <div class="inner-stat-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
                         <div style="background:rgba(0,200,255,0.06);border-radius:8px;padding:6px 8px;">
                             <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
                             <div style="color:#fff;font-weight:700;font-size:0.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">100 000 EST</div>
@@ -256,7 +264,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                         </div>
                         <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
                     </div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                    <div class="inner-stat-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
                         <div style="background:rgba(0,200,255,0.06);border-radius:8px;padding:6px 8px;">
                             <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
                             <div style="color:#fff;font-weight:700;font-size:0.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">174 000 EST</div>
@@ -287,7 +295,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                         </div>
                         <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
                     </div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                    <div class="inner-stat-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
                         <div style="background:rgba(0,200,255,0.06);border-radius:8px;padding:6px 8px;">
                             <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
                             <div style="color:#fff;font-weight:700;font-size:0.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">69 500 EST</div>
@@ -318,7 +326,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                         </div>
                         <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
                     </div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                    <div class="inner-stat-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
                         <div style="background:rgba(0,200,255,0.06);border-radius:8px;padding:6px 8px;">
                             <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
                             <div style="color:#fff;font-weight:700;font-size:0.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">866 000 EST</div>
@@ -349,7 +357,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                         </div>
                         <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
                     </div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                    <div class="inner-stat-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
                         <div style="background:rgba(0,200,255,0.06);border-radius:8px;padding:6px 8px;">
                             <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
                             <div style="color:#fff;font-weight:700;font-size:0.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">316 600 EST</div>
@@ -380,7 +388,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                         </div>
                         <span style="background:rgba(0,255,100,0.15);color:#00ff99;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,255,100,0.3);">Actif</span>
                     </div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                    <div class="inner-stat-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
                         <div style="background:rgba(0,200,255,0.06);border-radius:8px;padding:6px 8px;">
                             <div style="color:#aaa;font-size:0.7rem;margin-bottom:2px;">Tokens émis</div>
                             <div style="color:#fff;font-weight:700;font-size:0.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">495 000 EST</div>
