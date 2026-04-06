@@ -572,21 +572,30 @@
     if (ulEl) nav.insertBefore(badge, ulEl);
 
     // Mettre à jour avec le vrai pseudo dès que Supabase répond
-    var _sbClient = (typeof _sb !== 'undefined') ? _sb : null;
+    var _sbClient = (typeof _sb !== 'undefined') ? _sb : (typeof supabase !== 'undefined' ? supabase : null);
+    function updateBadge(user) {
+      if (!user) return;
+      var meta = user.user_metadata || {};
+      var pseudo = meta.username || meta.pseudo || meta.full_name || (user.email ? user.email.split('@')[0] : 'Utilisateur');
+      var avatar = meta.avatar_url || meta.avatar || '';
+      var span = badge.querySelector('span');
+      if (span) span.textContent = pseudo;
+      if (avatar && badge.querySelector('i')) {
+        badge.querySelector('i').outerHTML = '<img src="' + avatar + '" style="width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0;">';
+      }
+    }
     if (_sbClient) {
-      _sbClient.auth.getSession().then(function(res) {
-        var session = res.data && res.data.session;
-        if (!session) return;
-        var user = session.user;
-        var meta = user.user_metadata || {};
-        var pseudo = meta.username || meta.pseudo || user.email.split('@')[0];
-        var avatar = meta.avatar || '';
-        var span = badge.querySelector('span');
-        if (span) span.textContent = pseudo;
-        if (avatar) {
-          badge.querySelector('i').outerHTML = '<img src="' + avatar + '" style="width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0;">';
+      // Essai 1 : getUser() — appel direct au serveur
+      _sbClient.auth.getUser().then(function(res) {
+        if (res.data && res.data.user) {
+          updateBadge(res.data.user);
+        } else {
+          // Essai 2 : getSession() comme fallback
+          return _sbClient.auth.getSession().then(function(r) {
+            if (r.data && r.data.session) updateBadge(r.data.session.user);
+          });
         }
-      });
+      }).catch(function() {});
     }
 
     // Réseaux sociaux en bas de la sidebar
