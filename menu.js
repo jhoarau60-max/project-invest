@@ -476,7 +476,9 @@
 
   // ── Détection mobile ──
   function syncLayout() {
-    document.body.classList.toggle('is-mobile', window.innerWidth <= 768);
+    var isMobileUA = /android|iphone|ipad|ipod|mobile|miui|xiaomi/i.test(navigator.userAgent);
+    var isNarrow = window.innerWidth <= 1024;
+    document.body.classList.toggle('is-mobile', isMobileUA || isNarrow);
   }
   syncLayout();
   window.addEventListener('resize', syncLayout);
