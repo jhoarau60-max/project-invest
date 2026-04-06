@@ -290,6 +290,7 @@
     }
     body.is-mobile #mobile-menu-btn { display: flex !important; }
     body:not(.is-mobile) #mobile-menu-btn { display: none !important; }
+    body.is-mobile #nav-close-btn { display: flex !important; }
 
     /* Sur mobile : cacher les boutons non-essentiels du header */
     body.is-mobile #sound-btn,
@@ -531,6 +532,18 @@
       logo.innerHTML = '<img src="logo-project-invest.jpg" alt="Project Inves\'T" style="width:100%;max-width:130px;display:block;margin:0 auto;padding:8px 12px;">';
       nav.insertBefore(logo, nav.firstChild);
     }
+
+    // Bouton × pour fermer le menu sur mobile
+    var closeBtn = document.createElement('button');
+    closeBtn.id = 'nav-close-btn';
+    closeBtn.innerHTML = '&times;';
+    closeBtn.style.cssText = 'position:absolute;top:8px;right:10px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:50%;color:#fff;font-size:1.4rem;line-height:1;cursor:pointer;width:34px;height:34px;display:none;align-items:center;justify-content:center;padding:0;z-index:10000;';
+    closeBtn.addEventListener('click', function() {
+      setNavStyle(false);
+      overlay.classList.remove('open');
+      hamburger.classList.remove('open');
+    });
+    nav.insertBefore(closeBtn, nav.firstChild);
 
     // Réseaux sociaux sous le logo (petites icônes)
     var socialTop = document.createElement('div');
