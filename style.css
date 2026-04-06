@@ -739,6 +739,14 @@ footer p {
         padding: 5px 10px !important;
     }
 
+    /* Qui suis-je : une colonne sur mobile */
+    #qui-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+    #qui-grid > div:first-child { order: 2; }
+    #qui-grid > div:last-child  { order: 1; }
+
     /* Cards full-width */
     .cards-grid {
         grid-template-columns: 1fr;
