@@ -564,8 +564,8 @@
     var badge = document.createElement('a');
     badge.id = 'user-badge';
     badge.href = 'parametres.html';
-    badge.style.cssText = 'display:flex;align-items:center;gap:10px;padding:10px 14px;margin:6px 10px;border-radius:10px;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.2);text-decoration:none;cursor:pointer;flex-shrink:0;';
-    badge.innerHTML = '<i class="fa-solid fa-circle-user" style="font-size:1.4rem;color:#229ED9;flex-shrink:0;"></i><span style="color:#fff;font-size:0.85rem;font-weight:700;">Mon compte</span>';
+    badge.style.cssText = 'display:flex;align-items:center;gap:7px;padding:6px 10px;margin:4px 10px;border-radius:8px;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.2);text-decoration:none;cursor:pointer;flex-shrink:0;';
+    badge.innerHTML = '<i class="fa-solid fa-circle-user" style="font-size:1rem;color:#229ED9;flex-shrink:0;"></i><span style="color:#fff;font-size:0.78rem;font-weight:700;">Mon compte</span>';
 
     // Insérer entre recherche et Accueil
     var ulEl = nav.querySelector('ul');
