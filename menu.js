@@ -467,6 +467,7 @@
       border: none !important;
       background: transparent !important;
     }
+    #lang-globe { display: none !important; }
   `;
   document.head.appendChild(style);
 
