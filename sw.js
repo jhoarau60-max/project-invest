@@ -1,8 +1,6 @@
-var CACHE = 'pinvest-v29';
+var CACHE = 'pinvest-v30';
 var ASSETS = [
-  '/', '/home.html', '/index.html', '/style.css',
-  '/menu.js', '/audio.js', '/translator.js',
-  '/journal.html', '/boutique.html',
+  '/style.css', '/menu.js', '/audio.js', '/translator.js',
   '/logo-project-invest.jpg', '/manifest.json'
 ];
 
@@ -23,6 +21,19 @@ self.addEventListener('activate', function(e){
 });
 
 self.addEventListener('fetch', function(e){
+  var url = e.request.url;
+  // Ne jamais cacher les fichiers HTML — toujours réseau
+  if (url.indexOf('.html') !== -1 || url.endsWith('/')) {
+    e.respondWith(
+      fetch(e.request).catch(function(){
+        return caches.match(e.request).then(function(cached){
+          return cached || new Response('Hors ligne', { status: 503 });
+        });
+      })
+    );
+    return;
+  }
+  // Pour les autres fichiers (CSS, JS, images) : réseau en premier, cache en fallback
   e.respondWith(
     fetch(e.request).then(function(r){
       var clone = r.clone();
