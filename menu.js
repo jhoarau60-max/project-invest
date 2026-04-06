@@ -297,10 +297,7 @@
 
     /* Sur mobile : cacher les boutons non-essentiels du header */
     body.is-mobile #sound-btn,
-    body.is-mobile #boutique-btn,
-    body.is-mobile #lang-btn,
-    body.is-mobile #lang-widget,
-    body.is-mobile #lang-globe { display: none !important; }
+    body.is-mobile #boutique-btn { display: none !important; }
 
     /* Header mobile : ligne unique propre */
     body.is-mobile .header-top {
@@ -688,47 +685,7 @@
 
 })();
 
-// ─── PWA : Service Worker + Bouton Installer ─────────────────────────────────
+// ─── PWA : Service Worker ────────────────────────────────────────────────────
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js');
 }
-
-var _pwaPrompt = null;
-var _pwaBtn = null;
-
-window.addEventListener('beforeinstallprompt', function(e) {
-  e.preventDefault();
-  _pwaPrompt = e;
-  if (_pwaBtn) _pwaBtn.style.display = 'inline-flex';
-});
-
-window.addEventListener('load', function() {
-  var headerTop = document.querySelector('.header-top');
-  if (!headerTop) return;
-
-  var btn = document.createElement('a');
-  _pwaBtn = btn;
-  btn.id = 'pwa-install-btn';
-  btn.title = 'Installer l\'application';
-  btn.style.cssText = 'display:none;align-items:center;gap:6px;background:rgba(0,200,255,0.15);color:#00c8ff;border:1px solid rgba(0,200,255,0.5);border-radius:20px;padding:6px 14px;cursor:pointer;font-size:0.88rem;font-weight:700;text-decoration:none;flex-shrink:0;box-shadow:0 0 10px rgba(0,200,255,0.25);';
-  btn.innerHTML = '<i class="fa-solid fa-download"></i> Installer';
-
-  btn.addEventListener('click', function() {
-    if (_pwaPrompt) {
-      _pwaPrompt.prompt();
-      _pwaPrompt.userChoice.then(function() { _pwaPrompt = null; btn.style.display = 'none'; });
-    } else {
-      alert('iPhone/iPad : bouton Partager → "Sur l\'écran d\'accueil"');
-    }
-  });
-
-  headerTop.insertBefore(btn, headerTop.firstChild);
-
-  // Si beforeinstallprompt a déjà eu lieu avant la création du bouton
-  if (_pwaPrompt) btn.style.display = 'inline-flex';
-
-  // iOS : toujours visible si pas déjà installé
-  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  var isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-  if (isIOS && !isStandalone) btn.style.display = 'inline-flex';
-});
