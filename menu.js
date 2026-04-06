@@ -560,7 +560,18 @@
     var ul = nav.querySelector('ul');
     if (ul) nav.insertBefore(searchSidebar, ul);
 
-    // Afficher le pseudo et la photo dans la sidebar + header
+    // Badge utilisateur dans la sidebar — créé immédiatement, mis à jour après auth
+    var badge = document.createElement('a');
+    badge.id = 'user-badge';
+    badge.href = 'parametres.html';
+    badge.style.cssText = 'display:flex;align-items:center;gap:10px;padding:10px 14px;margin:6px 10px;border-radius:10px;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.2);text-decoration:none;cursor:pointer;flex-shrink:0;';
+    badge.innerHTML = '<i class="fa-solid fa-circle-user" style="font-size:1.4rem;color:#229ED9;flex-shrink:0;"></i><span style="color:#fff;font-size:0.85rem;font-weight:700;">Mon compte</span>';
+
+    // Insérer entre recherche et Accueil
+    var ulEl = nav.querySelector('ul');
+    if (ulEl) nav.insertBefore(badge, ulEl);
+
+    // Mettre à jour avec le vrai pseudo dès que Supabase répond
     var _sbClient = (typeof _sb !== 'undefined') ? _sb : null;
     if (_sbClient) {
       _sbClient.auth.getSession().then(function(res) {
@@ -570,24 +581,11 @@
         var meta = user.user_metadata || {};
         var pseudo = meta.username || meta.pseudo || user.email.split('@')[0];
         var avatar = meta.avatar || '';
-
-        // Badge pseudo dans la sidebar (entre recherche et Accueil)
-        var badge = document.createElement('a');
-        badge.id = 'user-badge';
-        badge.href = 'parametres.html';
-        badge.style.cssText = 'display:flex;align-items:center;gap:10px;padding:10px 14px;margin:6px 10px;border-radius:10px;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.2);text-decoration:none;cursor:pointer;flex-shrink:0;';
+        var span = badge.querySelector('span');
+        if (span) span.textContent = pseudo;
         if (avatar) {
-          badge.innerHTML = '<img src="' + avatar + '" style="width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0;"><span style="color:#fff;font-size:0.85rem;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + pseudo + '</span>';
-        } else {
-          badge.innerHTML = '<i class="fa-solid fa-circle-user" style="font-size:1.4rem;color:#229ED9;flex-shrink:0;"></i><span style="color:#fff;font-size:0.85rem;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + pseudo + '</span>';
+          badge.querySelector('i').outerHTML = '<img src="' + avatar + '" style="width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0;">';
         }
-        // Insérer entre la barre de recherche et la liste de navigation
-        // :scope > ul = seulement le ul direct de nav (pas les sous-menus)
-        var ulEl = nav.querySelector(':scope > ul');
-        if (ulEl) {
-          nav.insertBefore(badge, ulEl);
-        }
-
       });
     }
 
