@@ -12,6 +12,16 @@ const _sb=window.supabase.createClient("https://cvggxktybzbrtskcwlxp.supabase.co
 setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window.location.href="index.html"; }); }, 800);
 </script>
     <style>
+      /* ── TABLE CONFERENCES → CARTES MOBILE ── */
+      @media (max-width: 1024px) {
+        .inv-table { display: block !important; width: 100% !important; }
+        .inv-table thead { display: none !important; }
+        .inv-table tbody, .inv-table tr { display: block !important; width: 100% !important; }
+        .inv-table tr { margin-bottom: 14px !important; border-radius: 10px !important; background: rgba(12,28,58,0.8) !important; border: 1px solid rgba(0,200,255,0.25) !important; padding: 12px !important; }
+        .inv-table td { display: flex !important; justify-content: space-between !important; align-items: center !important; padding: 7px 0 !important; border-bottom: 1px solid rgba(0,200,255,0.1) !important; font-size: 0.83rem !important; gap: 8px !important; width: 100% !important; box-sizing: border-box !important; }
+        .inv-table td:last-child { border-bottom: none !important; }
+        .inv-table td::before { content: attr(data-label); color: #00c8ff; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; white-space: nowrap; flex-shrink: 0; min-width: 90px; }
+      }
       .line-anim  { stroke-dasharray: 40 960; animation: snake 6s linear infinite, rainbow 5s linear infinite; }
       .line-anim2 { stroke-dasharray: 40 960; animation: snake 8s linear infinite reverse, rainbow 5s linear infinite 1.5s; }
       .line-anim3 { stroke-dasharray: 40 960; animation: snake 7s linear infinite, rainbow 5s linear infinite 3s; }
@@ -189,7 +199,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
     <h2 class="section-title">Calendrier 2026</h2>
     <div class="divider"></div>
 
-    <table>
+    <table class="inv-table">
         <thead>
             <tr>
                 <th>Date</th>
@@ -295,17 +305,14 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 
       // Générer le HTML
       var now = new Date();
-      var today = new Date(); today.setHours(0,0,0,0);
 
-      // Identifier les indices des 3 derniers Zooms passés (sans replay)
-      var pastIndices = [];
-      rows.forEach(function(r, i) {
+      // Garder seulement les 3 prochains zooms futurs
+      rows = rows.filter(function(r) {
         var hParts2 = r.heure.split('h');
         var zd = new Date(r.dateObj);
         zd.setHours(parseInt(hParts2[0]), parseInt(hParts2[1]) || 0, 0, 0);
-        if (now >= zd) pastIndices.push(i);
-      });
-      var last3Past = pastIndices.slice(-3); // les 3 plus récents
+        return zd > now;
+      }).slice(0, 3);
 
       var tbody = document.getElementById('planning-body');
       tbody.innerHTML = '';
@@ -318,36 +325,19 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         zoomDate.setHours(parseInt(hParts[0]), parseInt(hParts[1]) || 0, 0, 0);
         var ts = zoomDate.getTime();
 
-        // Passé ou futur ?
-        var dateKey = r.dateObj.getFullYear() + '-'
-          + String(r.dateObj.getMonth()+1).padStart(2,'0') + '-'
-          + String(r.dateObj.getDate()).padStart(2,'0');
-        var isPast = now >= zoomDate;
-
         // Couleur du timer selon le type
         var timerColor = r.classe === 'btn-zoom-bleu' ? '#00c8ff' : r.classe === 'btn-zoom-dore' ? '#c9a84c' : r.classe === 'btn-zoom-franco-it' ? '#ffffff' : '#7850ff';
 
-        // Colonne Statut
-        var statutHtml = '';
-        if (REPLAYS[dateKey]) {
-          statutHtml = '<a href="' + REPLAYS[dateKey] + '" target="_blank" style="display:inline-block;padding:5px 14px;background:linear-gradient(135deg,#0080c0,#00c8ff);color:#ffffff;border-radius:20px;font-size:0.78rem;font-weight:700;text-decoration:none;box-shadow:0 0 10px rgba(0,200,255,0.3);"><i class="fa-brands fa-youtube" style="margin-right:5px;color:#ffffff;"></i>Voir le replay</a>';
-        } else if (isPast) {
-          if (last3Past.indexOf(i) !== -1) {
-            statutHtml = '<span style="color:#aaa;font-size:0.8rem;">Bientôt disponible</span>';
-          } else {
-            statutHtml = '<span style="color:#aaa;font-size:0.8rem;text-shadow:0 0 8px rgba(255,255,255,0.6);">Zoom terminé</span>';
-          }
-        } else {
-          statutHtml = '<span class="row-cd" data-ts="' + ts + '" style="color:' + timerColor + ';font-weight:700;font-size:0.85rem;">--</span>';
-        }
+        // Colonne Statut (tous futurs après le filtre)
+        var statutHtml = '<span class="row-cd" data-ts="' + ts + '" style="color:' + timerColor + ';font-weight:700;font-size:0.85rem;">--</span>';
 
         var tr = '<tr style="' + r.style + '">'
-          + '<td>' + label + '</td>'
-          + '<td>' + r.heure + '</td>'
-          + '<td>' + r.sujet + '</td>'
-          + '<td>' + r.intervenant + '</td>'
-          + '<td><a href="' + r.lien + '" target="_blank" class="' + r.classe + '">Accéder au Zoom</a></td>'
-          + '<td>' + statutHtml + '</td>'
+          + '<td data-label="Date">' + label + '</td>'
+          + '<td data-label="Heure">' + r.heure + '</td>'
+          + '<td data-label="Sujet">' + r.sujet + '</td>'
+          + '<td data-label="Intervenant">' + r.intervenant + '</td>'
+          + '<td data-label="Accès"><a href="' + r.lien + '" target="_blank" class="' + r.classe + '">Accéder au Zoom</a></td>'
+          + '<td data-label="Statut">' + statutHtml + '</td>'
           + '</tr>';
         tbody.innerHTML += tr;
       });
