@@ -439,7 +439,11 @@
     // Corriger les grilles et flex avec styles inline (ne peuvent pas être écrasés par CSS)
     if (isMob) {
       document.querySelectorAll('[style*="grid-template-columns"]').forEach(function(el) {
-        el.style.setProperty('grid-template-columns', '1fr', 'important');
+        if (el.classList.contains('grid-2col')) {
+          el.style.setProperty('grid-template-columns', 'repeat(2,1fr)', 'important');
+        } else {
+          el.style.setProperty('grid-template-columns', '1fr', 'important');
+        }
         el.style.setProperty('gap', '15px', 'important');
       });
       document.querySelectorAll('[style*="display:flex"],[style*="display: flex"]').forEach(function(el) {
