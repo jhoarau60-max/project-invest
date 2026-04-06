@@ -444,7 +444,9 @@
         } else {
           el.style.setProperty('grid-template-columns', '1fr', 'important');
         }
-        el.style.setProperty('gap', '15px', 'important');
+        if (el.id !== 'grid-niveau1') {
+          el.style.setProperty('gap', '15px', 'important');
+        }
       });
       document.querySelectorAll('[style*="display:flex"],[style*="display: flex"]').forEach(function(el) {
         if (el.querySelector('.card') || el.className.indexOf('cards') !== -1) {

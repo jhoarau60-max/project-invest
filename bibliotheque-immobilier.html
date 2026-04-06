@@ -12,6 +12,16 @@
       body.is-mobile .inner-stat-grid > div[style*="grid-column:span 2"] {
         grid-column: span 1 !important;
       }
+      /* Cartes niveau 1 pleine largeur - annuler le padding de .section */
+      body.is-mobile #grid-niveau1 {
+        margin-left: -15px !important;
+        margin-right: -15px !important;
+        gap: 10px !important;
+      }
+      body.is-mobile #grid-niveau1 .card {
+        border-radius: 0 !important;
+        width: 100% !important;
+      }
     </style>
     <style>
       .line-anim  { stroke-dasharray: 40 960; animation: snake 6s linear infinite, rainbow 5s linear infinite; }
