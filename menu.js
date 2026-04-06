@@ -528,10 +528,10 @@
 
     // Réseaux sociaux sous le logo (petites icônes)
     var socialTop = document.createElement('div');
-    socialTop.style.cssText = 'display:flex;gap:6px;padding:4px 12px 10px;border-bottom:1px solid rgba(0,200,255,0.12);flex-shrink:0;';
-    socialTop.innerHTML = '<a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" style="width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,0,0,0.12);border:1px solid rgba(255,60,60,0.5);color:#ff4444;font-size:0.85rem;text-decoration:none;" title="YouTube"><i class="fa-brands fa-youtube"></i></a>'
-      + '<a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(34,158,217,0.12);border:1px solid rgba(34,158,217,0.5);color:#229ED9;font-size:0.85rem;text-decoration:none;" title="Telegram"><i class="fa-brands fa-telegram"></i></a>'
-      + '<a href="https://wa.me/320492931040" target="_blank" style="width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.5);color:#25D366;font-size:0.85rem;text-decoration:none;" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>';
+    socialTop.style.cssText = 'display:flex;gap:10px;padding:6px 12px 12px;border-bottom:1px solid rgba(0,200,255,0.12);flex-shrink:0;justify-content:center;';
+    socialTop.innerHTML = '<a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" style="width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,0,0,0.12);border:1px solid rgba(255,60,60,0.5);color:#ff4444;font-size:1.1rem;text-decoration:none;" title="YouTube"><i class="fa-brands fa-youtube"></i></a>'
+      + '<a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(34,158,217,0.12);border:1px solid rgba(34,158,217,0.5);color:#229ED9;font-size:1.1rem;text-decoration:none;" title="Telegram"><i class="fa-brands fa-telegram"></i></a>'
+      + '<a href="https://wa.me/320492931040" target="_blank" style="width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.5);color:#25D366;font-size:1.1rem;text-decoration:none;" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>';
     var ul = nav.querySelector('ul');
     nav.insertBefore(socialTop, ul);
 
