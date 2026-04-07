@@ -649,6 +649,8 @@
 
       /* ===== MOBILE ===== */
       @media (max-width: 600px) {
+        #flipbook-container::after { display: none !important; }
+        #flipbook-container::before { display: none !important; }
         #book-scene { flex-direction: column; align-items: center; }
         .cover-title-book  { font-size: 0.75rem !important; }
         .cover-subtitle-book { font-size: 0.55rem !important; }
