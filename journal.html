@@ -1227,30 +1227,38 @@ function afficherLivre(articles){
             if (sceneH > 0) scene.style.minHeight = sceneH + 'px';
         }, 500);
 
-        // Bloquer le scroll pendant le flip
+        // Bloquer le scroll de la page pendant le flip
+        var isFlipping = false;
         var savedY = 0;
+
         function lockScroll() {
+            if (isFlipping) return;
+            isFlipping = true;
             savedY = window.pageYOffset;
-            document.body.style.position = 'fixed';
-            document.body.style.top = '-' + savedY + 'px';
-            document.body.style.left = '0';
-            document.body.style.right = '0';
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
         }
         function unlockScroll() {
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.left = '';
-            document.body.style.right = '';
+            if (!isFlipping) return;
+            isFlipping = false;
+            document.documentElement.style.overflow = '';
+            document.body.style.overflow = '';
             window.scrollTo(0, savedY);
         }
+
+        // Bloquer le touchmove sur tout le document pendant le flip
+        document.addEventListener('touchmove', function(e) {
+            if (isFlipping) e.preventDefault();
+        }, { passive: false });
+
         pageFlip.on('changeState', function(e) {
             if (e.data === 'flipping' || e.data === 'user_fold') {
                 lockScroll();
             } else {
-                unlockScroll();
+                setTimeout(unlockScroll, 50);
             }
         });
-        pageFlip.on('flip', function() { unlockScroll(); });
+        pageFlip.on('flip', function() { setTimeout(unlockScroll, 50); });
     }
 
     function syncNav(pageIdx) {
