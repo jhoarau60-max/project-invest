@@ -1,4 +1,18 @@
 // Sidebar dashboard permanent - partagé sur toutes les pages
+
+// Force reload quand le SW efface le cache (fix PWA favoris)
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'RELOAD') {
+      window.location.reload(true);
+    }
+  });
+  // Si le SW a été mis à jour, recharge la page
+  navigator.serviceWorker.addEventListener('controllerchange', function() {
+    window.location.reload(true);
+  });
+}
+
 (function () {
 
   var SW = 220; // largeur sidebar en px
