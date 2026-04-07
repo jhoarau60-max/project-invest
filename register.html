@@ -12,9 +12,21 @@
             background: radial-gradient(ellipse at 50% 30%, #0d2a5e 0%, #05122b 40%, #020a18 100%);
             min-height: 100vh;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
-            overflow: hidden;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+        @media (min-height: 800px) {
+            body { align-items: center; padding: 0; }
+        }
+        @media (max-width: 480px) {
+            .box { padding: 24px 18px; }
+            .form-group { margin-bottom: 11px; }
+            .form-group input, select { padding: 10px 12px; font-size: 0.9rem; }
+            .btn-register { padding: 13px; font-size: 0.95rem; }
+            .page-title { font-size: 1.05rem; }
+            .page-subtitle { font-size: 0.8rem; margin-bottom: 16px; }
         }
         #bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         #bg svg { width: 100%; height: 100%; }
