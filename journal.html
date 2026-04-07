@@ -647,6 +647,25 @@
       .telegram-texte { font-family:'EB Garamond',serif; font-size:0.95rem; color:#e0d4b8; line-height:1.6; }
       .telegram-img { max-width:100%; border-radius:8px; margin-top:10px; border:1px solid rgba(201,168,76,0.3); }
 
+      /* ===== MOBILE ===== */
+      @media (max-width: 600px) {
+        #book-scene { flex-direction: column; align-items: center; }
+        .cover-title-book  { font-size: 0.75rem !important; }
+        .cover-subtitle-book { font-size: 0.55rem !important; }
+        .cover-headlines-book { font-size: 0.5rem !important; }
+        .page-name-book    { font-size: 0.42rem !important; }
+        .page-num-book     { font-size: 0.42rem !important; }
+        .article-titre-book { font-size: 0.75rem !important; }
+        .article-titre-book.big { font-size: 0.85rem !important; }
+        .article-date-book  { font-size: 0.6rem !important; }
+        .article-contenu-book { font-size: 0.6rem !important; }
+        .article-contenu-book p:first-child::first-letter { font-size: 1.4em !important; }
+        .epingle-star { font-size: 0.45rem !important; }
+        .page-inner { padding: 14px 10px !important; }
+        .book-hint { font-size: 0.72rem; }
+        .book-btn  { width: 38px; height: 38px; font-size: 0.85rem; }
+      }
+
     </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -1129,8 +1148,15 @@ function afficherLivre(articles){
     pages += buildBackPage();
     fb.innerHTML = pages;
 
-    var W = Math.min(Math.floor((window.innerWidth - 120) / 2), 400);
-    var H = Math.round(W * 1.45);
+    var isMobile = window.innerWidth < 600;
+    var W, H;
+    if (isMobile) {
+        W = Math.min(window.innerWidth - 40, 360);
+        H = Math.round(W * 1.45);
+    } else {
+        W = Math.min(Math.floor((window.innerWidth - 120) / 2), 400);
+        H = Math.round(W * 1.45);
+    }
 
     document.getElementById('book-scene').style.display='flex';
 
@@ -1146,7 +1172,7 @@ function afficherLivre(articles){
         showCover: true,
         mobileScrollSupport: false,
         flippingTime: 900,
-        usePortrait: false,
+        usePortrait: isMobile,
         autoSize: false,
         maxShadowOpacity: 0.7,
         startZIndex: 10,
