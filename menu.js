@@ -128,7 +128,7 @@ if ('serviceWorker' in navigator) {
     document.head.appendChild(ai);
   }
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js').catch(function(){});
+    navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' }).catch(function(){});
   }
 
   // Charger Font Awesome si absent
@@ -697,5 +697,5 @@ if ('serviceWorker' in navigator) {
 
 // ─── PWA : Service Worker ────────────────────────────────────────────────────
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js');
+  navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' });
 }
