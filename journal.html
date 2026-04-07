@@ -758,6 +758,12 @@ setTimeout(function(){
 
     <div id="book-scene" style="display:none;">
         <div id="book-glow"></div>
+        <!-- Flèches mobile au-dessus du livre -->
+        <div id="mobile-nav-top" style="display:none;justify-content:space-between;align-items:center;width:100%;max-width:380px;margin-bottom:10px;padding:0 4px;box-sizing:border-box;">
+            <button onclick="pageFlip.flipPrev()" id="btn-prev-top" style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.4);color:#c9a84c;border-radius:50%;width:44px;height:44px;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;" disabled>&#8592;</button>
+            <span id="page-indicator-top" style="font-family:'Cinzel',serif;font-size:0.8rem;color:rgba(201,168,76,0.8);letter-spacing:2px;">I / I</span>
+            <button onclick="pageFlip.flipNext()" id="btn-next-top" style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.4);color:#c9a84c;border-radius:50%;width:44px;height:44px;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">&#8594;</button>
+        </div>
         <div id="book-row">
             <button class="book-btn" id="btn-prev" onclick="pageFlip.flipPrev()">&#8592;</button>
             <div id="flipbook-container">
@@ -1183,17 +1189,32 @@ function afficherLivre(articles){
 
     pageFlip.loadFromHTML(document.querySelectorAll('#flipbook .page'));
 
-    pageFlip.on('flip', function(e){
-        var cur = e.data + 1;
+    // Afficher la barre mobile si nécessaire
+    if (isMobile) {
+        document.getElementById('mobile-nav-top').style.display = 'flex';
+    }
+
+    function syncNav(pageIdx) {
         var tot = pageFlip.getPageCount();
-        document.getElementById('page-indicator').textContent = toRoman(cur) + ' / ' + toRoman(tot);
-        document.getElementById('btn-prev').disabled = (e.data === 0);
-        document.getElementById('btn-next').disabled = (e.data >= tot - 1);
-    });
+        var label = toRoman(pageIdx + 1) + ' / ' + toRoman(tot);
+        document.getElementById('page-indicator').textContent = label;
+        document.getElementById('page-indicator-top').textContent = label;
+        document.getElementById('btn-prev').disabled = (pageIdx === 0);
+        document.getElementById('btn-next').disabled = (pageIdx >= tot - 1);
+        document.getElementById('btn-prev-top').disabled = (pageIdx === 0);
+        document.getElementById('btn-next-top').disabled = (pageIdx >= tot - 1);
+        document.getElementById('btn-prev-top').style.opacity = (pageIdx === 0) ? '0.3' : '1';
+        document.getElementById('btn-next-top').style.opacity = (pageIdx >= tot - 1) ? '0.3' : '1';
+    }
+
+    pageFlip.on('flip', function(e){ syncNav(e.data); });
 
     var tot = pageFlip.getPageCount();
     document.getElementById('page-indicator').textContent = 'I / ' + toRoman(tot);
+    document.getElementById('page-indicator-top').textContent = 'I / ' + toRoman(tot);
     document.getElementById('btn-prev').disabled = true;
+    document.getElementById('btn-prev-top').disabled = true;
+    document.getElementById('btn-prev-top').style.opacity = '0.3';
 
     setTimeout(initFaders, 400);
 }
