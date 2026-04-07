@@ -7,16 +7,60 @@
     <link rel="stylesheet" href="style.css">
     <style>
       @keyframes rainbowBorder {
-        0%   { border-color: #a855f7; box-shadow: 0 0 15px rgba(168,85,247,0.4); }
+        0%   { border-color: #2374F8; box-shadow: 0 0 15px rgba(35,116,248,0.4); }
         50%  { border-color: #00c8ff; box-shadow: 0 0 15px rgba(0,200,255,0.4); }
-        100% { border-color: #a855f7; box-shadow: 0 0 15px rgba(168,85,247,0.4); }
+        100% { border-color: #2374F8; box-shadow: 0 0 15px rgba(35,116,248,0.4); }
       }
       .card-rainbow {
-        border: 2px solid #a855f7;
+        border: 2px solid #2374F8;
         animation: rainbowBorder 4s linear infinite;
         border-radius: 12px;
         background: #0a1628;
       }
+      .pdf-card {
+        background: rgba(35,116,248,0.06);
+        border: 1px solid rgba(35,116,248,0.25);
+        border-radius: 16px;
+        padding: 28px 24px;
+        width: 260px;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        transition: all 0.3s;
+      }
+      .pdf-card:hover {
+        border-color: rgba(35,116,248,0.55);
+        background: rgba(35,116,248,0.1);
+        box-shadow: 0 0 24px rgba(35,116,248,0.2);
+      }
+      .pdf-card-icon { font-size: 3rem; margin-bottom: 14px; }
+      .pdf-card h3 { color: #fff; font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+      .pdf-card .pdf-lang {
+        display: inline-flex; align-items: center; gap: 5px;
+        background: rgba(35,116,248,0.12); border: 1px solid rgba(35,116,248,0.3);
+        color: #2374F8; font-size: 0.75rem; font-weight: 700;
+        padding: 3px 12px; border-radius: 20px; margin-bottom: 14px; letter-spacing: 1px;
+      }
+      .pdf-card p { color: #aaa; font-size: 0.82rem; line-height: 1.6; margin-bottom: 20px; }
+      .pdf-btn {
+        display: inline-flex; align-items: center; gap: 8px;
+        background: #2374F8; color: #fff; padding: 10px 22px;
+        border-radius: 25px; font-weight: 700; font-size: 0.85rem;
+        text-decoration: none; transition: all 0.3s;
+        box-shadow: 0 0 16px rgba(35,116,248,0.35);
+      }
+      .pdf-btn:hover { box-shadow: 0 0 28px rgba(35,116,248,0.55); transform: translateY(-2px); }
+      .pdf-btn-outline {
+        display: inline-flex; align-items: center; gap: 8px;
+        background: transparent; color: #2374F8;
+        border: 1px solid rgba(35,116,248,0.4);
+        padding: 9px 20px; border-radius: 25px;
+        font-size: 0.83rem; text-decoration: none; margin-top: 8px; transition: all 0.3s;
+      }
+      .pdf-btn-outline:hover { background: rgba(35,116,248,0.1); border-color: #2374F8; }
+      @media (max-width: 600px) { .pdf-card { width: 100%; } }
       .line-anim  { stroke-dasharray: 40 960; animation: snake 6s linear infinite, rainbow 5s linear infinite; }
       .line-anim2 { stroke-dasharray: 40 960; animation: snake 8s linear infinite reverse, rainbow 5s linear infinite 1.5s; }
       .line-anim3 { stroke-dasharray: 40 960; animation: snake 7s linear infinite, rainbow 5s linear infinite 3s; }
@@ -97,31 +141,49 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 </header>
 
 <div class="page-header">
-    <h1><i class="fa-solid fa-file-pdf" style="margin-right:12px;color:#a855f7;"></i>Documents Arthena</h1>
-    <p>Téléchargez les documents officiels et ressources PDF Arthena</p>
+    <h1><i class="fa-solid fa-file-pdf" style="margin-right:12px;color:#2374F8;"></i>Documents Arthena</h1>
+    <p>Plan marketing officiel Artena Strategic Systems — FR & EN</p>
 </div>
 
 <div class="section">
     <h2 class="section-title">Documents officiels</h2>
     <div class="divider"></div>
 
-    <div style="display:flex;flex-wrap:wrap;gap:20px;justify-content:center;align-items:flex-start;">
-        <!-- PDF à ajouter ici -->
-        <div class="card-coming">
-            <div style="font-size:2rem;margin-bottom:12px;">📄</div>
-            <div style="color:#a855f7;font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;">PDF</div>
-            <div style="color:#666;font-size:0.75rem;margin-top:6px;">À venir</div>
+    <div style="display:flex;flex-wrap:wrap;gap:24px;justify-content:center;align-items:flex-start;margin:30px 0;">
+
+        <!-- PDF Français -->
+        <div class="pdf-card">
+            <div class="pdf-card-icon">📘</div>
+            <h3>Plan Marketing</h3>
+            <div class="pdf-lang">🇫🇷 FRANÇAIS</div>
+            <p>Présentation complète d'Artena Strategic Systems — passes membres, plans de performance, profit sharing, rangs et roadmap.</p>
+            <a href="Marketing-FR.pdf" target="_blank" class="pdf-btn">
+                <i class="fa-solid fa-eye"></i> Consulter
+            </a>
+            <a href="Marketing-FR.pdf" download class="pdf-btn-outline">
+                <i class="fa-solid fa-download"></i> Télécharger
+            </a>
         </div>
-        <div class="card-coming">
-            <div style="font-size:2rem;margin-bottom:12px;">📄</div>
-            <div style="color:#a855f7;font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;">PDF</div>
-            <div style="color:#666;font-size:0.75rem;margin-top:6px;">À venir</div>
+
+        <!-- PDF English -->
+        <div class="pdf-card">
+            <div class="pdf-card-icon">📗</div>
+            <h3>Marketing Plan</h3>
+            <div class="pdf-lang">🇬🇧 ENGLISH</div>
+            <p>Full presentation of Artena Strategic Systems — membership passes, performance plans, profit sharing, ranks and roadmap.</p>
+            <a href="Marketing-EN.pdf" target="_blank" class="pdf-btn">
+                <i class="fa-solid fa-eye"></i> View
+            </a>
+            <a href="Marketing-EN.pdf" download class="pdf-btn-outline">
+                <i class="fa-solid fa-download"></i> Download
+            </a>
         </div>
+
     </div>
 
-    <br><br>
+    <br>
     <div style="text-align:center;">
-        <a href="arthena.html" style="display:inline-flex;align-items:center;gap:8px;color:#a855f7;text-decoration:none;font-size:0.88rem;border:1px solid rgba(168,85,247,0.3);padding:8px 18px;border-radius:20px;transition:all 0.3s;">
+        <a href="arthena.html" style="display:inline-flex;align-items:center;gap:8px;color:#2374F8;text-decoration:none;font-size:0.88rem;border:1px solid rgba(35,116,248,0.3);padding:8px 18px;border-radius:20px;transition:all 0.3s;">
             <i class="fa-solid fa-arrow-left"></i> Retour Arthena
         </a>
     </div>
