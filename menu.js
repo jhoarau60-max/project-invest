@@ -1,13 +1,17 @@
 // Sidebar dashboard permanent - partagé sur toutes les pages
 
-// Force reload quand le SW efface le cache (fix PWA favoris)
+// Fix bfcache : force rechargement si page restaurée depuis le cache avant/arrière
+window.addEventListener('pageshow', function(e) {
+  if (e.persisted) {
+    window.location.reload(true);
+  }
+});
+
+// Fix SW : rechargement auto quand nouveau SW prend le contrôle
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('message', function(e) {
-    if (e.data && e.data.type === 'RELOAD') {
-      window.location.reload(true);
-    }
+    if (e.data && e.data.type === 'RELOAD') window.location.reload(true);
   });
-  // Si le SW a été mis à jour, recharge la page
   navigator.serviceWorker.addEventListener('controllerchange', function() {
     window.location.reload(true);
   });
