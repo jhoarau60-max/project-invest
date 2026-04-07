@@ -603,42 +603,49 @@
       .journal-filtres {
         display: flex;
         justify-content: center;
-        gap: 0;
+        gap: 8px;
         flex-wrap: wrap;
         margin-bottom: 28px;
-        border-bottom: 1px solid rgba(201,168,76,0.2);
-        padding-bottom: 0;
+        padding: 0 10px 12px;
       }
       .filtre-btn {
         display: flex;
         align-items: center;
-        gap: 7px;
-        padding: 11px 22px;
-        border: none;
-        border-bottom: 3px solid transparent;
-        background: transparent;
-        color: rgba(201,168,76,0.5);
+        gap: 6px;
+        padding: 7px 16px;
+        border-radius: 20px;
+        border: 1px solid rgba(201,168,76,0.25);
+        background: rgba(255,255,255,0.04);
+        color: rgba(201,168,76,0.55);
         cursor: pointer;
         font-family: 'Cinzel', serif;
-        font-size: 0.85rem;
+        font-size: 0.72rem;
         font-weight: 700;
-        letter-spacing: 1.5px;
-        transition: all 0.25s;
-        margin-bottom: -1px;
+        letter-spacing: 1px;
+        transition: all 0.2s;
         text-transform: uppercase;
+        white-space: nowrap;
       }
       .filtre-btn .dot {
-        width: 8px; height: 8px;
+        width: 7px; height: 7px;
         border-radius: 50%;
         display: inline-block;
+        flex-shrink: 0;
       }
-      .filtre-btn:hover { color: rgba(201,168,76,0.85); }
-      .filtre-btn.actif { color: #c9a84c; border-bottom-color: #c9a84c; }
+      .filtre-btn:hover { color: rgba(201,168,76,0.9); border-color: rgba(201,168,76,0.5); background: rgba(201,168,76,0.08); }
+      .filtre-btn.actif { color: #0a1628; border-color: transparent; font-weight: 900; }
+      .filtre-btn[data-cat="tous"].actif    { background: #c9a84c; }
+      .filtre-btn[data-cat="estate"].actif  { background: #2ecc71; color:#0a1628; border-color:transparent; }
+      .filtre-btn[data-cat="smart"].actif   { background: #3498db; color:#fff; border-color:transparent; }
+      .filtre-btn[data-cat="mlm"].actif     { background: #e67e22; color:#fff; border-color:transparent; }
+      .filtre-btn[data-cat="arbcore"].actif { background: #9b59b6; color:#fff; border-color:transparent; }
+      .filtre-btn[data-cat="arthena"].actif { background: #2374F8; color:#fff; border-color:transparent; }
       .filtre-btn[data-cat="tous"] .dot    { background: #c9a84c; }
       .filtre-btn[data-cat="estate"] .dot  { background: #2ecc71; }
       .filtre-btn[data-cat="smart"] .dot   { background: #3498db; }
       .filtre-btn[data-cat="mlm"] .dot     { background: #e67e22; }
-      .filtre-btn[data-cat="arbcore"] .dot { background: #9b59b6; }
+      .filtre-btn[data-cat="arbcore"] .dot  { background: #9b59b6; }
+      .filtre-btn[data-cat="arthena"] .dot { background: #2374F8; }
 
       /* ===== MESSAGES TELEGRAM ===== */
       .telegram-section-title { font-family:'Cinzel',serif; font-size:1.1rem; color:#c9a84c; text-align:center; margin:40px 0 24px; letter-spacing:2px; }
@@ -749,6 +756,7 @@ setTimeout(function(){
         <button class="filtre-btn" data-cat="smart" onclick="filtrer('smart',this)"><span class="dot"></span> Smart Bot</button>
         <button class="filtre-btn" data-cat="mlm" onclick="filtrer('mlm',this)"><span class="dot"></span> MLM</button>
         <button class="filtre-btn" data-cat="arbcore" onclick="filtrer('arbcore',this)"><span class="dot"></span> ArbCore</button>
+        <button class="filtre-btn" data-cat="arthena" onclick="filtrer('arthena',this)"><span class="dot"></span> Arthena</button>
     </div>
 
     <!-- LIVRE -->
@@ -796,7 +804,7 @@ setTimeout(function(){
 
 <script>
 var catBadge  = { general:'badge-general', trading:'badge-trading', estate:'badge-estate', mlm:'badge-mlm', portage:'badge-portage', site:'badge-site', smart:'badge-trading', arbcore:'badge-general' };
-var catLabel  = { general:'Général', trading:'Bot Trading', estate:'E-Estate', mlm:'MLM Center', portage:'Portage', site:'Site', smart:'Smart Bot', arbcore:'ArbCore' };
+var catLabel  = { general:'Général', trading:'Bot Trading', estate:'E-Estate', mlm:'MLM Center', portage:'Portage', site:'Site', smart:'Smart Bot', arbcore:'ArbCore', arthena:'Arthena' };
 var catLogo   = { estate:'logo-estate.png', smart:'logo-smarts.png', mlm:'logo-mlm.png', arbcore:'logo-project-invest.jpg', general:'logo-project-invest.jpg' };
 var catColor  = { estate:'#2ecc71', smart:'#3498db', mlm:'#e67e22', arbcore:'#9b59b6', general:'#c9a84c' };
 var romans    = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX'];
