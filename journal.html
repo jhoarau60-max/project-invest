@@ -1220,23 +1220,37 @@ function afficherLivre(articles){
     if (isMobile) {
         document.getElementById('mobile-nav-top').style.display = 'flex';
 
-        // Bloquer le scroll pendant le flip pour éviter que la page bouge
-        var scrollY = 0;
+        // Fixer la hauteur du conteneur pour éviter les sauts de layout
+        var scene = document.getElementById('book-scene');
+        setTimeout(function() {
+            var sceneH = scene.getBoundingClientRect().height;
+            if (sceneH > 0) scene.style.minHeight = sceneH + 'px';
+        }, 500);
+
+        // Bloquer le scroll pendant le flip
+        var savedY = 0;
+        function lockScroll() {
+            savedY = window.pageYOffset;
+            document.body.style.position = 'fixed';
+            document.body.style.top = '-' + savedY + 'px';
+            document.body.style.left = '0';
+            document.body.style.right = '0';
+        }
+        function unlockScroll() {
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.left = '';
+            document.body.style.right = '';
+            window.scrollTo(0, savedY);
+        }
         pageFlip.on('changeState', function(e) {
-            if (e.data === 'flipping') {
-                scrollY = window.scrollY;
-                document.body.style.overflow = 'hidden';
-                document.body.style.position = 'fixed';
-                document.body.style.top = '-' + scrollY + 'px';
-                document.body.style.width = '100%';
+            if (e.data === 'flipping' || e.data === 'user_fold') {
+                lockScroll();
             } else {
-                document.body.style.overflow = '';
-                document.body.style.position = '';
-                document.body.style.top = '';
-                document.body.style.width = '';
-                window.scrollTo(0, scrollY);
+                unlockScroll();
             }
         });
+        pageFlip.on('flip', function() { unlockScroll(); });
     }
 
     function syncNav(pageIdx) {
