@@ -25,15 +25,15 @@
         margin: 30px 0;
       }
       .video-card {
-        background: rgba(168,85,247,0.05);
-        border: 1px solid rgba(168,85,247,0.2);
+        background: rgba(35,116,248,0.05);
+        border: 1px solid rgba(35,116,248,0.2);
         border-radius: 14px;
         overflow: hidden;
         transition: all 0.3s;
       }
       .video-card:hover {
-        border-color: rgba(168,85,247,0.5);
-        box-shadow: 0 0 20px rgba(168,85,247,0.2);
+        border-color: rgba(35,116,248,0.5);
+        box-shadow: 0 0 20px rgba(35,116,248,0.2);
       }
       .video-card iframe {
         width: 100%; aspect-ratio: 16/9; border: none; display: block;
@@ -43,8 +43,8 @@
       .video-card-body p  { color: #aaa; font-size: 0.82rem; }
       .video-coming {
         aspect-ratio: 16/9;
-        background: rgba(168,85,247,0.05);
-        border: 2px dashed rgba(168,85,247,0.2);
+        background: rgba(35,116,248,0.05);
+        border: 2px dashed rgba(35,116,248,0.2);
         border-radius: 14px;
         display: flex; flex-direction: column;
         align-items: center; justify-content: center; gap: 10px;
@@ -63,11 +63,11 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 <div id="bg-curves">
   <svg viewBox="0 0 1700 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
     <defs><filter id="glow-line"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-    <path class="line-anim"  d="M-100,300 C200,100 400,500 800,250 S1200,50 1700,300"  fill="none" stroke="rgba(168,85,247,0.2)"  stroke-width="2" filter="url(#glow-line)"/>
-    <path class="line-anim2" d="M-100,600 C300,400 600,800 1000,550 S1400,300 1700,600" fill="none" stroke="rgba(168,85,247,0.15)" stroke-width="2" filter="url(#glow-line)"/>
-    <path class="line-anim3" d="M-100,150 C300,50 700,350 1100,150 S1450,0 1700,180"   fill="none" stroke="rgba(168,85,247,0.1)" stroke-width="1.5" filter="url(#glow-line)"/>
-    <circle cx="200" cy="180" r="130" fill="none" stroke="rgba(168,85,247,0.15)" stroke-width="1.5"/>
-    <circle cx="1500" cy="700" r="160" fill="none" stroke="rgba(168,85,247,0.1)"  stroke-width="1.5"/>
+    <path class="line-anim"  d="M-100,300 C200,100 400,500 800,250 S1200,50 1700,300"  fill="none" stroke="rgba(35,116,248,0.2)"  stroke-width="2" filter="url(#glow-line)"/>
+    <path class="line-anim2" d="M-100,600 C300,400 600,800 1000,550 S1400,300 1700,600" fill="none" stroke="rgba(35,116,248,0.15)" stroke-width="2" filter="url(#glow-line)"/>
+    <path class="line-anim3" d="M-100,150 C300,50 700,350 1100,150 S1450,0 1700,180"   fill="none" stroke="rgba(35,116,248,0.1)" stroke-width="1.5" filter="url(#glow-line)"/>
+    <circle cx="200" cy="180" r="130" fill="none" stroke="rgba(35,116,248,0.15)" stroke-width="1.5"/>
+    <circle cx="1500" cy="700" r="160" fill="none" stroke="rgba(35,116,248,0.1)"  stroke-width="1.5"/>
   </svg>
 </div>
 
@@ -111,7 +111,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 </header>
 
 <div class="page-header">
-    <h1><i class="fa-solid fa-video" style="margin-right:12px;color:#a855f7;"></i>Vidéos Arthena</h1>
+    <h1><i class="fa-solid fa-video" style="margin-right:12px;color:#2374F8;"></i>Vidéos Arthena</h1>
     <p>Présentations, témoignages et tutoriels</p>
 </div>
 
@@ -120,10 +120,12 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
     <div class="divider"></div>
 
     <div class="video-grid">
-        <!-- Vidéos à ajouter ici -->
-        <div class="video-coming">
-            <span>🎥</span>
-            <p>Vidéo à venir</p>
+        <div class="video-card">
+            <iframe src="https://www.youtube.com/embed/5Bbyae90cDc" allowfullscreen loading="lazy"></iframe>
+            <div class="video-card-body">
+                <h3>🇫🇷 Présentation Artena Strategic Systems</h3>
+                <p>Présentation officielle complète en français — Club d'investissement privé DeFi, plans, pass membres et plan de rémunération.</p>
+            </div>
         </div>
         <div class="video-coming">
             <span>🎥</span>
@@ -137,7 +139,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 
     <br>
     <div style="text-align:center;">
-        <a href="arthena.html" style="display:inline-flex;align-items:center;gap:8px;color:#a855f7;text-decoration:none;font-size:0.88rem;border:1px solid rgba(168,85,247,0.3);padding:8px 18px;border-radius:20px;transition:all 0.3s;">
+        <a href="arthena.html" style="display:inline-flex;align-items:center;gap:8px;color:#2374F8;text-decoration:none;font-size:0.88rem;border:1px solid rgba(35,116,248,0.3);padding:8px 18px;border-radius:20px;transition:all 0.3s;">
             <i class="fa-solid fa-arrow-left"></i> Retour Arthena
         </a>
     </div>

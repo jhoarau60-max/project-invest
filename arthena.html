@@ -306,7 +306,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         </div>
         <div class="arth-stat">
             <div class="arth-stat-val">5 000</div>
-            <div class="arth-stat-label">Pass Equity (limité)</div>
+            <div class="arth-stat-label">Pass Standard (limité)</div>
         </div>
         <div class="arth-stat">
             <div class="arth-stat-val">10</div>
@@ -356,14 +356,15 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
     <div class="arth-sec">🎫 Pass Membres</div>
     <div class="pass-grid">
         <div class="pass-card">
+            <div class="pass-card-badge">LIMITÉ 5 000</div>
             <div class="pass-card-icon">⚪</div>
             <h3>Standard</h3>
             <div class="pass-price">50 $</div>
             <ul>
                 <li>Accès à la plateforme</li>
                 <li>Plans d'investissement actifs</li>
-                <li>Profit sharing niveaux 1–3</li>
-                <li>Outils de suivi basiques</li>
+                <li>Parrainage direct niveau 1 uniquement</li>
+                <li>Pas de Unilevel ni rangs</li>
             </ul>
         </div>
         <div class="pass-card featured">
@@ -380,17 +381,18 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             </ul>
         </div>
         <div class="pass-card">
-            <div class="pass-card-badge">LIMITÉ 5 000</div>
             <div class="pass-card-icon">💎</div>
             <h3>Equity</h3>
             <div class="pass-price">1 000 $</div>
             <ul>
                 <li>Tout le pass Investor</li>
-                <li>Profit sharing niveaux 1–10</li>
-                <li>Participation aux décisions</li>
-                <li>Allocation $ARTN (token)</li>
-                <li>Revenus à vie (lifetime)</li>
-                <li>Accès exclusif Conseil Artena</li>
+                <li>Frais réduits sur les plans</li>
+                <li>15% des profits hebdo plateforme</li>
+                <li>Rangs de leadership actifs</li>
+                <li>Stratégies quant exclusives</li>
+                <li>Allocation $ARTN au lancement</li>
+                <li>Accès Private Vaults</li>
+                <li>Support dédié + événements privés</li>
             </ul>
         </div>
     </div>
@@ -403,32 +405,32 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                 <tr>
                     <th>Plan</th>
                     <th>Durée</th>
-                    <th>Rendement</th>
-                    <th>Retrait</th>
-                    <th>Fréquence</th>
+                    <th>Frais perf. Standard</th>
+                    <th>Frais perf. Equity</th>
+                    <th>Retrait des gains</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="highlight">Long Terme</td>
-                    <td>12 mois</td>
-                    <td class="green">+30%</td>
-                    <td>À échéance</td>
-                    <td>Profits hebdomadaires</td>
+                    <td class="highlight">Flexible</td>
+                    <td>Aucun blocage</td>
+                    <td class="green">50%</td>
+                    <td style="color:#00c8ff;font-weight:700;">45%</td>
+                    <td>Chaque dimanche</td>
                 </tr>
                 <tr>
                     <td class="highlight">Moyen Terme</td>
                     <td>6 mois</td>
-                    <td class="green">+40%</td>
-                    <td>À échéance</td>
-                    <td>Profits hebdomadaires</td>
+                    <td class="green">40%</td>
+                    <td style="color:#00c8ff;font-weight:700;">35%</td>
+                    <td>Chaque dimanche</td>
                 </tr>
                 <tr>
-                    <td class="highlight">Flexible</td>
-                    <td>Libre</td>
-                    <td class="green">+50% (prorata)</td>
-                    <td>À tout moment</td>
-                    <td>Profits hebdomadaires</td>
+                    <td class="highlight">Long Terme</td>
+                    <td>12 mois</td>
+                    <td class="green">30%</td>
+                    <td style="color:#00c8ff;font-weight:700;">25%</td>
+                    <td>Chaque dimanche</td>
                 </tr>
             </tbody>
         </table>
@@ -438,24 +440,24 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
     <div class="arth-sec">🏗️ Architecture Stratégique</div>
     <div class="arth-grid">
         <div class="arth-card">
-            <div class="arth-card-icon">🤖</div>
-            <h3>Arbitrage Automatisé</h3>
-            <p>Algorithmes d'arbitrage inter-exchanges exploitant les écarts de prix entre Binance, OKX, Bybit et Bitget en temps réel. Exécution en millisecondes pour maximiser les opportunités.</p>
+            <div class="arth-card-icon">💸</div>
+            <h3>Funding Fee Strategy</h3>
+            <p>Capture des différentiels de taux de financement entre les positions longues et courtes sur les marchés perpétuels. Modèle delta-neutre : achat spot + short perp simultané.</p>
         </div>
         <div class="arth-card">
-            <div class="arth-card-icon">📊</div>
-            <h3>Trading Algorithmique</h3>
-            <p>Stratégies quantitatives basées sur l'analyse technique avancée et le machine learning. Gestion du risque intégrée avec des stop-loss dynamiques et une diversification automatique.</p>
+            <div class="arth-card-icon">📐</div>
+            <h3>Basis Strategy</h3>
+            <p>Exploitation de la convergence entre les prix spot et futures. Arbitrage sur l'écart de base (basis) entre les contrats à terme et le marché au comptant sur les exchanges partenaires.</p>
         </div>
         <div class="arth-card">
             <div class="arth-card-icon">💧</div>
-            <h3>Gestion de Liquidités DeFi</h3>
-            <p>Participation aux pools de liquidité sur les protocoles DeFi majeurs (AMM). Génération de revenus passifs via les frais de transaction et les récompenses de yield farming.</p>
+            <h3>Liquidity Arbitrage</h3>
+            <p>Déploiement de capital sur plusieurs exchanges et AMMs pour capturer les micro-écarts de prix. Exécution haute fréquence sur Hyperliquid, Jupiter et les protocoles Arbitrum.</p>
         </div>
         <div class="arth-card">
-            <div class="arth-card-icon">🔒</div>
-            <h3>Sécurité & Custody</h3>
-            <p>Partenariat avec Copper et Fireblocks pour la garde institutionnelle des actifs. Infrastructure sécurisée avec audit multi-signatures et protocoles de conformité stricts.</p>
+            <div class="arth-card-icon">🌾</div>
+            <h3>Airdrop & Incentive Farming</h3>
+            <p>Collecte systématique des récompenses de protocoles et des incentives de trading sur les DEXs. Participation aux programmes d'incitation des protocoles DeFi partenaires.</p>
         </div>
     </div>
 
@@ -463,16 +465,16 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
     <div class="arth-sec">💰 Profit Sharing — 10 Niveaux</div>
     <p style="color:#aaa;font-size:0.87rem;margin-bottom:18px;">15% des profits hebdomadaires de la plateforme sont redistribués sur votre réseau de parrainage :</p>
     <div class="profit-levels">
-        <div class="profit-level"><span class="lv">Niveau 1</span><span class="pct">5%</span></div>
-        <div class="profit-level"><span class="lv">Niveau 2</span><span class="pct">3%</span></div>
-        <div class="profit-level"><span class="lv">Niveau 3</span><span class="pct">2%</span></div>
-        <div class="profit-level"><span class="lv">Niveau 4</span><span class="pct">1.5%</span></div>
-        <div class="profit-level"><span class="lv">Niveau 5</span><span class="pct">1%</span></div>
-        <div class="profit-level"><span class="lv">Niveau 6</span><span class="pct">0.8%</span></div>
-        <div class="profit-level"><span class="lv">Niveau 7</span><span class="pct">0.5%</span></div>
-        <div class="profit-level"><span class="lv">Niveau 8</span><span class="pct">0.5%</span></div>
-        <div class="profit-level"><span class="lv">Niveau 9</span><span class="pct">0.4%</span></div>
-        <div class="profit-level"><span class="lv">Niveau 10</span><span class="pct">0.3%</span></div>
+        <div class="profit-level"><span class="lv">Niveau 1</span><span class="pct">4.00%</span></div>
+        <div class="profit-level"><span class="lv">Niveau 2</span><span class="pct">3.00%</span></div>
+        <div class="profit-level"><span class="lv">Niveau 3</span><span class="pct">2.00%</span></div>
+        <div class="profit-level"><span class="lv">Niveau 4</span><span class="pct">1.50%</span></div>
+        <div class="profit-level"><span class="lv">Niveau 5</span><span class="pct">1.20%</span></div>
+        <div class="profit-level"><span class="lv">Niveau 6</span><span class="pct">1.00%</span></div>
+        <div class="profit-level"><span class="lv">Niveau 7</span><span class="pct">0.80%</span></div>
+        <div class="profit-level"><span class="lv">Niveau 8</span><span class="pct">0.70%</span></div>
+        <div class="profit-level"><span class="lv">Niveau 9</span><span class="pct">0.50%</span></div>
+        <div class="profit-level"><span class="lv">Niveau 10</span><span class="pct">0.30%</span></div>
     </div>
     <p style="color:#666;font-size:0.8rem;margin-bottom:30px;"><em>* Pass Equity requis pour accéder aux niveaux 8–10. Pass Investor requis pour les niveaux 4–7.</em></p>
 
@@ -481,44 +483,30 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
     <div style="overflow-x:auto;margin-bottom:30px;">
         <table class="arth-table">
             <thead>
-                <tr><th>#</th><th>Rang</th><th>#</th><th>Rang</th><th>#</th><th>Rang</th></tr>
+                <tr><th>#</th><th>Rang</th><th>Volume requis</th><th>Bonus rang</th></tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="highlight">1</td><td>Initié</td>
-                    <td class="highlight">8</td><td>Stratège</td>
-                    <td class="highlight">15</td><td>Architecte Senior</td>
-                </tr>
-                <tr>
-                    <td class="highlight">2</td><td>Associé</td>
-                    <td class="highlight">9</td><td>Stratège Senior</td>
-                    <td class="highlight">16</td><td>Directeur</td>
-                </tr>
-                <tr>
-                    <td class="highlight">3</td><td>Analyste</td>
-                    <td class="highlight">10</td><td>Consultant</td>
-                    <td class="highlight">17</td><td>Directeur Senior</td>
-                </tr>
-                <tr>
-                    <td class="highlight">4</td><td>Analyste Senior</td>
-                    <td class="highlight">11</td><td>Consultant Senior</td>
-                    <td class="highlight">18</td><td>Vice-Président</td>
-                </tr>
-                <tr>
-                    <td class="highlight">5</td><td>Gestionnaire</td>
-                    <td class="highlight">12</td><td>Expert</td>
-                    <td class="highlight">19</td><td>Président</td>
-                </tr>
-                <tr>
-                    <td class="highlight">6</td><td>Gestionnaire Senior</td>
-                    <td class="highlight">13</td><td>Expert Senior</td>
-                    <td class="highlight">20</td><td>Ambassadeur</td>
-                </tr>
-                <tr>
-                    <td class="highlight">7</td><td>Architecte</td>
-                    <td class="highlight">14</td><td>Architecte Senior</td>
-                    <td class="highlight">21</td><td>Conseil Artena</td>
-                </tr>
+                <tr><td class="highlight">1</td><td>Initié</td><td>—</td><td>—</td></tr>
+                <tr><td class="highlight">2</td><td>Associé</td><td>$1 000</td><td class="green">$80</td></tr>
+                <tr><td class="highlight">3</td><td>Challenger</td><td>$3 000</td><td class="green">$200</td></tr>
+                <tr><td class="highlight">4</td><td>Networker</td><td>$7 000</td><td class="green">$400</td></tr>
+                <tr><td class="highlight">5</td><td>Alliance</td><td>$15 000</td><td class="green">$800</td></tr>
+                <tr><td class="highlight">6</td><td>Synergie</td><td>$30 000</td><td class="green">$1 500</td></tr>
+                <tr><td class="highlight">7</td><td>Directeur</td><td>$60 000</td><td class="green">$3 000</td></tr>
+                <tr><td class="highlight">8</td><td>Directeur Régional</td><td>$120 000</td><td class="green">$5 000</td></tr>
+                <tr><td class="highlight">9</td><td>Directeur National</td><td>$250 000</td><td class="green">$10 000</td></tr>
+                <tr><td class="highlight">10</td><td>Partenaire</td><td>$530 000</td><td class="green">$22 000</td></tr>
+                <tr><td class="highlight">11</td><td>Partenaire Stratégique</td><td>$1 150 000</td><td class="green">$45 000</td></tr>
+                <tr><td class="highlight">12</td><td>Partenaire Principal (Core)</td><td>$2 350 000</td><td class="green">$95 000</td></tr>
+                <tr><td class="highlight">13</td><td>Partenaire Global</td><td>$4 800 000</td><td class="green">$200 000</td></tr>
+                <tr><td class="highlight">14</td><td>Ambassadeur</td><td>$10 200 000</td><td class="green">$425 000</td></tr>
+                <tr><td class="highlight">15</td><td>Ambassadeur Senior</td><td>$18 800 000</td><td class="green">$750 000</td></tr>
+                <tr><td class="highlight">16</td><td>Ambassadeur Royal</td><td>$36 500 000</td><td class="green">$1 300 000</td></tr>
+                <tr><td class="highlight">17</td><td>Ambassadeur Global</td><td>$70 000 000</td><td class="green">$2 200 000</td></tr>
+                <tr><td class="highlight">18</td><td>Légende</td><td>$130 000 000</td><td class="green">$3 800 000</td></tr>
+                <tr><td class="highlight">19</td><td>Légende Globale</td><td>$250 000 000</td><td class="green">$6 500 000</td></tr>
+                <tr><td class="highlight">20</td><td>Légende Couronnée</td><td>$480 000 000</td><td class="green">$10 000 000</td></tr>
+                <tr><td class="highlight">21</td><td style="color:#2374F8;font-weight:700;">Conseil Artena</td><td>$1 000 000 000</td><td class="green">$20 000 000</td></tr>
             </tbody>
         </table>
     </div>
@@ -530,12 +518,16 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         <span class="partner-pill">OKX</span>
         <span class="partner-pill">Bybit</span>
         <span class="partner-pill">Bitget</span>
+        <span class="partner-pill">Hyperliquid</span>
+        <span class="partner-pill">Jupiter</span>
+        <span class="partner-pill">Arbitrum</span>
+        <span class="partner-pill">Aster & Paradex</span>
         <span class="partner-pill">Copper</span>
         <span class="partner-pill">Fireblocks</span>
         <span class="partner-pill">Chainlink</span>
-        <span class="partner-pill">Uniswap</span>
-        <span class="partner-pill">Aave</span>
-        <span class="partner-pill">Compound</span>
+        <span class="partner-pill">Pyth Network</span>
+        <span class="partner-pill">Redstone</span>
+        <span class="partner-pill">Sumsub (KYC)</span>
     </div>
 
     <!-- ROADMAP -->
@@ -547,9 +539,9 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                 <div class="roadmap-line-bar"></div>
             </div>
             <div class="roadmap-content">
-                <div class="roadmap-date">✅ 2025 — Phase 1</div>
-                <h4>Lancement de la plateforme</h4>
-                <p>Mise en ligne d'Artena Strategic Systems. Déploiement des algorithmes d'arbitrage. Ouverture des inscriptions membres.</p>
+                <div class="roadmap-date">✅ Janvier 2026</div>
+                <h4>Pré-Lancement</h4>
+                <p>Déploiement des algorithmes. Ouverture des inscriptions membres en avant-première.</p>
             </div>
         </div>
         <div class="roadmap-item">
@@ -558,9 +550,20 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                 <div class="roadmap-line-bar"></div>
             </div>
             <div class="roadmap-content">
-                <div class="roadmap-date">✅ Q1 2026 — Phase 2</div>
-                <h4>Expansion & Optimisation</h4>
-                <p>Intégration des nouveaux exchanges. Lancement du plan Equity (limité à 5 000 membres). Mise en place du profit sharing 10 niveaux.</p>
+                <div class="roadmap-date">✅ Mars 2026</div>
+                <h4>Lancement Officiel</h4>
+                <p>Ouverture publique de la plateforme Artena Strategic Systems. Activation des 3 plans de performance.</p>
+            </div>
+        </div>
+        <div class="roadmap-item">
+            <div class="roadmap-line">
+                <div class="roadmap-dot" style="background:#2374F8;box-shadow:0 0 8px rgba(35,116,248,0.6);"></div>
+                <div class="roadmap-line-bar"></div>
+            </div>
+            <div class="roadmap-content">
+                <div class="roadmap-date">🔄 Juin 2026</div>
+                <h4>Événement Paris + Expansion Stratégique</h4>
+                <p>Premier événement physique à Paris. Intégration de nouvelles stratégies quantitatives et exchanges partenaires.</p>
             </div>
         </div>
         <div class="roadmap-item">
@@ -569,9 +572,9 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                 <div class="roadmap-line-bar"></div>
             </div>
             <div class="roadmap-content">
-                <div class="roadmap-date">🔄 Q3 2026 — Phase 3</div>
-                <h4>DeFi & Liquidités</h4>
-                <p>Déploiement des pools de liquidité. Intégration Chainlink pour les flux de données on-chain. Partenariats Copper & Fireblocks actifs.</p>
+                <div class="roadmap-date">Septembre 2026</div>
+                <h4>1er Événement International + Expansion Équipe</h4>
+                <p>Renforcement de l'équipe globale. Premier événement Artena à l'international.</p>
             </div>
         </div>
         <div class="roadmap-item">
@@ -580,9 +583,9 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                 <div class="roadmap-line-bar"></div>
             </div>
             <div class="roadmap-content">
-                <div class="roadmap-date">🚀 Mars 2027 — Phase 4</div>
-                <h4>Lancement du Token $ARTN</h4>
-                <p>Émission du token natif $ARTN. Allocation exclusive pour les détenteurs du Pass Equity. Listing sur les exchanges partenaires. Gouvernance décentralisée.</p>
+                <div class="roadmap-date">Novembre 2026</div>
+                <h4>Artena Private Retreat + On-Chain Vaults</h4>
+                <p>Retraite privée pour les membres Equity. Lancement des vaults on-chain pour les stratégies DeFi avancées.</p>
             </div>
         </div>
         <div class="roadmap-item">
@@ -591,9 +594,42 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                 <div class="roadmap-line-bar"></div>
             </div>
             <div class="roadmap-content">
-                <div class="roadmap-date">🌐 2027+ — Phase 5</div>
+                <div class="roadmap-date">🚀 Mars 2027</div>
+                <h4>1 An + Lancement Token $ARTN</h4>
+                <p>Anniversaire 1 an de la plateforme. Émission du token $ARTN avec allocation exclusive pour les détenteurs du Pass Equity.</p>
+            </div>
+        </div>
+        <div class="roadmap-item">
+            <div class="roadmap-line">
+                <div class="roadmap-dot"></div>
+                <div class="roadmap-line-bar"></div>
+            </div>
+            <div class="roadmap-content">
+                <div class="roadmap-date">Mai 2027</div>
+                <h4>Second Bureau Global</h4>
+                <p>Ouverture d'un second bureau international pour l'expansion géographique d'Artena.</p>
+            </div>
+        </div>
+        <div class="roadmap-item">
+            <div class="roadmap-line">
+                <div class="roadmap-dot"></div>
+                <div class="roadmap-line-bar"></div>
+            </div>
+            <div class="roadmap-content">
+                <div class="roadmap-date">Juil.–Août 2027</div>
                 <h4>Expansion Mondiale</h4>
-                <p>Ouverture de nouveaux marchés géographiques. Développement des produits institutionnels. Atteinte des 21 rangs de leadership actifs.</p>
+                <p>Déploiement sur de nouveaux marchés. Développement des produits institutionnels à l'échelle internationale.</p>
+            </div>
+        </div>
+        <div class="roadmap-item">
+            <div class="roadmap-line">
+                <div class="roadmap-dot"></div>
+                <div class="roadmap-line-bar"></div>
+            </div>
+            <div class="roadmap-content">
+                <div class="roadmap-date">Sept.–Oct. 2027</div>
+                <h4>Artena Protocol v2</h4>
+                <p>Lancement de la version 2 du protocole. Nouvelles fonctionnalités de gouvernance et optimisation des stratégies algorithmiques.</p>
             </div>
         </div>
     </div>
