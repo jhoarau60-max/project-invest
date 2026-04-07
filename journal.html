@@ -1167,8 +1167,11 @@ function afficherLivre(articles){
     var isMobile = window.innerWidth < 600;
     var W, H;
     if (isMobile) {
-        W = Math.min(window.innerWidth - 40, 360);
-        H = Math.round(W * 1.45);
+        // Limiter la hauteur à 55% de l'écran pour que le livre reste visible sans défilement
+        var maxH = Math.round(window.innerHeight * 0.55);
+        W = Math.min(window.innerWidth - 40, 260);
+        H = Math.min(Math.round(W * 1.45), maxH);
+        W = Math.round(H / 1.45);
     } else {
         W = Math.min(Math.floor((window.innerWidth - 120) / 2), 400);
         H = Math.round(W * 1.45);
