@@ -716,7 +716,7 @@ if ('serviceWorker' in navigator) {
       annOverlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:16px;';
 
       var annBox = document.createElement('div');
-      annBox.style.cssText = 'position:relative;max-width:420px;width:100%;border-radius:16px;overflow:hidden;background:linear-gradient(160deg,#050a1e,#0a1432);border:1px solid rgba(0,180,255,0.5);box-shadow:0 0 40px rgba(0,150,255,0.3),0 20px 60px rgba(0,0,0,0.7);animation:annPopIn 0.4s cubic-bezier(0.34,1.56,0.64,1);';
+      annBox.style.cssText = 'position:relative;max-width:400px;width:100%;border-radius:16px;overflow:visible;box-shadow:0 0 50px rgba(0,150,255,0.4),0 20px 60px rgba(0,0,0,0.8);animation:annPopIn 0.4s cubic-bezier(0.34,1.56,0.64,1);';
 
       var annStyle = document.createElement('style');
       annStyle.textContent = '@keyframes annPopIn{from{opacity:0;transform:scale(0.85);}to{opacity:1;transform:scale(1);}}'
@@ -734,18 +734,8 @@ if ('serviceWorker' in navigator) {
         sessionStorage.setItem('annonce_fermee', '1');
       });
 
-      annBox.innerHTML = '<img src="coffre-annonce.jpg" alt="Annonce" style="width:100%;display:block;">'
-        + '<div style="padding:16px 18px 20px;">'
-        +   '<div style="display:flex;align-items:center;gap:7px;margin-bottom:10px;">'
-        +     '<div style="width:8px;height:8px;border-radius:50%;background:#00c8ff;box-shadow:0 0 8px #00c8ff;animation:annDotBlink 1s infinite;flex-shrink:0;"></div>'
-        +     '<span style="font-size:0.7rem;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;color:#00c8ff;">🚨 Annonce Importante</span>'
-        +   '</div>'
-        +   '<div style="font-size:0.82rem;color:#e8f4ff;line-height:1.6;margin-bottom:10px;">Et si tout le monde avait enfin sa chance d\'investir ? 💭💸</div>'
-        +   '<div style="font-size:0.78rem;color:#ffd700;line-height:1.7;margin-bottom:10px;">💡 Pas besoin de gros capital pour commencer<br>💡 Une opportunité ouverte à tous 🌍<br>💡 Un système pensé pour donner une vraie chance à chacun 🤝</div>'
-        +   '<div style="font-size:0.78rem;color:#a0d8ff;line-height:1.5;margin-bottom:10px;">🔐 Un coffre-fort nouvelle génération arrive… et pourrait bien changer la donne ⚡</div>'
-        +   '<div style="font-size:0.75rem;color:rgba(255,255,255,0.65);line-height:1.5;margin-bottom:14px;">⏳ Dans les minutes, heures ou jours à venir… toutes les informations sur son fonctionnement seront dévoilées 📢</div>'
-        +   '<button id="ann-close-btn" style="width:100%;padding:10px;border-radius:10px;background:linear-gradient(135deg,#0080ff,#00c8ff);border:none;color:#fff;font-weight:900;font-size:0.85rem;cursor:pointer;letter-spacing:0.05em;">📲 Compris — Restez connectés 🚀</button>'
-        + '</div>';
+      annBox.innerHTML = '<img src="coffre-annonce.jpg" alt="Annonce" style="width:100%;display:block;border-radius:16px;">'
+        + '<button id="ann-close-btn" style="position:absolute;bottom:-48px;left:50%;transform:translateX(-50%);padding:10px 28px;border-radius:20px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.35);color:#fff;font-weight:700;font-size:0.85rem;cursor:pointer;white-space:nowrap;">✕ Fermer</button>';
 
       annBox.insertBefore(annClose, annBox.firstChild);
       annOverlay.appendChild(annBox);
@@ -755,6 +745,7 @@ if ('serviceWorker' in navigator) {
         annOverlay.remove();
         sessionStorage.setItem('annonce_fermee', '1');
       });
+
       annOverlay.addEventListener('click', function(e){
         if (e.target === annOverlay) { annOverlay.remove(); sessionStorage.setItem('annonce_fermee', '1'); }
       });
