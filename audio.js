@@ -53,21 +53,17 @@
         `;
         document.head.appendChild(style);
 
-        const boutiqueBtn = document.createElement('a');
-        boutiqueBtn.id = 'boutique-btn';
-        boutiqueBtn.href = 'boutique.html';
-        boutiqueBtn.innerHTML = '<i class="fa-solid fa-store"></i> Numérique';
-        headerTop.insertBefore(boutiqueBtn, btn.nextSibling);
       }
 
-      // Bouton installer — toujours après Numérique, indépendant
+      // Bouton installer
       if (!document.getElementById('install-btn')) {
         const installBtn = document.createElement('button');
         installBtn.id = 'install-btn';
         installBtn.title = "Installer l'application";
+        const isMobAudio = window.innerWidth <= 1024;
         installBtn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:0.82rem;font-weight:700;border:1px solid #229ED9;background:#229ED9;color:#fff;cursor:pointer;flex-shrink:0;margin-right:auto;';
-        installBtn.innerHTML = '<i class="fa-solid fa-mobile-screen"></i> Installer';
-        const boutiqueRef = document.getElementById('boutique-btn') || btn;
+        installBtn.innerHTML = isMobAudio ? '<i class="fa-solid fa-mobile-screen"></i>' : '<i class="fa-solid fa-mobile-screen"></i> Installer';
+        const boutiqueRef = btn;
         headerTop.insertBefore(installBtn, boutiqueRef.nextSibling);
 
         let deferredPrompt;
@@ -84,6 +80,91 @@
           }
         });
         window.addEventListener('appinstalled', function() { installBtn.style.display = 'none'; });
+
+        // Bouton notifications — juste après Installer
+        if (!document.getElementById('notif-header-btn')) {
+          const notifBtn = document.createElement('div');
+          notifBtn.id = 'notif-header-btn';
+          notifBtn.title = 'Notifications';
+          notifBtn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:0.82rem;font-weight:700;border:1px solid rgba(255,160,0,0.6);background:rgba(255,160,0,0.12);color:#ffa000;cursor:pointer;flex-shrink:0;position:relative;';
+          notifBtn.innerHTML = (window.innerWidth <= 1024 ? '<i class="fa-solid fa-bell"></i>' : '<i class="fa-solid fa-bell"></i> Notifications')
+            + '<span id="notif-count" style="position:absolute;top:-5px;right:-4px;background:#ff3333;color:#fff;font-size:0.6rem;font-weight:700;border-radius:50%;width:16px;height:16px;align-items:center;justify-content:center;display:none;">0</span>';
+          headerTop.insertBefore(notifBtn, installBtn.nextSibling);
+
+          // Charger le badge au démarrage
+          setTimeout(function() {
+            var sbClient = (typeof _sb !== 'undefined') ? _sb : null;
+            if (!sbClient) return;
+            sbClient.auth.getUser().then(function(res) {
+              if (!res.data || !res.data.user) return;
+              sbClient.from('notifications').select('id',{count:'exact'}).eq('user_id', res.data.user.id).eq('read', false)
+                .then(function(rc) {
+                  var cnt = rc.count || 0;
+                  var badge = document.getElementById('notif-count');
+                  if (badge) { badge.textContent = cnt > 9 ? '9+' : cnt; badge.style.display = cnt > 0 ? 'flex' : 'none'; }
+                });
+            });
+          }, 1200);
+
+          notifBtn.addEventListener('click', function() {
+            var panel = document.getElementById('notif-header-panel');
+            if (panel) { panel.remove(); return; }
+            panel = document.createElement('div');
+            panel.id = 'notif-header-panel';
+            panel.style.cssText = 'position:fixed;top:60px;right:20px;z-index:99999;width:320px;background:#0d1525;border:1px solid rgba(255,160,0,0.35);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.6);overflow:hidden;';
+            panel.innerHTML = '<div style="padding:10px 14px;border-bottom:1px solid rgba(255,160,0,0.2);display:flex;align-items:center;justify-content:space-between;">'
+              + '<span style="font-weight:700;color:#ffa000;font-size:0.85rem;"><i class="fa-solid fa-bell" style="margin-right:6px;"></i>Notifications</span>'
+              + '<button onclick="document.getElementById(\'notif-header-panel\').remove()" style="background:none;border:none;color:#888;font-size:1rem;cursor:pointer;padding:0;line-height:1;">&times;</button>'
+              + '</div>'
+              + '<div id="notif-header-content" style="max-height:260px;overflow-y:auto;"><div style="padding:14px;color:#888;font-size:0.78rem;text-align:center;">Chargement…</div></div>';
+            document.body.appendChild(panel);
+            document.addEventListener('click', function hide(e) {
+              if (!panel.contains(e.target) && e.target !== notifBtn && !notifBtn.contains(e.target)) {
+                panel.remove(); document.removeEventListener('click', hide);
+              }
+            });
+            // Charger depuis Supabase
+            var sbClient = (typeof _sb !== 'undefined') ? _sb : null;
+            var content = document.getElementById('notif-header-content');
+            if (!sbClient || !content) return;
+            sbClient.auth.getUser().then(function(res) {
+              if (!res.data || !res.data.user) { content.innerHTML = '<div style="padding:14px;color:#888;font-size:0.78rem;text-align:center;">Non connecté</div>'; return; }
+              var uid = res.data.user.id;
+              sbClient.from('notifications').select('*').eq('user_id', uid).order('created_at', {ascending:false}).limit(10)
+                .then(function(r) {
+                  var rows = r.data || [];
+                  if (!rows.length) { content.innerHTML = '<div style="padding:16px;color:#888;font-size:0.78rem;text-align:center;">Aucune notification</div>'; return; }
+                  var html = '';
+                  rows.forEach(function(n) {
+                    var date = new Date(n.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
+                    var bg = n.read ? 'rgba(255,255,255,0.03)' : 'rgba(255,160,0,0.08)';
+                    var dot = n.read ? '' : '<span style="width:7px;height:7px;border-radius:50%;background:#ffa000;display:inline-block;flex-shrink:0;margin-right:6px;"></span>';
+                    html += '<div style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.06);background:' + bg + ';cursor:pointer;" data-id="' + n.id + '">'
+                      + '<div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;">' + dot + '<span style="font-size:0.62rem;color:rgba(255,160,0,0.7);">' + (n.type==='gain'?'🏆 Gain':'📢 Info') + ' — ' + date + '</span></div>'
+                      + '<div style="font-size:0.75rem;color:#ddd;line-height:1.5;white-space:pre-line;">' + n.message + '</div>'
+                      + '</div>';
+                  });
+                  content.innerHTML = html;
+                  content.querySelectorAll('[data-id]').forEach(function(el) {
+                    el.addEventListener('click', function() {
+                      var nid = this.getAttribute('data-id');
+                      sbClient.from('notifications').update({read:true}).eq('id', nid).then(function(){});
+                      this.style.background = 'rgba(255,255,255,0.03)';
+                      var d = this.querySelector('span[style*="ffa000"]');
+                      if (d) d.remove();
+                      // Mettre à jour le badge
+                      sbClient.from('notifications').select('id',{count:'exact'}).eq('user_id', uid).eq('read', false)
+                        .then(function(rc) {
+                          var cnt = rc.count || 0;
+                          var badge = document.getElementById('notif-count');
+                          if (badge) { badge.textContent = cnt > 9 ? '9+' : cnt; badge.style.display = cnt > 0 ? 'flex' : 'none'; }
+                        });
+                    });
+                  });
+                }).catch(function() { content.innerHTML = '<div style="padding:12px;color:#f66;font-size:0.78rem;text-align:center;">Erreur de chargement</div>'; });
+            });
+          });
+        }
       }
     } else {
       // Page de connexion : fixe en haut à gauche
