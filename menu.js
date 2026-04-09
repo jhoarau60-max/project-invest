@@ -63,6 +63,7 @@ if ('serviceWorker' in navigator) {
     'mlm-center.html':         'Système Matriciel',
     'bibliotheque-mlm.html':   'Avis Clients',
     'admin.html':              '⚙ Admin',
+    'arthena.html':            'Artena',
   };
 
   // Redirection href (ancien lien → nouveau lien)
@@ -77,7 +78,7 @@ if ('serviceWorker' in navigator) {
       { href: 'videos-arbcore.html',                             label: 'Vidéo',                icon: 'fa-video' },
     ],
     'arthena.html': [
-      { href: 'arthena.html',        label: 'Arthena',          icon: 'fa-gem' },
+      { href: 'arthena.html',        label: 'Artena',           icon: 'fa-gem' },
       { href: 'pdf-arthena.html',    label: 'Documents PDF',    icon: 'fa-file-pdf' },
       { href: 'videos-arthena.html', label: 'Vidéos',           icon: 'fa-video' },
     ],
@@ -142,6 +143,8 @@ if ('serviceWorker' in navigator) {
   // Styles
   var style = document.createElement('style');
   style.textContent = `
+    body.is-mobile #sidebar-lang { display: none !important; }
+
     /* Sidebar — base commune */
     nav {
       position: fixed !important;
@@ -186,34 +189,8 @@ if ('serviceWorker' in navigator) {
       height: auto !important;
     }
 
-    /* Barre de recherche dans la sidebar */
-    #header-search {
-      position: relative;
-      padding: 10px 12px 6px;
-    }
-    #header-search input {
-      background: #ffffff;
-      border: 1px solid rgba(255,255,255,0.75);
-      border-radius: 3px;
-      padding: 6px 14px 6px 32px;
-      color: #111;
-      font-size: 0.82rem;
-      outline: none;
-      width: 100%;
-      box-sizing: border-box;
-      box-shadow: none;
-    }
-    #header-search input::placeholder { color: rgba(0,0,0,0.4); }
-    #header-search i {
-      position: absolute;
-      left: 23px;
-      top: 50%;
-      transform: translateY(-30%);
-      color: #555;
-      font-size: 0.8rem;
-      pointer-events: none;
-      filter: none;
-    }
+    /* Notifications panel scrollable si besoin */
+    #notif-panel { max-height: 220px; overflow-y: auto; }
 
     nav ul {
       list-style: none !important;
@@ -311,8 +288,7 @@ if ('serviceWorker' in navigator) {
     body.is-mobile #nav-close-btn { display: flex !important; }
 
     /* Sur mobile : cacher les boutons non-essentiels du header */
-    body.is-mobile #sound-btn,
-    body.is-mobile #boutique-btn { display: none !important; }
+    body.is-mobile #sound-btn { display: none !important; }
 
     /* Header mobile : ligne unique propre */
     body.is-mobile .header-top {
@@ -344,16 +320,7 @@ if ('serviceWorker' in navigator) {
     }
     /* Cacher le logo dans le header-top (il est dans la sidebar) */
     .header-top .logo-svg { display: none !important; }
-    #user-badge {
-      color: #ffffff !important;
-      font-size: 0.85rem;
-      font-weight: 700 !important;
-      white-space: nowrap;
-    }
-    #user-badge:hover {
-      background: rgba(0,200,255,0.15) !important;
-      border-color: rgba(0,200,255,0.4) !important;
-    }
+    #sidebar-phone-btn, #sidebar-notif-btn { user-select: none; }
 
     /* Supprimer l'ancien espace réservé au header nav */
     header nav { display: none !important; }
@@ -572,63 +539,151 @@ if ('serviceWorker' in navigator) {
     var ul = nav.querySelector('ul');
     nav.insertBefore(socialTop, ul);
 
-    // Barre de recherche dans la sidebar (au-dessus d'Accueil)
-    var searchSidebar = document.createElement('div');
-    searchSidebar.id = 'header-search';
-    searchSidebar.style.cssText = 'padding:10px 12px 6px;flex-shrink:0;';
-    searchSidebar.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Rechercher un profil..." style="width:100%;">';
-    var ul = nav.querySelector('ul');
-    if (ul) nav.insertBefore(searchSidebar, ul);
+    // ── Cloche de notifications dans le header ──
+    var headerSocialLinks = document.querySelector('.header-top .social-links');
+    if (headerSocialLinks) {
+      // Bouton cloche
+      var notifBtn = document.createElement('button');
+      notifBtn.id = 'sidebar-notif-btn';
+      notifBtn.style.cssText = 'position:relative;display:inline-flex;align-items:center;justify-content:center;gap:5px;background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.45);border-radius:20px;color:#ffd700;font-size:0.9rem;padding:5px 12px;cursor:pointer;flex-shrink:0;transition:background 0.2s,border-color 0.2s;';
+      notifBtn.innerHTML = '<i class="fa-solid fa-bell"></i>'
+        + '<span id="notif-badge" style="display:none;position:absolute;top:-4px;right:-4px;background:#ff3333;color:#fff;font-size:0.55rem;font-weight:900;border-radius:50%;width:16px;height:16px;align-items:center;justify-content:center;flex-shrink:0;">0</span>';
+      notifBtn.addEventListener('mouseenter', function(){ this.style.background='rgba(255,215,0,0.22)'; this.style.borderColor='rgba(255,215,0,0.8)'; });
+      notifBtn.addEventListener('mouseleave', function(){ this.style.background='rgba(255,215,0,0.1)'; this.style.borderColor='rgba(255,215,0,0.45)'; });
 
-    // Badge utilisateur dans la sidebar — créé immédiatement, mis à jour après auth
+      // Panneau dropdown
+      var notifPanel = document.createElement('div');
+      notifPanel.id = 'notif-panel';
+      notifPanel.style.cssText = 'display:none;position:fixed;top:60px;right:12px;z-index:10000;width:320px;border-radius:12px;background:rgba(10,15,30,0.97);border:1px solid rgba(255,215,0,0.3);box-shadow:0 8px 32px rgba(0,0,0,0.5);overflow:hidden;';
+      var notifHeader = document.createElement('div');
+      notifHeader.style.cssText = 'padding:10px 14px;border-bottom:1px solid rgba(255,215,0,0.15);display:flex;align-items:center;justify-content:space-between;';
+      notifHeader.innerHTML = '<span style="color:#ffd700;font-size:0.82rem;font-weight:700;"><i class="fa-solid fa-bell" style="margin-right:6px;"></i>Notifications</span>'
+        + '<button onclick="document.getElementById(\'notif-panel\').style.display=\'none\'" style="background:none;border:none;color:#888;font-size:1rem;cursor:pointer;padding:0;line-height:1;">&times;</button>';
+      var notifContent = document.createElement('div');
+      notifContent.id = 'notif-content';
+      notifContent.style.cssText = 'max-height:260px;overflow-y:auto;';
+      notifPanel.appendChild(notifHeader);
+      notifPanel.appendChild(notifContent);
+      document.body.appendChild(notifPanel);
+
+      notifBtn.addEventListener('click', function(e){
+        e.stopPropagation();
+        var open = notifPanel.style.display !== 'none';
+        notifPanel.style.display = open ? 'none' : 'block';
+        if (!open) chargerNotifications();
+      });
+      document.addEventListener('click', function(e){
+        if (!notifPanel.contains(e.target) && e.target !== notifBtn) {
+          notifPanel.style.display = 'none';
+        }
+      });
+
+      headerSocialLinks.insertBefore(notifBtn, headerSocialLinks.firstChild);
+    }
+
+    function chargerNotifications(){
+      var notifContent = document.getElementById('notif-content');
+      if(!notifContent) return;
+      var sbClient = (typeof _sb !== 'undefined') ? _sb : (typeof supabase !== 'undefined' ? supabase : null);
+      if(!sbClient){ notifContent.innerHTML = '<div style="padding:14px;color:#888;font-size:0.78rem;text-align:center;">Non disponible</div>'; return; }
+      sbClient.auth.getUser().then(function(res){
+        if(!res.data || !res.data.user){ notifContent.innerHTML = '<div style="padding:14px;color:#888;font-size:0.78rem;text-align:center;">Non connecté</div>'; return; }
+        sbClient.from('notifications').select('*').eq('user_id', res.data.user.id).order('created_at', {ascending:false}).limit(10)
+          .then(function(r){
+            var rows = r.data || [];
+            if(!rows.length){ notifContent.innerHTML = '<div style="padding:16px;color:#888;font-size:0.78rem;text-align:center;">Aucune notification</div>'; return; }
+            var html = '';
+            rows.forEach(function(n){
+              var date = new Date(n.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
+              var bg = n.read ? 'rgba(255,255,255,0.03)' : 'rgba(255,215,0,0.08)';
+              var dot = n.read ? '' : '<span style="width:7px;height:7px;border-radius:50%;background:#ffd700;display:inline-block;flex-shrink:0;margin-right:6px;"></span>';
+              html += '<div style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.06);background:' + bg + ';cursor:pointer;" data-id="' + n.id + '">'
+                + '<div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;">' + dot + '<span style="font-size:0.62rem;color:rgba(255,215,0,0.6);">' + (n.type==='gain'?'🏆 Gain':'📢 Info') + ' — ' + date + '</span></div>'
+                + '<div style="font-size:0.75rem;color:#ddd;line-height:1.5;white-space:pre-line;">' + n.message + '</div>'
+                + '</div>';
+            });
+            notifContent.innerHTML = html;
+            /* Marquer comme lues au clic */
+            notifContent.querySelectorAll('[data-id]').forEach(function(el){
+              el.addEventListener('click', function(){
+                var nid = this.getAttribute('data-id');
+                sbClient.from('notifications').update({read:true}).eq('id', nid).then(function(){});
+                this.style.background = 'rgba(255,255,255,0.03)';
+                var d = this.querySelector('span[style*="ffd700"]');
+                if(d) d.remove();
+                verifierBadge(sbClient, res.data.user.id);
+              });
+            });
+          }).catch(function(){ notifContent.innerHTML = '<div style="padding:12px;color:#f66;font-size:0.78rem;text-align:center;">Erreur de chargement</div>'; });
+      });
+    }
+
+    function verifierBadge(sbClient, uid){
+      sbClient.from('notifications').select('id',{count:'exact'}).eq('user_id', uid).eq('read', false)
+        .then(function(r){
+          var count = r.count || 0;
+          var badge = document.getElementById('notif-badge');
+          if(!badge) return;
+          if(count > 0){
+            badge.textContent = count > 9 ? '9+' : count;
+            badge.style.display = 'flex';
+          } else {
+            badge.style.display = 'none';
+          }
+        }).catch(function(){});
+    }
+
+    /* Vérifier le badge au chargement */
+    setTimeout(function(){
+      var sbClient = (typeof _sb !== 'undefined') ? _sb : (typeof supabase !== 'undefined' ? supabase : null);
+      if(!sbClient) return;
+      sbClient.auth.getUser().then(function(res){
+        if(res.data && res.data.user) verifierBadge(sbClient, res.data.user.id);
+      }).catch(function(){});
+    }, 1000);
+
+    // ── Badge utilisateur (pseudo + avatar) ──
     var badge = document.createElement('a');
     badge.id = 'user-badge';
     badge.href = 'parametres.html';
-    badge.style.cssText = 'display:flex;align-items:center;gap:7px;padding:6px 10px;margin:4px 10px;border-radius:8px;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.2);text-decoration:none;cursor:pointer;flex-shrink:0;';
-    badge.innerHTML = '<i class="fa-solid fa-circle-user" style="font-size:1rem;color:#229ED9;flex-shrink:0;"></i><span style="color:#fff;font-size:0.78rem;font-weight:700;">Mon compte</span>';
-
-    // Insérer entre recherche et Accueil
-    var ulEl = nav.querySelector('ul');
-    if (ulEl) nav.insertBefore(badge, ulEl);
+    badge.style.cssText = 'display:flex;align-items:center;gap:8px;padding:7px 10px;margin:6px 10px 2px;border-radius:10px;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.22);text-decoration:none;cursor:pointer;flex-shrink:0;transition:background 0.2s,border-color 0.2s;';
+    badge.innerHTML = '<i class="fa-solid fa-circle-user" style="font-size:1.1rem;color:#229ED9;flex-shrink:0;"></i><span style="color:#fff;font-size:0.8rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px;">Mon compte</span>';
+    badge.addEventListener('mouseenter', function(){ this.style.background='rgba(0,200,255,0.15)'; this.style.borderColor='rgba(0,200,255,0.45)'; });
+    badge.addEventListener('mouseleave', function(){ this.style.background='rgba(0,200,255,0.08)'; this.style.borderColor='rgba(0,200,255,0.22)'; });
 
     // Mettre à jour avec le vrai pseudo dès que Supabase répond
     var _sbClient = (typeof _sb !== 'undefined') ? _sb : (typeof supabase !== 'undefined' ? supabase : null);
-    function updateBadge(user) {
-      if (!user) return;
-      var meta = user.user_metadata || {};
-      var pseudo = meta.username || meta.pseudo || meta.full_name || (user.email ? user.email.split('@')[0] : 'Utilisateur');
-      var avatar = meta.avatar_url || meta.avatar || '';
-      var span = badge.querySelector('span');
-      if (span) span.textContent = pseudo;
-      if (avatar && badge.querySelector('i')) {
-        badge.querySelector('i').outerHTML = '<img src="' + avatar + '" style="width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0;">';
-      }
-    }
     if (_sbClient) {
-      // Essai 1 : getUser() — appel direct au serveur
       _sbClient.auth.getUser().then(function(res) {
         if (res.data && res.data.user) {
-          updateBadge(res.data.user);
-        } else {
-          // Essai 2 : getSession() comme fallback
-          return _sbClient.auth.getSession().then(function(r) {
-            if (r.data && r.data.session) updateBadge(r.data.session.user);
-          });
+          var meta = res.data.user.user_metadata || {};
+          var pseudo = meta.username || meta.pseudo || meta.full_name || meta.name
+                    || (res.data.user.email ? res.data.user.email.split('@')[0] : 'Mon compte');
+          var avatar = meta.avatar_url || meta.avatar || '';
+          var span = badge.querySelector('span');
+          if (span) span.textContent = pseudo;
+          if (avatar) {
+            badge.querySelector('i').outerHTML = '<img src="' + avatar + '" style="width:30px;height:30px;border-radius:50%;object-fit:cover;flex-shrink:0;">';
+          }
         }
-      }).catch(function() {});
+      }).catch(function(){});
     }
 
+    // ── Bouton Numérique (Boutique) déplacé depuis le header ──
+    var btnNum = document.createElement('a');
+    btnNum.id = 'boutique-btn';
+    btnNum.href = 'boutique.html';
+    btnNum.style.cssText = 'display:flex;align-items:center;gap:9px;padding:8px 12px;margin:6px 10px 2px;border-radius:10px;background:linear-gradient(135deg,rgba(255,149,0,0.15),rgba(230,92,0,0.1));border:1px solid rgba(255,149,0,0.45);text-decoration:none;cursor:pointer;flex-shrink:0;transition:background 0.2s,border-color 0.2s;';
+    btnNum.innerHTML = '<i class="fa-solid fa-store" style="font-size:1rem;color:#ff9500;flex-shrink:0;"></i>'
+      + '<span style="color:#fff;font-size:0.85rem;font-weight:700;">Numérique</span>';
+    btnNum.addEventListener('mouseenter', function(){ this.style.background='linear-gradient(135deg,rgba(255,149,0,0.28),rgba(230,92,0,0.2))'; this.style.borderColor='rgba(255,149,0,0.8)'; });
+    btnNum.addEventListener('mouseleave', function(){ this.style.background='linear-gradient(135deg,rgba(255,149,0,0.15),rgba(230,92,0,0.1))'; this.style.borderColor='rgba(255,149,0,0.45)'; });
 
-    // Ajouter Boutique si absent du nav
-    var ul = nav.querySelector('ul');
-    if (ul && !ul.querySelector('a[href="boutique.html"]')) {
-      var liB = document.createElement('li');
-      var aB  = document.createElement('a');
-      aB.href = 'boutique.html';
-      aB.textContent = 'Boutique';
-      liB.appendChild(aB);
-      ul.appendChild(liB);
+    var ulEl = nav.querySelector('ul');
+    if (ulEl) {
+      nav.insertBefore(badge, ulEl);
     }
+
     // Coffre des Gains masqué — page secrète en développement
 
     // Renommer + icônes + sous-menus
@@ -691,6 +746,85 @@ if ('serviceWorker' in navigator) {
         });
       }
     });
+
+    // ── Numérique sous Paramètres ──
+    var paramLi = nav.querySelector('ul li a[href="parametres.html"]');
+    if (paramLi) {
+      var liNum = document.createElement('li');
+      btnNum.style.cssText = 'display:flex;align-items:center;gap:11px;color:#ff9500;text-decoration:none;padding:10px 12px;font-size:0.85rem;border-radius:8px;background:linear-gradient(135deg,rgba(255,149,0,0.12),rgba(230,92,0,0.07));border:1px solid rgba(255,149,0,0.35);margin:2px 0;transition:all 0.2s;white-space:nowrap;overflow:hidden;';
+      liNum.appendChild(btnNum);
+      paramLi.closest('li').insertAdjacentElement('afterend', liNum);
+    }
+
+    // ── Outils (pdf-societe.html) → juste après Conférences (planning-webinaire.html) ──
+    var outilsLi   = nav.querySelector('ul li a[href="pdf-societe.html"]');
+    var confLi     = nav.querySelector('ul li a[href="planning-webinaire.html"]');
+    if (outilsLi && confLi) {
+      confLi.closest('li').insertAdjacentElement('afterend', outilsLi.closest('li'));
+    }
+
+    // ── Injecter ArbCore et Arthena dans le nav si absents ──
+    var ulNav = nav.querySelector('ul');
+    function injectNavItem(mainHref, mainLabel, mainIcon, subs, insertAfterHref) {
+      if (nav.querySelector('ul li a[href="' + mainHref + '"]')) return; // déjà présent
+      var li = document.createElement('li');
+      li.classList.add('nav-has-sub');
+      var a = document.createElement('a');
+      a.href = mainHref;
+      a.innerHTML = '<i class="fa-solid ' + mainIcon + '"></i>' + mainLabel + '<span class="nav-arrow">›</span>';
+      var subUl = document.createElement('ul');
+      subUl.className = 'nav-sub';
+      subs.forEach(function(sub) {
+        var subLi = document.createElement('li');
+        var subA = document.createElement('a');
+        subA.href = sub.href;
+        subA.innerHTML = '<i class="fa-solid ' + sub.icon + '"></i> ' + sub.label;
+        subLi.appendChild(subA);
+        subUl.appendChild(subLi);
+      });
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        li.classList.toggle('open');
+        subUl.classList.toggle('open');
+      });
+      li.appendChild(a);
+      li.appendChild(subUl);
+      var anchor = nav.querySelector('ul li a[href="' + insertAfterHref + '"]');
+      if (anchor) {
+        anchor.closest('li').insertAdjacentElement('afterend', li);
+      } else {
+        ulNav.appendChild(li);
+      }
+    }
+
+    injectNavItem('arbcore.html', 'ArbCore', 'fa-chart-line', [
+      { href: 'arbcore.html',         label: 'ArbCore',           icon: 'fa-chart-line' },
+      { href: 'pdf-arbcore.html',     label: 'Documentation PDF', icon: 'fa-file-pdf' },
+      { href: 'videos-arbcore.html',  label: 'Vidéo',             icon: 'fa-video' },
+    ], 'investissements.html');
+
+    injectNavItem('arthena.html', 'Artena', 'fa-gem', [
+      { href: 'arthena.html',         label: 'Artena',        icon: 'fa-gem' },
+      { href: 'pdf-arthena.html',     label: 'Documents PDF', icon: 'fa-file-pdf' },
+      { href: 'videos-arthena.html',  label: 'Vidéos',        icon: 'fa-video' },
+    ], 'arbcore.html');
+
+
+    // ── Bloc Annonce dans la sidebar ──
+    var annonceBlock = document.createElement('div');
+    annonceBlock.id = 'sidebar-annonce';
+    annonceBlock.style.cssText = 'margin:10px 10px 4px;border-radius:12px;padding:10px 12px;background:linear-gradient(145deg,rgba(18,6,26,0.95),rgba(40,8,8,0.9));border:1px solid rgba(255,50,50,0.55);text-align:center;flex-shrink:0;animation:sideAnnBlink 2s ease-in-out infinite;';
+    annonceBlock.innerHTML = '<style>@keyframes sideAnnBlink{0%,100%{box-shadow:0 0 10px rgba(255,40,40,0.3),0 2px 14px rgba(0,0,0,0.5);border-color:rgba(255,50,50,0.55);}50%{box-shadow:0 0 22px rgba(255,40,40,0.7),0 2px 14px rgba(0,0,0,0.5);border-color:rgba(255,80,80,0.95);}}</style>'
+      + '<div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:5px;">'
+      +   '<div style="width:7px;height:7px;border-radius:50%;background:#ff3333;box-shadow:0 0 7px #ff3333;animation:annonceDotBlink 1s ease-in-out infinite;flex-shrink:0;"></div>'
+      +   '<span style="font-size:0.58rem;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,100,100,0.9);">Annonce</span>'
+      + '</div>'
+      + '<div style="font-size:1.2rem;margin-bottom:4px;">📣</div>'
+      + '<div style="font-size:0.75rem;font-weight:700;color:#fff;line-height:1.3;margin-bottom:3px;">Une annonce arrive bientôt</div>'
+      + '<div style="font-size:0.62rem;color:rgba(200,180,180,0.7);line-height:1.4;margin-bottom:7px;">Restez connectés pour ne rien manquer</div>'
+      + '<div style="font-size:0.58rem;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;background:rgba(255,40,40,0.18);border:1px solid rgba(255,60,60,0.5);color:#ff6666;border-radius:20px;padding:3px 8px;display:inline-block;animation:annonceDotBlink 1s ease-in-out infinite;">BIENTÔT</div>';
+    var ulEl2 = nav.querySelector('ul');
+    if (ulEl2) nav.insertBefore(annonceBlock, ulEl2);
   });
 
 })();
