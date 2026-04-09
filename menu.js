@@ -712,16 +712,27 @@ if ('serviceWorker' in navigator) {
     // ── Bloc Annonce dans la sidebar ──
     var annonceBlock = document.createElement('div');
     annonceBlock.id = 'sidebar-annonce';
-    annonceBlock.style.cssText = 'margin:10px 10px 4px;border-radius:12px;padding:10px 12px;background:linear-gradient(145deg,rgba(18,6,26,0.95),rgba(40,8,8,0.9));border:1px solid rgba(255,50,50,0.55);text-align:center;flex-shrink:0;animation:sideAnnBlink 2s ease-in-out infinite;';
-    annonceBlock.innerHTML = '<style>@keyframes sideAnnBlink{0%,100%{box-shadow:0 0 10px rgba(255,40,40,0.3),0 2px 14px rgba(0,0,0,0.5);border-color:rgba(255,50,50,0.55);}50%{box-shadow:0 0 22px rgba(255,40,40,0.7),0 2px 14px rgba(0,0,0,0.5);border-color:rgba(255,80,80,0.95);}}</style>'
-      + '<div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:5px;">'
-      +   '<div style="width:7px;height:7px;border-radius:50%;background:#ff3333;box-shadow:0 0 7px #ff3333;animation:annonceDotBlink 1s ease-in-out infinite;flex-shrink:0;"></div>'
-      +   '<span style="font-size:0.58rem;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,100,100,0.9);">Annonce</span>'
-      + '</div>'
-      + '<div style="font-size:1.2rem;margin-bottom:4px;">📣</div>'
-      + '<div style="font-size:0.75rem;font-weight:700;color:#fff;line-height:1.3;margin-bottom:3px;">Une annonce arrive bientôt</div>'
-      + '<div style="font-size:0.62rem;color:rgba(200,180,180,0.7);line-height:1.4;margin-bottom:7px;">Restez connectés pour ne rien manquer</div>'
-      + '<div style="font-size:0.58rem;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;background:rgba(255,40,40,0.18);border:1px solid rgba(255,60,60,0.5);color:#ff6666;border-radius:20px;padding:3px 8px;display:inline-block;animation:annonceDotBlink 1s ease-in-out infinite;">BIENTÔT</div>';
+    annonceBlock.style.cssText = 'margin:10px 10px 4px;border-radius:12px;overflow:hidden;background:linear-gradient(145deg,rgba(5,10,30,0.97),rgba(10,20,50,0.95));border:1px solid rgba(0,150,255,0.5);flex-shrink:0;animation:sideAnnBlink 2.5s ease-in-out infinite;cursor:pointer;';
+    annonceBlock.innerHTML = '<style>'
+      + '@keyframes sideAnnBlink{0%,100%{box-shadow:0 0 10px rgba(0,150,255,0.25),0 2px 14px rgba(0,0,0,0.5);border-color:rgba(0,150,255,0.5);}50%{box-shadow:0 0 22px rgba(0,180,255,0.6),0 2px 14px rgba(0,0,0,0.5);border-color:rgba(0,200,255,0.9);}}'
+      + '@keyframes annonceDotBlink{0%,100%{opacity:1;}50%{opacity:0.3;}}'
+      + '</style>'
+      + '<img src="coffre-annonce.jpg" alt="Coffre-fort annonce" style="width:100%;display:block;border-radius:12px 12px 0 0;">'
+      + '<div style="padding:10px 12px 12px;">'
+      +   '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">'
+      +     '<div style="width:7px;height:7px;border-radius:50%;background:#00c8ff;box-shadow:0 0 7px #00c8ff;animation:annonceDotBlink 1s ease-in-out infinite;flex-shrink:0;"></div>'
+      +     '<span style="font-size:0.58rem;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;color:#00c8ff;">🚨 Annonce Importante</span>'
+      +   '</div>'
+      +   '<div style="font-size:0.7rem;color:#e8f4ff;line-height:1.5;margin-bottom:8px;">'
+      +     'Et si tout le monde avait enfin sa chance d\'investir ? 💭💸<br>'
+      +     '<span style="color:#ffd700;">💡 Pas besoin de gros capital</span><br>'
+      +     '<span style="color:#ffd700;">💡 Ouvert à tous 🌍</span><br>'
+      +     '<span style="color:#ffd700;">💡 Une vraie chance pour chacun 🤝</span>'
+      +   '</div>'
+      +   '<div style="font-size:0.68rem;color:#a0d8ff;line-height:1.4;margin-bottom:8px;">🔐 Un coffre-fort nouvelle génération arrive… et pourrait bien changer la donne ⚡</div>'
+      +   '<div style="font-size:0.65rem;color:rgba(255,255,255,0.6);margin-bottom:8px;">⏳ Dans les minutes, heures ou jours à venir… toutes les informations seront dévoilées 📢</div>'
+      +   '<div style="font-size:0.6rem;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;background:rgba(0,150,255,0.18);border:1px solid rgba(0,180,255,0.5);color:#00c8ff;border-radius:20px;padding:4px 10px;display:inline-block;animation:annonceDotBlink 1s ease-in-out infinite;">📲 Restez connectés 🚀</div>'
+      + '</div>';
     var ulEl2 = nav.querySelector('ul');
     if (ulEl2) nav.insertBefore(annonceBlock, ulEl2);
   });
