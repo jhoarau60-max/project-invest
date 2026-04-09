@@ -710,9 +710,14 @@ if ('serviceWorker' in navigator) {
 
 
     // ── Popup Annonce à l'ouverture ──
-    var _annVu = localStorage.getItem('annonce_vu_date');
-    var _annAujourdhui = new Date().toDateString();
-    if (_annVu !== _annAujourdhui) {
+    // Réinitialiser l'annonce à chaque nouvelle connexion Supabase
+    var _sbAnn = (typeof _sb !== 'undefined') ? _sb : null;
+    if (_sbAnn) {
+      _sbAnn.auth.onAuthStateChange(function(event) {
+        if (event === 'SIGNED_IN') sessionStorage.removeItem('annonce_vue');
+      });
+    }
+    if (!sessionStorage.getItem('annonce_vue')) {
       var annOverlay = document.createElement('div');
       annOverlay.id = 'annonce-overlay';
       annOverlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:16px;';
@@ -733,7 +738,7 @@ if ('serviceWorker' in navigator) {
       annClose.addEventListener('mouseleave', function(){ this.style.background='rgba(0,0,0,0.5)'; });
       annClose.addEventListener('click', function(){
         annOverlay.remove();
-        localStorage.setItem('annonce_vu_date', new Date().toDateString());
+        sessionStorage.setItem('annonce_vue', '1');
       });
 
       annBox.innerHTML = '<div style="width:100%;aspect-ratio:1/1;border-radius:16px 16px 0 0;overflow:hidden;"><img src="coffre-annonce.jpg" alt="Annonce" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
@@ -750,11 +755,11 @@ if ('serviceWorker' in navigator) {
 
       document.getElementById('ann-close-btn').addEventListener('click', function(){
         annOverlay.remove();
-        localStorage.setItem('annonce_vu_date', new Date().toDateString());
+        sessionStorage.setItem('annonce_vue', '1');
       });
 
       annOverlay.addEventListener('click', function(e){
-        if (e.target === annOverlay) { annOverlay.remove(); localStorage.setItem('annonce_vu_date', new Date().toDateString()); }
+        if (e.target === annOverlay) { annOverlay.remove(); sessionStorage.setItem('annonce_vue', '1'); }
       });
     }
   });
