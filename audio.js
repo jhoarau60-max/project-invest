@@ -138,27 +138,52 @@
                   rows.forEach(function(n) {
                     var date = new Date(n.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
                     var bg = n.read ? 'rgba(255,255,255,0.03)' : 'rgba(255,160,0,0.08)';
-                    var dot = n.read ? '' : '<span style="width:7px;height:7px;border-radius:50%;background:#ffa000;display:inline-block;flex-shrink:0;margin-right:6px;"></span>';
-                    html += '<div style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.06);background:' + bg + ';cursor:pointer;" data-id="' + n.id + '">'
-                      + '<div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;">' + dot + '<span style="font-size:0.62rem;color:rgba(255,160,0,0.7);">' + (n.type==='gain'?'🏆 Gain':'📢 Info') + ' — ' + date + '</span></div>'
+                    var dot = n.read ? '' : '<span class="notif-dot" style="width:7px;height:7px;border-radius:50%;background:#ffa000;display:inline-block;flex-shrink:0;margin-right:6px;"></span>';
+                    html += '<div style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.06);background:' + bg + ';position:relative;" data-id="' + n.id + '">'
+                      + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">'
+                      +   '<div style="display:flex;align-items:center;gap:4px;">' + dot + '<span style="font-size:0.62rem;color:rgba(255,160,0,0.7);">' + (n.type==='gain'?'🏆 Gain':'📢 Info') + ' — ' + date + '</span></div>'
+                      +   '<button class="notif-del" data-id="' + n.id + '" style="background:none;border:none;color:#666;font-size:1rem;cursor:pointer;padding:0 0 0 8px;line-height:1;flex-shrink:0;" title="Supprimer">&times;</button>'
+                      + '</div>'
                       + '<div style="font-size:0.75rem;color:#ddd;line-height:1.5;white-space:pre-line;">' + n.message + '</div>'
                       + '</div>';
                   });
                   content.innerHTML = html;
+
+                  function updateBadge() {
+                    sbClient.from('notifications').select('id',{count:'exact'}).eq('user_id', uid).eq('read', false)
+                      .then(function(rc) {
+                        var cnt = rc.count || 0;
+                        var badge = document.getElementById('notif-count');
+                        if (badge) { badge.textContent = cnt > 9 ? '9+' : cnt; badge.style.display = cnt > 0 ? 'flex' : 'none'; }
+                      });
+                  }
+
+                  // Boutons suppression ×
+                  content.querySelectorAll('.notif-del').forEach(function(btn) {
+                    btn.addEventListener('click', function(e) {
+                      e.stopPropagation();
+                      var nid = this.getAttribute('data-id');
+                      var row = content.querySelector('[data-id="' + nid + '"]');
+                      sbClient.from('notifications').delete().eq('id', nid).then(function() {
+                        if (row) row.remove();
+                        if (!content.querySelector('[data-id]')) {
+                          content.innerHTML = '<div style="padding:16px;color:#888;font-size:0.78rem;text-align:center;">Aucune notification</div>';
+                        }
+                        updateBadge();
+                      });
+                    });
+                  });
+
+                  // Clic sur la ligne → marquer comme lu
                   content.querySelectorAll('[data-id]').forEach(function(el) {
-                    el.addEventListener('click', function() {
+                    el.addEventListener('click', function(e) {
+                      if (e.target.classList.contains('notif-del')) return;
                       var nid = this.getAttribute('data-id');
                       sbClient.from('notifications').update({read:true}).eq('id', nid).then(function(){});
                       this.style.background = 'rgba(255,255,255,0.03)';
-                      var d = this.querySelector('span[style*="ffa000"]');
+                      var d = this.querySelector('.notif-dot');
                       if (d) d.remove();
-                      // Mettre à jour le badge
-                      sbClient.from('notifications').select('id',{count:'exact'}).eq('user_id', uid).eq('read', false)
-                        .then(function(rc) {
-                          var cnt = rc.count || 0;
-                          var badge = document.getElementById('notif-count');
-                          if (badge) { badge.textContent = cnt > 9 ? '9+' : cnt; badge.style.display = cnt > 0 ? 'flex' : 'none'; }
-                        });
+                      updateBadge();
                     });
                   });
                 }).catch(function() { content.innerHTML = '<div style="padding:12px;color:#f66;font-size:0.78rem;text-align:center;">Erreur de chargement</div>'; });
