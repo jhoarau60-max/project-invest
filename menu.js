@@ -742,11 +742,14 @@ if ('serviceWorker' in navigator) {
       });
 
       annBox.innerHTML = '<div style="width:100%;aspect-ratio:1/1;border-radius:16px 16px 0 0;overflow:hidden;"><img src="coffre-annonce.jpg" alt="Annonce" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
-        + '<div style="background:linear-gradient(160deg,#050a1e,#0a1432);border:1px solid rgba(0,180,255,0.4);border-top:none;border-radius:0 0 16px 16px;padding:14px 16px 16px;">'
-        +   '<div style="font-size:0.8rem;color:#ffd700;line-height:1.7;margin-bottom:8px;">💡 Pas besoin de gros capital pour commencer<br>💡 Une opportunité ouverte à tous 🌍<br>💡 Un système pensé pour donner une vraie chance à chacun 🤝</div>'
-        +   '<div style="font-size:0.75rem;color:#a0d8ff;line-height:1.5;margin-bottom:8px;">🔐 Un coffre-fort nouvelle génération arrive… et pourrait bien changer la donne ⚡</div>'
-        +   '<div style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin-bottom:12px;">⏳ Toutes les informations seront dévoilées très bientôt 📢</div>'
-        +   '<button id="ann-close-btn" style="width:100%;padding:10px;border-radius:10px;background:linear-gradient(135deg,#0080ff,#00c8ff);border:none;color:#fff;font-weight:900;font-size:0.85rem;cursor:pointer;">📲 Compris — Restez connectés 🚀</button>'
+        + '<div style="background:linear-gradient(160deg,#050a1e,#0a1432);border:1px solid rgba(0,180,255,0.4);border-top:none;border-radius:0 0 16px 16px;padding:14px 16px 16px;max-height:45vh;overflow-y:auto;">'
+        +   '<div style="font-size:0.82rem;color:#e8f4ff;line-height:1.6;margin-bottom:8px;">🚨 <strong>ANNONCE IMPORTANTE</strong> 🚨</div>'
+        +   '<div style="font-size:0.78rem;color:#e8f4ff;line-height:1.6;margin-bottom:8px;">Et si tout le monde avait enfin sa chance d\'investir ? 💭💸<br>Très bientôt, découvrez un nouvel outil basé sur des systèmes d\'attraction 🎯 conçu pour vous permettre de gagner des bons d\'investissement 🎁💰… même avec peu de moyens.</div>'
+        +   '<div style="font-size:0.78rem;color:#ffd700;line-height:1.8;margin-bottom:8px;">💡 Pas besoin de gros capital pour commencer<br>💡 Une opportunité ouverte à tous 🌍<br>💡 Un système pensé pour donner une vraie chance à chacun 🤝</div>'
+        +   '<div style="font-size:0.78rem;color:#a0d8ff;line-height:1.5;margin-bottom:8px;">🔐 Un coffre-fort nouvelle génération arrive… et pourrait bien changer la donne ⚡</div>'
+        +   '<div style="font-size:0.75rem;color:rgba(255,255,255,0.75);line-height:1.6;margin-bottom:8px;">⏳ Dans les minutes, heures ou jours à venir… toutes les informations sur son fonctionnement et son utilisation seront dévoilées 📢</div>'
+        +   '<div style="font-size:0.75rem;color:#e8f4ff;line-height:1.7;margin-bottom:8px;">🔥 Préparez-vous à découvrir une nouvelle façon d\'investir<br>👉 plus accessible<br>👉 plus intelligente<br>👉 et surtout… faite pour vous 💎</div>'
+        +   '<button id="ann-close-btn" style="width:100%;padding:10px;border-radius:10px;background:linear-gradient(135deg,#0080ff,#00c8ff);border:none;color:#fff;font-weight:900;font-size:0.85rem;cursor:pointer;margin-top:4px;">📲 Restez connectés… votre opportunité arrive 🚀</button>'
         + '</div>';
 
       annBox.insertBefore(annClose, annBox.firstChild);

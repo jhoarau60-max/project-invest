@@ -385,6 +385,10 @@
 </script>
 
 <script>
+  // Réinitialiser la popup annonce à chaque visite de la page de connexion
+  sessionStorage.removeItem('annonce_vue');
+</script>
+<script>
   const _sb = window.supabase.createClient(
     'https://cvggxktybzbrtskcwlxp.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Z2d4a3R5YnpicnRza2N3bHhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyODM2MjcsImV4cCI6MjA4OTg1OTYyN30.cfHsAvmgcXYvedCz1fZCHlxOApupKCxnt8t9e8KzNBs'
