@@ -709,32 +709,56 @@ if ('serviceWorker' in navigator) {
     ], 'arbcore.html');
 
 
-    // ── Bloc Annonce dans la sidebar ──
-    var annonceBlock = document.createElement('div');
-    annonceBlock.id = 'sidebar-annonce';
-    annonceBlock.style.cssText = 'margin:10px 10px 4px;border-radius:12px;overflow:hidden;background:linear-gradient(145deg,rgba(5,10,30,0.97),rgba(10,20,50,0.95));border:1px solid rgba(0,150,255,0.5);flex-shrink:0;animation:sideAnnBlink 2.5s ease-in-out infinite;cursor:pointer;';
-    annonceBlock.innerHTML = '<style>'
-      + '@keyframes sideAnnBlink{0%,100%{box-shadow:0 0 10px rgba(0,150,255,0.25),0 2px 14px rgba(0,0,0,0.5);border-color:rgba(0,150,255,0.5);}50%{box-shadow:0 0 22px rgba(0,180,255,0.6),0 2px 14px rgba(0,0,0,0.5);border-color:rgba(0,200,255,0.9);}}'
-      + '@keyframes annonceDotBlink{0%,100%{opacity:1;}50%{opacity:0.3;}}'
-      + '</style>'
-      + '<img src="coffre-annonce.jpg" alt="Coffre-fort annonce" style="width:100%;display:block;border-radius:12px 12px 0 0;">'
-      + '<div style="padding:10px 12px 12px;">'
-      +   '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">'
-      +     '<div style="width:7px;height:7px;border-radius:50%;background:#00c8ff;box-shadow:0 0 7px #00c8ff;animation:annonceDotBlink 1s ease-in-out infinite;flex-shrink:0;"></div>'
-      +     '<span style="font-size:0.58rem;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;color:#00c8ff;">🚨 Annonce Importante</span>'
-      +   '</div>'
-      +   '<div style="font-size:0.7rem;color:#e8f4ff;line-height:1.5;margin-bottom:8px;">'
-      +     'Et si tout le monde avait enfin sa chance d\'investir ? 💭💸<br>'
-      +     '<span style="color:#ffd700;">💡 Pas besoin de gros capital</span><br>'
-      +     '<span style="color:#ffd700;">💡 Ouvert à tous 🌍</span><br>'
-      +     '<span style="color:#ffd700;">💡 Une vraie chance pour chacun 🤝</span>'
-      +   '</div>'
-      +   '<div style="font-size:0.68rem;color:#a0d8ff;line-height:1.4;margin-bottom:8px;">🔐 Un coffre-fort nouvelle génération arrive… et pourrait bien changer la donne ⚡</div>'
-      +   '<div style="font-size:0.65rem;color:rgba(255,255,255,0.6);margin-bottom:8px;">⏳ Dans les minutes, heures ou jours à venir… toutes les informations seront dévoilées 📢</div>'
-      +   '<div style="font-size:0.6rem;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;background:rgba(0,150,255,0.18);border:1px solid rgba(0,180,255,0.5);color:#00c8ff;border-radius:20px;padding:4px 10px;display:inline-block;animation:annonceDotBlink 1s ease-in-out infinite;">📲 Restez connectés 🚀</div>'
-      + '</div>';
-    var ulEl2 = nav.querySelector('ul');
-    if (ulEl2) nav.insertBefore(annonceBlock, ulEl2);
+    // ── Popup Annonce à l'ouverture ──
+    if (!sessionStorage.getItem('annonce_fermee')) {
+      var annOverlay = document.createElement('div');
+      annOverlay.id = 'annonce-overlay';
+      annOverlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:16px;';
+
+      var annBox = document.createElement('div');
+      annBox.style.cssText = 'position:relative;max-width:420px;width:100%;border-radius:16px;overflow:hidden;background:linear-gradient(160deg,#050a1e,#0a1432);border:1px solid rgba(0,180,255,0.5);box-shadow:0 0 40px rgba(0,150,255,0.3),0 20px 60px rgba(0,0,0,0.7);animation:annPopIn 0.4s cubic-bezier(0.34,1.56,0.64,1);';
+
+      var annStyle = document.createElement('style');
+      annStyle.textContent = '@keyframes annPopIn{from{opacity:0;transform:scale(0.85);}to{opacity:1;transform:scale(1);}}'
+        + '@keyframes annDotBlink{0%,100%{opacity:1;}50%{opacity:0.2;}}';
+      document.head.appendChild(annStyle);
+
+      // Bouton fermer
+      var annClose = document.createElement('button');
+      annClose.innerHTML = '&times;';
+      annClose.style.cssText = 'position:absolute;top:10px;right:12px;z-index:10;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.3);border-radius:50%;color:#fff;font-size:1.3rem;line-height:1;width:32px;height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;';
+      annClose.addEventListener('mouseenter', function(){ this.style.background='rgba(255,50,50,0.6)'; });
+      annClose.addEventListener('mouseleave', function(){ this.style.background='rgba(0,0,0,0.5)'; });
+      annClose.addEventListener('click', function(){
+        annOverlay.remove();
+        sessionStorage.setItem('annonce_fermee', '1');
+      });
+
+      annBox.innerHTML = '<img src="coffre-annonce.jpg" alt="Annonce" style="width:100%;display:block;">'
+        + '<div style="padding:16px 18px 20px;">'
+        +   '<div style="display:flex;align-items:center;gap:7px;margin-bottom:10px;">'
+        +     '<div style="width:8px;height:8px;border-radius:50%;background:#00c8ff;box-shadow:0 0 8px #00c8ff;animation:annDotBlink 1s infinite;flex-shrink:0;"></div>'
+        +     '<span style="font-size:0.7rem;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;color:#00c8ff;">🚨 Annonce Importante</span>'
+        +   '</div>'
+        +   '<div style="font-size:0.82rem;color:#e8f4ff;line-height:1.6;margin-bottom:10px;">Et si tout le monde avait enfin sa chance d\'investir ? 💭💸</div>'
+        +   '<div style="font-size:0.78rem;color:#ffd700;line-height:1.7;margin-bottom:10px;">💡 Pas besoin de gros capital pour commencer<br>💡 Une opportunité ouverte à tous 🌍<br>💡 Un système pensé pour donner une vraie chance à chacun 🤝</div>'
+        +   '<div style="font-size:0.78rem;color:#a0d8ff;line-height:1.5;margin-bottom:10px;">🔐 Un coffre-fort nouvelle génération arrive… et pourrait bien changer la donne ⚡</div>'
+        +   '<div style="font-size:0.75rem;color:rgba(255,255,255,0.65);line-height:1.5;margin-bottom:14px;">⏳ Dans les minutes, heures ou jours à venir… toutes les informations sur son fonctionnement seront dévoilées 📢</div>'
+        +   '<button id="ann-close-btn" style="width:100%;padding:10px;border-radius:10px;background:linear-gradient(135deg,#0080ff,#00c8ff);border:none;color:#fff;font-weight:900;font-size:0.85rem;cursor:pointer;letter-spacing:0.05em;">📲 Compris — Restez connectés 🚀</button>'
+        + '</div>';
+
+      annBox.insertBefore(annClose, annBox.firstChild);
+      annOverlay.appendChild(annBox);
+      document.body.appendChild(annOverlay);
+
+      document.getElementById('ann-close-btn').addEventListener('click', function(){
+        annOverlay.remove();
+        sessionStorage.setItem('annonce_fermee', '1');
+      });
+      annOverlay.addEventListener('click', function(e){
+        if (e.target === annOverlay) { annOverlay.remove(); sessionStorage.setItem('annonce_fermee', '1'); }
+      });
+    }
   });
 
 })();
