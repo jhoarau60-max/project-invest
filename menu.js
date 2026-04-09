@@ -716,7 +716,7 @@ if ('serviceWorker' in navigator) {
       annOverlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:16px;';
 
       var annBox = document.createElement('div');
-      annBox.style.cssText = 'position:relative;max-width:400px;width:100%;border-radius:16px;overflow:visible;box-shadow:0 0 50px rgba(0,150,255,0.4),0 20px 60px rgba(0,0,0,0.8);animation:annPopIn 0.4s cubic-bezier(0.34,1.56,0.64,1);';
+      annBox.style.cssText = 'position:relative;width:min(90vw,90vh);max-width:500px;border-radius:16px;overflow:visible;box-shadow:0 0 50px rgba(0,150,255,0.4),0 20px 60px rgba(0,0,0,0.8);animation:annPopIn 0.4s cubic-bezier(0.34,1.56,0.64,1);';
 
       var annStyle = document.createElement('style');
       annStyle.textContent = '@keyframes annPopIn{from{opacity:0;transform:scale(0.85);}to{opacity:1;transform:scale(1);}}'
@@ -734,7 +734,7 @@ if ('serviceWorker' in navigator) {
         sessionStorage.setItem('annonce_fermee', '1');
       });
 
-      annBox.innerHTML = '<img src="coffre-annonce.jpg" alt="Annonce" style="width:100%;display:block;border-radius:16px;">'
+      annBox.innerHTML = '<div style="width:100%;aspect-ratio:1/1;border-radius:16px;overflow:hidden;"><img src="coffre-annonce.jpg" alt="Annonce" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
         + '<button id="ann-close-btn" style="position:absolute;bottom:-48px;left:50%;transform:translateX(-50%);padding:10px 28px;border-radius:20px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.35);color:#fff;font-weight:700;font-size:0.85rem;cursor:pointer;white-space:nowrap;">✕ Fermer</button>';
 
       annBox.insertBefore(annClose, annBox.firstChild);
