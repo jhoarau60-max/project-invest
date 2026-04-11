@@ -44,6 +44,7 @@ export default async function handler(req, res) {
     // ── BEP20 : BSCScan ──
     // USDT sur BSC = 18 décimales
     const rawExpectedBep = BigInt(Math.round(amtExpected * 1e18)).toString();
+    const bepErrors = [];
 
     try {
       const bscKey = process.env.BSCSCAN_API_KEY || '';
@@ -51,17 +52,17 @@ export default async function handler(req, res) {
         `https://api.bscscan.com/api?module=account&action=tokentx&contractaddress=${USDT_BEP20}&address=${WALLET_BEP20}&sort=desc&apikey=${bscKey}`,
         { headers: { 'Accept': 'application/json' }, signal: AbortSignal.timeout(8000) }
       );
+      if (!bscRes.ok) throw new Error('HTTP ' + bscRes.status);
       const bscData = await bscRes.json();
-      const txs = bscData.result || [];
-      // Filtrer les TX entrantes uniquement
+      if (bscData.status === '0') throw new Error('BSCScan: ' + (bscData.message || bscData.result));
+      const txs = Array.isArray(bscData.result) ? bscData.result : [];
       const incoming = txs.filter(tx => tx.to && tx.to.toLowerCase() === WALLET_BEP20.toLowerCase());
       transfers.push(...incoming);
-    } catch (_) { /* BSCScan indisponible */ }
+    } catch (e) { bepErrors.push('BSCScan:' + e.message); }
 
     function matchBep20(tx) {
       const val = tx.value || '0';
       if (val === rawExpectedBep) return true;
-      // Tolérance ±0.01 USDT
       try {
         const diff = Math.abs(Number(BigInt(val)) / 1e18 - amtExpected);
         return diff < 0.01;
@@ -72,7 +73,7 @@ export default async function handler(req, res) {
 
     if (!found) {
       const sample = transfers.slice(0, 3).map(tx => ({ value: tx.value, to: tx.to, tokenSymbol: tx.tokenSymbol }));
-      return res.json({ found: false, debug: { rawExpectedBep, amtExpected, total: transfers.length, sample } });
+      return res.json({ found: false, debug: { rawExpectedBep, amtExpected, total: transfers.length, sample, errors: bepErrors } });
     }
 
     await confirmerEtDebloquer(user_id, expected_amount, tours, sbHeaders);
