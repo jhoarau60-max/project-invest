@@ -54,7 +54,8 @@ export default async function handler(req, res) {
       );
       if (!bscRes.ok) throw new Error('HTTP ' + bscRes.status);
       const bscData = await bscRes.json();
-      if (bscData.status === '0') throw new Error('BSCScan: ' + (bscData.message || bscData.result));
+      // status '0' avec result tableau vide = aucune tx (normal), pas une erreur
+      if (bscData.status === '0' && !Array.isArray(bscData.result)) throw new Error('BSCScan: ' + (bscData.message || bscData.result));
       const txs = Array.isArray(bscData.result) ? bscData.result : [];
       const incoming = txs.filter(tx => tx.to && tx.to.toLowerCase() === WALLET_BEP20.toLowerCase());
       transfers.push(...incoming);
