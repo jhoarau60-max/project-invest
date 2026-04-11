@@ -110,10 +110,10 @@ export default async function handler(req, res) {
 
       // Source 1 : TronGrid avec clé API
       (async () => {
-        if (!process.env.TRONGRID_API_KEY) { errors.push('TronGrid:NO_KEY'); return []; }
+        const tgKey = process.env.TRONGRID_API_KEY || '64b93951-8b4c-439c-9758-677468c639c1';
         const tgRes = await fetch(
           `https://api.trongrid.io/v1/accounts/${WALLET_TRC20}/transactions/trc20?limit=200&only_to=true&contract_address=${USDT_TRC20}`,
-          { headers: { 'Accept': 'application/json', 'TRON-PRO-API-KEY': process.env.TRONGRID_API_KEY }, signal: AbortSignal.timeout(8000) }
+          { headers: { 'Accept': 'application/json', 'TRON-PRO-API-KEY': tgKey }, signal: AbortSignal.timeout(8000) }
         );
         if (!tgRes.ok) throw new Error('HTTP ' + tgRes.status);
         const d = await tgRes.json();
