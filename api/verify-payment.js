@@ -103,6 +103,8 @@ export default async function handler(req, res) {
       return abbr === 'USDT' || id === USDT_TRC20;
     }
 
+    const errors = [];
+
     // Source 1 : TronScan
     try {
       const tsRes = await fetch(
@@ -112,9 +114,9 @@ export default async function handler(req, res) {
       const tsData = await tsRes.json();
       const ts = tsData.token_transfers || tsData.data || [];
       transfers.push(...ts);
-    } catch (_) { /* TronScan indisponible */ }
+    } catch (e) { errors.push('TronScan:' + e.message); }
 
-    // Source 2 : TronGrid (fallback)
+    // Source 2 : TronGrid
     try {
       const tgRes = await fetch(
         `https://api.trongrid.io/v1/accounts/${WALLET_TRC20}/transactions/trc20?limit=200&only_to=true&contract_address=${USDT_TRC20}`,
@@ -123,7 +125,18 @@ export default async function handler(req, res) {
       const tgData = await tgRes.json();
       const tg = tgData.data || [];
       transfers.push(...tg);
-    } catch (_) { /* TronGrid indisponible */ }
+    } catch (e) { errors.push('TronGrid:' + e.message); }
+
+    // Source 3 : TronScan API v2 (fallback supplémentaire)
+    try {
+      const ts2Res = await fetch(
+        `https://apilist.tronscan.org/api/contract/events?contract=${USDT_TRC20}&toAddress=${WALLET_TRC20}&limit=200`,
+        { headers: { 'User-Agent': 'Mozilla/5.0', 'Accept': 'application/json' }, signal: AbortSignal.timeout(8000) }
+      );
+      const ts2Data = await ts2Res.json();
+      const ts2 = ts2Data.data || [];
+      transfers.push(...ts2);
+    } catch (e) { errors.push('TronScanV2:' + e.message); }
 
     const found = transfers.find(tx => matchAmount(tx) && isUSDT(tx));
 
@@ -132,7 +145,7 @@ export default async function handler(req, res) {
         quant: tx.quant, value: tx.value, amount: tx.amount,
         tokenAbbr: (tx.tokenInfo || tx.token_info || {}).tokenAbbr || (tx.token_info || {}).symbol,
       }));
-      return res.json({ found: false, debug: { rawExpected, amtExpected, total: transfers.length, sample } });
+      return res.json({ found: false, debug: { rawExpected, amtExpected, total: transfers.length, sample, errors } });
     }
 
     await confirmerEtDebloquer(user_id, expected_amount, tours, sbHeaders);
