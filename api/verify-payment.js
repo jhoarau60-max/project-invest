@@ -105,65 +105,46 @@ export default async function handler(req, res) {
 
     const errors = [];
 
-    const errors = [];
-    let tsKeys = [];
+    // Toutes les sources en PARALLÈLE pour aller vite
+    const [r1, r2] = await Promise.allSettled([
 
-    // Source 1 : TronGrid avec clé (principale)
-    if (process.env.TRONGRID_API_KEY) {
-      try {
+      // Source 1 : TronGrid avec clé API
+      (async () => {
+        if (!process.env.TRONGRID_API_KEY) { errors.push('TronGrid:NO_KEY'); return []; }
         const tgRes = await fetch(
           `https://api.trongrid.io/v1/accounts/${WALLET_TRC20}/transactions/trc20?limit=200&only_to=true&contract_address=${USDT_TRC20}`,
-          { headers: { 'Accept': 'application/json', 'TRON-PRO-API-KEY': process.env.TRONGRID_API_KEY }, signal: AbortSignal.timeout(10000) }
+          { headers: { 'Accept': 'application/json', 'TRON-PRO-API-KEY': process.env.TRONGRID_API_KEY }, signal: AbortSignal.timeout(8000) }
         );
         if (!tgRes.ok) throw new Error('HTTP ' + tgRes.status);
-        const tgData = await tgRes.json();
-        const tg = tgData.data || [];
-        transfers.push(...tg);
-      } catch (e) { errors.push('TronGrid:' + e.message); }
-    } else {
-      errors.push('TronGrid:NO_KEY');
-    }
+        const d = await tgRes.json();
+        return d.data || [];
+      })(),
 
-    // Source 2 : TronScan avec headers navigateur
-    try {
-      const tsRes = await fetch(
-        `https://apilist.tronscan.org/api/token_trc20/transfers?toAddress=${WALLET_TRC20}&limit=200&start=0`,
-        {
-          headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            'Accept': 'application/json, text/plain, */*',
-            'Accept-Language': 'fr-FR,fr;q=0.9',
-            'Referer': 'https://tronscan.org/',
-            'Origin': 'https://tronscan.org'
-          },
-          signal: AbortSignal.timeout(10000)
-        }
-      );
-      if (!tsRes.ok) throw new Error('HTTP ' + tsRes.status);
-      const tsData = await tsRes.json();
-      tsKeys = Object.keys(tsData);
-      const ts = tsData.token_transfers || tsData.data || tsData.transferList || [];
-      transfers.push(...ts);
-    } catch (e) { errors.push('TronScan:' + e.message); }
+      // Source 2 : TronScan avec headers navigateur
+      (async () => {
+        const tsRes = await fetch(
+          `https://apilist.tronscan.org/api/token_trc20/transfers?toAddress=${WALLET_TRC20}&limit=200&start=0`,
+          {
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+              'Accept': 'application/json, text/plain, */*',
+              'Referer': 'https://tronscan.org/',
+              'Origin': 'https://tronscan.org'
+            },
+            signal: AbortSignal.timeout(8000)
+          }
+        );
+        if (!tsRes.ok) throw new Error('HTTP ' + tsRes.status);
+        const d = await tsRes.json();
+        return d.token_transfers || d.data || d.transferList || [];
+      })(),
+    ]);
 
-    // Source 3 : TronScan public API (autre endpoint)
-    try {
-      const ts2Res = await fetch(
-        `https://apilist.tronscan.org/api/transaction?address=${WALLET_TRC20}&direction=from&limit=200&start=0&tokenName=USDT`,
-        {
-          headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-            'Accept': 'application/json',
-            'Referer': 'https://tronscan.org/'
-          },
-          signal: AbortSignal.timeout(10000)
-        }
-      );
-      if (!ts2Res.ok) throw new Error('HTTP ' + ts2Res.status);
-      const ts2Data = await ts2Res.json();
-      const ts2 = ts2Data.data || ts2Data.token_transfers || [];
-      transfers.push(...ts2);
-    } catch (e) { errors.push('TronScanTx:' + e.message); }
+    if (r1.status === 'fulfilled') transfers.push(...r1.value);
+    else errors.push('TronGrid:' + r1.reason.message);
+
+    if (r2.status === 'fulfilled') transfers.push(...r2.value);
+    else errors.push('TronScan:' + r2.reason.message);
 
     const found = transfers.find(tx => matchAmount(tx) && isUSDT(tx));
 
@@ -172,7 +153,7 @@ export default async function handler(req, res) {
         quant: tx.quant, value: tx.value, amount: tx.amount,
         tokenAbbr: (tx.tokenInfo || tx.token_info || {}).tokenAbbr || (tx.token_info || {}).symbol,
       }));
-      return res.json({ found: false, debug: { rawExpected, amtExpected, total: transfers.length, sample, errors, tsKeys } });
+      return res.json({ found: false, debug: { rawExpected, amtExpected, total: transfers.length, sample, errors } });
     }
 
     await confirmerEtDebloquer(user_id, expected_amount, tours, sbHeaders);
