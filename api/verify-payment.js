@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   const isBep20 = network === 'bep20';
 
   const WALLET_TRC20  = 'TWqqfUwkWE5W8ZPdQ67EHkZghZXYhEpPc4';
-  const WALLET_BEP20  = '0xd74aa3c2539d2b22222262bbb8c1d667eee29021';
+  const WALLET_BEP20  = '0x362b7c69e0a202513355c6a870c99a17df43101a';
   const USDT_TRC20    = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t';
   const USDT_BEP20    = '0x55d398326f99059fF775485246999027B3197955';
 
