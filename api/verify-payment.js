@@ -106,6 +106,7 @@ export default async function handler(req, res) {
     const errors = [];
 
     // Source 1 : TronScan
+    let tsKeys = [];
     try {
       const tsRes = await fetch(
         `https://apilist.tronscan.org/api/token_trc20/transfers?toAddress=${WALLET_TRC20}&limit=200&start=0`,
@@ -113,7 +114,8 @@ export default async function handler(req, res) {
       );
       if (!tsRes.ok) throw new Error('HTTP ' + tsRes.status);
       const tsData = await tsRes.json();
-      const ts = tsData.token_transfers || tsData.data || [];
+      tsKeys = Object.keys(tsData);
+      const ts = tsData.token_transfers || tsData.data || tsData.transferList || [];
       transfers.push(...ts);
     } catch (e) { errors.push('TronScan:' + e.message); }
 
@@ -160,7 +162,7 @@ export default async function handler(req, res) {
         quant: tx.quant, value: tx.value, amount: tx.amount,
         tokenAbbr: (tx.tokenInfo || tx.token_info || {}).tokenAbbr || (tx.token_info || {}).symbol,
       }));
-      return res.json({ found: false, debug: { rawExpected, amtExpected, total: transfers.length, sample, errors } });
+      return res.json({ found: false, debug: { rawExpected, amtExpected, total: transfers.length, sample, errors, tsKeys } });
     }
 
     await confirmerEtDebloquer(user_id, expected_amount, tours, sbHeaders);
