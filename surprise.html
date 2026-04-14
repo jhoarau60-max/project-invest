@@ -6,6 +6,14 @@
   <title>Project inves'T — Surprise</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+  const _sb = window.supabase.createClient(
+    'https://cvggxktybzbrtskcwlxp.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Z2d4a3R5YnpicnRza2N3bHhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyODM2MjcsImV4cCI6MjA4OTg1OTYyN30.cfHsAvmgcXYvedCz1fZCHlxOApupKCxnt8t9e8KzNBs'
+  );
+  </script>
+  <link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#00c8ff">
   <style>
     body { background:#050a18!important; }
 
@@ -23,27 +31,22 @@
       padding:40px 20px;
       text-align:center;
     }
-
     .surprise-label {
       font-size:0.7rem; font-weight:900; letter-spacing:0.35em;
       text-transform:uppercase; color:#ff4400;
       margin-bottom:14px;
       animation:chronoBlink 1.2s ease-in-out infinite;
     }
-
     .surprise-title {
       font-size:1.5rem; font-weight:900; color:#fff;
       line-height:1.4; margin-bottom:10px;
       max-width:480px;
     }
     .surprise-title span { color:#ffd700; }
-
     .surprise-sub {
       font-size:0.88rem; color:rgba(180,200,255,0.65);
       margin-bottom:40px; max-width:380px; line-height:1.6;
     }
-
-    /* Anneau tournant */
     .ring-outer {
       position:relative;
       width:280px; height:280px;
@@ -81,8 +84,6 @@
       font-size:0.55rem; letter-spacing:0.25em;
       color:rgba(255,120,80,0.6); text-transform:uppercase;
     }
-
-    /* État lancé */
     .launched-wrap {
       display:flex; flex-direction:column; align-items:center; gap:20px;
     }
@@ -100,16 +101,47 @@
   </style>
 </head>
 <body>
+
 <header>
   <div class="header-top">
-    <a href="home.html" class="logo">Project inves'T</a>
+    <a href="index.html" class="logo-svg">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 75" height="70" width="310">
+        <defs><filter id="glow"><feGaussianBlur stdDeviation="2.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <path d="M 51,15 A 28,28 0 1,0 51,60" fill="none" stroke="#00c8ff" stroke-width="2.5" filter="url(#glow)"/>
+        <path d="M 46,22 A 20,20 0 1,0 46,53" fill="none" stroke="#1a7fdb" stroke-width="1.2" opacity="0.6"/>
+        <line x1="51" y1="15" x2="305" y2="15" stroke="#00c8ff" stroke-width="1.8" opacity="0.9" filter="url(#glow)"/>
+        <line x1="51" y1="60" x2="305" y2="60" stroke="#1a9fff" stroke-width="1.8" opacity="0.9" filter="url(#glow)"/>
+        <text x="20" y="44" font-family="Arial Black,sans-serif" font-size="23" font-weight="900" fill="#ffffff" filter="url(#glow)">P</text>
+        <text x="57" y="47" font-family="Arial Black,sans-serif" font-size="28" font-weight="900" fill="#ffffff" letter-spacing="1">inves<tspan fill="#00c8ff" filter="url(#glow)">'T</tspan></text>
+      </svg>
+    </a>
+    <div class="social-links">
+      <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="background:#229ED9;color:#fff;border-color:#229ED9;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-telegram"></i> Telegram</a>
+      <a href="#" onclick="_sb.auth.signOut().then(()=>window.location.href='index.html')" style="background:#229ED9;color:#fff;border:1px solid #229ED9;border-radius:20px;font-weight:700;display:inline-flex;align-items:center;gap:6px;"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
+    </div>
   </div>
+  <nav>
+    <ul>
+      <li><a href="home.html">Accueil</a></li>
+      <li><a href="investissements.html">Investissements</a></li>
+      <li><a href="planning-webinaire.html">Planning webinaire 2026</a></li>
+      <li><a href="e-state-immobilier.html">E-state Immobilier Tokénisé</a></li>
+      <li><a href="arthena.html">Artena</a></li>
+      <li><a href="arbcore.html"><i class="fa-solid fa-chart-line" style="color:#c9a84c;font-size:0.85rem;"></i> ArbCore</a></li>
+      <li><a href="smart-mev-trading.html">SMART MEV Trading</a></li>
+      <li><a href="portage-salarial.html">Portage salarial</a></li>
+      <li><a href="mlm-center.html">MLM Center</a></li>
+      <li><a href="parametres.html">⚙ Paramètres</a></li>
+      <li><a href="pdf-societe.html">PDF de société</a></li>
+      <li><a href="journal.html">Journal</a></li>
+      <li><a href="bibliotheque-mlm.html">Avis Clients</a></li>
+    </ul>
+  </nav>
 </header>
-<nav id="main-nav"><ul></ul></nav>
+
 <div id="nav-overlay"></div>
 
 <div class="surprise-wrap">
-
   <div class="surprise-label">🔴 &nbsp; N O U V E A U T É &nbsp; 🔴</div>
   <h1 class="surprise-title">Une nouvelle attraction arrive sur<br><span>Project inves'T</span></h1>
   <p class="surprise-sub">Découvrez dans quelques heures une toute nouvelle façon de participer.<br>Restez connectés — ça va changer la donne.</p>
@@ -123,26 +155,22 @@
       </div>
     </div>
   </div>
-
 </div>
 
 <script src="menu.js"></script>
+<script src="translator.js"></script>
 <script>
 (function(){
   var LAUNCH = new Date('2026-04-15T20:30:00');
-
   function tick(){
     var diff = LAUNCH - new Date();
     if(diff <= 0){
-      // Ouvert — rediriger vers le coffre
       window.location.replace('roue.html');
       return;
     }
-    var h = Math.floor(diff/3600000);
-    var m = Math.floor((diff%3600000)/60000);
-    var s = Math.floor((diff%60000)/1000);
-    var el = document.getElementById('chrono-display');
-    if(el) el.textContent = String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    var h=Math.floor(diff/3600000), m=Math.floor((diff%3600000)/60000), s=Math.floor((diff%60000)/1000);
+    var el=document.getElementById('chrono-display');
+    if(el) el.textContent=String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
     setTimeout(tick,1000);
   }
   tick();
