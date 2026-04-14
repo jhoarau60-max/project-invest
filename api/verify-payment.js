@@ -84,14 +84,15 @@ export default async function handler(req, res) {
               jsonrpc: '2.0', method: 'eth_getLogs', id: 2,
               params: [{ fromBlock, toBlock: 'latest', address: USDT_BEP20, topics: [TRANSFER_TOPIC, null, walletPadded] }]
             }),
-            signal: AbortSignal.timeout(8000)
+            signal: AbortSignal.timeout(10000)
           });
           const d = await r.json();
-          if (Array.isArray(d.result) && d.result.length > 0) {
-            transfers.push(...d.result);
-            break;
+          if (d.error) { bepErrors.push('RPC_ERR:' + JSON.stringify(d.error)); continue; }
+          if (Array.isArray(d.result)) {
+            bepErrors.push('RPC_OK:' + rpc + ':' + d.result.length + 'logs');
+            if (d.result.length > 0) { transfers.push(...d.result); break; }
           }
-        } catch(e) { bepErrors.push('RPC:' + e.message); }
+        } catch(e) { bepErrors.push('RPC_EX:' + e.message); }
       }
     } else {
       bepErrors.push('RPC:impossible de récupérer le bloc');
