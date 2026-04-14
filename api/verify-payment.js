@@ -73,8 +73,8 @@ export default async function handler(req, res) {
     }
 
     if (currentBlock) {
-      // Chercher dans les 1200 derniers blocs (~1 heure sur BSC)
-      const fromBlock = '0x' + Math.max(0, currentBlock - 1200).toString(16);
+      // Chercher dans les 10000 derniers blocs (~8 heures sur BSC)
+      const fromBlock = '0x' + Math.max(0, currentBlock - 10000).toString(16);
       for (const rpc of BSC_RPCS) {
         try {
           const r = await fetch(rpc, {
