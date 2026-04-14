@@ -41,29 +41,69 @@ export default async function handler(req, res) {
   let transfers = [];
 
   if (isBep20) {
-    // ── BEP20 : BSCScan ──
-    // USDT sur BSC = 18 décimales
+    // ── BEP20 : RPC BSC direct (sans clé API) ──
+    // USDT BEP20 = 18 décimales
     const rawExpectedBep = BigInt(Math.round(amtExpected * 1e18)).toString();
     const bepErrors = [];
 
-    try {
-      const bscKey = process.env.BSCSCAN_API_KEY || '';
-      const bscRes = await fetch(
-        `https://api.bscscan.com/api?module=account&action=tokentx&contractaddress=${USDT_BEP20}&address=${WALLET_BEP20}&sort=desc&apikey=${bscKey}`,
-        { headers: { 'Accept': 'application/json' }, signal: AbortSignal.timeout(8000) }
-      );
-      if (!bscRes.ok) throw new Error('HTTP ' + bscRes.status);
-      const bscData = await bscRes.json();
-      const txs = Array.isArray(bscData.result) ? bscData.result : [];
-      const incoming = txs.filter(tx => tx.to && tx.to.toLowerCase() === WALLET_BEP20.toLowerCase());
-      transfers.push(...incoming);
-    } catch (e) { bepErrors.push('BSCScan:' + e.message); }
+    // Transfer event signature
+    const TRANSFER_TOPIC = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef';
+    // Adresse wallet paddée sur 32 bytes pour le filtre topic
+    const walletPadded = '0x000000000000000000000000' + WALLET_BEP20.slice(2).toLowerCase();
+
+    const BSC_RPCS = [
+      'https://bsc-dataseed1.binance.org/',
+      'https://bsc-dataseed2.binance.org/',
+      'https://rpc.ankr.com/bsc',
+    ];
+
+    // Récupérer le bloc actuel
+    let currentBlock = null;
+    for (const rpc of BSC_RPCS) {
+      try {
+        const r = await fetch(rpc, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ jsonrpc:'2.0', method:'eth_blockNumber', params:[], id:1 }),
+          signal: AbortSignal.timeout(5000)
+        });
+        const d = await r.json();
+        if (d.result) { currentBlock = parseInt(d.result, 16); break; }
+      } catch(_) {}
+    }
+
+    if (currentBlock) {
+      // Chercher dans les 1200 derniers blocs (~1 heure sur BSC)
+      const fromBlock = '0x' + Math.max(0, currentBlock - 1200).toString(16);
+      for (const rpc of BSC_RPCS) {
+        try {
+          const r = await fetch(rpc, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              jsonrpc: '2.0', method: 'eth_getLogs', id: 2,
+              params: [{ fromBlock, toBlock: 'latest', address: USDT_BEP20, topics: [TRANSFER_TOPIC, null, walletPadded] }]
+            }),
+            signal: AbortSignal.timeout(8000)
+          });
+          const d = await r.json();
+          if (Array.isArray(d.result) && d.result.length > 0) {
+            transfers.push(...d.result);
+            break;
+          }
+        } catch(e) { bepErrors.push('RPC:' + e.message); }
+      }
+    } else {
+      bepErrors.push('RPC:impossible de récupérer le bloc');
+    }
 
     function matchBep20(tx) {
-      const val = tx.value || '0';
-      if (val === rawExpectedBep) return true;
+      // tx.data contient le montant en hex (eth_getLogs)
+      const hexVal = tx.data || '0x0';
       try {
-        const diff = Math.abs(Number(BigInt(val)) / 1e18 - amtExpected);
+        const val = BigInt(hexVal);
+        if (val.toString() === rawExpectedBep) return true;
+        const diff = Math.abs(Number(val) / 1e18 - amtExpected);
         return diff < 0.01;
       } catch(_) { return false; }
     }
@@ -71,8 +111,8 @@ export default async function handler(req, res) {
     const found = transfers.find(tx => matchBep20(tx));
 
     if (!found) {
-      const sample = transfers.slice(0, 3).map(tx => ({ value: tx.value, to: tx.to, tokenSymbol: tx.tokenSymbol }));
-      return res.json({ found: false, debug: { rawExpectedBep, amtExpected, total: transfers.length, sample, errors: bepErrors } });
+      const sample = transfers.slice(0, 3).map(tx => ({ data: tx.data, topics: tx.topics }));
+      return res.json({ found: false, debug: { rawExpectedBep, amtExpected, total: transfers.length, sample, errors: bepErrors, currentBlock } });
     }
 
     await confirmerEtDebloquer(user_id, expected_amount, tours, sbHeaders);
