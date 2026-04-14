@@ -709,6 +709,33 @@ if ('serviceWorker' in navigator) {
     ], 'arbcore.html');
 
 
+    // ── Coffre Fort : rouge pendant chrono, jaune après lancement ──
+    (function(){
+      var LAUNCH = new Date('2026-04-15T20:30:00');
+      var launched = Date.now() >= LAUNCH.getTime();
+      var roueLi = nav.querySelector('ul li a[href="roue.html"]');
+      if(roueLi){
+        if(!launched){
+          // Bouton rouge vif SURPRISE pendant le compte à rebours
+          roueLi.style.cssText += ';color:#ff2200!important;font-weight:900;background:rgba(255,30,0,0.12);border-left:3px solid #ff2200;border-radius:8px;';
+          var icon = roueLi.querySelector('i');
+          if(icon) icon.style.color='#ff2200';
+          roueLi.childNodes.forEach(function(n){ if(n.nodeType===3 && n.textContent.trim()) n.textContent=' SURPRISE 🔴'; });
+          // Pulse rouge
+          var sty = document.createElement('style');
+          sty.textContent = 'nav a[href="roue.html"]{animation:rougePulse 1.4s ease-in-out infinite!important}'
+            +'@keyframes rougePulse{0%,100%{box-shadow:none}50%{box-shadow:0 0 16px rgba(255,30,0,0.5)}}';
+          document.head.appendChild(sty);
+        } else {
+          // Bouton jaune COFFRE FORT après lancement
+          roueLi.style.cssText += ';color:#ffd700!important;font-weight:900;';
+          var icon2 = roueLi.querySelector('i');
+          if(icon2) icon2.style.color='#ffd700';
+          roueLi.childNodes.forEach(function(n){ if(n.nodeType===3 && n.textContent.trim()) n.textContent=' Coffre Fort'; });
+        }
+      }
+    })();
+
     // ── Popup Annonce à l'ouverture ──
     // Réinitialiser l'annonce à chaque nouvelle connexion Supabase
     var _sbAnn = (typeof _sb !== 'undefined') ? _sb : null;

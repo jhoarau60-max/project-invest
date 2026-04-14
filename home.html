@@ -117,7 +117,7 @@ const _sb = window.supabase.createClient(
             <li><a href="investissements.html">Investissements</a></li>
             <li><a href="planning-webinaire.html">Planning webinaire 2026</a></li>
             <li><a href="e-state-immobilier.html">E-state Immobilier Tokénisé</a></li>
-            <li><a href="arthena.html">Arthena</a></li>
+            <li><a href="arthena.html">Artena</a></li>
             <li><a href="arbcore.html"><i class="fa-solid fa-chart-line" style="color:#c9a84c;font-size:0.85rem;"></i> ArbCore</a></li>
             <li><a href="smart-mev-trading.html">SMART MEV Trading</a></li>
             <li><a href="portage-salarial.html">Portage salarial</a></li>
@@ -129,6 +129,64 @@ const _sb = window.supabase.createClient(
         </ul>
     </nav>
 </header>
+
+<!-- CADRAN ANNONCE — FIXE HAUT GAUCHE -->
+<style>
+  @keyframes annonceCardBlink {
+    0%,100% { box-shadow: 0 0 14px rgba(255,40,40,0.35), 0 4px 24px rgba(0,0,0,0.5); border-color: rgba(255,50,50,0.55); }
+    50%      { box-shadow: 0 0 32px rgba(255,40,40,0.75), 0 4px 24px rgba(0,0,0,0.5); border-color: rgba(255,80,80,0.95); }
+  }
+  @keyframes annonceDotBlink {
+    0%,100% { opacity:1; } 50% { opacity:0.2; }
+  }
+  #cadran-annonce-home {
+    display: none !important;
+  }
+  #cadran-annonce-home .ann-top {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+  }
+  #cadran-annonce-home .ann-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #ff3333;
+    box-shadow: 0 0 8px #ff3333;
+    animation: annonceDotBlink 1s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  #cadran-annonce-home .ann-label {
+    font-size: 0.62rem; font-weight: 800; letter-spacing: 0.12em;
+    text-transform: uppercase; color: rgba(255,100,100,0.9);
+  }
+  #cadran-annonce-home .ann-icon {
+    font-size: 1.5rem; text-align: center; margin-bottom: 6px;
+  }
+  #cadran-annonce-home .ann-title {
+    font-size: 0.82rem; font-weight: 700; color: #fff;
+    text-align: center; line-height: 1.35;
+  }
+  #cadran-annonce-home .ann-sub {
+    font-size: 0.68rem; color: rgba(200,180,180,0.7);
+    text-align: center; margin-top: 6px; line-height: 1.4;
+  }
+  #cadran-annonce-home .ann-badge {
+    display: inline-block; margin-top: 10px; padding: 3px 10px;
+    border-radius: 20px; font-size: 0.62rem; font-weight: 900;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: rgba(255,40,40,0.18); border: 1px solid rgba(255,60,60,0.5);
+    color: #ff6666;
+    animation: annonceDotBlink 1s ease-in-out infinite;
+    width: 100%; text-align: center; box-sizing: border-box;
+  }
+</style>
+<div id="cadran-annonce-home">
+  <div class="ann-top">
+    <div class="ann-dot"></div>
+    <div class="ann-label">Annonce</div>
+  </div>
+  <div class="ann-icon">📣</div>
+  <div class="ann-title">Une annonce arrive bientôt</div>
+  <div class="ann-sub">Restez connectés pour ne rien manquer</div>
+  <div class="ann-badge">BIENTÔT</div>
+</div>
 
 <!-- BANNIERE ZOOM / EN DIRECT -->
 <div id="zoom-banner" style="display:none; padding:18px 20px; border-bottom:1px solid rgba(255,255,255,0.1);">
@@ -220,6 +278,116 @@ const _sb = window.supabase.createClient(
         <a href="https://www.skool.com/academie-invest-3966" target="_blank" class="btn btn-outline">Rejoindre la communauté</a>
     </div>
 </section>
+
+<!-- CHRONO NOUVELLE ATTRACTION -->
+<style>
+  #annonce-coffre { max-width:600px; margin:0 auto 20px; padding:0 20px; }
+
+  @keyframes ringRotate { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  @keyframes chronoBlink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+  @keyframes chronoPulse { 0%,100%{box-shadow:0 0 30px rgba(255,40,0,0.5)} 50%{box-shadow:0 0 70px rgba(255,40,0,0.95)} }
+
+  .chrono-outer {
+    position:relative; border-radius:26px; padding:4px;
+    background:#0a0010;
+    animation: chronoPulse 2s ease-in-out infinite;
+  }
+  .chrono-outer::before {
+    content:'';
+    position:absolute; inset:-2px; border-radius:28px;
+    background:conic-gradient(from 0deg,#ff2200,#ff6600,#ffcc00,#ff6600,#ff2200,#ff0000,#ff2200);
+    animation:ringRotate 2.5s linear infinite;
+    z-index:0;
+  }
+  .chrono-inner {
+    position:relative; z-index:1;
+    background:linear-gradient(160deg,#10001a 0%,#1a000a 100%);
+    border-radius:23px;
+    padding:28px 24px 24px;
+    text-align:center;
+  }
+  .chrono-surprise {
+    font-size:0.72rem; font-weight:900; letter-spacing:0.3em;
+    text-transform:uppercase; color:#ff4400;
+    margin-bottom:10px;
+    animation:chronoBlink 1.2s ease-in-out infinite;
+  }
+  .chrono-title {
+    font-size:1rem; font-weight:700; color:#fff;
+    line-height:1.5; margin-bottom:18px;
+  }
+  .chrono-title span { color:#ffd700; }
+  .chrono-digits {
+    font-size:3.2rem; font-weight:900; letter-spacing:0.08em;
+    color:#ff3300;
+    text-shadow:0 0 20px rgba(255,60,0,0.9), 0 0 50px rgba(255,30,0,0.5);
+    animation:chronoBlink 1s ease-in-out infinite;
+    font-variant-numeric:tabular-nums;
+    margin-bottom:10px;
+  }
+  .chrono-sub {
+    font-size:0.72rem; color:rgba(255,150,100,0.7);
+    letter-spacing:0.15em; text-transform:uppercase;
+  }
+
+  /* État lancé */
+  .chrono-launched {
+    text-align:center; padding:28px 24px;
+    border:1px solid rgba(255,215,0,0.4);
+    border-radius:26px;
+    background:linear-gradient(160deg,rgba(10,22,40,0.97),rgba(5,12,25,0.99));
+    box-shadow:0 0 40px rgba(255,215,0,0.2);
+  }
+  .chrono-launched-title {
+    font-size:1.3rem; font-weight:900; color:#ffd700;
+    text-shadow:0 0 20px rgba(255,215,0,0.6);
+    margin-bottom:14px;
+  }
+  .chrono-launched a {
+    display:inline-block; padding:14px 36px; border-radius:30px;
+    background:linear-gradient(135deg,#ffd700,#ff8c00);
+    color:#1a0a00; font-weight:900; font-size:1rem;
+    text-decoration:none; box-shadow:0 0 24px rgba(255,180,0,0.5);
+    letter-spacing:0.05em;
+  }
+</style>
+
+<div id="annonce-coffre">
+  <div class="chrono-outer" id="chrono-card">
+    <div class="chrono-inner">
+      <div class="chrono-surprise">🔴 &nbsp; S U R P R I S E &nbsp; 🔴</div>
+      <div class="chrono-title">Votre nouvelle attraction s'affiche dans<br><span>— Préparez-vous —</span></div>
+      <div class="chrono-digits" id="chrono-display">24:00:00</div>
+      <div class="chrono-sub">⏳ Compte à rebours en cours...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var LAUNCH = new Date('2026-04-15T20:30:00');
+
+  function tick(){
+    var diff = LAUNCH - new Date();
+    if(diff <= 0){
+      // Afficher le bouton coffre
+      var card = document.getElementById('chrono-card');
+      if(card){
+        card.className='';
+        card.innerHTML='<div class="chrono-launched"><div class="chrono-launched-title">🏆 Le Coffre des Gains est ouvert !</div><a href="roue.html">🔓 Accéder au Coffre Fort</a></div>';
+      }
+      return;
+    }
+    var h = Math.floor(diff/3600000);
+    var m = Math.floor((diff%3600000)/60000);
+    var s = Math.floor((diff%60000)/1000);
+    var el = document.getElementById('chrono-display');
+    if(el) el.textContent = String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    setTimeout(tick,1000);
+  }
+  tick();
+})();
+</script>
 
 <!-- CADRAN PROCHAIN ZOOM -->
 <div class="section" style="padding:30px 20px;">
