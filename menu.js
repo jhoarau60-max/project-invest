@@ -583,7 +583,37 @@ if ('serviceWorker' in navigator) {
       nav.insertBefore(badge, ulEl);
     }
 
-    // Coffre des Gains masqué — page secrète en développement
+    // ── Bouton SURPRISE / COFFRE FORT au-dessus de Accueil ──
+    (function(){
+      var LAUNCH = new Date('2026-04-15T20:30:00');
+      var launched = Date.now() >= LAUNCH.getTime();
+      var surpriseStyle = document.createElement('style');
+      surpriseStyle.textContent = launched ? ''
+        : '@keyframes surprisePulse{0%,100%{box-shadow:0 0 8px rgba(255,30,0,0.3)}50%{box-shadow:0 0 22px rgba(255,30,0,0.8)}}'
+          + '#btn-surprise{animation:surprisePulse 1.3s ease-in-out infinite}';
+      document.head.appendChild(surpriseStyle);
+
+      var btnSurprise = document.createElement('a');
+      btnSurprise.id = 'btn-surprise';
+      if(launched){
+        btnSurprise.href = 'roue.html';
+        btnSurprise.style.cssText = 'display:flex;align-items:center;gap:9px;padding:10px 14px;margin:4px 10px 6px;border-radius:12px;background:linear-gradient(135deg,rgba(255,215,0,0.18),rgba(255,140,0,0.1));border:1px solid rgba(255,215,0,0.55);text-decoration:none;cursor:pointer;transition:all 0.2s;';
+        btnSurprise.innerHTML = '<i class="fa-solid fa-vault" style="font-size:1.1rem;color:#ffd700;flex-shrink:0;"></i>'
+          + '<span style="color:#ffd700;font-size:0.92rem;font-weight:900;letter-spacing:0.04em;">Coffre Fort</span>';
+      } else {
+        btnSurprise.href = 'surprise.html';
+        btnSurprise.style.cssText = 'display:flex;align-items:center;gap:9px;padding:10px 14px;margin:4px 10px 6px;border-radius:12px;background:linear-gradient(135deg,rgba(255,30,0,0.2),rgba(180,0,0,0.12));border:1px solid rgba(255,50,0,0.6);text-decoration:none;cursor:pointer;transition:all 0.2s;';
+        btnSurprise.innerHTML = '<i class="fa-solid fa-gift" style="font-size:1.1rem;color:#ff3300;flex-shrink:0;"></i>'
+          + '<span style="color:#ff3300;font-size:0.92rem;font-weight:900;letter-spacing:0.08em;">🔴 SURPRISE</span>';
+      }
+      // Insérer au-dessus du premier li (Accueil)
+      var firstLi = ulEl ? ulEl.querySelector('li') : null;
+      if(firstLi){
+        var wrapLi = document.createElement('li');
+        wrapLi.appendChild(btnSurprise);
+        ulEl.insertBefore(wrapLi, firstLi);
+      }
+    })();
 
     // Renommer + icônes + sous-menus
     nav.querySelectorAll('ul > li').forEach(function (li) {
@@ -709,32 +739,6 @@ if ('serviceWorker' in navigator) {
     ], 'arbcore.html');
 
 
-    // ── Coffre Fort : rouge pendant chrono, jaune après lancement ──
-    (function(){
-      var LAUNCH = new Date('2026-04-15T20:30:00');
-      var launched = Date.now() >= LAUNCH.getTime();
-      var roueLi = nav.querySelector('ul li a[href="roue.html"]');
-      if(roueLi){
-        if(!launched){
-          // Bouton rouge vif SURPRISE pendant le compte à rebours
-          roueLi.style.cssText += ';color:#ff2200!important;font-weight:900;background:rgba(255,30,0,0.12);border-left:3px solid #ff2200;border-radius:8px;';
-          var icon = roueLi.querySelector('i');
-          if(icon) icon.style.color='#ff2200';
-          roueLi.childNodes.forEach(function(n){ if(n.nodeType===3 && n.textContent.trim()) n.textContent=' SURPRISE 🔴'; });
-          // Pulse rouge
-          var sty = document.createElement('style');
-          sty.textContent = 'nav a[href="roue.html"]{animation:rougePulse 1.4s ease-in-out infinite!important}'
-            +'@keyframes rougePulse{0%,100%{box-shadow:none}50%{box-shadow:0 0 16px rgba(255,30,0,0.5)}}';
-          document.head.appendChild(sty);
-        } else {
-          // Bouton jaune COFFRE FORT après lancement
-          roueLi.style.cssText += ';color:#ffd700!important;font-weight:900;';
-          var icon2 = roueLi.querySelector('i');
-          if(icon2) icon2.style.color='#ffd700';
-          roueLi.childNodes.forEach(function(n){ if(n.nodeType===3 && n.textContent.trim()) n.textContent=' Coffre Fort'; });
-        }
-      }
-    })();
 
     // ── Popup Annonce à l'ouverture ──
     // Réinitialiser l'annonce à chaque nouvelle connexion Supabase

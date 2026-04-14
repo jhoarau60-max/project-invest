@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project inves'T — Surprise</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body { background:#050a18!important; }
+
+    @keyframes ringRotate  { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    @keyframes chronoBlink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+    @keyframes chronoPulse { 0%,100%{box-shadow:0 0 40px rgba(255,40,0,0.4)} 50%{box-shadow:0 0 90px rgba(255,40,0,0.9)} }
+    @keyframes floatUp     { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+    .surprise-wrap {
+      min-height:80vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      padding:40px 20px;
+      text-align:center;
+    }
+
+    .surprise-label {
+      font-size:0.7rem; font-weight:900; letter-spacing:0.35em;
+      text-transform:uppercase; color:#ff4400;
+      margin-bottom:14px;
+      animation:chronoBlink 1.2s ease-in-out infinite;
+    }
+
+    .surprise-title {
+      font-size:1.5rem; font-weight:900; color:#fff;
+      line-height:1.4; margin-bottom:10px;
+      max-width:480px;
+    }
+    .surprise-title span { color:#ffd700; }
+
+    .surprise-sub {
+      font-size:0.88rem; color:rgba(180,200,255,0.65);
+      margin-bottom:40px; max-width:380px; line-height:1.6;
+    }
+
+    /* Anneau tournant */
+    .ring-outer {
+      position:relative;
+      width:280px; height:280px;
+      border-radius:50%;
+      animation:chronoPulse 2s ease-in-out infinite;
+    }
+    .ring-outer::before {
+      content:'';
+      position:absolute; inset:-4px; border-radius:50%;
+      background:conic-gradient(from 0deg,#ff2200,#ff6600,#ffcc00,#ff6600,#ff2200,#ff0000,#ff2200);
+      animation:ringRotate 2.5s linear infinite;
+      z-index:0;
+    }
+    .ring-inner {
+      position:absolute; inset:6px; border-radius:50%; z-index:1;
+      background:radial-gradient(circle at 40% 35%, #1a0005, #080014);
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      gap:4px;
+    }
+    .ring-icon {
+      font-size:2.4rem;
+      animation:floatUp 3s ease-in-out infinite;
+      filter:drop-shadow(0 0 14px rgba(255,215,0,0.6));
+    }
+    .chrono-digits {
+      font-size:2rem; font-weight:900; letter-spacing:0.1em;
+      color:#ff3300;
+      text-shadow:0 0 20px rgba(255,60,0,0.9);
+      animation:chronoBlink 1s ease-in-out infinite;
+      font-variant-numeric:tabular-nums;
+      line-height:1;
+    }
+    .chrono-units {
+      font-size:0.55rem; letter-spacing:0.25em;
+      color:rgba(255,120,80,0.6); text-transform:uppercase;
+    }
+
+    /* État lancé */
+    .launched-wrap {
+      display:flex; flex-direction:column; align-items:center; gap:20px;
+    }
+    .launched-title {
+      font-size:2rem; font-weight:900; color:#ffd700;
+      text-shadow:0 0 30px rgba(255,215,0,0.7);
+    }
+    .launched-btn {
+      display:inline-block; padding:16px 48px; border-radius:30px;
+      background:linear-gradient(135deg,#ffd700,#ff8c00);
+      color:#1a0a00; font-weight:900; font-size:1.1rem;
+      text-decoration:none; box-shadow:0 0 30px rgba(255,180,0,0.6);
+      letter-spacing:0.05em; animation:floatUp 2s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-top">
+    <a href="home.html" class="logo">Project inves'T</a>
+  </div>
+</header>
+<nav id="main-nav"><ul></ul></nav>
+<div id="nav-overlay"></div>
+
+<div class="surprise-wrap">
+
+  <div class="surprise-label">🔴 &nbsp; N O U V E A U T É &nbsp; 🔴</div>
+  <h1 class="surprise-title">Une nouvelle attraction arrive sur<br><span>Project inves'T</span></h1>
+  <p class="surprise-sub">Découvrez dans quelques heures une toute nouvelle façon de participer.<br>Restez connectés — ça va changer la donne.</p>
+
+  <div id="chrono-zone">
+    <div class="ring-outer">
+      <div class="ring-inner">
+        <div class="ring-icon">🔒</div>
+        <div class="chrono-digits" id="chrono-display">--:--:--</div>
+        <div class="chrono-units">H &nbsp;&nbsp; M &nbsp;&nbsp; S</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="menu.js"></script>
+<script>
+(function(){
+  var LAUNCH = new Date('2026-04-15T20:30:00');
+
+  function tick(){
+    var diff = LAUNCH - new Date();
+    if(diff <= 0){
+      // Ouvert — rediriger vers le coffre
+      window.location.replace('roue.html');
+      return;
+    }
+    var h = Math.floor(diff/3600000);
+    var m = Math.floor((diff%3600000)/60000);
+    var s = Math.floor((diff%60000)/1000);
+    var el = document.getElementById('chrono-display');
+    if(el) el.textContent = String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    setTimeout(tick,1000);
+  }
+  tick();
+})();
+</script>
+</body>
+</html>

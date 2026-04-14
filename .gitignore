@@ -3,4 +3,6 @@
 Thumbs.db
 
 # Pages en développement secret (ne jamais pousser sur Vercel)
-roue.html
+# roue.html — déployé le 15/04/2026
+
+.vercel
