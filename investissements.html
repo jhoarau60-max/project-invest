@@ -101,7 +101,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             <li><a href="investissements.html" class="active">Investissements</a></li>
             <li><a href="planning-webinaire.html">Planning webinaire 2026</a></li>
             <li><a href="e-state-immobilier.html">E-state Immobilier Tokénisé</a></li>
-            <li><a href="arthena.html">Arthena</a></li>
+            <li><a href="arthena.html">Artena</a></li>
             <li><a href="arbcore.html"><i class="fa-solid fa-chart-line" style="color:#c9a84c;font-size:0.85rem;"></i> ArbCore</a></li>
             <li><a href="smart-mev-trading.html">SMART MEV Trading</a></li>
             <li><a href="portage-salarial.html">Portage salarial</a></li>
@@ -142,7 +142,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                 <td>0.40% à 1% / mois</td>
                 <td>10 $</td>
                 <td><a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:88db548b-52c9-48b9-8593-904d3cd8575e" target="_blank" style="display:inline-block;padding:4px 12px;background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.4);border-radius:20px;font-size:0.78rem;font-weight:700;text-decoration:none;">📄 PDF</a></td>
-                <td><a href="https://www.e-estate.co/agent/953277721577" target="_blank" style="display:inline-block;padding:4px 12px;background:linear-gradient(135deg,#1a7fdb,#00c8ff);color:#ffffff;border-radius:20px;font-size:0.78rem;font-weight:700;text-decoration:none;">S'inscrire</a></td>
+                <td><button onclick="obtenirLien()" style="padding:4px 12px;background:linear-gradient(135deg,#1a7fdb,#00c8ff);color:#fff;border:none;border-radius:20px;font-size:0.78rem;font-weight:700;cursor:pointer;">Inscription</button></td>
                 <td><span style="color:#4caf50;">✅ Actif</span></td>
             </tr>
             <tr>
@@ -151,7 +151,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                 <td>~35% / mois</td>
                 <td>50 $ (robot à vie) + investissement</td>
                 <td><a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:df45750c-0481-46b2-abaa-80321a7823d1" target="_blank" style="display:inline-block;padding:4px 12px;background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.4);border-radius:20px;font-size:0.78rem;font-weight:700;text-decoration:none;">📄 PDF</a></td>
-                <td><a href="https://xmev.ai?inviteCode=QVKB8JNC" target="_blank" style="display:inline-block;padding:4px 12px;background:linear-gradient(135deg,#1a7fdb,#00c8ff);color:#ffffff;border-radius:20px;font-size:0.78rem;font-weight:700;text-decoration:none;">S'inscrire</a></td>
+                <td><button onclick="obtenirLien()" style="padding:4px 12px;background:linear-gradient(135deg,#1a7fdb,#00c8ff);color:#fff;border:none;border-radius:20px;font-size:0.78rem;font-weight:700;cursor:pointer;">Inscription</button></td>
                 <td><span style="color:#4caf50;">✅ Actif</span></td>
             </tr>
             <tr>
@@ -160,7 +160,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                 <td>~33% / mois (250% total)</td>
                 <td>50 $</td>
                 <td><a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:e912d680-b12a-4dab-9fe9-c506fcc115d8" target="_blank" style="display:inline-block;padding:4px 12px;background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.4);border-radius:20px;font-size:0.78rem;font-weight:700;text-decoration:none;">📄 PDF</a></td>
-                <td><a href="https://arbcore.app/?frenID=IFK2MAN6" target="_blank" style="display:inline-block;padding:4px 12px;background:linear-gradient(135deg,#1a7fdb,#00c8ff);color:#ffffff;border-radius:20px;font-size:0.78rem;font-weight:700;text-decoration:none;">S'inscrire</a></td>
+                <td><button onclick="obtenirLien()" style="padding:4px 12px;background:linear-gradient(135deg,#1a7fdb,#00c8ff);color:#fff;border:none;border-radius:20px;font-size:0.78rem;font-weight:700;cursor:pointer;">Inscription</button></td>
                 <td><span style="color:#4caf50;">✅ Actif</span></td>
             </tr>
             <tr>
@@ -169,7 +169,16 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                 <td>Selon les matrices</td>
                 <td>10 TRX (~3 $)</td>
                 <td><a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:01bb7d2d-b091-4aa0-97a9-e408b11ff9f5" target="_blank" style="display:inline-block;padding:4px 12px;background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.4);border-radius:20px;font-size:0.78rem;font-weight:700;text-decoration:none;">📄 PDF</a></td>
-                <td><a href="https://mlm.center/landing/link/?token=53e2ef5c-2825-486a-b12f-09efae8f2836" target="_blank" style="display:inline-block;padding:4px 12px;background:linear-gradient(135deg,#1a7fdb,#00c8ff);color:#ffffff;border-radius:20px;font-size:0.78rem;font-weight:700;text-decoration:none;">S'inscrire</a></td>
+                <td><button onclick="obtenirLien()" style="padding:4px 12px;background:linear-gradient(135deg,#1a7fdb,#00c8ff);color:#fff;border:none;border-radius:20px;font-size:0.78rem;font-weight:700;cursor:pointer;">Inscription</button></td>
+                <td><span style="color:#4caf50;">✅ Actif</span></td>
+            </tr>
+            <tr>
+                <td><strong style="display:inline-block;padding:4px 12px;background:linear-gradient(135deg,#6a0dad,#c060ff);color:#ffffff;border-radius:20px;font-size:0.85rem;font-weight:700;">Artena</strong></td>
+                <td>Club DeFi Privé</td>
+                <td>Rendements hebdomadaires</td>
+                <td>À partir de 100 $</td>
+                <td><a href="pdf-arthena.html" style="display:inline-block;padding:4px 12px;background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.4);border-radius:20px;font-size:0.78rem;font-weight:700;text-decoration:none;">📄 PDF</a></td>
+                <td><button onclick="obtenirLien()" style="padding:4px 12px;background:linear-gradient(135deg,#1a7fdb,#00c8ff);color:#fff;border:none;border-radius:20px;font-size:0.78rem;font-weight:700;cursor:pointer;">Inscription</button></td>
                 <td><span style="color:#4caf50;">✅ Actif</span></td>
             </tr>
             <tr>
@@ -178,7 +187,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                 <td>Revenus personnels</td>
                 <td>À partir de 1 $ / €</td>
                 <td><a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:7c338d2d-3e84-47ba-bf13-37693e3295fd" target="_blank" style="display:inline-block;padding:4px 12px;background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.4);border-radius:20px;font-size:0.78rem;font-weight:700;text-decoration:none;">📄 PDF</a></td>
-                <td><a href="https://internationalsecurepay.biz/?_referral=ec8f68b6e057096fd0aa91d3d3c3382eabcd3eca" target="_blank" style="display:inline-block;padding:4px 12px;background:linear-gradient(135deg,#1a7fdb,#00c8ff);color:#ffffff;border-radius:20px;font-size:0.78rem;font-weight:700;text-decoration:none;">S'inscrire</a></td>
+                <td><button onclick="obtenirLien()" style="padding:4px 12px;background:linear-gradient(135deg,#1a7fdb,#00c8ff);color:#fff;border:none;border-radius:20px;font-size:0.78rem;font-weight:700;cursor:pointer;">Inscription</button></td>
                 <td><span style="color:#4caf50;">✅ Actif</span></td>
             </tr>
         </tbody>
@@ -256,6 +265,22 @@ s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
 <!--End of Tawk.to Script-->
+
+<!-- Modal lien Telegram -->
+<div id="modal-lien-tg" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.8);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#0d1525;border:1px solid rgba(41,182,246,0.4);border-radius:20px;padding:30px 24px;max-width:320px;width:100%;text-align:center;position:relative;">
+    <button onclick="document.getElementById('modal-lien-tg').style.display='none'" style="position:absolute;top:10px;right:14px;background:none;border:none;color:#888;font-size:1.4rem;cursor:pointer;">×</button>
+    <div style="font-size:2.5rem;margin-bottom:10px;">📲</div>
+    <div style="font-size:1rem;font-weight:800;color:#00c8ff;margin-bottom:8px;">Lien d'inscription</div>
+    <p style="font-size:0.82rem;color:#aaa;margin-bottom:20px;line-height:1.6;">Rejoignez notre Telegram pour recevoir votre lien d'affiliation personnel et vous inscrire à la plateforme.</p>
+    <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="display:block;background:#229ED9;color:#fff;border-radius:12px;padding:12px;font-weight:700;font-size:0.9rem;text-decoration:none;">
+      📩 Rejoindre le Telegram
+    </a>
+  </div>
+</div>
+<script>
+function obtenirLien(){ var m=document.getElementById('modal-lien-tg'); m.style.display='flex'; }
+</script>
 </body>
 </html>
 

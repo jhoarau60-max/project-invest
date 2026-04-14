@@ -2,6 +2,9 @@
 (function () {
   const LANGS = [
     { code: 'fr',    label: 'Français',    flag: 'fr' },
+    { code: 'en',    label: 'Anglais',     flag: 'gb' },
+    { code: 'de',    label: 'Allemand',    flag: 'de' },
+    { code: 'nl',    label: 'Néerlandais', flag: 'nl' },
     { code: 'es',    label: 'Espagnol',    flag: 'es' },
     { code: 'it',    label: 'Italien',     flag: 'it' },
     { code: 'ro',    label: 'Roumain',     flag: 'ro' },
@@ -124,6 +127,9 @@
   // Mapping pays → langue
   const COUNTRY_LANG = {
     FR:'fr', BE:'fr', CH:'fr', LU:'fr', MC:'fr',
+    GB:'en', US:'en', AU:'en', CA:'en', NZ:'en', IE:'en', ZA:'en',
+    DE:'de', AT:'de',
+    NL:'nl',
     ES:'es', MX:'es', AR:'es', CO:'es', PE:'es', CL:'es', VE:'es',
     IT:'it',
     RO:'ro',

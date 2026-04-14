@@ -256,6 +256,8 @@
         position: relative;
         font-family: 'EB Garamond', Georgia, serif;
         color: #2a1a08;
+        display: flex;
+        flex-direction: column;
         background-image:
           url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
       }
@@ -368,6 +370,7 @@
         border-bottom: none;
         padding-bottom: 8px;
         margin-bottom: 12px;
+        flex-shrink: 0;
         background: linear-gradient(to right, transparent, rgba(160,110,30,0.5) 20%, rgba(160,110,30,0.5) 80%, transparent);
         background-size: 100% 1px;
         background-repeat: no-repeat;
@@ -396,7 +399,7 @@
       }
 
       /* Article dans la page */
-      .article-block { margin-bottom: 14px; }
+      .article-block { margin-bottom: 14px; flex: 1; min-height: 0; display: flex; flex-direction: column; }
       .article-block + .article-block {
         border-top: 1px solid rgba(160,110,30,0.25);
         padding-top: 12px;
@@ -452,51 +455,63 @@
         font-family: 'EB Garamond', serif;
         font-weight: 600;
         overflow-y: auto;
-        max-height: 300px;
+        flex: 1;
+        min-height: 0;
         padding-right: 4px;
         scrollbar-width: none;
+        scroll-behavior: smooth;
       }
       .article-contenu-book::-webkit-scrollbar { display: none; }
 
       /* Fader de mixage */
-      .contenu-wrap { position: relative; padding-right: 14px; }
-      .fader-wrap {
-        position: absolute;
-        right: 0; top: 0; bottom: 0;
-        width: 10px;
+      .contenu-wrap {
         display: flex;
-        justify-content: center;
-      }
-      .fader-track {
-        width: 2px;
-        background: rgba(160,100,20,0.15);
-        border-radius: 1px;
-        position: relative;
-        margin: 4px 0;
+        flex-direction: column;
+        gap: 4px;
         flex: 1;
+        min-height: 0;
       }
-      .fader-thumb {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 8px;
-        height: 20px;
-        background: linear-gradient(180deg, #e8c45a 0%, #c9a84c 40%, #a0721e 100%);
-        border-radius: 2px;
-        cursor: grab;
-        box-shadow: 0 1px 5px rgba(0,0,0,0.35);
-        top: 0;
-        touch-action: none;
+      .fader-wrap { display: none; }
+      .fader-track { display: none; }
+      .fader-thumb { display: none; }
+      .scroll-arrow-btn {
+        width: 100%;
+        height: 18px;
+        background: linear-gradient(135deg, #e8c45a, #a0721e);
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.65rem;
+        color: #fff;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+        flex-shrink: 0;
+        touch-action: manipulation;
+        padding: 0;
+        line-height: 1;
       }
-      .fader-thumb::before {
-        content: '';
-        position: absolute;
-        left: 1px; right: 1px; top: 6px;
-        height: 1px;
-        background: rgba(255,255,255,0.4);
-        box-shadow: 0 4px 0 rgba(255,255,255,0.4), 0 8px 0 rgba(255,255,255,0.4);
+      .scroll-arrow-btn:active { opacity: 0.7; }
+      .scroll-btn-up, .scroll-btn-down {
+        width: 100%;
+        height: 18px;
+        background: linear-gradient(135deg, #e8c45a, #a0721e);
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.65rem;
+        color: #fff;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+        flex-shrink: 0;
+        touch-action: manipulation;
+        padding: 0;
+        line-height: 1;
       }
-      .fader-thumb:active { cursor: grabbing; }
+      .scroll-btn-up:active, .scroll-btn-down:active { opacity: 0.7; }
       .article-contenu-book p {
         margin: 0 0 10px 0;
       }
@@ -671,6 +686,7 @@
 
       /* ===== MOBILE ===== */
       @media (max-width: 600px) {
+        .scroll-btn-up, .scroll-btn-down { height: 22px !important; font-size: 0.75rem !important; }
         #flipbook-container::after { display: none !important; }
         #flipbook-container::before { display: none !important; }
         #btn-prev, #btn-next { display: none !important; }
@@ -744,7 +760,7 @@ setTimeout(function(){
             <li><a href="investissements.html">Investissements</a></li>
             <li><a href="planning-webinaire.html">Planning webinaire 2026</a></li>
             <li><a href="e-state-immobilier.html">E-state Immobilier Tokénisé</a></li>
-            <li><a href="arthena.html">Arthena</a></li>
+            <li><a href="arthena.html">Artena</a></li>
             <li><a href="arbcore.html"><i class="fa-solid fa-chart-line" style="color:#c9a84c;font-size:0.85rem;"></i> ArbCore</a></li>
             <li><a href="smart-mev-trading.html">SMART MEV Trading</a></li>
             <li><a href="portage-salarial.html">Portage salarial</a></li>
@@ -772,7 +788,7 @@ setTimeout(function(){
         <button class="filtre-btn" data-cat="smart" onclick="filtrer('smart',this)"><span class="dot"></span> Smart Bot</button>
         <button class="filtre-btn" data-cat="mlm" onclick="filtrer('mlm',this)"><span class="dot"></span> MLM</button>
         <button class="filtre-btn" data-cat="arbcore" onclick="filtrer('arbcore',this)"><span class="dot"></span> ArbCore</button>
-        <button class="filtre-btn" data-cat="arthena" onclick="filtrer('arthena',this)"><span class="dot"></span> Arthena</button>
+        <button class="filtre-btn" data-cat="arthena" onclick="filtrer('arthena',this)"><span class="dot"></span> Artena</button>
     </div>
 
     <!-- LIVRE -->
@@ -820,7 +836,7 @@ setTimeout(function(){
 
 <script>
 var catBadge  = { general:'badge-general', trading:'badge-trading', estate:'badge-estate', mlm:'badge-mlm', portage:'badge-portage', site:'badge-site', smart:'badge-trading', arbcore:'badge-general' };
-var catLabel  = { general:'Général', trading:'Bot Trading', estate:'E-Estate', mlm:'MLM Center', portage:'Portage', site:'Site', smart:'Smart Bot', arbcore:'ArbCore', arthena:'Arthena' };
+var catLabel  = { general:'Général', trading:'Bot Trading', estate:'E-Estate', mlm:'MLM Center', portage:'Portage', site:'Site', smart:'Smart Bot', arbcore:'ArbCore', arthena:'Artena' };
 var catLogo   = { estate:'logo-estate.png', smart:'logo-smarts.png', mlm:'logo-mlm.png', arbcore:'logo-project-invest.jpg', general:'logo-project-invest.jpg' };
 var catColor  = { estate:'#2ecc71', smart:'#3498db', mlm:'#e67e22', arbcore:'#9b59b6', general:'#c9a84c' };
 var romans    = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX'];
@@ -935,6 +951,12 @@ function nettoyerMessage(message) {
         .trim();
 }
 
+function scrollContent(id, dir) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.scrollTop += dir * 80;
+}
+
 function filtrer(cat, btn) {
     document.querySelectorAll('.filtre-btn').forEach(function(b){ b.classList.remove('actif'); });
     btn.classList.add('actif');
@@ -1019,8 +1041,9 @@ function buildArticlePage(articles, idx, pageNum, totalPages){
         }).join('');
         var cid = 'cnt-' + pageNum;
         html += '<div class="contenu-wrap">'
+            + '<button class="scroll-btn-up" onclick="scrollContent(\'' + cid + '\',-1)">&#9650;</button>'
             + '<div class="article-contenu-book" id="' + cid + '">' + contenuFormate + '</div>'
-            + '<div class="fader-wrap" id="fw-' + cid + '"><div class="fader-track"><div class="fader-thumb"></div></div></div>'
+            + '<button class="scroll-btn-down" onclick="scrollContent(\'' + cid + '\',1)">&#9660;</button>'
             + '</div>'
             + '</div>';
     }
@@ -1040,6 +1063,7 @@ function buildInfoPage1(){
         + '<div class="article-block" style="gap:0;">'
         + '<div style="font-size:1.1rem;font-weight:900;color:#c9a84c;font-family:\'Cinzel\',serif;text-align:center;margin-bottom:10px;line-height:1.4;">✨ INFORMATION IMPORTANTE<br>CAP SUR LA PHASE 2 ! ✨</div>'
         + '<div class="contenu-wrap">'
+        + '<button class="scroll-btn-up" onclick="scrollContent(\'info1\',-1)">&#9650;</button>'
         + '<div class="article-contenu-book" id="info1" style="font-size:1rem;line-height:1.75;">'
         + '<p>Bonjour à tous ! 👋 C\'est avec une joie immense que nous entamons la suite de notre aventure ! 🚀 Pour que notre stratégie soit réellement <strong>PAYANTE</strong> 💰 et que nous avancions ensemble, il est temps de repartir sur un groupe <strong>SAIN et PROPRE</strong> ! 💎</p>'
         + '<p><strong>🔹 LA QUALITÉ AVANT LE NOMBRE 🎯</strong> : Je construis une <strong>VÉRITABLE COMMUNAUTÉ</strong> 🤝 et non un groupe de touristes de passage ! Ce qui m\'importe, c\'est votre engagement et votre envie de réussir ensemble ! 🔥</p>'
@@ -1049,7 +1073,7 @@ function buildInfoPage1(){
         + '<p>Sachez que tout ceci sera <strong>SURVEILLÉ DE TRÈS PRÈS</strong> 👀 car je veux le meilleur pour ceux qui restent ! 🌟</p>'
         + '<p style="text-align:center;font-weight:700;color:#c9a84c;">On repart sur de bonnes bases, dans la joie et la réussite ! 🚀💪</p>'
         + '</div>'
-        + '<div class="fader-wrap" id="fw-info1"><div class="fader-track"><div class="fader-thumb"></div></div></div>'
+        + '<button class="scroll-btn-down" onclick="scrollContent(\'info1\',1)">&#9660;</button>'
         + '</div></div>'
         + '</div></div>';
 }
@@ -1065,6 +1089,7 @@ function buildInfoPage2(){
         + '<div class="article-block" style="gap:0;">'
         + '<div style="font-size:1rem;font-weight:900;color:#c9a84c;font-family:\'Cinzel\',serif;text-align:center;margin-bottom:10px;line-height:1.4;">📢 Information Importante<br>Project Invest 🚀</div>'
         + '<div class="contenu-wrap">'
+        + '<button class="scroll-btn-up" onclick="scrollContent(\'info2\',-1)">&#9650;</button>'
         + '<div class="article-contenu-book" id="info2" style="font-size:1rem;line-height:1.75;">'
         + '<p><strong>✅ Focus &amp; Stabilité :</strong> D\'ici fin 2026, je ne vais plus intégrer de nouveaux projets. On s\'appuie sur nos piliers solides :</p>'
         + '<p>• <strong>Estate et Smart</strong> : qui existent déjà depuis un an.<br>• <strong>Arbcore et Athéna</strong> : nos deux nouveaux projets.</p>'
@@ -1074,7 +1099,7 @@ function buildInfoPage2(){
         + '<p><strong>⚠️ Rappel Essentiel :</strong> C\'est mon avis personnel, pas une obligation. Chaque investissement reste un risque — chacun investit en son libre arbitre. Soyez responsables et avisés. 🧠</p>'
         + '<p style="text-align:center;font-weight:700;color:#c9a84c;">On continue d\'avancer ensemble ! 🔥</p>'
         + '</div>'
-        + '<div class="fader-wrap" id="fw-info2"><div class="fader-track"><div class="fader-thumb"></div></div></div>'
+        + '<button class="scroll-btn-down" onclick="scrollContent(\'info2\',1)">&#9660;</button>'
         + '</div></div>'
         + '</div></div>';
 }

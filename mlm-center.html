@@ -101,7 +101,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
             <li><a href="investissements.html">Investissements</a></li>
             <li><a href="planning-webinaire.html">Planning webinaire 2026</a></li>
             <li><a href="e-state-immobilier.html">E-state Immobilier Tokénisé</a></li>
-            <li><a href="arthena.html">Arthena</a></li>
+            <li><a href="arthena.html">Artena</a></li>
             <li><a href="arbcore.html"><i class="fa-solid fa-chart-line" style="color:#c9a84c;font-size:0.85rem;"></i> ArbCore</a></li>
             <li><a href="smart-mev-trading.html">SMART MEV Trading</a></li>
             <li><a href="portage-salarial.html">Portage salarial</a></li>
@@ -173,8 +173,8 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 
     <!-- BOUTON INSCRIPTION -->
     <div style="text-align:center;margin:-20px 0 50px;">
-        <a href="https://mlm.center/landing/link/?token=53e2ef5c-2825-486a-b12f-09efae8f2836" target="_blank" style="display:inline-block;background:linear-gradient(135deg,#00c8ff,#1a7fdb);color:#ffffff;font-weight:900;font-size:1.3rem;padding:18px 50px;border-radius:30px;text-decoration:none;letter-spacing:1px;box-shadow:0 0 30px rgba(0,200,255,0.5);">🚀 S'inscrire maintenant sur mlm.center</a>
-        <p style="color:#888;font-size:0.85rem;margin-top:10px;">Inscription gratuite — Commencez immédiatement</p>
+        <button onclick="obtenirLienTg()" style="display:inline-block;background:linear-gradient(135deg,#00c8ff,#1a7fdb);color:#ffffff;font-weight:900;font-size:1.3rem;padding:18px 50px;border-radius:30px;border:none;cursor:pointer;letter-spacing:1px;box-shadow:0 0 30px rgba(0,200,255,0.5);">🚀 Inscription mlm.center</button>
+        <p style="color:#888;font-size:0.85rem;margin-top:10px;">Récupérez votre lien d'affiliation sur Telegram</p>
     </div>
 
     <!-- MATRICES LUNA / TERRA / SOLIS -->
@@ -385,6 +385,16 @@ s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
 <!--End of Tawk.to Script-->
+<div id="modal-lien-tg2" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.8);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#0d1525;border:1px solid rgba(41,182,246,0.4);border-radius:20px;padding:30px 24px;max-width:320px;width:100%;text-align:center;position:relative;">
+    <button onclick="document.getElementById('modal-lien-tg2').style.display='none'" style="position:absolute;top:10px;right:14px;background:none;border:none;color:#888;font-size:1.4rem;cursor:pointer;">×</button>
+    <div style="font-size:2.5rem;margin-bottom:10px;">📲</div>
+    <div style="font-size:1rem;font-weight:800;color:#00c8ff;margin-bottom:8px;">Lien d'inscription</div>
+    <p style="font-size:0.82rem;color:#aaa;margin-bottom:20px;line-height:1.6;">Rejoignez notre Telegram pour recevoir votre lien d'affiliation personnel et vous inscrire à la plateforme.</p>
+    <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="display:block;background:#229ED9;color:#fff;border-radius:12px;padding:12px;font-weight:700;font-size:0.9rem;text-decoration:none;">📩 Rejoindre le Telegram</a>
+  </div>
+</div>
+<script>function obtenirLienTg(){ document.getElementById('modal-lien-tg2').style.display='flex'; }</script>
 </body>
 </html>
 
