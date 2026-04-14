@@ -281,84 +281,101 @@ const _sb = window.supabase.createClient(
 
 <!-- ANNONCE COFFRE-FORT -->
 <style>
-  #annonce-coffre { max-width:600px; margin:0 auto 20px; padding:0 20px; }
+  @keyframes hRingRot  { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  @keyframes hChrBlink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+  @keyframes hChrPulse { 0%,100%{box-shadow:0 0 24px rgba(255,40,0,0.3)} 50%{box-shadow:0 0 60px rgba(255,40,0,0.8)} }
+  @keyframes hFloat    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
 
-  @keyframes ringRotate { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
-  @keyframes chronoBlink { 0%,100%{opacity:1} 50%{opacity:0.25} }
-  @keyframes chronoPulse { 0%,100%{box-shadow:0 0 30px rgba(255,40,0,0.5)} 50%{box-shadow:0 0 70px rgba(255,40,0,0.95)} }
-
-  .chrono-outer {
-    position:relative; border-radius:26px; padding:4px;
-    background:#0a0010;
-    animation: chronoPulse 2s ease-in-out infinite;
+  .home-annonce-section {
+    padding: 30px 20px;
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    max-width: 860px;
+    margin: 0 auto 10px;
+    flex-wrap: wrap;
   }
-  .chrono-outer::before {
-    content:'';
-    position:absolute; inset:-2px; border-radius:28px;
-    background:conic-gradient(from 0deg,#ff2200,#ff6600,#ffcc00,#ff6600,#ff2200,#ff0000,#ff2200);
-    animation:ringRotate 2.5s linear infinite;
-    z-index:0;
+  .home-annonce-text {
+    flex: 1; min-width: 220px;
   }
-  .chrono-inner {
-    position:relative; z-index:1;
-    background:linear-gradient(160deg,#10001a 0%,#1a000a 100%);
-    border-radius:23px;
-    padding:28px 24px 24px;
-    text-align:center;
-  }
-  .chrono-surprise {
-    font-size:0.72rem; font-weight:900; letter-spacing:0.3em;
+  .home-annonce-text .hat {
+    font-size:0.7rem; font-weight:900; letter-spacing:0.28em;
     text-transform:uppercase; color:#ff4400;
     margin-bottom:10px;
-    animation:chronoBlink 1.2s ease-in-out infinite;
+    animation: hChrBlink 1.3s ease-in-out infinite;
   }
-  .chrono-title {
-    font-size:1rem; font-weight:700; color:#fff;
-    line-height:1.5; margin-bottom:18px;
+  .home-annonce-text h2 {
+    font-size:1.5rem; font-weight:900; color:#fff;
+    line-height:1.4; margin:0 0 12px;
   }
-  .chrono-title span { color:#ffd700; }
-  .chrono-digits {
-    font-size:3.2rem; font-weight:900; letter-spacing:0.08em;
+  .home-annonce-text h2 span { color:#ffd700; }
+  .home-annonce-text p {
+    font-size:0.88rem; color:rgba(180,200,255,0.7);
+    line-height:1.7; margin:0;
+  }
+  /* Anneau chrono */
+  .home-ring-wrap {
+    flex-shrink:0;
+    position:relative; width:180px; height:180px;
+    border-radius:50%;
+    animation: hChrPulse 2s ease-in-out infinite;
+  }
+  .home-ring-wrap::before {
+    content:'';
+    position:absolute; inset:-3px; border-radius:50%;
+    background:conic-gradient(from 0deg,#ff2200,#ff6600,#ffcc00,#ff6600,#ff2200,#ff0000,#ff2200);
+    animation:hRingRot 2.5s linear infinite;
+    z-index:0;
+  }
+  .home-ring-inner {
+    position:absolute; inset:5px; border-radius:50%; z-index:1;
+    background:radial-gradient(circle at 40% 35%,#180008,#060012);
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:2px;
+  }
+  .home-ring-icon { font-size:1.8rem; animation:hFloat 2.5s ease-in-out infinite; }
+  .home-chrono-digits {
+    font-size:1.4rem; font-weight:900; letter-spacing:0.08em;
     color:#ff3300;
-    text-shadow:0 0 20px rgba(255,60,0,0.9), 0 0 50px rgba(255,30,0,0.5);
-    animation:chronoBlink 1s ease-in-out infinite;
+    text-shadow:0 0 16px rgba(255,60,0,0.9);
+    animation:hChrBlink 1s ease-in-out infinite;
     font-variant-numeric:tabular-nums;
-    margin-bottom:10px;
   }
-  .chrono-sub {
-    font-size:0.72rem; color:rgba(255,150,100,0.7);
-    letter-spacing:0.15em; text-transform:uppercase;
+  .home-chrono-units {
+    font-size:0.48rem; letter-spacing:0.22em;
+    color:rgba(255,120,80,0.6); text-transform:uppercase;
   }
-
   /* État lancé */
-  .chrono-launched {
-    text-align:center; padding:28px 24px;
-    border:1px solid rgba(255,215,0,0.4);
-    border-radius:26px;
+  .home-launched-card {
+    width:100%; text-align:center; padding:24px;
+    border:1px solid rgba(255,215,0,0.4); border-radius:20px;
     background:linear-gradient(160deg,rgba(10,22,40,0.97),rgba(5,12,25,0.99));
-    box-shadow:0 0 40px rgba(255,215,0,0.2);
+    box-shadow:0 0 40px rgba(255,215,0,0.15);
   }
-  .chrono-launched-title {
-    font-size:1.3rem; font-weight:900; color:#ffd700;
-    text-shadow:0 0 20px rgba(255,215,0,0.6);
-    margin-bottom:14px;
-  }
-  .chrono-launched a {
-    display:inline-block; padding:14px 36px; border-radius:30px;
+  .home-launched-card a {
+    display:inline-block; padding:13px 36px; border-radius:30px;
     background:linear-gradient(135deg,#ffd700,#ff8c00);
     color:#1a0a00; font-weight:900; font-size:1rem;
     text-decoration:none; box-shadow:0 0 24px rgba(255,180,0,0.5);
-    letter-spacing:0.05em;
   }
 </style>
 
 <div id="annonce-coffre">
-  <div class="chrono-outer" id="chrono-card">
-    <div class="chrono-inner">
-      <div class="chrono-surprise">🔴 &nbsp; S U R P R I S E &nbsp; 🔴</div>
-      <div class="chrono-title">Votre nouvelle attraction s'affiche dans<br><span>— Préparez-vous —</span></div>
-      <div class="chrono-digits" id="chrono-display">24:00:00</div>
-      <div class="chrono-sub">⏳ Compte à rebours en cours...</div>
+  <div class="home-annonce-section" id="chrono-card">
+    <!-- Texte gauche -->
+    <div class="home-annonce-text">
+      <div class="hat">🔴 &nbsp; N O U V E A U T É &nbsp; 🔴</div>
+      <h2>Une nouvelle attraction arrive sur<br><span>Project inves'T</span></h2>
+      <p>Quelque chose d'inédit se prépare pour vous.<br>
+      Restez connectés — votre opportunité arrive dans les prochaines heures.</p>
+    </div>
+    <!-- Anneau chrono droite -->
+    <div class="home-ring-wrap">
+      <div class="home-ring-inner">
+        <div class="home-ring-icon">🔒</div>
+        <div class="home-chrono-digits" id="chrono-display">--:--:--</div>
+        <div class="home-chrono-units">H &nbsp; M &nbsp; S</div>
+      </div>
     </div>
   </div>
 </div>
@@ -366,23 +383,16 @@ const _sb = window.supabase.createClient(
 <script>
 (function(){
   var LAUNCH = new Date('2026-04-15T20:30:00');
-
   function tick(){
     var diff = LAUNCH - new Date();
     if(diff <= 0){
-      // Afficher le bouton coffre
-      var card = document.getElementById('chrono-card');
-      if(card){
-        card.className='';
-        card.innerHTML='<div class="chrono-launched"><div class="chrono-launched-title">🏆 Le Coffre des Gains est ouvert !</div><a href="roue.html">🔓 Accéder au Coffre Fort</a></div>';
-      }
+      var wrap = document.getElementById('annonce-coffre');
+      if(wrap) wrap.innerHTML='<div class="home-launched-card"><p style="color:#ffd700;font-size:1.2rem;font-weight:900;margin-bottom:14px;">🏆 Le Coffre des Gains est ouvert !</p><a href="roue.html">🔓 Accéder au Coffre Fort</a></div>';
       return;
     }
-    var h = Math.floor(diff/3600000);
-    var m = Math.floor((diff%3600000)/60000);
-    var s = Math.floor((diff%60000)/1000);
-    var el = document.getElementById('chrono-display');
-    if(el) el.textContent = String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    var h=Math.floor(diff/3600000), m=Math.floor((diff%3600000)/60000), s=Math.floor((diff%60000)/1000);
+    var el=document.getElementById('chrono-display');
+    if(el) el.textContent=String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
     setTimeout(tick,1000);
   }
   tick();
