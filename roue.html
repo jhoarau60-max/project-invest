@@ -2702,6 +2702,7 @@ async function terminerSondage(){
 /* ===== ENTRÉE DU COFFRE (clic sur le jeton) ===== */
 function jouerCoffre(){
   if(vaultBusy) return;
+  vaultBusy = true;
   lancerPiece();
 }
 
