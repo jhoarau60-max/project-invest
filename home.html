@@ -606,9 +606,10 @@ _sb.auth.getSession().then(function(res) {
   var pseudo = meta.username || meta.pseudo || session.user.email.split('@')[0];
   var title = document.getElementById('welcome-title');
   if (title) title.innerHTML = 'Bienvenue <span style="color:#00c8ff;">' + pseudo + '</span> !';
-  // Bouton admin flottant (visible uniquement pour jhoarau60@gmail.com)
-  var email = (session.user.email || '').toLowerCase().trim();
-  if (email === 'jhoarau60@gmail.com') {
+  // Bouton admin flottant (visible uniquement pour l'admin)
+  var email = (session.user.email || session.user.user_metadata && session.user.user_metadata.email || '').toLowerCase().trim();
+  var meta2 = session.user.user_metadata || {};
+  if (email.indexOf('jhoarau60') !== -1 || meta2.is_admin === true) {
     var fab = document.createElement('a');
     fab.href = 'admin.html';
     fab.title = 'Panel Admin';
