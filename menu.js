@@ -774,62 +774,6 @@ if ('serviceWorker' in navigator) {
       }
     })();
 
-    // ── Popup Annonce à l'ouverture ──
-    // Réinitialiser l'annonce à chaque nouvelle connexion Supabase
-    var _sbAnn = (typeof _sb !== 'undefined') ? _sb : null;
-    if (_sbAnn) {
-      _sbAnn.auth.onAuthStateChange(function(event) {
-        if (event === 'SIGNED_IN') sessionStorage.removeItem('annonce_vue');
-      });
-    }
-    if (!sessionStorage.getItem('annonce_vue')) {
-      var annOverlay = document.createElement('div');
-      annOverlay.id = 'annonce-overlay';
-      annOverlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:16px;';
-
-      var annBox = document.createElement('div');
-      annBox.style.cssText = 'position:relative;width:min(90vw,90vh);max-width:500px;border-radius:16px;overflow:visible;box-shadow:0 0 50px rgba(0,150,255,0.4),0 20px 60px rgba(0,0,0,0.8);animation:annPopIn 0.4s cubic-bezier(0.34,1.56,0.64,1);';
-
-      var annStyle = document.createElement('style');
-      annStyle.textContent = '@keyframes annPopIn{from{opacity:0;transform:scale(0.85);}to{opacity:1;transform:scale(1);}}'
-        + '@keyframes annDotBlink{0%,100%{opacity:1;}50%{opacity:0.2;}}';
-      document.head.appendChild(annStyle);
-
-      // Bouton fermer
-      var annClose = document.createElement('button');
-      annClose.innerHTML = '&times;';
-      annClose.style.cssText = 'position:absolute;top:10px;right:12px;z-index:10;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.3);border-radius:50%;color:#fff;font-size:1.3rem;line-height:1;width:32px;height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;';
-      annClose.addEventListener('mouseenter', function(){ this.style.background='rgba(255,50,50,0.6)'; });
-      annClose.addEventListener('mouseleave', function(){ this.style.background='rgba(0,0,0,0.5)'; });
-      annClose.addEventListener('click', function(){
-        annOverlay.remove();
-        sessionStorage.setItem('annonce_vue', '1');
-      });
-
-      annBox.innerHTML = '<div style="width:100%;aspect-ratio:1/1;border-radius:16px 16px 0 0;overflow:hidden;"><img src="coffre-annonce.jpg" alt="Annonce" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
-        + '<div style="background:linear-gradient(160deg,#050a1e,#0a1432);border:1px solid rgba(0,180,255,0.4);border-top:none;border-radius:0 0 16px 16px;padding:14px 16px 16px;max-height:45vh;overflow-y:auto;">'
-        +   '<div style="font-size:0.82rem;color:#e8f4ff;line-height:1.6;margin-bottom:8px;">🚨 <strong>ANNONCE IMPORTANTE</strong> 🚨</div>'
-        +   '<div style="font-size:0.78rem;color:#e8f4ff;line-height:1.6;margin-bottom:8px;">Et si tout le monde avait enfin sa chance d\'investir ? 💭💸<br>Très bientôt, découvrez un nouvel outil basé sur des systèmes d\'attraction 🎯 conçu pour vous permettre de gagner des bons d\'investissement 🎁💰… même avec peu de moyens.</div>'
-        +   '<div style="font-size:0.78rem;color:#ffd700;line-height:1.8;margin-bottom:8px;">💡 Pas besoin de gros capital pour commencer<br>💡 Une opportunité ouverte à tous 🌍<br>💡 Un système pensé pour donner une vraie chance à chacun 🤝</div>'
-        +   '<div style="font-size:0.78rem;color:#a0d8ff;line-height:1.5;margin-bottom:8px;">🔐 Un coffre-fort nouvelle génération arrive… et pourrait bien changer la donne ⚡</div>'
-        +   '<div style="font-size:0.75rem;color:rgba(255,255,255,0.75);line-height:1.6;margin-bottom:8px;">⏳ Dans les minutes, heures ou jours à venir… toutes les informations sur son fonctionnement et son utilisation seront dévoilées 📢</div>'
-        +   '<div style="font-size:0.75rem;color:#e8f4ff;line-height:1.7;margin-bottom:8px;">🔥 Préparez-vous à découvrir une nouvelle façon d\'investir<br>👉 plus accessible<br>👉 plus intelligente<br>👉 et surtout… faite pour vous 💎</div>'
-        +   '<button id="ann-close-btn" style="width:100%;padding:10px;border-radius:10px;background:linear-gradient(135deg,#0080ff,#00c8ff);border:none;color:#fff;font-weight:900;font-size:0.85rem;cursor:pointer;margin-top:4px;">📲 Restez connectés… votre opportunité arrive 🚀</button>'
-        + '</div>';
-
-      annBox.insertBefore(annClose, annBox.firstChild);
-      annOverlay.appendChild(annBox);
-      document.body.appendChild(annOverlay);
-
-      document.getElementById('ann-close-btn').addEventListener('click', function(){
-        annOverlay.remove();
-        sessionStorage.setItem('annonce_vue', '1');
-      });
-
-      annOverlay.addEventListener('click', function(e){
-        if (e.target === annOverlay) { annOverlay.remove(); sessionStorage.setItem('annonce_vue', '1'); }
-      });
-    }
   });
 
 })();
