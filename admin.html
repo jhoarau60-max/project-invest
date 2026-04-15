@@ -312,7 +312,16 @@
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Z2d4a3R5YnpicnRza2N3bHhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyODM2MjcsImV4cCI6MjA4OTg1OTYyN30.cfHsAvmgcXYvedCz1fZCHlxOApupKCxnt8t9e8KzNBs"
     );
 
-    /* ── Pas de guard côté client — URL secrète + bouton visible uniquement pour l'admin ── */
+    /* ── Guard admin ── */
+    setTimeout(function(){
+      _sb.auth.getSession().then(function(res){
+        if(!res.data||!res.data.session){window.location.href='index.html';return;}
+        var email=(res.data.session.user.email||'').toLowerCase().trim();
+        if(email!=='teamlivematch@gmail.com'){
+          document.body.innerHTML='<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:#050a18;color:#ff4444;font-size:1.5rem;font-weight:900;gap:20px;"><div>🔒 Accès refusé</div><a href="home.html" style="color:#00c8ff;font-size:1rem;">Retour à l\'accueil</a></div>';
+        }
+      });
+    },1000);
   </script>
 </head>
 <body>
