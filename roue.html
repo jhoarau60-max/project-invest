@@ -2219,6 +2219,46 @@ setTimeout(function(){
         <div id="daily-orb" class="daily-wheel-wrap" onclick="tourQuotidien()" style="cursor:pointer;">
           <div class="daily-wheel-ptr">▼</div>
           <canvas id="daily-wheel-canvas" width="208" height="208"></canvas>
+          <script>
+          (function(){
+            var cv=document.getElementById('daily-wheel-canvas');
+            if(!cv)return;
+            var ctx=cv.getContext('2d');
+            var segs=[
+              {pts:0,  bg:'#2a0a50',txt:'#e0d0ff'},
+              {pts:1,  bg:'#1a3a80',txt:'#ffffff'},
+              {pts:2,  bg:'#4a1a90',txt:'#ffffff'},
+              {pts:1,  bg:'#0a5a90',txt:'#ffffff'},
+              {pts:2,  bg:'#6a2aa0',txt:'#ffffff'},
+              {pts:20, bg:'#c08000',txt:'#fff8d0'},
+              {pts:1,  bg:'#1a4a70',txt:'#ffffff'},
+              {pts:2,  bg:'#5a1a80',txt:'#ffffff'},
+              {pts:5,  bg:'#0a7ab0',txt:'#ffffff'},
+              {pts:10, bg:'#0a8060',txt:'#ffffff'}
+            ];
+            var S=cv.width,cx=S/2,cy=S/2,r=S/2-4,n=segs.length,arc=Math.PI*2/n;
+            ctx.clearRect(0,0,S,S);
+            segs.forEach(function(seg,i){
+              var sa=i*arc-Math.PI/2,ea=sa+arc;
+              ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,sa,ea);ctx.closePath();
+              ctx.fillStyle=seg.bg;ctx.fill();
+              ctx.strokeStyle='rgba(255,255,255,0.3)';ctx.lineWidth=2;ctx.stroke();
+              ctx.save();
+              ctx.translate(cx,cy);ctx.rotate(sa+arc/2);ctx.translate(r*0.58,0);ctx.rotate(Math.PI/2);
+              ctx.fillStyle=seg.txt;ctx.font='bold '+(S/11)+'px sans-serif';
+              ctx.textAlign='center';ctx.textBaseline='middle';
+              ctx.shadowColor='rgba(0,0,0,0.9)';ctx.shadowBlur=5;
+              ctx.fillText(seg.pts===0?'0':'+'+seg.pts,0,0);
+              ctx.restore();
+            });
+            ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);
+            ctx.strokeStyle='rgba(255,215,0,0.9)';ctx.lineWidth=3;ctx.stroke();
+            ctx.beginPath();ctx.arc(cx,cy,S/10,0,Math.PI*2);
+            ctx.fillStyle='#ffd700';ctx.fill();
+            ctx.beginPath();ctx.arc(cx,cy,S/18,0,Math.PI*2);
+            ctx.fillStyle='#7a5000';ctx.fill();
+          })();
+          </script>
         </div>
         <div id="daily-status" style="font-size:0.6rem;color:rgba(150,150,180,0.7);text-align:center;max-width:140px;line-height:1.3;"></div>
         <div id="daily-result" class="daily-widget-result"></div>
