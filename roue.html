@@ -1608,10 +1608,8 @@ const _sb=window.supabase.createClient("https://cvggxktybzbrtskcwlxp.supabase.co
 var currentUser=null;
 setTimeout(function(){
   _sb.auth.getSession().then(function(r){
-    /* AUTH DÉSACTIVÉE EN DEV LOCAL — remettre avant publication :
     if(!r.data.session){window.location.href="index.html";return;}
-    */
-    currentUser = r.data.session ? r.data.session.user : {id:'dev-local'};
+    currentUser = r.data.session.user;
     // Tracking visite page coffre
     if(r.data.session){
       _sb.from('site_visits').insert({user_id:r.data.session.user.id, page:'coffre'}).catch(function(){});
@@ -2894,6 +2892,7 @@ function soundCoinImpact(){
 
 /* ===== TENTER COFFRE ===== */
 async function tenterCoffre(){
+  try {
   // Tracking clic bouton Jouer
   if(currentUser && currentUser.id!=='dev-local'){
     _sb.from('coffre_events').insert({user_id:currentUser.id, event_type:'play_click'}).catch(function(){});
@@ -3022,6 +3021,11 @@ async function tenterCoffre(){
       vaultBusy = false;
     }, 600);   // fin pause après arrêt roue
   }, 2800);    // fin rotation roue
+  } catch(err) {
+    var vr=document.getElementById('vault-result');
+    if(vr) vr.innerHTML='<p style="color:#ff4455;text-align:center;font-weight:700;">Erreur : '+err.message+'</p>';
+    vaultBusy = false;
+  }
 }
 
 /* ===== UTILISER JETONS ===== */
