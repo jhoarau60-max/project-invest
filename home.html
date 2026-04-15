@@ -109,6 +109,7 @@ const _sb = window.supabase.createClient(
             <a href="https://wa.me/320492931040" target="_blank" style="background:#25D366;color:#fff;border-color:#25D366;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-whatsapp" style="font-size:1rem;color:#fff;"></i> WhatsApp</a>
             
             <a href="#" onclick="_sb.auth.signOut().then(()=>window.location.href='index.html')" style="background:#229ED9;color:#fff;border:1px solid #229ED9;border-radius:20px;font-weight:700;display:inline-flex;align-items:center;gap:6px;"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
+            <a id="admin-header-btn" href="admin.html" style="display:none;background:linear-gradient(135deg,#ff4400,#ff8800);color:#fff;border-radius:20px;padding:5px 12px;font-weight:700;align-items:center;gap:6px;">⚙ Admin</a>
         </div>
     </div>
     <nav>
@@ -606,16 +607,11 @@ _sb.auth.getSession().then(function(res) {
   var pseudo = meta.username || meta.pseudo || session.user.email.split('@')[0];
   var title = document.getElementById('welcome-title');
   if (title) title.innerHTML = 'Bienvenue <span style="color:#00c8ff;">' + pseudo + '</span> !';
-  // Bouton admin flottant
+  // Lien admin dans le header
   var email = (session.user.email || '').toLowerCase().trim();
-  if (email === 'jhoarau60@gmail.com' && !document.getElementById('floating-admin-btn')) {
-    var btn = document.createElement('a');
-    btn.id = 'floating-admin-btn';
-    btn.href = 'admin.html';
-    btn.title = 'Panel Admin';
-    btn.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:99999;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#ff4400,#ff8800);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 0 18px rgba(255,80,0,0.6);text-decoration:none;border:2px solid rgba(255,150,0,0.6);';
-    btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i>';
-    document.body.appendChild(btn);
+  if (email === 'jhoarau60@gmail.com') {
+    var adminBtn = document.getElementById('admin-header-btn');
+    if (adminBtn) adminBtn.style.display = 'inline-flex';
   }
 });
 </script>
