@@ -127,7 +127,6 @@ const _sb = window.supabase.createClient(
             <li><a href="pdf-societe.html">PDF de société</a></li>
             <li><a href="journal.html">Journal</a></li>
             <li><a href="bibliotheque-mlm.html">Avis Clients</a></li>
-            <li><a href="admin.html" style="color:#ff6600;font-weight:700;">⚙ Admin</a></li>
         </ul>
     </nav>
 </header>
@@ -608,6 +607,23 @@ _sb.auth.getSession().then(function(res) {
   var pseudo = meta.username || meta.pseudo || session.user.email.split('@')[0];
   var title = document.getElementById('welcome-title');
   if (title) title.innerHTML = 'Bienvenue <span style="color:#00c8ff;">' + pseudo + '</span> !';
+  // Lien Admin dans le sidebar — uniquement pour jhoarau60@gmail.com
+  var email = (session.user.email || '').toLowerCase().trim();
+  if (email === 'jhoarau60@gmail.com') {
+    setTimeout(function() {
+      var navUl = document.querySelector('nav ul');
+      if (navUl && !document.getElementById('admin-nav-li')) {
+        var li = document.createElement('li');
+        li.id = 'admin-nav-li';
+        var a = document.createElement('a');
+        a.href = 'admin.html';
+        a.style.cssText = 'color:#ff6600!important;font-weight:700;';
+        a.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Admin';
+        li.appendChild(a);
+        navUl.appendChild(li);
+      }
+    }, 1200);
+  }
 });
 </script>
 <script src="menu.js"></script>
