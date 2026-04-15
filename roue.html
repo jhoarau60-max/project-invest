@@ -2987,7 +2987,16 @@ async function tenterCoffre(){
           var ja=document.getElementById('jeton-affiche');
           if(ja){ ja.classList.remove('lancee'); }
         }, 700);
-        /* Message VOUS AVEZ PERDU */
+        /* Résultat permanent dans vault-result */
+        var vr = document.getElementById('vault-result');
+        if(vr){
+          if(isExtraSpin && extraSpinPts>0){
+            vr.innerHTML='<p style="text-align:center;color:#ff4455;font-size:1.2rem;font-weight:900;margin:8px 0;">💔 PERDU — Consolation : <span style="color:#ffd700">+'+extraSpinPts+' jeton'+(extraSpinPts>1?'s':'')+'</span></p>';
+          } else {
+            vr.innerHTML='<p style="text-align:center;color:#ff4455;font-size:1.2rem;font-weight:900;margin:8px 0;">💔 PERDU — Pas cette fois !</p>';
+          }
+        }
+        /* Message VOUS AVEZ PERDU (animation courte) */
         setTimeout(function(){
           var la = document.getElementById('lose-announce');
           if(la){
@@ -3405,6 +3414,9 @@ function sequenceVictoire(scene){
           Notification.requestPermission().then(function(p){ if(p === 'granted') doNotif(); });
         }
       }
+      /* Résultat permanent victoire */
+      var vr = document.getElementById('vault-result');
+      if(vr) vr.innerHTML='<p style="text-align:center;color:#ffd700;font-size:1.2rem;font-weight:900;margin:8px 0;">🏆 VOUS AVEZ GAGNÉ 50$ !</p>';
     }).catch(function(){
       afficherMessage('Joueur');
     });
