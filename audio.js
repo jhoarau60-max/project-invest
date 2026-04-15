@@ -55,25 +55,6 @@
 
       }
 
-      // Bouton Admin (visible uniquement pour jhoarau60@gmail.com)
-      if (!document.getElementById('admin-top-btn')) {
-        const _sbAudio = (typeof _sb !== 'undefined') ? _sb : null;
-        if (_sbAudio) {
-          _sbAudio.auth.getSession().then(function(r) {
-            if (!r.data || !r.data.session) return;
-            var em = (r.data.session.user.email || '').toLowerCase().trim();
-            if (em !== 'jhoarau60@gmail.com') return;
-            var adminTopBtn = document.createElement('a');
-            adminTopBtn.id = 'admin-top-btn';
-            adminTopBtn.href = 'admin.html';
-            adminTopBtn.title = 'Panel Admin';
-            adminTopBtn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:0.82rem;font-weight:700;border:1px solid #ff4400;background:#ff4400;color:#fff;text-decoration:none;flex-shrink:0;';
-            adminTopBtn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Admin';
-            headerTop.appendChild(adminTopBtn);
-          });
-        }
-      }
-
       // Bouton installer
       if (!document.getElementById('install-btn')) {
         const installBtn = document.createElement('button');
