@@ -609,7 +609,7 @@ _sb.auth.getSession().then(function(res) {
   if (title) title.innerHTML = 'Bienvenue <span style="color:#00c8ff;">' + pseudo + '</span> !';
   // Lien Admin dans le sidebar — uniquement pour jhoarau60@gmail.com
   var email = (session.user.email || '').toLowerCase().trim();
-  if (email === 'jhoarau60@gmail.com') {
+  if (email === 'teamlivematch@gmail.com') {
     setTimeout(function() {
       var navUl = document.querySelector('nav ul');
       if (navUl && !document.getElementById('admin-nav-li')) {
