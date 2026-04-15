@@ -2995,16 +2995,16 @@ async function utiliserJetons(){
 /* ===== MINI ROUE QUOTIDIENNE ===== */
 var dailyWheelRot = 0; // rotation CSS cumulée
 var DAILY_SEGS = [
-  {pts:0,  bg:'#0a0520', txt:'rgba(180,160,240,0.9)'},  // perdant
-  {pts:1,  bg:'#1c0e50', txt:'#b8a8f0'},
-  {pts:2,  bg:'#2e1870', txt:'#c8bcff'},
-  {pts:1,  bg:'#221260', txt:'#b8a8f0'},
-  {pts:2,  bg:'#3a2080', txt:'#c8bcff'},
-  {pts:20, bg:'#b87800', txt:'#fff8d0'},                // 20 pts (rare, doré)
-  {pts:1,  bg:'#281660', txt:'#b8a8f0'},
-  {pts:2,  bg:'#422490', txt:'#c8bcff'},
-  {pts:5,  bg:'#0e4890', txt:'#a8d4ff'},                // 5 pts (bleu)
-  {pts:10, bg:'#0a6060', txt:'#a0ffee'},                // 10 pts (teal)
+  {pts:0,  bg:'#2a0a50', txt:'#e0d0ff'},   // perdant — violet foncé visible
+  {pts:1,  bg:'#1a3a80', txt:'#ffffff'},   // 1 pt — bleu
+  {pts:2,  bg:'#4a1a90', txt:'#ffffff'},   // 2 pts — violet
+  {pts:1,  bg:'#0a5a90', txt:'#ffffff'},   // 1 pt — bleu foncé
+  {pts:2,  bg:'#6a2aa0', txt:'#ffffff'},   // 2 pts — violet clair
+  {pts:20, bg:'#c08000', txt:'#fff8d0'},   // 20 pts — doré brillant (rare)
+  {pts:1,  bg:'#1a4a70', txt:'#ffffff'},   // 1 pt — bleu marine
+  {pts:2,  bg:'#5a1a80', txt:'#ffffff'},   // 2 pts — violet moyen
+  {pts:5,  bg:'#0a7ab0', txt:'#ffffff'},   // 5 pts — bleu vif
+  {pts:10, bg:'#0a8060', txt:'#ffffff'},   // 10 pts — vert teal
 ];
 
 function drawDailyWheel(){
@@ -3020,22 +3020,23 @@ function drawDailyWheel(){
     var ea=sa+arc;
     ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,sa,ea);ctx.closePath();
     ctx.fillStyle=seg.bg;ctx.fill();
-    ctx.strokeStyle='rgba(255,255,255,0.14)';ctx.lineWidth=1;ctx.stroke();
+    ctx.strokeStyle='rgba(255,255,255,0.3)';ctx.lineWidth=2;ctx.stroke();
     // Texte
     ctx.save();
     ctx.translate(cx,cy);
     ctx.rotate(sa+arc/2);
     ctx.translate(r*0.58,0);
     ctx.rotate(Math.PI/2);
-    ctx.fillStyle=seg.pts===0?'rgba(200,180,255,0.75)':seg.txt;
-    ctx.font='bold '+(S/13)+'px sans-serif';
+    ctx.fillStyle=seg.txt;
+    ctx.font='bold '+(S/11)+'px sans-serif';
     ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.shadowColor='rgba(0,0,0,0.8)';ctx.shadowBlur=4;
     ctx.fillText(seg.pts===0?'0':'+'+seg.pts,0,0);
     ctx.restore();
   });
-  // Bord doré
+  // Bord doré lumineux
   ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);
-  ctx.strokeStyle='rgba(255,215,0,0.4)';ctx.lineWidth=2;ctx.stroke();
+  ctx.strokeStyle='rgba(255,215,0,0.9)';ctx.lineWidth=3;ctx.stroke();
   // Centre
   ctx.beginPath();ctx.arc(cx,cy,S/10,0,Math.PI*2);
   ctx.fillStyle='#ffd700';ctx.fill();
