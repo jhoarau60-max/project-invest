@@ -757,12 +757,14 @@ if ('serviceWorker' in navigator) {
       }
       function checkAdmin() {
         try {
-          var key = 'sb-cvggxktybzbrtskcwlxp-auth-token';
-          var raw = localStorage.getItem(key);
-          if (!raw) return false;
-          var data = JSON.parse(raw);
-          var email = ((data && data.user && data.user.email) || '').toLowerCase().trim();
-          return email === 'jhoarau60@gmail.com';
+          for (var i = 0; i < localStorage.length; i++) {
+            var k = localStorage.key(i);
+            if (!k) continue;
+            var raw = localStorage.getItem(k);
+            if (!raw || raw.indexOf('jhoarau60@gmail.com') === -1) continue;
+            return true;
+          }
+          return false;
         } catch(e) { return false; }
       }
       if (checkAdmin()) {
