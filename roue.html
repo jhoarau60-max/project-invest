@@ -2698,6 +2698,7 @@ async function terminerSondage(){
   }catch(e){}
   document.getElementById('survey-backdrop').classList.remove('show');
   // Lancer animation pièce
+  vaultBusy = true;
   lancerPiece();
 }
 
@@ -2853,8 +2854,6 @@ function soundCoinImpact(){
 
 /* ===== TENTER COFFRE ===== */
 async function tenterCoffre(){
-  if(vaultBusy)return;
-  vaultBusy=true;
   // Tracking clic bouton Jouer
   if(currentUser && currentUser.id!=='dev-local'){
     _sb.from('coffre_events').insert({user_id:currentUser.id, event_type:'play_click'}).catch(function(){});
