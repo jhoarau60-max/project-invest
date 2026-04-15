@@ -607,22 +607,20 @@ _sb.auth.getSession().then(function(res) {
   var pseudo = meta.username || meta.pseudo || session.user.email.split('@')[0];
   var title = document.getElementById('welcome-title');
   if (title) title.innerHTML = 'Bienvenue <span style="color:#00c8ff;">' + pseudo + '</span> !';
-  // Lien Admin dans le sidebar — uniquement pour jhoarau60@gmail.com
+  // Bouton Admin visible uniquement pour teamlivematch@gmail.com
   var email = (session.user.email || '').toLowerCase().trim();
   if (email === 'teamlivematch@gmail.com') {
-    setTimeout(function() {
-      var navUl = document.querySelector('nav ul');
-      if (navUl && !document.getElementById('admin-nav-li')) {
-        var li = document.createElement('li');
-        li.id = 'admin-nav-li';
-        var a = document.createElement('a');
-        a.href = 'admin.html';
-        a.style.cssText = 'color:#ff6600!important;font-weight:700;';
-        a.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Admin';
-        li.appendChild(a);
-        navUl.appendChild(li);
-      }
-    }, 1200);
+    window.addEventListener('load', function() {
+      if (document.getElementById('admin-fab')) return;
+      var fab = document.createElement('a');
+      fab.id = 'admin-fab';
+      fab.href = 'admin.html';
+      fab.innerHTML = '&#9881; Admin';
+      document.body.appendChild(fab);
+      var s = document.createElement('style');
+      s.textContent = '#admin-fab{position:fixed;top:12px;right:12px;z-index:2147483647;background:#ff4400;color:#fff;padding:6px 14px;border-radius:20px;font-weight:900;font-size:0.85rem;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,0.5);}';
+      document.head.appendChild(s);
+    });
   }
 });
 </script>
