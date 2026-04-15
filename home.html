@@ -610,17 +610,16 @@ _sb.auth.getSession().then(function(res) {
   // Bouton Admin visible uniquement pour teamlivematch@gmail.com
   var email = (session.user.email || '').toLowerCase().trim();
   if (email === 'teamlivematch@gmail.com') {
-    window.addEventListener('load', function() {
-      if (document.getElementById('admin-fab')) return;
+    if (!document.getElementById('admin-fab')) {
       var fab = document.createElement('a');
       fab.id = 'admin-fab';
       fab.href = 'admin.html';
       fab.innerHTML = '&#9881; Admin';
-      document.body.appendChild(fab);
       var s = document.createElement('style');
       s.textContent = '#admin-fab{position:fixed;top:12px;right:12px;z-index:2147483647;background:#ff4400;color:#fff;padding:6px 14px;border-radius:20px;font-weight:900;font-size:0.85rem;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,0.5);}';
       document.head.appendChild(s);
-    });
+      document.body.appendChild(fab);
+    }
   }
 });
 </script>
