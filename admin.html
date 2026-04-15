@@ -312,30 +312,15 @@
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Z2d4a3R5YnpicnRza2N3bHhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyODM2MjcsImV4cCI6MjA4OTg1OTYyN30.cfHsAvmgcXYvedCz1fZCHlxOApupKCxnt8t9e8KzNBs"
     );
 
-    /* ── Auth guard : session check ── */
-    function checkAdminGuard() {
-      _sb.auth.getSession().then(function(res) {
-        var data = res.data;
-        if (!data || !data.session) {
-          // Réessayer une fois après 1.5s au cas où la session tarde
-          setTimeout(function() {
-            _sb.auth.getSession().then(function(res2) {
-              if (!res2.data || !res2.data.session) { window.location.href = "index.html"; return; }
-              var email = (res2.data.session.user.email || '').toLowerCase().trim();
-              var meta  = res2.data.session.user.user_metadata || {};
-              var ok = meta.is_admin === true || email === 'jhoarau60@gmail.com';
-              if (!ok) { window.location.href = "home.html"; }
-            });
-          }, 1500);
-          return;
-        }
-        var email = (data.session.user.email || '').toLowerCase().trim();
-        var meta  = data.session.user.user_metadata || {};
-        var ok = meta.is_admin === true || email === 'jhoarau60@gmail.com';
-        if (!ok) { window.location.href = "home.html"; }
-      });
-    }
-    setTimeout(checkAdminGuard, 500);
+    /* ── Auth guard : attend la vraie session ── */
+    _sb.auth.onAuthStateChange(function(event, session) {
+      if (event !== 'INITIAL_SESSION') return;
+      if (!session) { window.location.href = "index.html"; return; }
+      var email = (session.user.email || '').toLowerCase().trim();
+      var meta  = session.user.user_metadata || {};
+      var ok = meta.is_admin === true || email === 'jhoarau60@gmail.com';
+      if (!ok) { window.location.href = "home.html"; }
+    });
   </script>
 </head>
 <body>
