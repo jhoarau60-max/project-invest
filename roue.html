@@ -3543,6 +3543,9 @@ function stopFW(){
   var c=fwC||document.getElementById('fw-canvas');
   if(c){c.style.display='none';c.getContext('2d').clearRect(0,0,c.width,c.height);}
 }
+
+// Dessiner la roue dès le chargement (sans attendre l'auth)
+window.addEventListener('load', function(){ drawDailyWheel(); });
 </script>
 </body>
 </html>
