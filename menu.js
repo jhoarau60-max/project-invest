@@ -740,10 +740,7 @@ if ('serviceWorker' in navigator) {
 
     // ── Bouton Admin flottant (visible uniquement pour jhoarau60@gmail.com) ──
     (function(){
-      var _sbMenu = (typeof _sb !== 'undefined') ? _sb : null;
-      if (!_sbMenu) return;
-      function injectAdminBtn(email) {
-        if (!email || email !== 'jhoarau60@gmail.com') return;
+      function injectAdminBtn() {
         if (document.getElementById('floating-admin-btn')) return;
         var btn = document.createElement('a');
         btn.id = 'floating-admin-btn';
@@ -758,14 +755,21 @@ if ('serviceWorker' in navigator) {
         btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i>';
         document.body.appendChild(btn);
       }
-      _sbMenu.auth.getSession().then(function(r) {
-        if (r.data && r.data.session) {
-          injectAdminBtn((r.data.session.user.email || '').toLowerCase().trim());
-        }
-      });
-      _sbMenu.auth.onAuthStateChange(function(event, session) {
-        if (session) injectAdminBtn((session.user.email || '').toLowerCase().trim());
-      });
+      function checkAdmin() {
+        try {
+          var key = 'sb-cvggxktybzbrtskcwlxp-auth-token';
+          var raw = localStorage.getItem(key);
+          if (!raw) return false;
+          var data = JSON.parse(raw);
+          var email = ((data && data.user && data.user.email) || '').toLowerCase().trim();
+          return email === 'jhoarau60@gmail.com';
+        } catch(e) { return false; }
+      }
+      if (checkAdmin()) {
+        injectAdminBtn();
+      } else {
+        setTimeout(function(){ if (checkAdmin()) injectAdminBtn(); }, 2000);
+      }
     })();
 
     // ── Popup Annonce à l'ouverture ──
