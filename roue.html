@@ -2336,8 +2336,8 @@ setTimeout(function(){
       <div style="display:flex;flex-direction:column;align-items:center;">
         <div id="jeton-affiche" onclick="jouerCoffre()">
           <img src="jeton-invest.jpg" alt="Project INVES'T">
+          <div class="jeton-hint">▼ Appuyer ici</div>
         </div>
-        <span style="font-size:0.75rem;font-weight:800;color:#ffd700;letter-spacing:0.12em;text-transform:uppercase;text-shadow:0 0 10px rgba(255,200,0,0.7);margin-top:36px;">▼ Appuyer ici</span>
         <p style="font-size:0.72rem;color:rgba(160,190,230,0.65);text-align:center;margin:6px 0 0;line-height:1.5;">
           Votre tour gratuit du mois est disponible
         </p>
@@ -2680,7 +2680,7 @@ async function init(){
     document.getElementById('coin-hero').onclick=null;
     /* Désactiver aussi le jeton affiché */
     var ja=document.getElementById('jeton-affiche');
-    if(ja){ ja.style.opacity='0.35'; ja.style.cursor='default'; ja.onclick=null; ja.querySelector('.jeton-hint').textContent='Tour du mois utilisé'; }
+    if(ja){ ja.style.opacity='0.35'; ja.style.cursor='default'; ja.onclick=null; var jh=ja.querySelector('.jeton-hint');if(jh)jh.textContent='Tour du mois utilisé'; }
     document.getElementById('btn-crypto-wrap').style.display='flex';
     vStatus.textContent='Tour du mois utilisé.';
   }
@@ -3003,7 +3003,7 @@ async function tenterCoffre(){
         document.getElementById('stat-participants').textContent = totalSpins;
         if(extraSpinsRemaining > 0){
           var ja2=document.getElementById('jeton-affiche');
-          if(ja2){ ja2.style.opacity='1'; ja2.style.cursor='pointer'; ja2.onclick=jouerCoffre; ja2.querySelector('.jeton-hint').textContent='▼ Cliquer pour jouer'; }
+          if(ja2){ ja2.style.opacity='1'; ja2.style.cursor='pointer'; ja2.onclick=jouerCoffre; var jh2=ja2.querySelector('.jeton-hint');if(jh2)jh2.textContent='▼ Cliquer pour jouer'; }
           document.getElementById('vault-status').textContent = extraSpinsRemaining+' tour(s) supplémentaire(s) restant(s)';
         } else {
           document.getElementById('btn-crypto-wrap').style.display = 'flex';
@@ -3028,7 +3028,7 @@ async function utiliserJetons(){
   coinHero.onclick=ouvrirSondage;
   /* Réactiver le jeton affiché */
   var ja=document.getElementById('jeton-affiche');
-  if(ja){ ja.style.opacity='1'; ja.style.cursor='pointer'; ja.onclick=jouerCoffre; ja.querySelector('.jeton-hint').textContent='▼ Cliquer pour jouer'; }
+  if(ja){ ja.style.opacity='1'; ja.style.cursor='pointer'; ja.onclick=jouerCoffre; var jh=ja.querySelector('.jeton-hint');if(jh)jh.textContent='▼ Cliquer pour jouer'; }
   document.getElementById('btn-crypto-wrap').style.display='none';
 }
 
@@ -3289,7 +3289,7 @@ async function verifierPaiement(uid, expected_amount, tours, network){
       var m = document.getElementById('crypto-modal');
       if(m) m.remove();
       var ja=document.getElementById('jeton-affiche');
-      if(ja){ ja.style.opacity='1'; ja.style.cursor='pointer'; ja.onclick=jouerCoffre; ja.querySelector('.jeton-hint').textContent='▼ Cliquer pour jouer'; }
+      if(ja){ ja.style.opacity='1'; ja.style.cursor='pointer'; ja.onclick=jouerCoffre; var jh=ja.querySelector('.jeton-hint');if(jh)jh.textContent='▼ Cliquer pour jouer'; }
       document.getElementById('btn-crypto-wrap').style.display='none';
       document.getElementById('vault-status').textContent = extraSpinsRemaining+' tour(s) supplémentaire(s) disponible(s)';
     }, 1800);
