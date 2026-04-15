@@ -1485,17 +1485,19 @@
 
     .daily-wheel-wrap {
       position: relative; flex-shrink: 0;
-      width: 62px; display: flex; flex-direction: column; align-items: center;
+      width: 200px; display: flex; flex-direction: column; align-items: center;
       cursor: pointer;
     }
     .daily-wheel-wrap.disabled { opacity: 0.38; cursor: not-allowed; }
     .daily-wheel-ptr {
-      font-size: 0.65rem; color: #ffd700; line-height: 1; margin-bottom: 1px;
+      font-size: 0.75rem; color: #ffd700; line-height: 1; margin-bottom: 3px;
       text-shadow: 0 0 6px rgba(255,215,0,0.9);
       animation: orbPulse 3s ease-in-out infinite;
     }
     .daily-wheel-wrap.disabled .daily-wheel-ptr { animation: none; }
     #daily-wheel-canvas {
+      width: 200px;
+      height: 200px;
       border-radius: 50%;
       box-shadow: 0 0 14px rgba(120,80,255,0.55), 0 0 4px rgba(255,215,0,0.3);
       display: block;
