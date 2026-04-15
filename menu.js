@@ -742,19 +742,29 @@ if ('serviceWorker' in navigator) {
     (function(){
       var _sbMenu = (typeof _sb !== 'undefined') ? _sb : null;
       if (!_sbMenu) return;
-      _sbMenu.auth.getSession().then(function(r) {
-        if (!r.data || !r.data.session) return;
-        var email = (r.data.session.user.email || '').toLowerCase().trim();
-        if (email !== 'jhoarau60@gmail.com') return;
+      function tryInjectAdmin(email) {
+        if (!email || email !== 'jhoarau60@gmail.com') return;
+        if (document.getElementById('admin-nav-link')) return; // déjà injecté
         var ulNav2 = nav.querySelector('ul');
         if (!ulNav2) return;
         var liAdmin = document.createElement('li');
+        liAdmin.id = 'admin-nav-link';
         var aAdmin = document.createElement('a');
         aAdmin.href = 'admin.html';
         aAdmin.style.cssText = 'display:flex;align-items:center;gap:10px;color:#ff6600;background:rgba(255,100,0,0.08);border:1px solid rgba(255,100,0,0.3);border-radius:8px;padding:8px 12px;margin-top:6px;font-weight:700;font-size:0.85rem;';
         aAdmin.innerHTML = '<i class="fa-solid fa-shield-halved" style="color:#ff6600;"></i> Panel Admin';
         liAdmin.appendChild(aAdmin);
         ulNav2.appendChild(liAdmin);
+      }
+      // Vérifier immédiatement
+      _sbMenu.auth.getSession().then(function(r) {
+        if (r.data && r.data.session) {
+          tryInjectAdmin((r.data.session.user.email || '').toLowerCase().trim());
+        }
+      });
+      // Et aussi à chaque changement d'état auth
+      _sbMenu.auth.onAuthStateChange(function(event, session) {
+        if (session) tryInjectAdmin((session.user.email || '').toLowerCase().trim());
       });
     })();
 
