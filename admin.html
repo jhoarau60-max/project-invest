@@ -546,6 +546,90 @@
     </div>
   </div>
 
+  <!-- ════════════════════════════════════════════
+       SECTION 4 — Analytics Coffre Fort
+  ═════════════════════════════════════════════ -->
+  <div class="admin-section" id="section-analytics">
+    <div class="admin-section-header">
+      <div class="admin-section-title">
+        <i class="fa-solid fa-chart-bar"></i> Analytics — Coffre Fort
+      </div>
+      <button class="btn btn-primary" onclick="loadAnalytics()">
+        <i class="fa-solid fa-rotate"></i> Actualiser
+      </button>
+    </div>
+
+    <!-- KPI chips -->
+    <div class="stats-bar">
+      <div class="stat-chip">Visites Coffre : <span id="an-visits">—</span></div>
+      <div class="stat-chip">Clics Jouer : <span id="an-plays">—</span></div>
+      <div class="stat-chip">Paiements approuvés : <span id="an-paid">—</span></div>
+      <div class="stat-chip">Points distribués : <span id="an-pts">—</span></div>
+      <div class="stat-chip">Inscrits : <span id="an-users">—</span></div>
+    </div>
+
+    <!-- Sous-section : Visites du site -->
+    <div class="admin-section-title" style="font-size:1rem;margin:20px 0 10px;">
+      <i class="fa-solid fa-eye"></i> Qui a visité le Coffre Fort
+    </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr><th>#</th><th>Utilisateur (email / id)</th><th>Page</th><th>Date & Heure</th></tr>
+        </thead>
+        <tbody id="an-visits-tbody">
+          <tr><td colspan="4" class="loading-text" style="text-align:center;padding:20px;">Chargement…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Sous-section : Clics Jouer -->
+    <div class="admin-section-title" style="font-size:1rem;margin:24px 0 10px;">
+      <i class="fa-solid fa-vault"></i> Qui a cliqué "Jouer"
+    </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr><th>#</th><th>Utilisateur (email / id)</th><th>Action</th><th>Date & Heure</th></tr>
+        </thead>
+        <tbody id="an-events-tbody">
+          <tr><td colspan="4" class="loading-text" style="text-align:center;padding:20px;">Chargement…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Sous-section : Paiements USDT -->
+    <div class="admin-section-title" style="font-size:1rem;margin:24px 0 10px;">
+      <i class="fa-solid fa-dollar-sign"></i> Paiements USDT
+    </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr><th>#</th><th>User ID</th><th>Montant</th><th>TX Hash</th><th>Statut</th><th>Date</th></tr>
+        </thead>
+        <tbody id="an-payments-tbody">
+          <tr><td colspan="6" class="loading-text" style="text-align:center;padding:20px;">Chargement…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Sous-section : Classement points -->
+    <div class="admin-section-title" style="font-size:1rem;margin:24px 0 10px;">
+      <i class="fa-solid fa-ranking-star"></i> Classement Points
+    </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr><th>Rang</th><th>User ID</th><th>Points</th></tr>
+        </thead>
+        <tbody id="an-points-tbody">
+          <tr><td colspan="3" class="loading-text" style="text-align:center;padding:20px;">Chargement…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
 </div><!-- /.admin-wrapper -->
 
 <!-- ── Scripts ── -->
@@ -816,6 +900,124 @@ function loadProfiles() {
     });
 }
 
+/* ════════════════════════════════
+   SECTION : ANALYTICS COFFRE FORT
+═════════════════════════════════ */
+
+// Cache des profiles pour résoudre les user_id → email
+var _profilesCache = {};
+
+function resolveUser(uid) {
+  if (!uid) return '—';
+  if (_profilesCache[uid]) return _profilesCache[uid];
+  return escHtml(String(uid).substring(0, 16)) + '…';
+}
+
+function formatDateTime(str) {
+  if (!str) return '—';
+  try {
+    var d = new Date(str);
+    return d.toLocaleDateString('fr-FR', { day:'2-digit', month:'2-digit', year:'numeric' })
+      + ' ' + d.toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
+  } catch(e) { return str; }
+}
+
+function loadAnalytics() {
+  // Charger d'abord les profiles pour résoudre les IDs
+  _sb.from('profiles').select('id,email,username').then(function(res) {
+    if (res.data) {
+      res.data.forEach(function(p) {
+        _profilesCache[p.id] = escHtml(p.email || p.username || String(p.id).substring(0,16)+'…');
+      });
+      document.getElementById('an-users').textContent = res.data.length;
+    }
+
+    // Visites site
+    _sb.from('site_visits').select('*').order('created_at', { ascending: false }).then(function(r) {
+      var rows = r.data || [];
+      document.getElementById('an-visits').textContent = rows.length;
+      if (rows.length === 0) {
+        document.getElementById('an-visits-tbody').innerHTML = '<tr class="empty-row"><td colspan="4">Aucune visite enregistrée.</td></tr>';
+      } else {
+        var html = '';
+        rows.forEach(function(row, i) {
+          html += '<tr><td style="color:rgba(0,200,255,0.5);font-size:0.78rem;">' + (i+1) + '</td>'
+            + '<td><strong>' + resolveUser(row.user_id) + '</strong></td>'
+            + '<td><span style="color:#00c8ff;">' + escHtml(row.page || '—') + '</span></td>'
+            + '<td style="white-space:nowrap;color:rgba(200,220,255,0.7);">' + formatDateTime(row.created_at) + '</td></tr>';
+        });
+        document.getElementById('an-visits-tbody').innerHTML = html;
+      }
+    });
+
+    // Clics Jouer
+    _sb.from('coffre_events').select('*').order('created_at', { ascending: false }).then(function(r) {
+      var rows = r.data || [];
+      document.getElementById('an-plays').textContent = rows.length;
+      if (rows.length === 0) {
+        document.getElementById('an-events-tbody').innerHTML = '<tr class="empty-row"><td colspan="4">Aucun clic enregistré.</td></tr>';
+      } else {
+        var html = '';
+        rows.forEach(function(row, i) {
+          html += '<tr><td style="color:rgba(0,200,255,0.5);font-size:0.78rem;">' + (i+1) + '</td>'
+            + '<td><strong>' + resolveUser(row.user_id) + '</strong></td>'
+            + '<td><span style="color:#ffd700;">🎰 ' + escHtml(row.event_type || '—') + '</span></td>'
+            + '<td style="white-space:nowrap;color:rgba(200,220,255,0.7);">' + formatDateTime(row.created_at) + '</td></tr>';
+        });
+        document.getElementById('an-events-tbody').innerHTML = html;
+      }
+    });
+
+    // Paiements USDT
+    _sb.from('pending_payments').select('*').order('created_at', { ascending: false }).then(function(r) {
+      var rows = r.data || [];
+      var approved = rows.filter(function(x){ return x.status === 'approved'; });
+      document.getElementById('an-paid').textContent = approved.length;
+      if (rows.length === 0) {
+        document.getElementById('an-payments-tbody').innerHTML = '<tr class="empty-row"><td colspan="6">Aucun paiement.</td></tr>';
+      } else {
+        var html = '';
+        rows.forEach(function(row, i) {
+          var statusBadge = row.status === 'approved'
+            ? '<span class="badge-approved">Approuvé</span>'
+            : row.status === 'rejected'
+              ? '<span class="badge-pending" style="color:#ff5f5f;border-color:rgba(255,60,60,0.35);background:rgba(255,60,60,0.08);">Rejeté</span>'
+              : '<span class="badge-pending">En attente</span>';
+          var txShort = row.tx_hash ? escHtml(String(row.tx_hash).substring(0,14))+'…' : '—';
+          html += '<tr><td style="color:rgba(0,200,255,0.5);font-size:0.78rem;">' + (i+1) + '</td>'
+            + '<td style="font-size:0.8rem;">' + resolveUser(row.user_id) + '</td>'
+            + '<td style="color:#00e676;font-weight:700;">' + escHtml(String(row.amount || row.montant || '—')) + ' USDT</td>'
+            + '<td style="font-family:monospace;font-size:0.78rem;color:rgba(0,200,255,0.6);">' + txShort + '</td>'
+            + '<td>' + statusBadge + '</td>'
+            + '<td style="white-space:nowrap;">' + formatDate(row.created_at) + '</td></tr>';
+        });
+        document.getElementById('an-payments-tbody').innerHTML = html;
+      }
+    });
+
+    // Classement points
+    _sb.from('user_points').select('*').order('total_points', { ascending: false }).then(function(r) {
+      var rows = r.data || [];
+      var total = rows.reduce(function(s, x){ return s + (x.total_points || 0); }, 0);
+      document.getElementById('an-pts').textContent = total;
+      if (rows.length === 0) {
+        document.getElementById('an-points-tbody').innerHTML = '<tr class="empty-row"><td colspan="3">Aucun point distribué.</td></tr>';
+      } else {
+        var medals = ['🥇','🥈','🥉'];
+        var html = '';
+        rows.forEach(function(row, i) {
+          var rang = medals[i] || ('#' + (i+1));
+          html += '<tr>'
+            + '<td style="font-size:1.1rem;text-align:center;">' + rang + '</td>'
+            + '<td><strong>' + resolveUser(row.user_id) + '</strong></td>'
+            + '<td style="color:#ffd700;font-weight:900;font-size:1.1rem;">' + (row.total_points || 0) + ' pts</td></tr>';
+        });
+        document.getElementById('an-points-tbody').innerHTML = html;
+      }
+    });
+  });
+}
+
 /* ════════════════════════════
    Init : wait for auth then load
 ═════════════════════════════ */
@@ -827,6 +1029,7 @@ window.addEventListener('DOMContentLoaded', function() {
       loadAvis();
       loadWebinaires();
       loadProfiles();
+      loadAnalytics();
     });
   }, 900);
 });

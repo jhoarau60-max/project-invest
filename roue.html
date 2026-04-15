@@ -1610,6 +1610,10 @@ setTimeout(function(){
     if(!r.data.session){window.location.href="index.html";return;}
     */
     currentUser = r.data.session ? r.data.session.user : {id:'dev-local'};
+    // Tracking visite page coffre
+    if(r.data.session){
+      _sb.from('site_visits').insert({user_id:r.data.session.user.id, page:'coffre'}).catch(function(){});
+    }
     init();
   });
 },800);
@@ -2840,6 +2844,10 @@ function soundCoinImpact(){
 async function tenterCoffre(){
   if(vaultBusy)return;
   vaultBusy=true;
+  // Tracking clic bouton Jouer
+  if(currentUser && currentUser.id!=='dev-local'){
+    _sb.from('coffre_events').insert({user_id:currentUser.id, event_type:'play_click'}).catch(function(){});
+  }
   var dial=document.getElementById('vault-dial');
   var body=document.getElementById('vault-body');
   var status=document.getElementById('vault-status');
