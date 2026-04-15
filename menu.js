@@ -738,33 +738,33 @@ if ('serviceWorker' in navigator) {
       { href: 'videos-arthena.html',  label: 'Vidéos',        icon: 'fa-video' },
     ], 'arbcore.html');
 
-    // ── Lien Admin (visible uniquement pour jhoarau60@gmail.com) ──
+    // ── Bouton Admin flottant (visible uniquement pour jhoarau60@gmail.com) ──
     (function(){
       var _sbMenu = (typeof _sb !== 'undefined') ? _sb : null;
       if (!_sbMenu) return;
-      function tryInjectAdmin(email) {
+      function injectAdminBtn(email) {
         if (!email || email !== 'jhoarau60@gmail.com') return;
-        if (document.getElementById('admin-nav-link')) return; // déjà injecté
-        var ulNav2 = nav.querySelector('ul');
-        if (!ulNav2) return;
-        var liAdmin = document.createElement('li');
-        liAdmin.id = 'admin-nav-link';
-        var aAdmin = document.createElement('a');
-        aAdmin.href = 'admin.html';
-        aAdmin.style.cssText = 'display:flex;align-items:center;gap:10px;color:#ff6600;background:rgba(255,100,0,0.08);border:1px solid rgba(255,100,0,0.3);border-radius:8px;padding:8px 12px;margin-top:6px;font-weight:700;font-size:0.85rem;';
-        aAdmin.innerHTML = '<i class="fa-solid fa-shield-halved" style="color:#ff6600;"></i> Panel Admin';
-        liAdmin.appendChild(aAdmin);
-        ulNav2.appendChild(liAdmin);
+        if (document.getElementById('floating-admin-btn')) return;
+        var btn = document.createElement('a');
+        btn.id = 'floating-admin-btn';
+        btn.href = 'admin.html';
+        btn.title = 'Panel Admin';
+        btn.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:99999;'
+          + 'width:48px;height:48px;border-radius:50%;'
+          + 'background:linear-gradient(135deg,#ff4400,#ff8800);'
+          + 'color:#fff;display:flex;align-items:center;justify-content:center;'
+          + 'font-size:1.2rem;box-shadow:0 0 18px rgba(255,80,0,0.6);'
+          + 'text-decoration:none;border:2px solid rgba(255,150,0,0.6);';
+        btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i>';
+        document.body.appendChild(btn);
       }
-      // Vérifier immédiatement
       _sbMenu.auth.getSession().then(function(r) {
         if (r.data && r.data.session) {
-          tryInjectAdmin((r.data.session.user.email || '').toLowerCase().trim());
+          injectAdminBtn((r.data.session.user.email || '').toLowerCase().trim());
         }
       });
-      // Et aussi à chaque changement d'état auth
       _sbMenu.auth.onAuthStateChange(function(event, session) {
-        if (session) tryInjectAdmin((session.user.email || '').toLowerCase().trim());
+        if (session) injectAdminBtn((session.user.email || '').toLowerCase().trim());
       });
     })();
 
