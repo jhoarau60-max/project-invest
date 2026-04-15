@@ -606,6 +606,17 @@ _sb.auth.getSession().then(function(res) {
   var pseudo = meta.username || meta.pseudo || session.user.email.split('@')[0];
   var title = document.getElementById('welcome-title');
   if (title) title.innerHTML = 'Bienvenue <span style="color:#00c8ff;">' + pseudo + '</span> !';
+  // Bouton admin flottant
+  var email = (session.user.email || '').toLowerCase().trim();
+  if (email === 'jhoarau60@gmail.com' && !document.getElementById('floating-admin-btn')) {
+    var btn = document.createElement('a');
+    btn.id = 'floating-admin-btn';
+    btn.href = 'admin.html';
+    btn.title = 'Panel Admin';
+    btn.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:99999;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#ff4400,#ff8800);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 0 18px rgba(255,80,0,0.6);text-decoration:none;border:2px solid rgba(255,150,0,0.6);';
+    btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i>';
+    document.body.appendChild(btn);
+  }
 });
 </script>
 <script src="menu.js"></script>
