@@ -2684,7 +2684,8 @@ async function init(){
   }
 
   // Tour quotidien
-  var {data:daily}=await _sb.from('daily_spins').select('*').eq('user_id',uid).eq('day',today).limit(1).then(function(r){return{data:r.data&&r.data.length>0?r.data[0]:null,error:r.error};});
+  var {data:daily,error:dailyErr}=await _sb.from('daily_spins').select('*').eq('user_id',uid).eq('day',today).limit(1).then(function(r){return{data:r.data&&r.data.length>0?r.data[0]:null,error:r.error};});
+  if(dailyErr) console.error('daily_spins select error:',dailyErr.message);
   var orb=document.getElementById('daily-orb');
   if(daily){
     orb.classList.add('disabled');
@@ -3119,6 +3120,15 @@ async function tourQuotidien(){
   dailyBusy=true;
 
   var uid=currentUser.id; var today=getToday();
+
+  // Double vérification en base avant de lancer
+  var chk=await _sb.from('daily_spins').select('id').eq('user_id',uid).eq('day',today).limit(1).then(function(r){return r.data&&r.data.length>0?r.data[0]:null;});
+  if(chk){
+    orb.classList.add('disabled');
+    document.getElementById('daily-status').textContent='Jetons du jour déjà récoltés. Revenez demain !';
+    dailyBusy=false;
+    return;
+  }
   var pts=DAILY_SEGS[Math.floor(Math.random()*DAILY_SEGS.length)].pts;
   playSound('coin');
 
