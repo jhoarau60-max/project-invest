@@ -2659,13 +2659,13 @@ async function init(){
   document.getElementById('stat-participants').textContent=(count||0);
 
   // Points
-  var {data:pts}=await _sb.from('user_points').select('*').eq('user_id',uid).maybeSingle();
+  var {data:pts}=await _sb.from('user_points').select('*').eq('user_id',uid).limit(1).then(function(r){return{data:r.data&&r.data.length>0?r.data[0]:null,error:r.error};});
   userPoints=pts?pts.total_points:0;
   updatePtsUI();
 
   // Tour coffre du mois
-  var {data:part}=await _sb.from('spin_participations').select('*').eq('user_id',uid).eq('month_year',month).maybeSingle();
-  var {data:extraData}=await _sb.from('extra_spins').select('remaining').eq('user_id',uid).maybeSingle();
+  var {data:part}=await _sb.from('spin_participations').select('*').eq('user_id',uid).eq('month_year',month).limit(1).then(function(r){return{data:r.data&&r.data.length>0?r.data[0]:null,error:r.error};});
+  var {data:extraData}=await _sb.from('extra_spins').select('remaining').eq('user_id',uid).limit(1).then(function(r){return{data:r.data&&r.data.length>0?r.data[0]:null,error:r.error};});
   extraSpinsRemaining = extraData ? extraData.remaining : 0;
   var vStatus=document.getElementById('vault-status');
   if(!part || currentUser.id==='dev-local'){
@@ -2684,7 +2684,7 @@ async function init(){
   }
 
   // Tour quotidien
-  var {data:daily}=await _sb.from('daily_spins').select('*').eq('user_id',uid).eq('day',today).maybeSingle();
+  var {data:daily}=await _sb.from('daily_spins').select('*').eq('user_id',uid).eq('day',today).limit(1).then(function(r){return{data:r.data&&r.data.length>0?r.data[0]:null,error:r.error};});
   var orb=document.getElementById('daily-orb');
   if(daily){
     orb.classList.add('disabled');
@@ -2908,7 +2908,7 @@ async function tenterCoffre(){
 
   // Si tour mensuel déjà utilisé → on consomme un extra spin
   var isExtraSpin=false, extraSpinPts=0;
-  var {data:existingPart}=await _sb.from('spin_participations').select('id').eq('user_id',uid).eq('month_year',month).maybeSingle();
+  var {data:existingPart}=await _sb.from('spin_participations').select('id').eq('user_id',uid).eq('month_year',month).limit(1).then(function(r){return{data:r.data&&r.data.length>0?r.data[0]:null,error:r.error};});
   if(existingPart){
     isExtraSpin=true;
     extraSpinsRemaining=Math.max(0, extraSpinsRemaining-1);
@@ -2925,7 +2925,7 @@ async function tenterCoffre(){
       extraSpinPts=[0,1,2,3,20][Math.floor(Math.random()*5)]; // Pack 1 tour : aléatoire avec 20
     }
     if(extraSpinPts>0){
-      var {data:ePts}=await _sb.from('user_points').select('*').eq('user_id',uid).maybeSingle();
+      var {data:ePts}=await _sb.from('user_points').select('*').eq('user_id',uid).limit(1).then(function(r){return{data:r.data&&r.data.length>0?r.data[0]:null,error:r.error};});
       var nPts=(ePts?ePts.total_points:0)+extraSpinPts;
       if(!ePts){await _sb.from('user_points').insert({user_id:uid,total_points:nPts});}
       else{await _sb.from('user_points').update({total_points:nPts}).eq('user_id',uid);}
@@ -2935,13 +2935,13 @@ async function tenterCoffre(){
     await _sb.from('spin_participations').insert({user_id:uid,month_year:month,spin_count:1});
   }
 
-  var {data:cfg}=await _sb.from('monthly_config').select('*').eq('month_year',month).maybeSingle();
+  var {data:cfg}=await _sb.from('monthly_config').select('*').eq('month_year',month).limit(1).then(function(r){return{data:r.data&&r.data.length>0?r.data[0]:null,error:r.error};});
   var totalSpins=(cfg?cfg.total_spins:0)+1;
   var winTicket=cfg?cfg.winning_ticket:(Math.floor(Math.random()*25)+5);
   if(!cfg){ await _sb.from('monthly_config').insert({month_year:month,winning_ticket:winTicket,total_spins:1}); }
   else { await _sb.from('monthly_config').update({total_spins:totalSpins}).eq('id',cfg.id); }
 
-  var {data:winner}=await _sb.from('monthly_winner').select('*').eq('month_year',month).maybeSingle();
+  var {data:winner}=await _sb.from('monthly_winner').select('*').eq('month_year',month).limit(1).then(function(r){return{data:r.data&&r.data.length>0?r.data[0]:null,error:r.error};});
   var drawDate='2026-04-26';
   var isWinner=!winner&&(getToday()>=drawDate);
 
@@ -3125,7 +3125,7 @@ async function tourQuotidien(){
   // Faire tourner la roue vers le résultat
   spinDailyWheelTo(pts, async function(){
     await _sb.from('daily_spins').insert({user_id:uid,day:today,points_gained:pts});
-    var {data:existing}=await _sb.from('user_points').select('*').eq('user_id',uid).maybeSingle();
+    var {data:existing}=await _sb.from('user_points').select('*').eq('user_id',uid).limit(1).then(function(r){return{data:r.data&&r.data.length>0?r.data[0]:null,error:r.error};});
     var newTotal=(existing?existing.total_points:0)+pts;
     if(!existing){ await _sb.from('user_points').insert({user_id:uid,total_points:newTotal}); }
     else { await _sb.from('user_points').update({total_points:newTotal}).eq('user_id',uid); }
