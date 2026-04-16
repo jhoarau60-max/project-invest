@@ -1,4 +1,4 @@
-// Sidebar dashboard permanent - partagé sur toutes les pages
+// Sidebar dashboard permanent - partagé sur toutes les pages - v2
 
 // Fix bfcache : force rechargement si page restaurée depuis le cache avant/arrière
 window.addEventListener('pageshow', function(e) {
