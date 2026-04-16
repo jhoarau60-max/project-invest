@@ -2686,7 +2686,7 @@ async function init(){
   // Tour quotidien — vérif DB + localStorage
   var {data:daily,error:dailyErr}=await _sb.from('daily_spins').select('*').eq('user_id',uid).eq('day',today).limit(1).then(function(r){return{data:r.data&&r.data.length>0?r.data[0]:null,error:r.error};});
   if(dailyErr) console.error('daily_spins select error:',dailyErr.message);
-  var localKey='daily_spin_'+uid+'_'+today;
+  var localKey='daily_spin_'+today;
   var alreadySpun = daily || localStorage.getItem(localKey);
   var orb=document.getElementById('daily-orb');
   if(alreadySpun){
@@ -3124,7 +3124,7 @@ async function tourQuotidien(){
   var uid=currentUser.id; var today=getToday();
 
   // Double vérification localStorage + base avant de lancer
-  var localKey='daily_spin_'+uid+'_'+today;
+  var localKey='daily_spin_'+today;
   if(localStorage.getItem(localKey)){
     orb.classList.add('disabled');
     document.getElementById('daily-status').textContent='Jetons du jour déjà récoltés. Revenez demain !';
