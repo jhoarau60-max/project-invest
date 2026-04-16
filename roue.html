@@ -2995,18 +2995,12 @@ async function tenterCoffre(){
             vr.innerHTML='<p style="text-align:center;color:#ff4455;font-size:1.2rem;font-weight:900;margin:8px 0;">💔 PERDU — Pas cette fois !</p>';
           }
         }
-        /* Message VOUS AVEZ PERDU (animation courte) */
+        /* Overlay résultat — visible partout sur la page */
         setTimeout(function(){
-          var la = document.getElementById('lose-announce');
-          if(la){
-            if(isExtraSpin && extraSpinPts>0){
-              la.innerHTML='<div class="lose-text">💔 VOUS AVEZ PERDU<span class="lose-sub">Consolation : <strong style="color:#ffd700">+'+extraSpinPts+' jeton'+(extraSpinPts>1?'s':'')+'</strong> ajouté'+(extraSpinPts>1?'s':'')+'</span></div>';
-            } else {
-              la.innerHTML='<div class="lose-text">💔 VOUS AVEZ PERDU<span class="lose-sub">Pas cette fois... Rejouez demain !</span></div>';
-            }
-            la.classList.add('show');
-            setTimeout(function(){ la.classList.remove('show'); la.innerHTML='<div class="lose-text">💔 VOUS AVEZ PERDU<span class="lose-sub">Pas cette fois... Rejouez demain !</span></div>'; }, 3500);
-          }
+          var msg = isExtraSpin && extraSpinPts>0
+            ? '💔 PERDU<br><span style="font-size:1rem;color:#ffd700">Consolation : +'+extraSpinPts+' jeton'+(extraSpinPts>1?'s':'')+'</span>'
+            : '💔 VOUS AVEZ PERDU<br><span style="font-size:0.85rem;color:#aaa">Pas cette fois... Rejouez demain !</span>';
+          afficherOverlayResultat(msg, '#ff2244');
         }, 400);
         document.getElementById('stat-participants').textContent = totalSpins;
         if(extraSpinsRemaining > 0){
@@ -3358,6 +3352,20 @@ function startVaultCoins(){
   });
 }
 
+/* ===== OVERLAY RÉSULTAT (visible partout) ===== */
+function afficherOverlayResultat(html, couleur){
+  var old = document.getElementById('resultat-overlay');
+  if(old) old.remove();
+  var ov = document.createElement('div');
+  ov.id = 'resultat-overlay';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:99990;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.75);';
+  ov.innerHTML = '<div style="background:#0d1525;border:3px solid '+couleur+';border-radius:24px;padding:40px 36px;max-width:340px;width:90%;text-align:center;box-shadow:0 0 60px '+couleur+'66;">'
+    + '<div style="font-size:1.6rem;font-weight:900;color:'+couleur+';line-height:1.5;">'+html+'</div>'
+    + '<button onclick="document.getElementById(\'resultat-overlay\').remove()" style="margin-top:24px;padding:10px 32px;border-radius:20px;border:none;background:'+couleur+';color:#fff;font-weight:700;font-size:0.95rem;cursor:pointer;">OK</button>'
+    + '</div>';
+  document.body.appendChild(ov);
+}
+
 /* ===== SÉQUENCE VICTOIRE COMPLÈTE ===== */
 function sequenceVictoire(scene){
   /* 1 — Porte centrale s'ouvre vers l'extérieur */
@@ -3418,9 +3426,8 @@ function sequenceVictoire(scene){
           Notification.requestPermission().then(function(p){ if(p === 'granted') doNotif(); });
         }
       }
-      /* Résultat permanent victoire */
-      var vr = document.getElementById('vault-result');
-      if(vr) vr.innerHTML='<p style="text-align:center;color:#ffd700;font-size:1.2rem;font-weight:900;margin:8px 0;">🏆 VOUS AVEZ GAGNÉ 50$ !</p>';
+      /* Overlay victoire */
+      afficherOverlayResultat('🏆 VOUS AVEZ GAGNÉ !<br><span style="font-size:0.9rem;color:#fff8d0">50$ sur le produit de votre choix<br>Contactez-nous sur Telegram</span>', '#ffd700');
     }).catch(function(){
       afficherMessage('Joueur');
     });
