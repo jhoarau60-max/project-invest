@@ -615,10 +615,36 @@ if ('serviceWorker' in navigator) {
       }
     })();
 
+    // ── Bouton ANNONCE dans le menu ──
+    (function(){
+      var btnAnnonce = document.createElement('div');
+      btnAnnonce.id = 'menu-btn-annonce';
+      btnAnnonce.style.cssText = 'display:flex;align-items:center;gap:9px;padding:9px 14px;margin:2px 10px 4px;border-radius:12px;background:linear-gradient(135deg,rgba(255,40,40,0.18),rgba(180,0,0,0.1));border:1px solid rgba(255,60,60,0.45);cursor:default;';
+      btnAnnonce.innerHTML = '<span style="width:8px;height:8px;border-radius:50%;background:#ff3333;box-shadow:0 0 8px #ff3333;flex-shrink:0;animation:annonceDotBlink 1s ease-in-out infinite;"></span>'
+        + '<span style="color:#ff8080;font-size:0.88rem;font-weight:800;letter-spacing:0.05em;">📣 Annonce</span>';
+
+      // Style animation dot (injecté une seule fois)
+      if(!document.getElementById('menu-annonce-style')){
+        var st = document.createElement('style');
+        st.id = 'menu-annonce-style';
+        st.textContent = '@keyframes annonceDotBlink{0%,100%{opacity:1}50%{opacity:0.2}}';
+        document.head.appendChild(st);
+      }
+
+      var ulEl2 = nav.querySelector('ul');
+      var firstLi2 = ulEl2 ? ulEl2.querySelector('li') : null;
+      if(firstLi2){
+        var wrapAnnonce = document.createElement('li');
+        wrapAnnonce.appendChild(btnAnnonce);
+        ulEl2.insertBefore(wrapAnnonce, firstLi2);
+      }
+    })();
+
     // Renommer + icônes + sous-menus
     nav.querySelectorAll('ul > li').forEach(function (li) {
       var a = li.querySelector('a');
       if (!a) return;
+      if (a.id === 'btn-surprise') return; // déjà stylisé manuellement
       var href = a.getAttribute('href');
 
       // Renommer le label (avant redirection pour garder la bonne clé)

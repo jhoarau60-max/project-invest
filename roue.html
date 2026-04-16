@@ -1612,7 +1612,7 @@ setTimeout(function(){
     currentUser = r.data.session.user;
     // Tracking visite page coffre
     if(r.data.session){
-      _sb.from('site_visits').insert({user_id:r.data.session.user.id, page:'coffre'}).catch(function(){});
+      _sb.from('site_visits').insert({user_id:r.data.session.user.id, page:'coffre'});
     }
     init();
   });
@@ -2896,7 +2896,7 @@ async function tenterCoffre(){
   try {
   // Tracking clic bouton Jouer
   if(currentUser && currentUser.id!=='dev-local'){
-    _sb.from('coffre_events').insert({user_id:currentUser.id, event_type:'play_click'}).catch(function(){});
+    _sb.from('coffre_events').insert({user_id:currentUser.id, event_type:'play_click'});
   }
   var dial=document.getElementById('vault-dial');
   var body=document.getElementById('vault-body');
@@ -3408,8 +3408,7 @@ function sequenceVictoire(scene){
           + 'Veuillez noter que ce montant est destin\u00E9 \u00E0 \u00EAtre plac\u00E9 sur la plateforme et n\u2019est pas \u00E9ligible \u00E0 un retrait imm\u00E9diat en cash.\n'
           + '\uD83D\uDC49 Pour activer votre bonus :\n'
           + 'Contactez l\u2019assistance via le chat en ligne du site ou envoyez un message priv\u00E9 \u00E0 Project Invent sur Telegram.';
-        _sb.from('notifications').insert({ user_id: uid, message: msg, type: 'gain', read: false })
-          .then(function(){}).catch(function(){});
+        _sb.from('notifications').insert({ user_id: uid, message: msg, type: 'gain', read: false });
       }
 
       /* ── Notification navigateur ── */
