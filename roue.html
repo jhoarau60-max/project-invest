@@ -2811,6 +2811,7 @@ function lancerPiece(){
         /* Rendre la fente dorée directement */
         slot.style.background = 'linear-gradient(to bottom,#ffe066,#c8900a)';
         slot.style.boxShadow = '0 0 18px rgba(255,210,40,1),0 2px 6px rgba(0,0,0,0.6)';
+        document.getElementById('vault-status').textContent = '⏳ Déchiffrage...';
         tenterCoffre();
       }, 550);
     }
@@ -3016,8 +3017,7 @@ async function tenterCoffre(){
     }, 600);   // fin pause après arrêt roue
   }, 2800);    // fin rotation roue
   } catch(err) {
-    var vr=document.getElementById('vault-result');
-    if(vr) vr.innerHTML='<p style="color:#ff4455;text-align:center;font-weight:700;">Erreur : '+err.message+'</p>';
+    afficherOverlayResultat('⚠️ Erreur<br><span style="font-size:0.8rem;color:#fff">'+err.message+'</span>', '#ff4455');
     vaultBusy = false;
   }
 }
