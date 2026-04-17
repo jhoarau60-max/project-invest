@@ -2976,24 +2976,17 @@ async function tenterCoffre(){
         setTimeout(function(){ sequenceVictoire(scene); }, 700);
 
       } else {
-        /* ══ PHASE 2 — ÉCHEC — porte s'ouvre quand même avec pièces ══ */
-        var innerDoor = document.getElementById('vault-inner-door');
-        if(innerDoor) innerDoor.classList.add('opening');
-        scene.classList.add('won');
-        soundPorteOuvre();
-        setTimeout(function(){ startVaultCoins(); }, 600);
-
-        /* Après l'animation de la porte → résultat PERDU */
+        /* ══ PHASE 2 — ÉCHEC ══ */
+        body.classList.add('shake');
+        playSound('lose');
+        scene.style.filter = 'drop-shadow(0 0 40px rgba(255,30,30,1))';
         setTimeout(function(){
-          /* Flash rouge + secousse */
-          body.classList.add('shake');
-          playSound('lose');
-          scene.style.filter = 'drop-shadow(0 0 40px rgba(255,30,30,1))';
-          setTimeout(function(){
-            body.classList.remove('shake');
-            scene.style.filter = '';
-            wrap3d.classList.remove('locked');
-          }, 700);
+          body.classList.remove('shake');
+          scene.style.filter = '';
+          wrap3d.classList.remove('locked');
+        }, 700);
+
+        setTimeout(function(){
 
           /* Résultat permanent dans vault-result */
           var vr = document.getElementById('vault-result');
@@ -3023,7 +3016,7 @@ async function tenterCoffre(){
             document.getElementById('vault-status').textContent = 'Tour du mois utilisé.';
           }
           vaultBusy = false;
-        }, 1400); // attendre que la porte s'ouvre
+        }, 800);
       }
     }, 600);   // fin pause après arrêt roue
   }, 2800);    // fin rotation roue
