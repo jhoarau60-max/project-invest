@@ -2993,8 +2993,6 @@ async function tenterCoffre(){
             body.classList.remove('shake');
             scene.style.filter = '';
             wrap3d.classList.remove('locked');
-            var ja=document.getElementById('jeton-affiche');
-            if(ja){ ja.classList.remove('lancee'); }
           }, 700);
 
           /* Résultat permanent dans vault-result */
@@ -3015,17 +3013,18 @@ async function tenterCoffre(){
           }, 400);
 
           document.getElementById('stat-participants').textContent = totalSpins;
+          var ja3=document.getElementById('jeton-affiche');
           if(extraSpinsRemaining > 0){
-            var ja2=document.getElementById('jeton-affiche');
-            if(ja2){ ja2.style.opacity='1'; ja2.style.cursor='pointer'; ja2.onclick=jouerCoffre; var jh2=ja2.querySelector('.jeton-hint');if(jh2)jh2.textContent='▼ Cliquer pour jouer'; }
+            if(ja3){ ja3.classList.remove('lancee'); ja3.style.opacity='1'; ja3.style.cursor='pointer'; ja3.style.pointerEvents=''; ja3.onclick=jouerCoffre; var jh3=ja3.querySelector('.jeton-hint');if(jh3)jh3.textContent='▼ Cliquer pour jouer'; }
             document.getElementById('vault-status').textContent = extraSpinsRemaining+' tour(s) supplémentaire(s) restant(s)';
           } else {
+            if(ja3){ ja3.classList.remove('lancee'); ja3.style.opacity='0.35'; ja3.style.cursor='default'; ja3.style.pointerEvents='none'; ja3.onclick=null; }
             document.getElementById('btn-crypto-wrap').style.display = 'flex';
             document.getElementById('vault-status').textContent = 'Tour du mois utilisé.';
           }
+          vaultBusy = false;
         }, 1400); // attendre que la porte s'ouvre
       }
-      vaultBusy = false;
     }, 600);   // fin pause après arrêt roue
   }, 2800);    // fin rotation roue
   } catch(err) {
