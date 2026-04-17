@@ -73,7 +73,7 @@ export default async function handler(req, res) {
         const txs = ankrData.result?.transfers || [];
         return txs
           .filter(tx => tx.toAddress && tx.toAddress.toLowerCase() === WALLET_BEP20.toLowerCase())
-          .map(tx => ({ value: BigInt(Math.round(parseFloat(tx.value) * 1e18)).toString(), source: 'ankr' }));
+          .map(tx => ({ value: tx.valueRawInteger || BigInt(Math.round(parseFloat(tx.value || '0') * 1e18)).toString(), source: 'ankr' }));
       })()
     ]);
 
