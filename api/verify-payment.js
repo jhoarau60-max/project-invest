@@ -49,9 +49,9 @@ export default async function handler(req, res) {
     const walletPadded = '0x000000000000000000000000' + WALLET_BEP20.slice(2).toLowerCase();
 
     const BSC_RPCS = [
+      'https://rpc.ankr.com/bsc',
       'https://bsc.drpc.org',
-      'https://bsc-dataseed1.ninicoin.io',
-      'https://bsc-dataseed2.defibit.io',
+      'https://bsc-dataseed.bnbchain.org',
     ];
 
     // Récupérer le bloc actuel
