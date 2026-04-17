@@ -41,33 +41,37 @@ export default async function handler(req, res) {
   let transfers = [];
 
   if (isBep20) {
-    // ── BEP20 : BSCScan API (fiable) ──
+    // ── BEP20 : BSCScan ──
+    const rawExpectedBep = BigInt(Math.round(amtExpected * 1e18)).toString();
     const bepErrors = [];
-    const bscscanKey = process.env.BSCSCAN_API_KEY || '';
+
     try {
-      const bsUrl = `https://api.bscscan.com/api?module=account&action=tokentx&contractaddress=${USDT_BEP20}&address=${WALLET_BEP20}&page=1&offset=100&sort=desc&apikey=${bscscanKey}`;
-      const bsRes = await fetch(bsUrl, { signal: AbortSignal.timeout(10000) });
-      const bsData = await bsRes.json();
-      if (bsData.status === '1' && Array.isArray(bsData.result)) {
-        transfers.push(...bsData.result);
-      } else {
-        bepErrors.push('BSCScan:' + (bsData.message || bsData.result));
-      }
+      const bscKey = process.env.BSCSCAN_API_KEY || '';
+      const bscRes = await fetch(
+        `https://api.bscscan.com/api?module=account&action=tokentx&contractaddress=${USDT_BEP20}&address=${WALLET_BEP20}&sort=desc&apikey=${bscKey}`,
+        { headers: { 'Accept': 'application/json' }, signal: AbortSignal.timeout(8000) }
+      );
+      if (!bscRes.ok) throw new Error('HTTP ' + bscRes.status);
+      const bscData = await bscRes.json();
+      const txs = Array.isArray(bscData.result) ? bscData.result : [];
+      const incoming = txs.filter(tx => tx.to && tx.to.toLowerCase() === WALLET_BEP20.toLowerCase());
+      transfers.push(...incoming);
     } catch(e) { bepErrors.push('BSCScan:' + e.message); }
 
     function matchBep20(tx) {
-      // BSCScan retourne le montant en wei (18 décimales pour USDT BEP20)
+      const val = tx.value || '0';
+      if (val === rawExpectedBep) return true;
       try {
-        const val = parseFloat(tx.value) / 1e18;
-        return Math.abs(val - amtExpected) < 0.01;
+        const diff = Math.abs(Number(BigInt(val)) / 1e18 - amtExpected);
+        return diff < 0.01;
       } catch(_) { return false; }
     }
 
     const found = transfers.find(tx => matchBep20(tx));
 
     if (!found) {
-      const sample = transfers.slice(0, 3).map(tx => ({ value: tx.value, tokenSymbol: tx.tokenSymbol }));
-      return res.json({ found: false, debug: { amtExpected, total: transfers.length, sample, errors: bepErrors } });
+      const sample = transfers.slice(0, 3).map(tx => ({ value: tx.value, to: tx.to, tokenSymbol: tx.tokenSymbol }));
+      return res.json({ found: false, debug: { rawExpectedBep, amtExpected, total: transfers.length, sample, errors: bepErrors } });
     }
 
     await confirmerEtDebloquer(user_id, expected_amount, tours, sbHeaders);
