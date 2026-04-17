@@ -45,50 +45,59 @@ export default async function handler(req, res) {
     const rawExpectedBep = BigInt(Math.round(amtExpected * 1e18)).toString();
     const bepErrors = [];
 
-    const [bscResult, ankrResult] = await Promise.allSettled([
-      // Source 1 : BSCScan
-      (async () => {
-        const bscKey = process.env.BSCSCAN_API_KEY || '';
-        const bscRes = await fetch(
-          `https://api.bscscan.com/api?module=account&action=tokentx&contractaddress=${USDT_BEP20}&address=${WALLET_BEP20}&sort=desc&apikey=${bscKey}`,
-          { headers: { 'Accept': 'application/json' }, signal: AbortSignal.timeout(8000) }
-        );
-        const bscData = await bscRes.json();
-        const txs = Array.isArray(bscData.result) ? bscData.result : [];
-        return txs.filter(tx => tx.to && tx.to.toLowerCase() === WALLET_BEP20.toLowerCase())
-          .map(tx => ({ value: tx.value, source: 'bscscan' }));
-      })(),
-      // Source 2 : Ankr (sans clé API)
-      (async () => {
-        const ankrRes = await fetch('https://rpc.ankr.com/multichain', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            jsonrpc: '2.0', method: 'ankr_getTokenTransfers', id: 1,
-            params: { blockchain: 'bsc', address: WALLET_BEP20, contractAddress: USDT_BEP20, descOrder: true, pageSize: 50 }
-          }),
-          signal: AbortSignal.timeout(8000)
+    const TRANSFER_TOPIC = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef';
+    const walletPadded = '0x000000000000000000000000' + WALLET_BEP20.slice(2).toLowerCase();
+
+    const BSC_RPCS = [
+      'https://bsc.drpc.org',
+      'https://bsc-dataseed1.ninicoin.io',
+      'https://bsc-dataseed2.defibit.io',
+    ];
+
+    // Récupérer le bloc actuel
+    let currentBlock = null;
+    for (const rpc of BSC_RPCS) {
+      try {
+        const r = await fetch(rpc, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ jsonrpc:'2.0', method:'eth_blockNumber', params:[], id:1 }),
+          signal: AbortSignal.timeout(5000)
         });
-        const ankrData = await ankrRes.json();
-        const txs = ankrData.result?.transfers || [];
-        return txs
-          .filter(tx => tx.toAddress && tx.toAddress.toLowerCase() === WALLET_BEP20.toLowerCase())
-          .map(tx => ({ value: tx.valueRawInteger || BigInt(Math.round(parseFloat(tx.value || '0') * 1e18)).toString(), source: 'ankr' }));
-      })()
-    ]);
+        const d = await r.json();
+        if (d.result) { currentBlock = parseInt(d.result, 16); break; }
+      } catch(_) {}
+    }
 
-    if (bscResult.status === 'fulfilled') transfers.push(...bscResult.value);
-    else bepErrors.push('BSCScan:' + bscResult.reason.message);
-
-    if (ankrResult.status === 'fulfilled') transfers.push(...ankrResult.value);
-    else bepErrors.push('Ankr:' + ankrResult.reason.message);
+    if (currentBlock) {
+      // 40000 blocs ≈ 33h sur BSC (3s/bloc) pour couvrir hier
+      const fromBlock = '0x' + Math.max(0, currentBlock - 40000).toString(16);
+      for (const rpc of BSC_RPCS) {
+        try {
+          const r = await fetch(rpc, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              jsonrpc:'2.0', method:'eth_getLogs', id:2,
+              params:[{ fromBlock, toBlock:'latest', address: USDT_BEP20, topics:[TRANSFER_TOPIC, null, walletPadded] }]
+            }),
+            signal: AbortSignal.timeout(12000)
+          });
+          const d = await r.json();
+          if (d.error) { bepErrors.push(rpc+':'+d.error.message); continue; }
+          if (Array.isArray(d.result) && d.result.length > 0) {
+            transfers.push(...d.result.map(tx => ({ value: tx.data, source: rpc })));
+            break;
+          }
+          bepErrors.push(rpc+':0logs');
+        } catch(e) { bepErrors.push(rpc+':'+e.message); }
+      }
+    } else { bepErrors.push('blockNumber:failed'); }
 
     function matchBep20(tx) {
-      const val = tx.value || '0';
-      if (val === rawExpectedBep) return true;
+      const hexVal = tx.value || '0x0';
       try {
-        const diff = Math.abs(Number(BigInt(val)) / 1e18 - amtExpected);
-        return diff < 0.01;
+        const val = BigInt(hexVal);
+        if (val.toString() === rawExpectedBep) return true;
+        return Math.abs(Number(val) / 1e18 - amtExpected) < 0.01;
       } catch(_) { return false; }
     }
 
