@@ -41,17 +41,21 @@ export default async function handler(req, res) {
   let transfers = [];
 
   if (isBep20) {
-    // ── BEP20 : BSCScan + Ankr en parallèle ──
+    // ── BEP20 : RPC BSC direct (sans clé API) ──
+    // USDT BEP20 = 18 décimales
     const rawExpectedBep = BigInt(Math.round(amtExpected * 1e18)).toString();
     const bepErrors = [];
 
+    // Transfer event signature
     const TRANSFER_TOPIC = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef';
+    // Adresse wallet paddée sur 32 bytes pour le filtre topic
     const walletPadded = '0x000000000000000000000000' + WALLET_BEP20.slice(2).toLowerCase();
 
     const BSC_RPCS = [
-      'https://rpc.ankr.com/bsc',
-      'https://bsc.drpc.org',
-      'https://bsc-dataseed.bnbchain.org',
+      'https://bsc.publicnode.com',
+      'https://1rpc.io/bnb',
+      'https://bsc.meowrpc.com',
+      'https://binance.llamarpc.com',
     ];
 
     // Récupérer le bloc actuel
@@ -59,7 +63,8 @@ export default async function handler(req, res) {
     for (const rpc of BSC_RPCS) {
       try {
         const r = await fetch(rpc, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ jsonrpc:'2.0', method:'eth_blockNumber', params:[], id:1 }),
           signal: AbortSignal.timeout(5000)
         });
@@ -69,47 +74,47 @@ export default async function handler(req, res) {
     }
 
     if (currentBlock) {
-      // 4 tranches de 9000 blocs en parallèle (~30h total)
-      const rpc = BSC_RPCS[0];
-      const ranges = [0,1,2,3].map(i => ({
-        from: '0x' + Math.max(0, currentBlock - 9000*(i+1)).toString(16),
-        to:   '0x' + Math.max(0, currentBlock - 9000*i).toString(16)
-      }));
-      const results = await Promise.allSettled(ranges.map(range =>
-        fetch(rpc, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            jsonrpc:'2.0', method:'eth_getLogs', id:2,
-            params:[{ fromBlock: range.from, toBlock: range.to, address: USDT_BEP20, topics:[TRANSFER_TOPIC, null, walletPadded] }]
-          }),
-          signal: AbortSignal.timeout(12000)
-        }).then(r => r.json())
-      ));
-      for (const res of results) {
-        if (res.status === 'fulfilled' && Array.isArray(res.value.result)) {
-          transfers.push(...res.value.result.map(tx => ({ value: tx.data, source: rpc })));
-        } else if (res.status === 'fulfilled' && res.value.error) {
-          bepErrors.push(res.value.error.message);
-        } else if (res.status === 'rejected') {
-          bepErrors.push(res.reason.message);
-        }
+      // Chercher dans les 10000 derniers blocs (~8 heures sur BSC)
+      const fromBlock = '0x' + Math.max(0, currentBlock - 10000).toString(16);
+      for (const rpc of BSC_RPCS) {
+        try {
+          const r = await fetch(rpc, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              jsonrpc: '2.0', method: 'eth_getLogs', id: 2,
+              params: [{ fromBlock, toBlock: 'latest', address: USDT_BEP20, topics: [TRANSFER_TOPIC, null, walletPadded] }]
+            }),
+            signal: AbortSignal.timeout(10000)
+          });
+          const d = await r.json();
+          if (d.error) { bepErrors.push('RPC_ERR:' + JSON.stringify(d.error)); continue; }
+          if (Array.isArray(d.result)) {
+            bepErrors.push('RPC_OK:' + rpc + ':' + d.result.length + 'logs');
+            if (d.result.length > 0) { transfers.push(...d.result); break; }
+          }
+        } catch(e) { bepErrors.push('RPC_EX:' + e.message); }
       }
-    } else { bepErrors.push('blockNumber:failed'); }
+    } else {
+      bepErrors.push('RPC:impossible de récupérer le bloc');
+    }
 
     function matchBep20(tx) {
-      const hexVal = tx.value || '0x0';
+      // tx.data contient le montant en hex (eth_getLogs)
+      const hexVal = tx.data || '0x0';
       try {
         const val = BigInt(hexVal);
         if (val.toString() === rawExpectedBep) return true;
-        return Math.abs(Number(val) / 1e18 - amtExpected) < 0.01;
+        const diff = Math.abs(Number(val) / 1e18 - amtExpected);
+        return diff < 0.01;
       } catch(_) { return false; }
     }
 
     const found = transfers.find(tx => matchBep20(tx));
 
     if (!found) {
-      const sample = transfers.slice(0, 3).map(tx => ({ value: tx.value, source: tx.source }));
-      return res.json({ found: false, debug: { rawExpectedBep, amtExpected, total: transfers.length, sample, errors: bepErrors } });
+      const sample = transfers.slice(0, 3).map(tx => ({ data: tx.data, topics: tx.topics }));
+      return res.json({ found: false, debug: { rawExpectedBep, amtExpected, total: transfers.length, sample, errors: bepErrors, currentBlock } });
     }
 
     await confirmerEtDebloquer(user_id, expected_amount, tours, sbHeaders);
