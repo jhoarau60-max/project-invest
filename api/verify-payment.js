@@ -69,26 +69,30 @@ export default async function handler(req, res) {
     }
 
     if (currentBlock) {
-      // 40000 blocs ≈ 33h sur BSC (3s/bloc) pour couvrir hier
-      const fromBlock = '0x' + Math.max(0, currentBlock - 40000).toString(16);
-      for (const rpc of BSC_RPCS) {
-        try {
-          const r = await fetch(rpc, {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              jsonrpc:'2.0', method:'eth_getLogs', id:2,
-              params:[{ fromBlock, toBlock:'latest', address: USDT_BEP20, topics:[TRANSFER_TOPIC, null, walletPadded] }]
-            }),
-            signal: AbortSignal.timeout(12000)
-          });
-          const d = await r.json();
-          if (d.error) { bepErrors.push(rpc+':'+d.error.message); continue; }
-          if (Array.isArray(d.result) && d.result.length > 0) {
-            transfers.push(...d.result.map(tx => ({ value: tx.data, source: rpc })));
-            break;
-          }
-          bepErrors.push(rpc+':0logs');
-        } catch(e) { bepErrors.push(rpc+':'+e.message); }
+      // 4 tranches de 9000 blocs en parallèle (~30h total)
+      const rpc = BSC_RPCS[0];
+      const ranges = [0,1,2,3].map(i => ({
+        from: '0x' + Math.max(0, currentBlock - 9000*(i+1)).toString(16),
+        to:   '0x' + Math.max(0, currentBlock - 9000*i).toString(16)
+      }));
+      const results = await Promise.allSettled(ranges.map(range =>
+        fetch(rpc, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            jsonrpc:'2.0', method:'eth_getLogs', id:2,
+            params:[{ fromBlock: range.from, toBlock: range.to, address: USDT_BEP20, topics:[TRANSFER_TOPIC, null, walletPadded] }]
+          }),
+          signal: AbortSignal.timeout(12000)
+        }).then(r => r.json())
+      ));
+      for (const res of results) {
+        if (res.status === 'fulfilled' && Array.isArray(res.value.result)) {
+          transfers.push(...res.value.result.map(tx => ({ value: tx.data, source: rpc })));
+        } else if (res.status === 'fulfilled' && res.value.error) {
+          bepErrors.push(res.value.error.message);
+        } else if (res.status === 'rejected') {
+          bepErrors.push(res.reason.message);
+        }
       }
     } else { bepErrors.push('blockNumber:failed'); }
 
