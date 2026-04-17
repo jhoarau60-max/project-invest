@@ -41,22 +41,47 @@ export default async function handler(req, res) {
   let transfers = [];
 
   if (isBep20) {
-    // ── BEP20 : BSCScan ──
+    // ── BEP20 : BSCScan + Ankr en parallèle ──
     const rawExpectedBep = BigInt(Math.round(amtExpected * 1e18)).toString();
     const bepErrors = [];
 
-    try {
-      const bscKey = process.env.BSCSCAN_API_KEY || '';
-      const bscRes = await fetch(
-        `https://api.bscscan.com/api?module=account&action=tokentx&contractaddress=${USDT_BEP20}&address=${WALLET_BEP20}&sort=desc&apikey=${bscKey}`,
-        { headers: { 'Accept': 'application/json' }, signal: AbortSignal.timeout(8000) }
-      );
-      if (!bscRes.ok) throw new Error('HTTP ' + bscRes.status);
-      const bscData = await bscRes.json();
-      const txs = Array.isArray(bscData.result) ? bscData.result : [];
-      const incoming = txs.filter(tx => tx.to && tx.to.toLowerCase() === WALLET_BEP20.toLowerCase());
-      transfers.push(...incoming);
-    } catch(e) { bepErrors.push('BSCScan:' + e.message); }
+    const [bscResult, ankrResult] = await Promise.allSettled([
+      // Source 1 : BSCScan
+      (async () => {
+        const bscKey = process.env.BSCSCAN_API_KEY || '';
+        const bscRes = await fetch(
+          `https://api.bscscan.com/api?module=account&action=tokentx&contractaddress=${USDT_BEP20}&address=${WALLET_BEP20}&sort=desc&apikey=${bscKey}`,
+          { headers: { 'Accept': 'application/json' }, signal: AbortSignal.timeout(8000) }
+        );
+        const bscData = await bscRes.json();
+        const txs = Array.isArray(bscData.result) ? bscData.result : [];
+        return txs.filter(tx => tx.to && tx.to.toLowerCase() === WALLET_BEP20.toLowerCase())
+          .map(tx => ({ value: tx.value, source: 'bscscan' }));
+      })(),
+      // Source 2 : Ankr (sans clé API)
+      (async () => {
+        const ankrRes = await fetch('https://rpc.ankr.com/multichain', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            jsonrpc: '2.0', method: 'ankr_getTokenTransfers', id: 1,
+            params: { blockchain: 'bsc', address: WALLET_BEP20, contractAddress: USDT_BEP20, descOrder: true, pageSize: 50 }
+          }),
+          signal: AbortSignal.timeout(8000)
+        });
+        const ankrData = await ankrRes.json();
+        const txs = ankrData.result?.transfers || [];
+        return txs
+          .filter(tx => tx.toAddress && tx.toAddress.toLowerCase() === WALLET_BEP20.toLowerCase())
+          .map(tx => ({ value: BigInt(Math.round(parseFloat(tx.value) * 1e18)).toString(), source: 'ankr' }));
+      })()
+    ]);
+
+    if (bscResult.status === 'fulfilled') transfers.push(...bscResult.value);
+    else bepErrors.push('BSCScan:' + bscResult.reason.message);
+
+    if (ankrResult.status === 'fulfilled') transfers.push(...ankrResult.value);
+    else bepErrors.push('Ankr:' + ankrResult.reason.message);
 
     function matchBep20(tx) {
       const val = tx.value || '0';
@@ -70,7 +95,7 @@ export default async function handler(req, res) {
     const found = transfers.find(tx => matchBep20(tx));
 
     if (!found) {
-      const sample = transfers.slice(0, 3).map(tx => ({ value: tx.value, to: tx.to, tokenSymbol: tx.tokenSymbol }));
+      const sample = transfers.slice(0, 3).map(tx => ({ value: tx.value, source: tx.source }));
       return res.json({ found: false, debug: { rawExpectedBep, amtExpected, total: transfers.length, sample, errors: bepErrors } });
     }
 
