@@ -6,6 +6,7 @@
     { code: 'de',    label: 'Allemand',    flag: 'de' },
     { code: 'nl',    label: 'Néerlandais', flag: 'nl' },
     { code: 'es',    label: 'Espagnol',    flag: 'es' },
+    { code: 'pt',    label: 'Portugais',   flag: 'pt' },
     { code: 'it',    label: 'Italien',     flag: 'it' },
     { code: 'ro',    label: 'Roumain',     flag: 'ro' },
     { code: 'hu',    label: 'Hongrois',    flag: 'hu' },
@@ -117,6 +118,7 @@
     vn: '<polygon points="42,4 58,4 65,18 68,35 60,48 65,62 62,78 55,92 45,92 38,78 35,62 40,48 32,35 35,18" fill="none" stroke="#00c8ff" stroke-width="3"/>',
     cn: '<polygon points="15,20 45,8 75,12 90,30 92,55 78,75 55,88 28,85 10,68 8,42" fill="none" stroke="#00c8ff" stroke-width="3"/>',
     kr: '<polygon points="25,22 50,10 75,22 85,48 75,75 50,88 25,75 15,48" fill="none" stroke="#00c8ff" stroke-width="3"/>',
+    pt: '<polygon points="15,20 40,8 65,12 85,30 88,55 72,78 48,90 22,82 8,58 10,35" fill="none" stroke="#00c8ff" stroke-width="3"/>',
   };
 
   function countryGlobe(flag) {
@@ -131,6 +133,7 @@
     DE:'de', AT:'de',
     NL:'nl',
     ES:'es', MX:'es', AR:'es', CO:'es', PE:'es', CL:'es', VE:'es',
+    PT:'pt', BR:'pt',
     IT:'it',
     RO:'ro',
     HU:'hu',
