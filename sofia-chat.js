@@ -128,7 +128,7 @@
   function togglePanel() {
     isOpen = !isOpen;
     panel.style.display = isOpen ? 'flex' : 'none';
-    btn.innerHTML = '<img src="/sofia.jpg" alt="Sofia" style="width:100%;height:100%;object-fit:cover;object-position:center top;">';
+    wrap.style.display = isOpen ? 'none' : 'flex';
     if (isOpen && chatHistory.length === 0) {
       setTimeout(function() {
         addMsg("Bonjour ! Je suis Sofia, l'assistante de John 😊 Comment puis-je vous aider avec nos projets d'investissement ?", 'bot');

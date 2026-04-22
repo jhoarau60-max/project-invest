@@ -821,8 +821,9 @@ window.addEventListener('load', function() {
     #sofia-btn-wrap {
       position:fixed !important; bottom:24px !important; right:24px !important;
       left:auto !important; top:auto !important;
-      z-index:99998;
-      display:flex; flex-direction:column; align-items:center; gap:5px; cursor:pointer;
+      z-index:999999 !important;
+      display:flex !important; flex-direction:column; align-items:center; gap:5px; cursor:pointer;
+      pointer-events:all !important;
     }
     #sofia-btn {
       width:80px; height:80px; border-radius:14px; border:3px solid #ffb300; cursor:pointer;
@@ -941,7 +942,7 @@ window.addEventListener('load', function() {
   function togglePanel() {
     isOpen = !isOpen;
     panel.style.display = isOpen ? 'flex' : 'none';
-    btn.innerHTML = '<img src="/sofia.jpg" alt="Sofia" style="width:100%;height:100%;object-fit:cover;object-position:center top;">';
+    wrap.style.display = isOpen ? 'none' : 'flex';
     if (isOpen && chatHistory.length === 0) {
       setTimeout(function() {
         addMsg("Bonjour ! Je suis Sofia, l'assistante de John 😊 Comment puis-je vous aider avec nos projets d'investissement ?", 'bot');
@@ -987,6 +988,8 @@ window.addEventListener('load', function() {
     input.focus();
   }
 
+  btn.addEventListener('click', function(e){ e.stopPropagation(); togglePanel(); });
+  label.addEventListener('click', function(e){ e.stopPropagation(); togglePanel(); });
   wrap.addEventListener('click', togglePanel);
   document.getElementById('sofia-close').addEventListener('click', togglePanel);
   document.getElementById('sofia-send').addEventListener('click', sendMessage);
