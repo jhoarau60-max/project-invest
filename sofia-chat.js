@@ -5,15 +5,26 @@
 
   var style = document.createElement('style');
   style.textContent = `
-    #sofia-btn {
+    #sofia-btn-wrap {
       position:fixed; bottom:24px; right:24px; z-index:99998;
+      display:flex; flex-direction:column; align-items:center; gap:5px; cursor:pointer;
+    }
+    #sofia-btn {
       width:80px; height:80px; border-radius:14px; border:3px solid #ffb300; cursor:pointer;
       background:none; padding:0; overflow:hidden;
       box-shadow:0 4px 24px rgba(255,179,0,0.6);
       transition:transform 0.2s;
     }
+    #sofia-btn:hover { transform:scale(1.07); }
     #sofia-btn img {
-      width:100%; height:100%; object-fit:cover; display:block;
+      width:100%; height:100%; object-fit:cover; object-position:center top; display:block;
+    }
+    #sofia-btn-label {
+      background:linear-gradient(90deg,#ffb300,#ff8c00);
+      color:#000; font-weight:800; font-size:0.72rem;
+      padding:3px 10px; border-radius:20px;
+      box-shadow:0 2px 8px rgba(255,179,0,0.4);
+      white-space:nowrap; letter-spacing:0.03em;
     }
     #sofia-btn:hover { transform:scale(1.1); }
     #sofia-panel {
@@ -60,11 +71,18 @@
   `;
   document.head.appendChild(style);
 
+  var wrap = document.createElement('div');
+  wrap.id = 'sofia-btn-wrap';
   var btn = document.createElement('button');
   btn.id = 'sofia-btn';
   btn.title = 'Parler à Sofia';
   btn.innerHTML = '<img src="/sofia.jpg" alt="Sofia">';
-  document.body.appendChild(btn);
+  var label = document.createElement('div');
+  label.id = 'sofia-btn-label';
+  label.textContent = '💬 Assistant Sofia';
+  wrap.appendChild(btn);
+  wrap.appendChild(label);
+  document.body.appendChild(wrap);
 
   var panel = document.createElement('div');
   panel.id = 'sofia-panel';
@@ -154,7 +172,7 @@
     input.focus();
   }
 
-  btn.addEventListener('click', togglePanel);
+  wrap.addEventListener('click', togglePanel);
   document.getElementById('sofia-close').addEventListener('click', togglePanel);
   document.getElementById('sofia-send').addEventListener('click', sendMessage);
   document.getElementById('sofia-input').addEventListener('keydown', function(e) {
