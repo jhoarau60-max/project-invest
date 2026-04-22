@@ -7,11 +7,11 @@
   style.textContent = `
     #sofia-btn {
       position:fixed; bottom:24px; right:24px; z-index:99998;
-      width:60px; height:60px; border-radius:50%; border:none; cursor:pointer;
+      width:75px; height:75px; border-radius:14px; border:none; cursor:pointer;
       background:linear-gradient(135deg,#ffb300,#ff8c00);
       box-shadow:0 4px 20px rgba(255,179,0,0.5);
       display:flex; align-items:center; justify-content:center;
-      font-size:28px; transition:transform 0.2s;
+      font-size:32px; transition:transform 0.2s;
     }
     #sofia-btn:hover { transform:scale(1.1); }
     #sofia-panel {
