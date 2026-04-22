@@ -196,7 +196,7 @@
         addMsg('Bonjour ! Je suis Sofia, l\'assistante de John 😊\n\nComment souhaitez-vous être aidé ?', 'bot');
         var johnOnline = true;
         try {
-          var r = await fetch('/api/status');
+          var r = await fetch('/api/status?t=' + Date.now(), { cache: 'no-store' });
           var d = await r.json();
           johnOnline = d.online;
         } catch(e) {}

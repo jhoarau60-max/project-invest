@@ -8,9 +8,12 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   if (req.method === 'GET') {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
     try {
       const r = await fetch(`${SUPABASE_URL}/rest/v1/settings?key=eq.john_status&select=value`, {
-        headers: { apikey: KEY, Authorization: `Bearer ${KEY}`, 'Cache-Control': 'no-cache' }
+        cache: 'no-store',
+        headers: { apikey: KEY, Authorization: `Bearer ${KEY}` }
       });
       const data = await r.json();
       return res.status(200).json({ online: (data[0]?.value || 'online') === 'online' });
