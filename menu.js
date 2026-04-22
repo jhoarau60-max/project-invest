@@ -820,11 +820,13 @@ window.addEventListener('load', function() {
   style.textContent = `
     #sofia-btn {
       position:fixed; bottom:24px; right:24px; z-index:99998;
-      width:75px; height:75px; border-radius:14px; border:none; cursor:pointer;
-      background:linear-gradient(135deg,#ffb300,#ff8c00);
-      box-shadow:0 4px 20px rgba(255,179,0,0.5);
-      display:flex; align-items:center; justify-content:center;
-      font-size:32px; transition:transform 0.2s;
+      width:80px; height:80px; border-radius:14px; border:3px solid #ffb300; cursor:pointer;
+      background:none; padding:0; overflow:hidden;
+      box-shadow:0 4px 24px rgba(255,179,0,0.6);
+      transition:transform 0.2s;
+    }
+    #sofia-btn img {
+      width:100%; height:100%; object-fit:cover; display:block;
     }
     #sofia-btn:hover { transform:scale(1.1); }
     #sofia-panel {
@@ -840,7 +842,7 @@ window.addEventListener('load', function() {
       background:linear-gradient(90deg,#ffb300,#ff8c00);
       padding:12px 16px; display:flex; align-items:center; gap:10px;
     }
-    #sofia-header img { width:38px; height:38px; border-radius:50%; object-fit:cover; border:2px solid #fff; }
+    #sofia-header img { width:52px; height:52px; border-radius:10px; object-fit:cover; border:2px solid #fff; }
     #sofia-header-text { flex:1; }
     #sofia-header-name { font-weight:800; color:#000; font-size:0.95rem; }
     #sofia-header-status { font-size:0.75rem; color:#333; }
@@ -919,7 +921,7 @@ window.addEventListener('load', function() {
   function togglePanel() {
     isOpen = !isOpen;
     panel.style.display = isOpen ? 'flex' : 'none';
-    btn.innerHTML = isOpen ? '✕' : '💬';
+    btn.innerHTML = isOpen ? '<span style="font-size:28px;color:#fff;font-weight:bold;">✕</span>' : '<img src="/sofia.jpg" alt="Sofia" style="width:100%;height:100%;object-fit:cover;">';
     if (isOpen && chatHistory.length === 0) {
       setTimeout(function() {
         addMsg("Bonjour ! Je suis Sofia, l'assistante de John 😊 Comment puis-je vous aider avec nos projets d'investissement ?", 'bot');
