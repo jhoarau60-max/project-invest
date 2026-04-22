@@ -68,6 +68,16 @@
 <h1>⚙ Panel <span>Admin</span></h1>
 <p class="sub">Project inves'T — Mobile Admin</p>
 
+<!-- STATUT CHAT JOHN -->
+<div class="section">
+  <div class="section-title"><i class="fa-solid fa-circle-dot"></i> Mon statut Chat</div>
+  <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:10px;">
+    <div id="john-status-display" style="font-weight:700;color:#e0f0ff;font-size:0.95rem;">Chargement…</div>
+    <button id="john-status-btn" onclick="toggleJohnStatus()" class="btn">…</button>
+  </div>
+  <p style="color:#aaa;font-size:0.78rem;margin:0;">En ligne = les visiteurs peuvent vous contacter sur Telegram. Absent = seule l'IA répond.</p>
+</div>
+
 <!-- JACKPOT -->
 <div class="section">
   <div class="section-title"><i class="fa-solid fa-trophy"></i> Jackpot Jeton</div>
@@ -395,6 +405,57 @@ async function nettoyerEnAttente() {
   alert('Nettoyage effectué !');
   loadAll();
 }
+
+// ─── Statut Chat John ─────────────────────────────────────────────────────────
+var johnIsOnline = true;
+
+async function loadJohnStatus() {
+  try {
+    var r = await fetch('/api/status');
+    var d = await r.json();
+    johnIsOnline = d.online;
+    renderStatusUI();
+  } catch(e) {}
+}
+
+function renderStatusUI() {
+  var display = document.getElementById('john-status-display');
+  var btn = document.getElementById('john-status-btn');
+  if (!display || !btn) return;
+  if (johnIsOnline) {
+    display.innerHTML = '🟢 <span style="color:#00cc66">En ligne</span> — Les visiteurs peuvent vous contacter';
+    btn.textContent = '🔴 Passer en Absent';
+    btn.style.background = 'linear-gradient(90deg,#cc2200,#ff4400)';
+    btn.style.color = '#fff';
+  } else {
+    display.innerHTML = '🔴 <span style="color:#ff5533">Absent</span> — Seule l\'IA répond';
+    btn.textContent = '🟢 Passer En ligne';
+    btn.style.background = 'linear-gradient(90deg,#008833,#00cc55)';
+    btn.style.color = '#fff';
+  }
+}
+
+async function toggleJohnStatus() {
+  var btn = document.getElementById('john-status-btn');
+  btn.disabled = true;
+  btn.textContent = '⏳ En cours…';
+  try {
+    var session = (await _sb.auth.getSession()).data.session;
+    var token = session && session.access_token;
+    var newStatus = johnIsOnline ? 'offline' : 'online';
+    var r = await fetch('/api/status', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: newStatus, token: token })
+    });
+    var d = await r.json();
+    if (d.ok) { johnIsOnline = !johnIsOnline; }
+  } catch(e) { alert('Erreur changement statut'); }
+  btn.disabled = false;
+  renderStatusUI();
+}
+
+loadJohnStatus();
 </script>
 </body>
 </html>
