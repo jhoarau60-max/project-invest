@@ -30,7 +30,8 @@
     }
     #sofia-btn:hover { transform:scale(1.1); }
     #sofia-panel {
-      position:fixed; bottom:95px; right:24px; z-index:99997;
+      position:fixed !important; bottom:24px !important; right:24px !important;
+      z-index:999998 !important;
       width:340px; max-width:calc(100vw - 48px);
       background:linear-gradient(160deg,#0a1e3d,#071020);
       border:1.5px solid rgba(255,179,0,0.35);
