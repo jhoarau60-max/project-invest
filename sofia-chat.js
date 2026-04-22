@@ -68,7 +68,7 @@
   panel.id = 'sofia-panel';
   panel.innerHTML = `
     <div id="sofia-header">
-      <img src="/johnny.jpg" alt="Sofia" onerror="this.style.display='none'">
+      <img src="/sofia.jpg" alt="Sofia" onerror="this.style.display='none'">
       <div id="sofia-header-text">
         <div id="sofia-header-name">Sofia — Project Inves'T</div>
         <div id="sofia-header-status">🟢 En ligne</div>
