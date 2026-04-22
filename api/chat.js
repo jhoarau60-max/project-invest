@@ -54,9 +54,9 @@ export default async function handler(req, res) {
     const data = await geminiRes.json();
     const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Je suis là pour vous aider. Pouvez-vous reformuler ?";
 
-    if (isFirst && process.env.SOFIA_TELEGRAM_TOKEN) {
+    if (isFirst && process.env.TELEGRAM_TOKEN) {
       const notif = `💬 *Nouveau message depuis le site*\n\n👤 ${visitorName}\n💬 ${message}`;
-      await fetch(`https://api.telegram.org/bot${process.env.SOFIA_TELEGRAM_TOKEN}/sendMessage`, {
+      await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ chat_id: JOHN_TELEGRAM_ID, text: notif, parse_mode: 'Markdown' })
