@@ -148,22 +148,17 @@
 
     var btnIA = document.createElement('button');
     btnIA.className = 'sofia-choice-btn';
-    btnIA.textContent = '🤖 Discuter avec l\'assistante IA';
+    btnIA.textContent = '💬 Discuter avec l\'assistante';
     btnIA.addEventListener('click', chooseIA);
 
     var btnJohn = document.createElement('button');
+    choiceDiv.appendChild(btnIA);
     if (johnOnline) {
       btnJohn.className = 'sofia-choice-btn';
-      btnJohn.textContent = '💬 Parler avec John en direct';
+      btnJohn.textContent = '📱 Parler avec John en direct';
       btnJohn.addEventListener('click', chooseJohn);
-    } else {
-      btnJohn.className = 'sofia-choice-btn offline';
-      btnJohn.textContent = '🔴 John est absent — IA uniquement';
-      btnJohn.disabled = true;
+      choiceDiv.appendChild(btnJohn);
     }
-
-    choiceDiv.appendChild(btnIA);
-    choiceDiv.appendChild(btnJohn);
     msgs.appendChild(choiceDiv);
     msgs.scrollTop = msgs.scrollHeight;
   }
@@ -193,7 +188,7 @@
     wrap.style.display = isOpen ? 'none' : 'flex';
     if (isOpen && chatHistory.length === 0) {
       setTimeout(async function() {
-        addMsg('Bonjour ! Je suis Sofia, l\'assistante de John 😊\n\nComment souhaitez-vous être aidé ?', 'bot');
+        addMsg('Bonjour ! Sofia vous répondra à toutes vos questions 😊\n\nComment souhaitez-vous être aidé ?', 'bot');
         var johnOnline = true;
         try {
           var r = await fetch('/api/status?t=' + Date.now(), { cache: 'no-store' });
