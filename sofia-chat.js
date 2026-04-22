@@ -8,8 +8,9 @@
     #sofia-btn-wrap {
       position:fixed !important; bottom:24px !important; right:24px !important;
       left:auto !important; top:auto !important;
-      z-index:99998;
+      z-index:999999 !important;
       display:flex; flex-direction:column; align-items:center; gap:5px; cursor:pointer;
+      pointer-events:all !important;
     }
     #sofia-btn {
       width:80px; height:80px; border-radius:14px; border:3px solid #ffb300; cursor:pointer;
@@ -28,7 +29,6 @@
       box-shadow:0 2px 8px rgba(255,179,0,0.4);
       white-space:nowrap; letter-spacing:0.03em;
     }
-    #sofia-btn:hover { transform:scale(1.1); }
     #sofia-panel {
       position:fixed !important; bottom:24px !important; right:24px !important;
       z-index:999998 !important;
@@ -49,7 +49,7 @@
     #sofia-header-status { font-size:0.75rem; color:#333; }
     #sofia-close { background:none; border:none; cursor:pointer; color:#000; font-size:20px; line-height:1; }
     #sofia-messages {
-      flex:1; padding:14px; overflow-y:auto; max-height:320px;
+      flex:1; padding:14px; overflow-y:auto; max-height:340px;
       display:flex; flex-direction:column; gap:10px;
     }
     .sofia-msg { max-width:82%; padding:10px 13px; border-radius:14px; font-size:0.88rem; line-height:1.5; word-break:break-word; }
@@ -60,6 +60,20 @@
     .sofia-typing span:nth-child(2) { animation-delay:0.2s; }
     .sofia-typing span:nth-child(3) { animation-delay:0.4s; }
     @keyframes sofia-bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-8px)} }
+    .sofia-choices { display:flex; flex-direction:column; gap:8px; align-self:stretch; margin-top:4px; }
+    .sofia-choice-btn {
+      background:linear-gradient(90deg,#ffb300,#ff8c00); border:none; border-radius:10px;
+      padding:11px 14px; color:#000; font-weight:700; font-size:0.85rem;
+      cursor:pointer; text-align:left; transition:opacity 0.2s;
+    }
+    .sofia-choice-btn:hover { opacity:0.85; }
+    .sofia-choice-btn.offline { background:rgba(255,255,255,0.08); color:#666; cursor:not-allowed; border:1px solid rgba(255,255,255,0.1); }
+    .sofia-tg-link {
+      display:inline-block; margin-top:8px;
+      background:linear-gradient(90deg,#0088cc,#006699);
+      color:#fff; padding:10px 16px; border-radius:10px;
+      text-decoration:none; font-weight:700; font-size:0.85rem;
+    }
     #sofia-input-row { display:flex; padding:10px 12px; gap:8px; border-top:1px solid rgba(255,179,0,0.2); }
     #sofia-input {
       flex:1; background:rgba(255,255,255,0.07); border:1px solid rgba(255,179,0,0.3);
@@ -99,7 +113,7 @@
       <button id="sofia-close">✕</button>
     </div>
     <div id="sofia-messages"></div>
-    <div id="sofia-input-row">
+    <div id="sofia-input-row" style="display:none;">
       <input id="sofia-input" type="text" placeholder="Posez votre question...">
       <button id="sofia-send">➤</button>
     </div>
@@ -113,6 +127,7 @@
     div.textContent = text;
     msgs.appendChild(div);
     msgs.scrollTop = msgs.scrollHeight;
+    return div;
   }
 
   function showTyping() {
@@ -126,13 +141,66 @@
     return div;
   }
 
+  function showChoiceButtons(johnOnline) {
+    var msgs = document.getElementById('sofia-messages');
+    var choiceDiv = document.createElement('div');
+    choiceDiv.className = 'sofia-choices';
+
+    var btnIA = document.createElement('button');
+    btnIA.className = 'sofia-choice-btn';
+    btnIA.textContent = '🤖 Discuter avec l\'assistante IA';
+    btnIA.addEventListener('click', chooseIA);
+
+    var btnJohn = document.createElement('button');
+    if (johnOnline) {
+      btnJohn.className = 'sofia-choice-btn';
+      btnJohn.textContent = '💬 Parler avec John en direct';
+      btnJohn.addEventListener('click', chooseJohn);
+    } else {
+      btnJohn.className = 'sofia-choice-btn offline';
+      btnJohn.textContent = '🔴 John est absent — IA uniquement';
+      btnJohn.disabled = true;
+    }
+
+    choiceDiv.appendChild(btnIA);
+    choiceDiv.appendChild(btnJohn);
+    msgs.appendChild(choiceDiv);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function chooseIA() {
+    var choices = document.querySelector('.sofia-choices');
+    if (choices) choices.remove();
+    document.getElementById('sofia-input-row').style.display = 'flex';
+    addMsg('Parfait ! Posez-moi votre question, je suis là pour vous aider 😊', 'bot');
+    document.getElementById('sofia-input').focus();
+  }
+
+  function chooseJohn() {
+    var choices = document.querySelector('.sofia-choices');
+    if (choices) choices.remove();
+    var msgs = document.getElementById('sofia-messages');
+    var div = document.createElement('div');
+    div.className = 'sofia-msg bot';
+    div.innerHTML = 'Super ! Cliquez ci-dessous pour rejoindre John directement sur Telegram :<br><a href="https://t.me/Investprojecttttt" target="_blank" class="sofia-tg-link">📱 Contacter John sur Telegram</a>';
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
   function togglePanel() {
     isOpen = !isOpen;
     panel.style.display = isOpen ? 'flex' : 'none';
     wrap.style.display = isOpen ? 'none' : 'flex';
     if (isOpen && chatHistory.length === 0) {
-      setTimeout(function() {
-        addMsg("Bonjour ! Je suis Sofia, l'assistante de John 😊 Comment puis-je vous aider avec nos projets d'investissement ?", 'bot');
+      setTimeout(async function() {
+        addMsg('Bonjour ! Je suis Sofia, l\'assistante de John 😊\n\nComment souhaitez-vous être aidé ?', 'bot');
+        var johnOnline = true;
+        try {
+          var r = await fetch('/api/status');
+          var d = await r.json();
+          johnOnline = d.online;
+        } catch(e) {}
+        showChoiceButtons(johnOnline);
       }, 300);
     }
   }
@@ -175,6 +243,8 @@
     input.focus();
   }
 
+  btn.addEventListener('click', function(e){ e.stopPropagation(); togglePanel(); });
+  label.addEventListener('click', function(e){ e.stopPropagation(); togglePanel(); });
   wrap.addEventListener('click', togglePanel);
   document.getElementById('sofia-close').addEventListener('click', togglePanel);
   document.getElementById('sofia-send').addEventListener('click', sendMessage);

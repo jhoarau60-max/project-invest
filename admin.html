@@ -393,6 +393,22 @@
   </div>
 
   <!-- ════════════════════════════════════════════
+       SECTION 0 — Statut Chat John
+  ═════════════════════════════════════════════ -->
+  <div class="admin-section" id="section-john-status">
+    <div class="admin-section-header">
+      <div class="admin-section-title">
+        <i class="fa-solid fa-circle-dot"></i> Mon statut Chat
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding:8px 0 16px;">
+      <div id="john-status-display" style="font-size:1rem;font-weight:700;color:#e0f0ff;">Chargement…</div>
+      <button id="john-status-btn" onclick="toggleJohnStatus()" style="border:none;border-radius:10px;padding:10px 22px;font-weight:800;font-size:0.9rem;cursor:pointer;transition:all 0.2s;">…</button>
+    </div>
+    <p style="color:#aaa;font-size:0.82rem;margin:0;">Quand vous êtes <strong style="color:#00cc66">En ligne</strong>, les visiteurs du site peuvent vous contacter directement sur Telegram. Quand vous êtes <strong style="color:#ff4444">Absent</strong>, seule l'IA répond.</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════
        SECTION 1 — Avis Clients
   ═════════════════════════════════════════════ -->
   <div class="admin-section" id="section-avis">
@@ -1033,6 +1049,57 @@ window.addEventListener('DOMContentLoaded', function() {
     });
   }, 900);
 });
+</script>
+
+<script>
+// ─── Statut Chat John ─────────────────────────────────────────────────────────
+var johnIsOnline = true;
+
+async function loadJohnStatus() {
+  try {
+    var r = await fetch('/api/status');
+    var d = await r.json();
+    johnIsOnline = d.online;
+    renderStatusUI();
+  } catch(e) {}
+}
+
+function renderStatusUI() {
+  var display = document.getElementById('john-status-display');
+  var btn = document.getElementById('john-status-btn');
+  if (!display || !btn) return;
+  if (johnIsOnline) {
+    display.innerHTML = '🟢 <span style="color:#00cc66">En ligne</span> — Les visiteurs peuvent vous contacter sur Telegram';
+    btn.textContent = '🔴 Passer en Absent';
+    btn.style.cssText = 'border:none;border-radius:10px;padding:10px 22px;font-weight:800;font-size:0.9rem;cursor:pointer;background:linear-gradient(90deg,#cc2200,#ff4400);color:#fff;';
+  } else {
+    display.innerHTML = '🔴 <span style="color:#ff5533">Absent</span> — Seule l\'IA répond aux visiteurs';
+    btn.textContent = '🟢 Passer En ligne';
+    btn.style.cssText = 'border:none;border-radius:10px;padding:10px 22px;font-weight:800;font-size:0.9rem;cursor:pointer;background:linear-gradient(90deg,#008833,#00cc55);color:#fff;';
+  }
+}
+
+async function toggleJohnStatus() {
+  var btn = document.getElementById('john-status-btn');
+  btn.disabled = true;
+  btn.textContent = '⏳ En cours…';
+  try {
+    var session = (await _sb.auth.getSession()).data.session;
+    var token = session && session.access_token;
+    var newStatus = johnIsOnline ? 'offline' : 'online';
+    var r = await fetch('/api/status', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: newStatus, token: token })
+    });
+    var d = await r.json();
+    if (d.ok) { johnIsOnline = !johnIsOnline; }
+  } catch(e) { alert('Erreur lors du changement de statut'); }
+  btn.disabled = false;
+  renderStatusUI();
+}
+
+loadJohnStatus();
 </script>
 
 </body>
