@@ -1084,16 +1084,10 @@ async function toggleJohnStatus() {
   btn.disabled = true;
   btn.textContent = '⏳ En cours…';
   try {
-    var session = (await _sb.auth.getSession()).data.session;
-    var token = session && session.access_token;
     var newStatus = johnIsOnline ? 'offline' : 'online';
-    var r = await fetch('/api/status', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status: newStatus, token: token })
-    });
-    var d = await r.json();
-    if (d.ok) { johnIsOnline = !johnIsOnline; }
+    var result = await _sb.from('settings').upsert({ key: 'john_status', value: newStatus }, { onConflict: 'key' });
+    if (result.error) { alert('Erreur : ' + result.error.message); }
+    else { johnIsOnline = !johnIsOnline; }
   } catch(e) { alert('Erreur lors du changement de statut'); }
   btn.disabled = false;
   renderStatusUI();
