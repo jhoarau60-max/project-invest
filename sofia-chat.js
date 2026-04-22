@@ -122,11 +122,21 @@
   `;
   document.body.appendChild(panel);
 
+  function linkify(text) {
+    return text.replace(/(https?:\/\/[^\s]+)/g, function(url) {
+      return '<a href="' + url + '" target="_blank" style="color:#ffb300;word-break:break-all;">' + url + '</a>';
+    });
+  }
+
   function addMsg(text, role) {
     var msgs = document.getElementById('sofia-messages');
     var div = document.createElement('div');
     div.className = 'sofia-msg ' + role;
-    div.textContent = text;
+    if (role === 'bot') {
+      div.innerHTML = linkify(text.replace(/\n/g, '<br>'));
+    } else {
+      div.textContent = text;
+    }
     msgs.appendChild(div);
     msgs.scrollTop = msgs.scrollHeight;
     return div;
