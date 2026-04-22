@@ -819,7 +819,9 @@ window.addEventListener('load', function() {
   var style = document.createElement('style');
   style.textContent = `
     #sofia-btn-wrap {
-      position:fixed; bottom:24px; right:24px; z-index:99998;
+      position:fixed !important; bottom:24px !important; right:24px !important;
+      left:auto !important; top:auto !important;
+      z-index:99998;
       display:flex; flex-direction:column; align-items:center; gap:5px; cursor:pointer;
     }
     #sofia-btn {
@@ -939,7 +941,7 @@ window.addEventListener('load', function() {
   function togglePanel() {
     isOpen = !isOpen;
     panel.style.display = isOpen ? 'flex' : 'none';
-    btn.innerHTML = isOpen ? '<span style="font-size:28px;color:#fff;font-weight:bold;">✕</span>' : '<img src="/sofia.jpg" alt="Sofia" style="width:100%;height:100%;object-fit:cover;">';
+    btn.innerHTML = '<img src="/sofia.jpg" alt="Sofia" style="width:100%;height:100%;object-fit:cover;object-position:center top;">';
     if (isOpen && chatHistory.length === 0) {
       setTimeout(function() {
         addMsg("Bonjour ! Je suis Sofia, l'assistante de John 😊 Comment puis-je vous aider avec nos projets d'investissement ?", 'bot');
