@@ -41,14 +41,11 @@ export default async function handler(req, res) {
   let transfers = [];
 
   if (isBep20) {
-    // ── BEP20 : RPC BSC direct (sans clé API) ──
-    // USDT BEP20 = 18 décimales
+    // ── BEP20 : eth_getLogs via RPCs publics (Ankr + fallbacks) ──
     const rawExpectedBep = BigInt(Math.round(amtExpected * 1e18)).toString();
     const bepErrors = [];
 
-    // Transfer event signature
     const TRANSFER_TOPIC = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef';
-    // Adresse wallet paddée sur 32 bytes pour le filtre topic
     const walletPadded = '0x000000000000000000000000' + WALLET_BEP20.slice(2).toLowerCase();
 
     const BSC_RPCS = [
@@ -74,7 +71,7 @@ export default async function handler(req, res) {
     }
 
     if (currentBlock) {
-      // Chercher dans les 10000 derniers blocs (~8 heures sur BSC)
+      // 10 000 blocs ≈ 8 heures sur BSC
       const fromBlock = '0x' + Math.max(0, currentBlock - 10000).toString(16);
       for (const rpc of BSC_RPCS) {
         try {
@@ -85,28 +82,26 @@ export default async function handler(req, res) {
               jsonrpc: '2.0', method: 'eth_getLogs', id: 2,
               params: [{ fromBlock, toBlock: 'latest', address: USDT_BEP20, topics: [TRANSFER_TOPIC, null, walletPadded] }]
             }),
-            signal: AbortSignal.timeout(10000)
+            signal: AbortSignal.timeout(12000)
           });
           const d = await r.json();
-          if (d.error) { bepErrors.push('RPC_ERR:' + JSON.stringify(d.error)); continue; }
+          if (d.error) { bepErrors.push(rpc.split('/')[2] + ':ERR:' + JSON.stringify(d.error).slice(0,80)); continue; }
           if (Array.isArray(d.result)) {
-            bepErrors.push('RPC_OK:' + rpc + ':' + d.result.length + 'logs');
+            bepErrors.push(rpc.split('/')[2] + ':OK:' + d.result.length);
             if (d.result.length > 0) { transfers.push(...d.result); break; }
           }
-        } catch(e) { bepErrors.push('RPC_EX:' + e.message); }
+        } catch(e) { bepErrors.push(rpc.split('/')[2] + ':EX:' + e.message); }
       }
     } else {
       bepErrors.push('RPC:impossible de récupérer le bloc');
     }
 
     function matchBep20(tx) {
-      // tx.data contient le montant en hex (eth_getLogs)
       const hexVal = tx.data || '0x0';
       try {
         const val = BigInt(hexVal);
         if (val.toString() === rawExpectedBep) return true;
-        const diff = Math.abs(Number(val) / 1e18 - amtExpected);
-        return diff < 0.01;
+        return Math.abs(Number(val) / 1e18 - amtExpected) < 0.01;
       } catch(_) { return false; }
     }
 

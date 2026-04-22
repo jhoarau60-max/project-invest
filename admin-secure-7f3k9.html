@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Project inves'T</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:#020a18;color:#e0f0ff;font-family:Arial,sans-serif;padding:16px;}
+    h1{font-size:1.4rem;font-weight:900;color:#fff;margin-bottom:4px;}
+    h1 span{color:#00c8ff;}
+    .sub{color:rgba(0,200,255,0.6);font-size:0.8rem;margin-bottom:20px;}
+    .section{background:rgba(0,200,255,0.04);border:1px solid rgba(0,200,255,0.18);border-radius:14px;padding:16px;margin-bottom:20px;}
+    .section-title{font-size:1rem;font-weight:700;color:#00c8ff;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+    .stats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+    .chip{background:rgba(0,200,255,0.1);border:1px solid rgba(0,200,255,0.3);border-radius:20px;padding:5px 12px;font-size:0.78rem;color:#00c8ff;font-weight:600;}
+    .chip span{color:#fff;}
+    table{width:100%;border-collapse:collapse;font-size:0.75rem;}
+    thead tr{background:#0a2a5e;}
+    thead th{padding:8px 10px;text-align:left;color:#00c8ff;font-weight:700;border-bottom:1px solid rgba(0,200,255,0.3);}
+    tbody tr:nth-child(odd){background:#0a1628;}
+    tbody tr:nth-child(even){background:#071020;}
+    tbody td{padding:8px 10px;border-bottom:1px solid rgba(0,200,255,0.08);color:#c8dff0;vertical-align:middle;}
+    .table-wrap{overflow-x:auto;border-radius:10px;border:1px solid rgba(0,200,255,0.2);}
+    .empty{text-align:center;color:rgba(0,200,255,0.4);padding:16px;font-style:italic;}
+    .badge-ok{background:rgba(0,200,100,0.12);border:1px solid rgba(0,200,100,0.35);color:#00e676;border-radius:12px;padding:2px 8px;font-size:0.7rem;font-weight:600;}
+    .badge-wait{background:rgba(255,170,0,0.1);border:1px solid rgba(255,170,0,0.3);color:#ffaa00;border-radius:12px;padding:2px 8px;font-size:0.7rem;font-weight:600;}
+    .badge-no{background:rgba(255,60,60,0.08);border:1px solid rgba(255,60,60,0.35);color:#ff5f5f;border-radius:12px;padding:2px 8px;font-size:0.7rem;font-weight:600;}
+    .btn{border-radius:8px;padding:8px 14px;font-size:0.82rem;font-weight:700;cursor:pointer;border:1px solid;}
+    .btn-blue{background:rgba(0,200,255,0.15);color:#00c8ff;border-color:rgba(0,200,255,0.45);}
+    .btn-orange{background:rgba(255,180,0,0.2);color:#ffb300;border-color:rgba(255,180,0,0.5);}
+    .btn-red{background:rgba(255,60,60,0.1);color:#ff6060;border-color:rgba(255,60,60,0.4);}
+    .btn-green{background:rgba(0,200,100,0.15);color:#00e676;border-color:rgba(0,200,100,0.4);}
+    .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;}
+    input,textarea{background:#071020;border:1px solid rgba(0,200,255,0.3);border-radius:8px;padding:8px 12px;color:#fff;font-size:0.88rem;width:100%;}
+    .flex-col{display:flex;flex-direction:column;gap:10px;}
+    .flex-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+
+    /* Écran login */
+    #login-screen{position:fixed;inset:0;background:#020a18;display:flex;align-items:center;justify-content:center;z-index:9999;}
+    .login-box{background:rgba(0,200,255,0.04);border:1.5px solid rgba(0,200,255,0.3);border-radius:18px;padding:32px 24px;max-width:340px;width:90%;text-align:center;}
+    .login-box h2{color:#00c8ff;font-size:1.3rem;margin-bottom:6px;}
+    .login-box p{color:#aaa;font-size:0.82rem;margin-bottom:20px;}
+    .login-box input{text-align:center;font-size:1.1rem;letter-spacing:4px;margin-bottom:14px;}
+    .login-box button{width:100%;padding:12px;border-radius:10px;border:none;background:linear-gradient(90deg,#00c8ff,#0080ff);color:#fff;font-weight:900;font-size:1rem;cursor:pointer;}
+    #login-error{color:#ff6060;font-size:0.82rem;margin-top:8px;display:none;}
+    #main-content{display:none;}
+  </style>
+</head>
+<body>
+
+<!-- ÉCRAN MOT DE PASSE -->
+<div id="login-screen">
+  <div class="login-box">
+    <h2>⚙ Admin Panel</h2>
+    <p>Project inves'T — Accès sécurisé</p>
+    <input type="password" id="pwd-input" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')verifierMdp()">
+    <button onclick="verifierMdp()">Entrer</button>
+    <div id="login-error">Mot de passe incorrect</div>
+  </div>
+</div>
+
+<!-- CONTENU ADMIN -->
+<div id="main-content">
+
+<h1>⚙ Panel <span>Admin</span></h1>
+<p class="sub">Project inves'T — Mobile Admin</p>
+
+<!-- JACKPOT -->
+<div class="section">
+  <div class="section-title"><i class="fa-solid fa-trophy"></i> Jackpot Jeton</div>
+  <div class="flex-col">
+    <div class="flex-wrap" style="align-items:center;">
+      <label style="color:#00c8ff;font-weight:700;">Mode :</label>
+      <button id="jackpot-toggle" onclick="toggleJackpot()" class="btn">Chargement…</button>
+    </div>
+    <div class="flex-col">
+      <label style="color:#aaa;font-size:0.78rem;">Montant du gain</label>
+      <input id="jackpot-amount" placeholder="ex: 50$">
+    </div>
+    <div class="flex-col">
+      <label style="color:#aaa;font-size:0.78rem;">Date du tirage</label>
+      <input id="jackpot-date" type="date">
+    </div>
+    <div class="flex-wrap">
+      <button onclick="sauvegarderJackpot()" class="btn btn-blue">💾 Sauvegarder</button>
+      <button onclick="activerAlgo()" class="btn btn-orange">🤖 Algo</button>
+      <button onclick="annulerJackpot()" class="btn btn-red">✖ Annuler</button>
+    </div>
+    <div id="jackpot-status" style="font-size:0.82rem;color:rgba(0,200,255,0.7);"></div>
+    <div id="jackpot-target-info" style="font-size:0.82rem;color:#ffb300;"></div>
+  </div>
+</div>
+
+<!-- PROMO -->
+<div class="section">
+  <div class="section-title"><i class="fa-solid fa-bullseye"></i> Popup Promo</div>
+  <div class="flex-col">
+    <input id="promo-title" placeholder="Titre (ex: 🎉 Offre spéciale !)">
+    <input type="file" id="promo-img" accept="image/*">
+    <textarea id="promo-msg" placeholder="Message de la promo…" rows="3"></textarea>
+    <div class="flex-wrap">
+      <button onclick="publierPromo()" class="btn btn-orange">🚀 Publier</button>
+      <button onclick="desactiverPromo()" class="btn btn-red">✖ Désactiver</button>
+    </div>
+    <div id="promo-status" style="font-size:0.82rem;color:rgba(0,200,255,0.7);"></div>
+  </div>
+</div>
+
+<!-- VUE D'ENSEMBLE -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title"><i class="fa-solid fa-chart-bar"></i> Vue d'ensemble</div>
+    <div class="flex-wrap">
+      <button class="btn btn-orange" onclick="envoyerMessageGeneral()"><i class="fa-solid fa-bullhorn"></i> Msg général</button>
+      <button class="btn btn-blue" onclick="loadAll()"><i class="fa-solid fa-rotate"></i></button>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="chip">Inscrits : <span id="kpi-users">—</span></div>
+    <div class="chip">Visites : <span id="kpi-visits">—</span></div>
+    <div class="chip">Clics Jouer : <span id="kpi-plays">—</span></div>
+    <div class="chip">Paiements : <span id="kpi-paid">—</span></div>
+    <div class="chip">Points : <span id="kpi-pts">—</span></div>
+  </div>
+</div>
+
+<!-- MEMBRES -->
+<div class="section">
+  <div class="section-title"><i class="fa-solid fa-users"></i> Membres</div>
+  <div class="table-wrap">
+    <table><thead><tr><th>#</th><th>Pseudo</th><th>Email</th><th>Actions</th></tr></thead>
+    <tbody id="tb-users"><tr><td colspan="4" class="empty">Chargement…</td></tr></tbody></table>
+  </div>
+</div>
+
+<!-- PAIEMENTS -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title"><i class="fa-solid fa-dollar-sign"></i> Paiements</div>
+    <button class="btn btn-red" onclick="nettoyerEnAttente()"><i class="fa-solid fa-trash"></i> Nettoyer</button>
+  </div>
+  <div class="table-wrap">
+    <table><thead><tr><th>#</th><th>User</th><th>Montant</th><th>Statut</th><th>Action</th></tr></thead>
+    <tbody id="tb-payments"><tr><td colspan="5" class="empty">Chargement…</td></tr></tbody></table>
+  </div>
+</div>
+
+<!-- GAGNANTS -->
+<div class="section">
+  <div class="section-title"><i class="fa-solid fa-trophy"></i> Gagnants</div>
+  <div class="table-wrap">
+    <table><thead><tr><th>#</th><th>Membre</th><th>Montant</th><th>Date</th></tr></thead>
+    <tbody id="tb-winners"><tr><td colspan="4" class="empty">Chargement…</td></tr></tbody></table>
+  </div>
+</div>
+
+<!-- CLASSEMENT -->
+<div class="section">
+  <div class="section-title"><i class="fa-solid fa-ranking-star"></i> Points</div>
+  <div class="table-wrap">
+    <table><thead><tr><th>Rang</th><th>Membre</th><th>Points</th></tr></thead>
+    <tbody id="tb-points"><tr><td colspan="3" class="empty">Chargement…</td></tr></tbody></table>
+  </div>
+</div>
+
+</div><!-- fin main-content -->
+
+<script>
+var PWD_HASH = '5c2f2a18b0b5f4c9c3e3a7e2d1f6b8a4e9c0d7f3b6a2e5c8d1f4b7a0e3c6d9f';
+
+function simpleHash(str) {
+  var hash = 0;
+  for (var i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash) + str.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash).toString(16);
+}
+
+function verifierMdp() {
+  var pwd = document.getElementById('pwd-input').value;
+  if (pwd === '04072015') {
+    sessionStorage.setItem('admin_auth', '1');
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('main-content').style.display = 'block';
+    initAdmin();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('pwd-input').value = '';
+  }
+}
+
+window.onload = function() {
+  if (sessionStorage.getItem('admin_auth') === '1') {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('main-content').style.display = 'block';
+    initAdmin();
+  }
+};
+
+function initAdmin() {
+  loadAll();
+  chargerJackpot();
+}
+
+const _sb = window.supabase.createClient(
+  'https://cvggxktybzbrtskcwlxp.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Z2d4a3R5YnpicnRza2N3bHhwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDI4MzYyNywiZXhwIjoyMDg5ODU5NjI3fQ.ldGydaWTCGKd2RV810AMfSaNs0PkT_Yu2KvE0WGqmz8',
+  { auth: { persistSession: false, autoRefreshToken: false } }
+);
+
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fdt(s){ if(!s) return '—'; var d=new Date(s); return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric'})+' '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}); }
+function fd(s){ if(!s) return '—'; return new Date(s).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric'}); }
+
+var profiles = {};
+
+async function loadAll() {
+  var rp = await _sb.from('profiles').select('*').order('created_at',{ascending:false});
+  var users = rp.data || [];
+  document.getElementById('kpi-users').textContent = users.length;
+  users.forEach(function(u){ profiles[u.id] = esc(u.email || u.username || u.id.substring(0,10)+'…'); });
+  var html='';
+  users.forEach(function(u,i){
+    html+='<tr><td style="color:rgba(0,200,255,0.5);">'+(i+1)+'</td>'
+      +'<td><strong>'+esc(u.username||u.pseudo||'—')+'</strong></td>'
+      +'<td style="color:rgba(200,220,255,0.7);font-size:0.7rem;">'+esc(u.email||'—')+'</td>'
+      +'<td style="white-space:nowrap;">'
+      +'<button onclick="envoyerMessage(\''+esc(u.id)+'\')" style="background:rgba(0,200,255,0.12);color:#00c8ff;border:1px solid rgba(0,200,255,0.35);border-radius:6px;padding:4px 8px;font-size:0.72rem;cursor:pointer;margin-right:4px;">📩</button>'
+      +'<button onclick="designerGagnant(\''+esc(u.id)+'\',\''+esc(u.username||u.email||u.id.substring(0,8))+'\')" style="background:rgba(255,200,0,0.15);color:#ffcc00;border:1px solid rgba(255,200,0,0.4);border-radius:6px;padding:4px 8px;font-size:0.72rem;cursor:pointer;">🎯</button>'
+      +'</td></tr>';
+  });
+  document.getElementById('tb-users').innerHTML = html || '<tr><td colspan="4" class="empty">Aucun membre.</td></tr>';
+
+  var rv = await _sb.from('site_visits').select('*',{count:'exact'}).order('created_at',{ascending:false}).limit(1);
+  document.getElementById('kpi-visits').textContent = rv.count || 0;
+
+  var re = await _sb.from('coffre_events').select('*',{count:'exact'}).order('created_at',{ascending:false}).limit(1);
+  document.getElementById('kpi-plays').textContent = re.count || 0;
+
+  var rpa = await _sb.from('pending_payments').select('*').order('created_at',{ascending:false});
+  var pays = rpa.data || [];
+  var confirmed = pays.filter(function(x){return x.status==='confirmed';});
+  document.getElementById('kpi-paid').textContent = confirmed.length;
+  html='';
+  pays.forEach(function(p,i){
+    var badge = p.status==='confirmed' ? '<span class="badge-ok">OK</span>' : p.status==='rejected' ? '<span class="badge-no">Rejeté</span>' : '<span class="badge-wait">Attente</span>';
+    var btnC = p.status==='pending' ? '<button onclick="confirmerManuellement(\''+esc(p.id)+'\',\''+esc(p.user_id)+'\','+Number(p.tours)+')" style="background:rgba(0,200,100,0.15);color:#00e676;border:1px solid rgba(0,200,100,0.4);border-radius:6px;padding:3px 8px;font-size:0.7rem;cursor:pointer;">✔</button>' : '—';
+    html+='<tr><td>'+(i+1)+'</td>'
+      +'<td style="font-size:0.7rem;">'+(profiles[p.user_id]||esc(String(p.user_id||'').substring(0,10))+'…')+'</td>'
+      +'<td style="color:#00e676;font-weight:700;">'+esc(String(p.expected_amount||''))+' USDT</td>'
+      +'<td>'+badge+'</td>'
+      +'<td>'+btnC+'</td></tr>';
+  });
+  document.getElementById('tb-payments').innerHTML = html || '<tr><td colspan="5" class="empty">Aucun paiement.</td></tr>';
+
+  var rpt = await _sb.from('user_points').select('*').order('total_points',{ascending:false});
+  var pts = rpt.data || [];
+  var total = pts.reduce(function(s,x){return s+(x.total_points||0);},0);
+  document.getElementById('kpi-pts').textContent = total;
+  var medals=['🥇','🥈','🥉'];
+  html='';
+  pts.forEach(function(p,i){
+    html+='<tr><td style="text-align:center;">'+(medals[i]||'#'+(i+1))+'</td>'
+      +'<td>'+(profiles[p.user_id]||esc(String(p.user_id||'').substring(0,10))+'…')+'</td>'
+      +'<td style="color:#ffd700;font-weight:900;">'+(p.total_points||0)+' pts</td></tr>';
+  });
+  document.getElementById('tb-points').innerHTML = html || '<tr><td colspan="3" class="empty">Aucun point.</td></tr>';
+
+  var rw = await _sb.from('monthly_winner').select('*').order('created_at',{ascending:false});
+  var winners = rw.data || [];
+  html='';
+  winners.forEach(function(w,i){
+    html+='<tr><td>'+(i+1)+'</td>'
+      +'<td>'+(profiles[w.user_id]||esc(String(w.user_id||'').substring(0,10))+'…')+'</td>'
+      +'<td style="color:#ffd700;font-weight:900;">'+esc(w.amount||'—')+'</td>'
+      +'<td>'+fd(w.created_at)+'</td></tr>';
+  });
+  document.getElementById('tb-winners').innerHTML = html || '<tr><td colspan="4" class="empty">Aucun gagnant.</td></tr>';
+}
+
+var jackpotData = {};
+async function chargerJackpot() {
+  var r = await _sb.from('game_settings').select('*').eq('id',1).single();
+  if (!r.data) return;
+  jackpotData = r.data;
+  document.getElementById('jackpot-amount').value = r.data.jackpot_amount || '50$';
+  document.getElementById('jackpot-date').value = r.data.jackpot_date || '';
+  var btn = document.getElementById('jackpot-toggle');
+  if (r.data.jackpot_active) { btn.textContent='🟢 ACTIF'; btn.style.background='rgba(0,200,100,0.25)'; btn.style.color='#00e676'; btn.style.border='2px solid #00e676'; }
+  else { btn.textContent='🔴 INACTIF'; btn.style.background='rgba(255,60,60,0.15)'; btn.style.color='#ff6060'; btn.style.border='2px solid #ff6060'; }
+}
+
+async function toggleJackpot() {
+  var newVal = !jackpotData.jackpot_active;
+  await _sb.from('game_settings').update({jackpot_active:newVal,updated_at:new Date().toISOString()}).eq('id',1);
+  jackpotData.jackpot_active = newVal;
+  chargerJackpot();
+  document.getElementById('jackpot-status').textContent = newVal ? '✅ Activé !' : '✅ Désactivé.';
+}
+
+async function sauvegarderJackpot() {
+  var amount = document.getElementById('jackpot-amount').value.trim();
+  var date = document.getElementById('jackpot-date').value;
+  if (!amount || !date) { document.getElementById('jackpot-status').textContent = '⚠ Remplis les champs.'; return; }
+  await _sb.from('game_settings').update({jackpot_amount:amount,jackpot_date:date,updated_at:new Date().toISOString()}).eq('id',1);
+  document.getElementById('jackpot-status').textContent = '✅ Sauvegardé !';
+}
+
+async function designerGagnant(user_id, pseudo) {
+  if (!confirm('Désigner "'+pseudo+'" comme gagnant ?')) return;
+  await _sb.from('game_settings').update({jackpot_target_user:user_id,jackpot_next_wins:false,jackpot_active:true,updated_at:new Date().toISOString()}).eq('id',1);
+  document.getElementById('jackpot-status').textContent = '✅ Gagnant désigné !';
+  document.getElementById('jackpot-target-info').textContent = '🎯 En attente : '+pseudo;
+}
+
+async function activerAlgo() {
+  if (!confirm('Activer l\'algo ? Le prochain joueur sans victoire gagne.')) return;
+  await _sb.from('game_settings').update({jackpot_next_wins:true,jackpot_target_user:null,jackpot_active:true,updated_at:new Date().toISOString()}).eq('id',1);
+  document.getElementById('jackpot-status').textContent = '✅ Algo activé !';
+}
+
+async function annulerJackpot() {
+  await _sb.from('game_settings').update({jackpot_next_wins:false,jackpot_target_user:null,jackpot_active:false,updated_at:new Date().toISOString()}).eq('id',1);
+  document.getElementById('jackpot-status').textContent = '✅ Annulé.';
+  document.getElementById('jackpot-target-info').textContent = '';
+  chargerJackpot();
+}
+
+async function publierPromo() {
+  var title = document.getElementById('promo-title').value.trim();
+  var msg = document.getElementById('promo-msg').value.trim();
+  var fileInput = document.getElementById('promo-img');
+  var status = document.getElementById('promo-status');
+  if (!title || !msg) { status.textContent = '⚠ Titre et message requis.'; return; }
+  status.textContent = 'Envoi…';
+  var image_url = null;
+  if (fileInput.files && fileInput.files[0]) {
+    var file = fileInput.files[0];
+    var path = 'promo_'+Date.now()+'.'+file.name.split('.').pop();
+    var up = await _sb.storage.from('promo-images').upload(path, file, {upsert:true});
+    if (up.error) { status.textContent = '❌ '+up.error.message; return; }
+    image_url = _sb.storage.from('promo-images').getPublicUrl(path).data.publicUrl;
+  }
+  await _sb.from('promotions').update({active:false}).eq('active',true);
+  var r = await _sb.from('promotions').insert({title, message:msg, image_url, active:true});
+  if (r.error) { status.textContent = '❌ '+r.error.message; return; }
+  status.textContent = '✅ Promo active !';
+}
+
+async function desactiverPromo() {
+  await _sb.from('promotions').update({active:false}).eq('active',true);
+  document.getElementById('promo-status').textContent = '✅ Désactivé.';
+}
+
+async function envoyerMessageGeneral() {
+  var msg = prompt('Message pour TOUS les membres :');
+  if (!msg || !msg.trim()) return;
+  var rp = await _sb.from('profiles').select('id');
+  var users = rp.data || [];
+  if (!users.length) { alert('Aucun membre.'); return; }
+  var r = await _sb.from('notifications').insert(users.map(function(u){ return {user_id:u.id,message:msg.trim(),type:'admin',read:false}; }));
+  if (r.error) { alert('Erreur : '+r.error.message); return; }
+  alert('✅ Message envoyé à '+users.length+' membre(s) !');
+}
+
+async function envoyerMessage(user_id) {
+  var msg = prompt('Message pour ce membre :');
+  if (!msg || !msg.trim()) return;
+  var r = await _sb.from('notifications').insert({user_id,message:msg.trim(),type:'admin',read:false});
+  if (r.error) { alert('Erreur : '+r.error.message); return; }
+  alert('✅ Envoyé !');
+}
+
+async function confirmerManuellement(id, user_id, tours) {
+  if (!confirm('Confirmer ce paiement — '+tours+' tour(s) ?')) return;
+  await _sb.from('pending_payments').update({status:'confirmed'}).eq('id',id);
+  var es = await _sb.from('extra_spins').select('*').eq('user_id',user_id);
+  if (es.data && es.data.length > 0) {
+    await _sb.from('extra_spins').update({remaining:es.data[0].remaining+tours,updated_at:new Date().toISOString()}).eq('user_id',user_id);
+  } else {
+    await _sb.from('extra_spins').insert({user_id,remaining:tours,updated_at:new Date().toISOString()});
+  }
+  alert('✅ Confirmé — '+tours+' tour(s) débloqué(s) !');
+  loadAll();
+}
+
+async function nettoyerEnAttente() {
+  if (!confirm('Supprimer les paiements en attente >24h ?')) return;
+  var hier = new Date(Date.now()-24*60*60*1000).toISOString();
+  await _sb.from('pending_payments').delete().eq('status','pending').lt('created_at',hier);
+  alert('Nettoyage effectué !');
+  loadAll();
+}
+</script>
+</body>
+</html>

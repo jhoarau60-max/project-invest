@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project inves'T - Planning Webinaire 2026</title>
+    <title>Project inves'T - Conférences & Webinaires 2026</title>
+    <meta name="description" content="Rejoignez les conférences hebdomadaires de Project inves'T sur Google Meet. Présentations des projets d'investissement chaque semaine. Gratuit pour tous les membres.">
+    <meta name="keywords" content="webinaire investissement, conférence Google Meet, présentation projets, Project inves'T, formation investissement">
+    <meta name="robots" content="noindex">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.projectinvest.net/planning-webinaire.html">
+    <meta property="og:title" content="Project inves'T - Conférences & Webinaires 2026">
+    <meta property="og:description" content="Conférences hebdomadaires sur les projets d'investissement. Rejoignez la communauté Project inves'T chaque semaine.">
+    <meta property="og:image" content="https://www.projectinvest.net/logo.png">
     <link rel="stylesheet" href="style.css">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -11,8 +19,6 @@
 const _sb=window.supabase.createClient("https://cvggxktybzbrtskcwlxp.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Z2d4a3R5YnpicnRza2N3bHhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyODM2MjcsImV4cCI6MjA4OTg1OTYyN30.cfHsAvmgcXYvedCz1fZCHlxOApupKCxnt8t9e8KzNBs");
 setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{
   if(!data.session){ window.location.href="index.html"; return; }
-  var email=(data.session.user.email||'').toLowerCase().trim();
-  if(email!=='jhoarau60@gmail.com') window.location.href="home.html";
 }); }, 800);
 </script>
     <style>
@@ -54,6 +60,15 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{
       }
       .btn-zoom-dore:hover {
         box-shadow: 0 0 18px rgba(201,168,76,0.9), 0 0 35px rgba(201,168,76,0.5);
+        transform: translateY(-2px);
+      }
+      .btn-zoom-violet {
+        background:#7850ff; color:#ffffff; padding:6px 10px;
+        border-radius:8px; text-decoration:none; font-weight:700;
+        font-size:0.78rem; transition: all 0.3s; white-space:nowrap; display:inline-block;
+      }
+      .btn-zoom-violet:hover {
+        box-shadow: 0 0 18px rgba(120,80,255,0.9), 0 0 35px rgba(120,80,255,0.5);
         transform: translateY(-2px);
       }
       .btn-zoom-special {
@@ -239,8 +254,9 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{
     ];
 
     // ─── LIENS ZOOM RÉGULIERS ────────────────────────────────────────────────────
-    var ZOOM_JEUDI  = "https://us06web.zoom.us/j/81085168637?pwd=GF0VuD3kpQq8UPoilGrJwj9ubJVQly.1";
-    var ZOOM_SAMEDI = "https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1";
+    var ZOOM_JEUDI  = "https://meet.google.com/vqs-hzfs-qyy";
+    var ZOOM_SAMEDI = "https://meet.google.com/rzy-bgok-mwz";
+    var ZOOM_LUNDI  = "https://meet.google.com/ymf-oouu-txa";
 
     // ─── GÉNÉRATION AUTOMATIQUE DU TABLEAU ──────────────────────────────────────
     var JOURS_FR = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
@@ -260,16 +276,17 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{
       var d = new Date(year, month, 1);
       while (d.getMonth() === month) {
         var day = d.getDay();
-        // Jeudi (4) → 21h00, Samedi (6) → 17h00
-        if (day === 4 || day === 6) {
+        // Lundi (1) → 19h00, Jeudi (4) → 21h00, Samedi (6) → 17h00
+        if (day === 1 || day === 4 || day === 6) {
           var isJeudi = day === 4;
+          var isLundi = day === 1;
           rows.push({
             dateObj: new Date(d),
-            heure: isJeudi ? '21h00' : '17h00',
-            sujet: 'Présentation de société E-estate',
+            heure: isLundi ? '19h00' : (isJeudi ? '21h00' : '17h00'),
+            sujet: isLundi ? 'Présentation Smart Bot' : 'Présentation de société E-estate',
             intervenant: 'Hoarau Johnny',
-            lien: isJeudi ? ZOOM_JEUDI : ZOOM_SAMEDI,
-            classe: isJeudi ? 'btn-zoom-bleu' : 'btn-zoom-dore',
+            lien: isLundi ? ZOOM_LUNDI : (isJeudi ? ZOOM_JEUDI : ZOOM_SAMEDI),
+            classe: isLundi ? 'btn-zoom-violet' : (isJeudi ? 'btn-zoom-bleu' : 'btn-zoom-dore'),
             special: false,
             style: ''
           });
@@ -401,19 +418,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{
 <script src="audio.js"></script>
 <script src="translator.js"></script>
 
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/69c1c8abf9f0211c36fde03a/1jkeffnrd';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
+
 </body>
 </html>
 

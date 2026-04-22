@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project inves'T - Journal des projets</title>
+    <title>Project inves'T - Journal des Projets</title>
+    <meta name="description" content="Suivez les dernières actualités et mises à jour des projets d'investissement de Project inves'T. Restez informé sur l'immobilier, le trading, le MLM et la crypto.">
+    <meta name="keywords" content="journal investissement, actualités projets, E-state, ArbCore, Smart MEV, MLM, Project inves'T">
+    <meta name="robots" content="noindex">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.projectinvest.net/journal.html">
+    <meta property="og:title" content="Project inves'T - Journal des Projets">
+    <meta property="og:description" content="Actualités et mises à jour des projets d'investissement de la communauté Project inves'T.">
+    <meta property="og:image" content="https://www.projectinvest.net/logo.png">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
@@ -840,7 +848,7 @@ var catLabel  = { general:'Général', trading:'Bot Trading', estate:'E-Estate',
 var catLogo   = { estate:'logo-estate.png', smart:'logo-smarts.png', mlm:'logo-mlm.png', arbcore:'logo-project-invest.jpg', general:'logo-project-invest.jpg' };
 var catColor  = { estate:'#2ecc71', smart:'#3498db', mlm:'#e67e22', arbcore:'#9b59b6', general:'#c9a84c' };
 var romans    = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX'];
-var CAT_ORDER = ['estate','smart','mlm','arbcore','general'];
+var CAT_ORDER = ['estate','smart','mlm','arbcore'];
 var catPageMap = {};
 var tousArticles = [];
 
@@ -1141,7 +1149,7 @@ function chargerTelegramPourLivre() {
                     var dateAffichage = date || new Date().toISOString();
                     var cat = extractCategorie(message);
                     var contenu = nettoyerMessage(message);
-                    if (message || imgUrl) {
+                    if ((message || imgUrl) && cat !== 'general') {
                         articles.push({ titre: '📱 ' + (auteur||'Telegram'), contenu: contenu, categorie: cat, image_url: (type.toLowerCase() === 'image' ? imgUrl : null), created_at: dateAffichage, epingle: false });
                     }
                 }

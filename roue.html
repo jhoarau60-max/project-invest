@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Project inves'T - Coffre des Gains</title>
+  <title>Project inves'T - Coffre des Gains | Jackpot Mensuel</title>
+  <meta name="description" content="Tentez de remporter le jackpot mensuel de 50€ avec le Coffre des Gains de Project inves'T. Un tour gratuit par mois pour chaque membre. Accumulez des jetons et jouez !">
+  <meta name="keywords" content="coffre fort, jackpot mensuel, tour gratuit, jetons, gains, Project inves'T, concours investisseurs">
+  <meta name="robots" content="noindex">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     /* ===== FOND IMAGE COFFRE FORT ===== */
     html { height: 100%; }
@@ -87,37 +91,25 @@
       padding: 0 8px;
     }
     .vault-title-main {
-      font-size: 2.4rem;
+      font-size: 2.2rem;
       font-weight: 900;
       margin: 0 0 6px;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      background: linear-gradient(135deg,
-        #ffffff  0%,
-        #ffe566 18%,
-        #ffd700 32%,
-        #ff9500 52%,
-        #ff3cac 72%,
-        #a855f7 88%,
-        #00c8ff 100%);
+      background: linear-gradient(160deg,
+        #e8c96a 0%,
+        #f5e08a 30%,
+        #c8900a 55%,
+        #f0c040 75%,
+        #a06808 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      filter:
-        drop-shadow(0 0 12px rgba(255,200,0,0.7))
-        drop-shadow(0 0 30px rgba(255,100,0,0.4))
-        drop-shadow(0 0 55px rgba(168,85,247,0.3));
-      animation: titleShimmer 4s linear infinite;
-      background-size: 200% 100%;
-    }
-    @keyframes titleShimmer {
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      filter: drop-shadow(0 2px 8px rgba(180,120,0,0.5));
     }
     .vault-title-main .fa-vault {
-      -webkit-text-fill-color: #ffd700;
-      filter: drop-shadow(0 0 8px rgba(255,180,0,0.8));
+      -webkit-text-fill-color: #c8900a;
+      filter: drop-shadow(0 0 6px rgba(200,144,10,0.7));
     }
     .vault-title-sub {
       font-size: 0.78rem;
@@ -150,8 +142,11 @@
     /* Mobile : empilement vertical */
     @media(max-width: 860px) {
       .coffre-layout { flex-direction: column; align-items: center; flex-wrap: wrap; }
-      .col-info { width: 100%; flex: 1 1 100%; padding-top: 0; }
-      .col-vault { flex-direction: column; }
+      .col-info { width: 100%; max-width: 100vw; flex: 1 1 100%; padding-top: 0; order: 1; overflow: hidden; }
+      .col-vault { flex-direction: column; order: -1; }
+      .vault-title-main { font-size: 1.3rem; }
+      .vault-title-block { margin-bottom: 6px; padding: 0 4px; }
+      .vault-row { flex-direction: column; gap: 10px; align-items: center; }
     }
 
     /* PRIZE */
@@ -1606,17 +1601,13 @@
 <script>
 const _sb=window.supabase.createClient("https://cvggxktybzbrtskcwlxp.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Z2d4a3R5YnpicnRza2N3bHhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyODM2MjcsImV4cCI6MjA4OTg1OTYyN30.cfHsAvmgcXYvedCz1fZCHlxOApupKCxnt8t9e8KzNBs");
 var currentUser=null;
-setTimeout(function(){
-  _sb.auth.getSession().then(function(r){
-    if(!r.data.session){window.location.href="index.html";return;}
-    currentUser = r.data.session.user;
-    // Tracking visite page coffre
-    if(r.data.session){
-      _sb.from('site_visits').insert({user_id:r.data.session.user.id, page:'coffre'});
-    }
-    init();
-  });
-},800);
+setTimeout(async function(){
+  var r = await _sb.auth.getSession();
+  if(!r.data.session){window.location.href="index.html";return;}
+  currentUser = r.data.session.user;
+  _sb.from('site_visits').insert({user_id:currentUser.id, page:'coffre'});
+  init();
+},100);
 </script>
 <link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#00c8ff">
 <script>
@@ -2132,7 +2123,7 @@ setTimeout(function(){
     </a>
     <div class="social-links">
       <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="background:#229ED9;color:#fff;border-color:#229ED9;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-telegram"></i> Telegram</a>
-      <a href="#" onclick="_sb.auth.signOut().then(()=>window.location.href='index.html')" style="background:#229ED9;color:#fff;border:1px solid #229ED9;border-radius:20px;font-weight:700;display:inline-flex;align-items:center;gap:6px;">⏻ Déconnexion</a>
+      <a href="#" onclick="window.location.href='index.html';_sb.auth.signOut();" style="background:#229ED9;color:#fff;border:1px solid #229ED9;border-radius:20px;font-weight:700;display:inline-flex;align-items:center;gap:6px;"><i class="fa-solid fa-power-off"></i> Déconnexion</a>
     </div>
   </div>
   <nav>
@@ -2193,10 +2184,10 @@ setTimeout(function(){
       <!-- REJOUER CRYPTO -->
       <div id="btn-crypto-wrap" style="display:none;flex-direction:column;gap:8px;width:100%;">
         <button class="btn-vault crypto" onclick="payerCrypto(6,15)" style="width:100%;">
-          Forfait 6 tours — 15 USDT
+          Forfait 6 tours 15 USDT
         </button>
         <button class="btn-vault crypto" onclick="payerCrypto(1,3)" style="width:100%;opacity:0.85;">
-          1 tour — 3 USDT
+          1 tour 3 USDT
         </button>
       </div>
 
@@ -2258,7 +2249,7 @@ setTimeout(function(){
           </script>
         </div>
       </div>
-      <p id="daily-label" style="font-size:1rem;font-weight:700;color:rgba(200,220,255,0.9);text-align:center;margin:0 0 6px;line-height:1.5;padding:0 6px;">
+      <p id="daily-label" style="font-size:1rem;font-weight:700;color:rgba(200,220,255,0.9);text-align:center;margin:0 0 6px;line-height:1.5;padding:0 12px;width:100%;max-width:calc(100vw - 24px);box-sizing:border-box;word-break:break-word;overflow-wrap:break-word;white-space:normal;">
         Tournez la roue chaque jour pour gagner des jetons.
       </p>
 
@@ -2272,10 +2263,38 @@ setTimeout(function(){
       <!-- TITRE AU-DESSUS DU COFFRE -->
       <div class="vault-title-block">
         <h1 class="vault-title-main">
-          <i class="fa-solid fa-vault"></i> Coffre des Gains
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" style="width:2.2rem;height:2.2rem;vertical-align:middle;margin-right:8px;margin-bottom:4px;filter:drop-shadow(0 2px 6px rgba(180,120,0,0.6));">
+            <!-- Corps du coffre -->
+            <rect x="4" y="6" width="56" height="52" rx="5" ry="5" fill="#2a1f0e" stroke="#c8900a" stroke-width="2.5"/>
+            <!-- Charnières -->
+            <rect x="4" y="14" width="5" height="7" rx="1" fill="#c8900a"/>
+            <rect x="4" y="43" width="5" height="7" rx="1" fill="#c8900a"/>
+            <!-- Porte intérieure -->
+            <rect x="12" y="12" width="40" height="40" rx="3" fill="#1a1208" stroke="#a07010" stroke-width="1.5"/>
+            <!-- Boulons coins -->
+            <circle cx="17" cy="17" r="3.5" fill="#c8900a" stroke="#f0d060" stroke-width="1"/>
+            <circle cx="47" cy="17" r="3.5" fill="#c8900a" stroke="#f0d060" stroke-width="1"/>
+            <circle cx="17" cy="47" r="3.5" fill="#c8900a" stroke="#f0d060" stroke-width="1"/>
+            <circle cx="47" cy="47" r="3.5" fill="#c8900a" stroke="#f0d060" stroke-width="1"/>
+            <!-- Roue centrale -->
+            <circle cx="32" cy="32" r="11" fill="#1a1208" stroke="#c8900a" stroke-width="2"/>
+            <circle cx="32" cy="32" r="7" fill="#2a1f0e" stroke="#f0d060" stroke-width="1.2"/>
+            <circle cx="32" cy="32" r="2.5" fill="#f0d060"/>
+            <!-- Rayons roue -->
+            <line x1="32" y1="21" x2="32" y2="25" stroke="#c8900a" stroke-width="2" stroke-linecap="round"/>
+            <line x1="32" y1="39" x2="32" y2="43" stroke="#c8900a" stroke-width="2" stroke-linecap="round"/>
+            <line x1="21" y1="32" x2="25" y2="32" stroke="#c8900a" stroke-width="2" stroke-linecap="round"/>
+            <line x1="39" y1="32" x2="43" y2="32" stroke="#c8900a" stroke-width="2" stroke-linecap="round"/>
+            <line x1="24" y1="24" x2="27" y2="27" stroke="#c8900a" stroke-width="2" stroke-linecap="round"/>
+            <line x1="37" y1="37" x2="40" y2="40" stroke="#c8900a" stroke-width="2" stroke-linecap="round"/>
+            <line x1="40" y1="24" x2="37" y2="27" stroke="#c8900a" stroke-width="2" stroke-linecap="round"/>
+            <line x1="24" y1="40" x2="27" y2="37" stroke="#c8900a" stroke-width="2" stroke-linecap="round"/>
+            <!-- Poignée -->
+            <rect x="52" y="29" width="6" height="6" rx="1.5" fill="#c8900a" stroke="#f0d060" stroke-width="1"/>
+          </svg>Coffre des Gains
         </h1>
-        <p class="vault-title-sub">Tentez votre chance &mdash; <strong>50$</strong> sur le produit de votre choix</p>
-        <p class="vault-title-sub" style="margin-top:4px;font-size:0.68rem;color:rgba(150,180,220,0.55);letter-spacing:0.08em;">E-state &bull; Smart Bot &bull; ArbCore &bull; MLM Center</p>
+        <p class="vault-title-sub">Tentez votre chance &mdash; <strong>50$</strong> à investir sur ArbCore</p>
+        <p class="vault-title-sub" style="margin-top:4px;font-size:0.68rem;color:rgba(200,160,60,0.6);letter-spacing:0.12em;">ArbCore</p>
       </div>
 
       <div class="vault-row">
@@ -2350,6 +2369,13 @@ setTimeout(function(){
 
 </div>
 
+
+<!-- ===== GAGNANTS ===== -->
+<section id="section-gagnants" style="width:100%;box-sizing:border-box;padding:40px 20px 20px;color:#c8d8e8;font-family:inherit;">
+  <h2 style="text-align:center;font-size:1.3rem;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;color:#f0c040;margin:0 0 24px;">🏆 Nos Gagnants</h2>
+  <div id="gagnants-liste" style="display:flex;flex-wrap:wrap;gap:20px;justify-content:center;max-width:900px;margin:0 auto;"></div>
+  <p id="gagnants-vide" style="text-align:center;color:rgba(180,200,230,0.4);font-size:0.85rem;display:none;">Soyez le premier gagnant !</p>
+</section>
 
 <!-- ===== RÈGLEMENT DU COFFRE ===== -->
 <section id="reglement-coffre" style="width:100%;box-sizing:border-box;padding:48px 20px 60px;color:#c8d8e8;font-family:inherit;">
@@ -2651,38 +2677,42 @@ async function init(){
   var month=getMonthYear();
   var today=getToday();
 
-  // Stats participants
-  var {count}=await _sb.from('spin_participations').select('*',{count:'exact',head:true}).eq('month_year',month);
-  document.getElementById('stat-participants').textContent=(count||0);
-
-  // Points
-  var {data:pts}=await _sb.from('user_points').select('*').eq('user_id',uid).limit(1).then(function(r){return{data:r.data&&r.data.length>0?r.data[0]:null,error:r.error};});
+  // Toutes les requêtes en parallèle
+  var [rCount, rPts, rPart, rExtra, rDaily] = await Promise.all([
+    _sb.from('spin_participations').select('*',{count:'exact',head:true}).eq('month_year',month),
+    _sb.from('user_points').select('*').eq('user_id',uid).limit(1),
+    _sb.from('spin_participations').select('*').eq('user_id',uid).eq('month_year',month).limit(1),
+    _sb.from('extra_spins').select('remaining').eq('user_id',uid).limit(1),
+    _sb.from('daily_spins').select('*').eq('user_id',uid).eq('day',today).limit(1)
+  ]);
+  document.getElementById('stat-participants').textContent=(rCount.count||0);
+  var pts = rPts.data&&rPts.data.length>0?rPts.data[0]:null;
   userPoints=pts?pts.total_points:0;
   updatePtsUI();
-
-  // Tour coffre du mois
-  var {data:part}=await _sb.from('spin_participations').select('*').eq('user_id',uid).eq('month_year',month).limit(1).then(function(r){return{data:r.data&&r.data.length>0?r.data[0]:null,error:r.error};});
-  var {data:extraData}=await _sb.from('extra_spins').select('remaining').eq('user_id',uid).limit(1).then(function(r){return{data:r.data&&r.data.length>0?r.data[0]:null,error:r.error};});
+  var part = rPart.data&&rPart.data.length>0?rPart.data[0]:null;
+  var extraData = rExtra.data&&rExtra.data.length>0?rExtra.data[0]:null;
   extraSpinsRemaining = extraData ? extraData.remaining : 0;
+  var daily = rDaily.data&&rDaily.data.length>0?rDaily.data[0]:null;
   var vStatus=document.getElementById('vault-status');
-  if(!part || currentUser.id==='dev-local'){
-    vStatus.textContent='';
-  } else if(extraSpinsRemaining > 0){
+  if(extraSpinsRemaining > 0){
+    // Extra spins disponibles : jeton actif quelle que soit la situation
     vStatus.textContent= extraSpinsRemaining + ' tour(s) supplémentaire(s) disponible(s)';
+    var jaInit=document.getElementById('jeton-affiche');
+    if(jaInit){ jaInit.style.opacity='1'; jaInit.style.cursor='pointer'; jaInit.style.pointerEvents=''; jaInit.onclick=jouerCoffre; var jhInit=jaInit.querySelector('.jeton-hint');if(jhInit)jhInit.textContent='▼ Cliquer pour jouer'; }
+    document.getElementById('btn-crypto-wrap').style.display='none';
+  } else if(!part || currentUser.id==='dev-local'){
+    vStatus.textContent='';
   } else {
     document.getElementById('coin-hero').style.opacity='0.4';
     document.getElementById('coin-hero').style.cursor='default';
     document.getElementById('coin-hero').onclick=null;
-    /* Désactiver aussi le jeton affiché */
     var ja=document.getElementById('jeton-affiche');
-    if(ja){ ja.style.opacity='0.35'; ja.style.cursor='default'; ja.onclick=null; var jh=ja.querySelector('.jeton-hint');if(jh)jh.textContent='Tour du mois utilisé'; }
+    if(ja){ ja.style.opacity='0.35'; ja.style.cursor='default'; ja.style.pointerEvents='none'; ja.onclick=null; var jh=ja.querySelector('.jeton-hint');if(jh)jh.textContent='Tour du mois utilisé'; }
     document.getElementById('btn-crypto-wrap').style.display='flex';
     vStatus.textContent='Tour du mois utilisé.';
   }
 
   // Tour quotidien — vérif DB + localStorage
-  var {data:daily,error:dailyErr}=await _sb.from('daily_spins').select('*').eq('user_id',uid).eq('day',today).limit(1).then(function(r){return{data:r.data&&r.data.length>0?r.data[0]:null,error:r.error};});
-  if(dailyErr) console.error('daily_spins select error:',dailyErr.message);
   var localKey='daily_spin_'+today;
   var alreadySpun = daily || localStorage.getItem(localKey);
   var orb=document.getElementById('daily-orb');
@@ -2906,6 +2936,19 @@ async function tenterCoffre(){
   var month=getMonthYear();
   var uid=currentUser.id;
 
+  // Récupération IP pour anti-multicompte
+  var userIp='unknown';
+  try { var ipResp=await fetch('https://api.ipify.org?format=json'); var ipJson=await ipResp.json(); userIp=ipJson.ip||'unknown'; } catch(e){}
+
+  // Vérif anti-multicompte : même IP déjà utilisée ce mois par un autre compte
+  if(userIp!=='unknown'){
+    var {data:ipCheck}=await _sb.from('spin_participations').select('user_id').eq('ip_address',userIp).eq('month_year',month).limit(1).then(function(r){return{data:r.data,error:r.error};});
+    if(ipCheck && ipCheck.length>0 && ipCheck[0].user_id!==uid){
+      status.textContent='⛔ Accès refusé — un tour a déjà été joué depuis cette connexion ce mois-ci.';
+      return;
+    }
+  }
+
   // Si tour mensuel déjà utilisé → on consomme un extra spin
   var isExtraSpin=false, extraSpinPts=0;
   var {data:existingPart}=await _sb.from('spin_participations').select('id').eq('user_id',uid).eq('month_year',month).limit(1).then(function(r){return{data:r.data&&r.data.length>0?r.data[0]:null,error:r.error};});
@@ -2932,7 +2975,7 @@ async function tenterCoffre(){
       userPoints=nPts; updatePtsUI();
     }
   } else {
-    await _sb.from('spin_participations').insert({user_id:uid,month_year:month,spin_count:1});
+    await _sb.from('spin_participations').insert({user_id:uid,month_year:month,spin_count:1,ip_address:userIp});
   }
 
   var {data:cfg}=await _sb.from('monthly_config').select('*').eq('month_year',month).limit(1).then(function(r){return{data:r.data&&r.data.length>0?r.data[0]:null,error:r.error};});
@@ -2942,8 +2985,26 @@ async function tenterCoffre(){
   else { await _sb.from('monthly_config').update({total_spins:totalSpins}).eq('id',cfg.id); }
 
   var {data:winner}=await _sb.from('monthly_winner').select('*').eq('month_year',month).limit(1).then(function(r){return{data:r.data&&r.data.length>0?r.data[0]:null,error:r.error};});
-  var drawDate='2026-04-26';
-  var isWinner=!winner&&(getToday()>=drawDate);
+
+  // Vérifier les paramètres jackpot depuis le panel admin
+  var {data:gameSettings}=await _sb.from('game_settings').select('*').eq('id',1).single().then(function(r){return{data:r.data,error:r.error};});
+  var jackpotActive = gameSettings && gameSettings.jackpot_active;
+  var jackpotAmount = gameSettings ? (gameSettings.jackpot_amount || '50$') : '50$';
+  var jackpotTargetUser = gameSettings ? gameSettings.jackpot_target_user : null;
+  var jackpotNextWins = gameSettings && gameSettings.jackpot_next_wins;
+
+  // Mode manuel : joueur désigné spécifiquement
+  var isWinner = !winner && jackpotActive && jackpotTargetUser && jackpotTargetUser === uid;
+  // Mode algo : prochain joueur sans victoire passée
+  if (!isWinner && !winner && jackpotActive && jackpotNextWins && !jackpotTargetUser) {
+    var {data:pastWin} = await _sb.from('monthly_winner').select('id').eq('user_id', uid).limit(1).then(function(r){return{data:r.data,error:r.error};});
+    isWinner = !pastWin || pastWin.length === 0;
+  }
+
+  // Réinitialiser après victoire
+  if (isWinner) {
+    await _sb.from('game_settings').update({ jackpot_active: false, jackpot_next_wins: false, jackpot_target_user: null, updated_at: new Date().toISOString() }).eq('id', 1);
+  }
 
   var scene  = document.getElementById('vault-scene');
   var wrap3d = document.querySelector('.v3d-wrap');
@@ -2969,8 +3030,8 @@ async function tenterCoffre(){
 
       if(isWinner){
         /* ══ PHASE 2 — PORTE S'OUVRE ══ */
-        await _sb.from('monthly_winner').insert({user_id:uid,month_year:month,winning_ticket:totalSpins});
-        await _sb.from('notifications').insert({user_id:uid,title:'🏆 Grand Gagnant du Mois !',message:'Félicitations ! Vous avez remporté 50$ à investir sur ArbCore ou EEstate — à vous de choisir ! Contactez-nous sur Telegram pour recevoir votre bon.'});
+        await _sb.from('monthly_winner').insert({user_id:uid,month_year:month,winning_ticket:totalSpins,amount:jackpotAmount});
+        await _sb.from('notifications').insert({user_id:uid,title:'🏆 Grand Gagnant du Mois !',message:'Félicitations ! Vous avez remporté '+jackpotAmount+' à investir sur ArbCore ou EEstate — à vous de choisir ! Contactez-nous sur Telegram pour recevoir votre bon.',type:'gain',read:false});
 
         setTimeout(function(){ sequenceVictoire(scene); }, 700);
 
@@ -3161,11 +3222,14 @@ async function tourQuotidien(){
     orb.classList.add('disabled');
     document.getElementById('daily-label').textContent='Revenez demain !';
     dailyBusy=false;
+    if(pts>0){
+      afficherOverlayResultat('🎉 +'+pts+' jeton'+(pts>1?'s':'')+' gagnés !<br><span style="font-size:0.85rem;color:#c8dff0;">Ils ont été ajoutés à votre solde.</span>', '#00c8ff');
+    }
   });
 }
 
 /* ===== CRYPTO ===== */
-var API_BASE = window.location.protocol === 'file:' ? 'https://project-invest-beta.vercel.app' : '';
+var API_BASE = window.location.protocol === 'file:' ? 'https://www.projectinvest.net' : '';
 
 async function payerCrypto(tours, base){
   var existing = document.getElementById('crypto-modal');
@@ -3270,9 +3334,9 @@ async function payerCrypto(tours, base){
       btnPaid.style.cursor = 'not-allowed';
       btnPaid.textContent = '✅ Paiement enregistré';
       var st = document.getElementById('verif-status');
-      if(st){ st.textContent = 'Vérification disponible dans 3:00'; }
+      if(st){ st.textContent = 'Vérification disponible dans 1:00'; }
 
-      var seconds = 180;
+      var seconds = 60;
       var countdown = setInterval(function(){
         var m = document.getElementById('crypto-modal');
         if(!m){ clearInterval(countdown); return; }
@@ -3321,7 +3385,7 @@ async function verifierPaiement(uid, expected_amount, tours, network){
       var m = document.getElementById('crypto-modal');
       if(m) m.remove();
       var ja=document.getElementById('jeton-affiche');
-      if(ja){ ja.style.opacity='1'; ja.style.cursor='pointer'; ja.onclick=jouerCoffre; var jh=ja.querySelector('.jeton-hint');if(jh)jh.textContent='▼ Cliquer pour jouer'; }
+      if(ja){ ja.style.opacity='1'; ja.style.cursor='pointer'; ja.style.pointerEvents=''; ja.onclick=jouerCoffre; var jh=ja.querySelector('.jeton-hint');if(jh)jh.textContent='▼ Cliquer pour jouer'; }
       document.getElementById('btn-crypto-wrap').style.display='none';
       document.getElementById('vault-status').textContent = extraSpinsRemaining+' tour(s) supplémentaire(s) disponible(s)';
     }, 1800);
@@ -3451,11 +3515,104 @@ function sequenceVictoire(scene){
         }
       }
       /* Overlay victoire */
-      afficherOverlayResultat('🏆 VOUS AVEZ GAGNÉ !<br><span style="font-size:0.9rem;color:#fff8d0">50$ sur le produit de votre choix<br>Contactez-nous sur Telegram</span>', '#ffd700');
+      afficherOverlayResultat('🏆 VOUS AVEZ GAGNÉ !<br><span style="font-size:0.9rem;color:#fff8d0">50$ à investir sur ArbCore<br>Contactez-nous sur Telegram</span>', '#ffd700');
+      /* Ouvrir le modal témoignage après 4 secondes */
+      setTimeout(function(){ ouvrirModalTemoignage(uid, pseudo); }, 4000);
     }).catch(function(){
       afficherMessage('Joueur');
     });
   }, 1400);
+}
+
+/* ===== MODAL TÉMOIGNAGE GAGNANT ===== */
+function ouvrirModalTemoignage(uid, pseudo){
+  var existing = document.getElementById('modal-temoignage');
+  if(existing) existing.remove();
+
+  var modal = document.createElement('div');
+  modal.id = 'modal-temoignage';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,0.88);display:flex;align-items:center;justify-content:center;padding:20px;';
+
+  var inner = document.createElement('div');
+  inner.style.cssText = 'background:#0d1525;border:2px solid rgba(240,192,64,0.5);border-radius:20px;padding:28px 22px;max-width:360px;width:100%;text-align:center;';
+  inner.innerHTML =
+    '<div style="font-size:1.1rem;font-weight:900;color:#f0c040;margin-bottom:6px;">🏆 Partagez votre victoire !</div>'
+    +'<p style="font-size:0.78rem;color:#aaa;margin:0 0 18px;">Votre témoignage sera affiché sur la page du Coffre des Gains.</p>'
+    +'<textarea id="tm-message" placeholder="Votre message en tant que gagnant..." rows="4" style="width:100%;box-sizing:border-box;background:#0a1020;border:1px solid rgba(240,192,64,0.3);border-radius:10px;color:#fff;padding:10px;font-size:0.85rem;resize:none;margin-bottom:12px;"></textarea>'
+    +'<label style="display:block;margin-bottom:12px;cursor:pointer;">'
+    +'<span style="display:inline-block;background:rgba(240,192,64,0.15);border:1px solid rgba(240,192,64,0.4);border-radius:10px;padding:8px 16px;font-size:0.8rem;color:#f0c040;">📷 Ajouter une photo</span>'
+    +'<input type="file" id="tm-photo" accept="image/*" style="display:none;"></label>'
+    +'<div id="tm-preview" style="margin-bottom:12px;display:flex;justify-content:center;"></div>'
+    +'<button id="tm-submit" style="width:100%;background:linear-gradient(135deg,#c8900a,#f0c040);color:#000;font-weight:900;border:none;border-radius:12px;padding:12px;font-size:0.95rem;cursor:pointer;margin-bottom:8px;">✅ Publier mon témoignage</button>'
+    +'<button id="tm-skip" style="background:none;border:none;color:#555;font-size:0.8rem;cursor:pointer;text-decoration:underline;">Passer</button>';
+
+  modal.appendChild(inner);
+  document.body.appendChild(modal);
+
+  document.getElementById('tm-skip').addEventListener('click', function(){ modal.remove(); });
+
+  document.getElementById('tm-photo').addEventListener('change', function(){
+    var file = this.files[0];
+    if(!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e){
+      document.getElementById('tm-preview').innerHTML = '<img src="'+e.target.result+'" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid #f0c040;">';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  document.getElementById('tm-submit').addEventListener('click', function(){
+    soumettreTestimonial(uid, pseudo);
+  });
+}
+
+async function soumettreTestimonial(uid, pseudo){
+  var btn = document.getElementById('tm-submit');
+  var message = (document.getElementById('tm-message').value || '').trim();
+  var photoFile = document.getElementById('tm-photo').files[0];
+  if(!message){ alert('Veuillez écrire un message.'); return; }
+  btn.disabled = true; btn.textContent = '⏳ Publication...';
+
+  var photo_url = null;
+  if(photoFile){
+    var ext = photoFile.name.split('.').pop();
+    var filename = 'winner_' + uid + '_' + Date.now() + '.' + ext;
+    var { data: upData, error: upErr } = await _sb.storage.from('winner-photos').upload(filename, photoFile, { upsert: true });
+    if(!upErr){
+      var { data: urlData } = _sb.storage.from('winner-photos').getPublicUrl(filename);
+      photo_url = urlData.publicUrl;
+    }
+  }
+
+  var today = getToday();
+  await _sb.from('winner_testimonials').insert({ user_id: uid, pseudo, message, photo_url, win_date: today });
+
+  document.getElementById('modal-temoignage').remove();
+  chargerGagnants();
+}
+
+/* ===== CHARGEMENT DES GAGNANTS ===== */
+async function chargerGagnants(){
+  var liste = document.getElementById('gagnants-liste');
+  var vide = document.getElementById('gagnants-vide');
+  if(!liste) return;
+
+  var { data } = await _sb.from('winner_testimonials').select('*').order('created_at', { ascending: false });
+  if(!data || data.length === 0){ if(vide) vide.style.display='block'; return; }
+  if(vide) vide.style.display='none';
+
+  liste.innerHTML = data.map(function(g){
+    var dateStr = g.win_date ? new Date(g.win_date).toLocaleDateString('fr-FR', {day:'2-digit',month:'long',year:'numeric'}) : '';
+    var photoHtml = g.photo_url
+      ? '<img src="'+g.photo_url+'" style="width:70px;height:70px;border-radius:50%;object-fit:cover;border:2px solid #f0c040;margin-bottom:10px;">'
+      : '<div style="width:70px;height:70px;border-radius:50%;background:rgba(240,192,64,0.15);border:2px solid rgba(240,192,64,0.3);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin-bottom:10px;">🏆</div>';
+    return '<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(240,192,64,0.25);border-radius:16px;padding:20px 16px;text-align:center;width:200px;flex-shrink:0;">'
+      + '<div style="display:flex;justify-content:center;">' + photoHtml + '</div>'
+      + '<div style="font-weight:800;color:#f0c040;font-size:0.9rem;margin-bottom:6px;">' + (g.pseudo||'Gagnant') + '</div>'
+      + '<div style="font-size:0.78rem;color:#c8d8e8;line-height:1.5;margin-bottom:8px;font-style:italic;">"' + g.message + '"</div>'
+      + '<div style="font-size:0.65rem;color:rgba(180,200,230,0.45);letter-spacing:0.05em;">📅 ' + dateStr + '</div>'
+      + '</div>';
+  }).join('');
 }
 
 /* ── Pluie de jetons depuis le ciel ── */
@@ -3632,7 +3789,8 @@ function stopFW(){
 }
 
 // Dessiner la roue dès le chargement (sans attendre l'auth)
-window.addEventListener('load', function(){ drawDailyWheel(); });
+window.addEventListener('load', function(){ drawDailyWheel(); chargerGagnants(); });
+
 </script>
 </body>
 </html>

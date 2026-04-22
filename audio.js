@@ -139,12 +139,21 @@
                     var date = new Date(n.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
                     var bg = n.read ? 'rgba(255,255,255,0.03)' : 'rgba(255,160,0,0.08)';
                     var dot = n.read ? '' : '<span class="notif-dot" style="width:7px;height:7px;border-radius:50%;background:#ffa000;display:inline-block;flex-shrink:0;margin-right:6px;"></span>';
-                    html += '<div style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.06);background:' + bg + ';position:relative;" data-id="' + n.id + '">'
-                      + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">'
-                      +   '<div style="display:flex;align-items:center;gap:4px;">' + dot + '<span style="font-size:0.62rem;color:rgba(255,160,0,0.7);">' + (n.type==='gain'?'🏆 Gain':'📢 Info') + ' — ' + date + '</span></div>'
-                      +   '<button class="notif-del" data-id="' + n.id + '" style="background:none;border:none;color:#666;font-size:1rem;cursor:pointer;padding:0 0 0 8px;line-height:1;flex-shrink:0;" title="Supprimer">&times;</button>'
+                    var label = n.type==='gain' ? '🏆 Gain' : '📩 Message Admin';
+                    var title = n.title || label;
+                    html += '<div style="border-bottom:1px solid rgba(255,255,255,0.06);background:' + bg + ';position:relative;" data-id="' + n.id + '">'
+                      + '<div class="notif-header" style="padding:10px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;">'
+                      +   '<div style="display:flex;align-items:center;gap:6px;flex:1;min-width:0;">'
+                      +     dot
+                      +     '<span style="font-size:0.8rem;font-weight:700;color:#ffa000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + title + '</span>'
+                      +     '<span style="font-size:0.6rem;color:rgba(255,160,0,0.5);flex-shrink:0;">— ' + date + '</span>'
+                      +   '</div>'
+                      +   '<div style="display:flex;align-items:center;gap:4px;">'
+                      +     '<span class="notif-arrow" style="color:#ffa000;font-size:0.7rem;transition:transform 0.2s;">▼</span>'
+                      +     '<button class="notif-del" data-id="' + n.id + '" style="background:none;border:none;color:#666;font-size:1rem;cursor:pointer;padding:0 0 0 8px;line-height:1;flex-shrink:0;" title="Supprimer">&times;</button>'
+                      +   '</div>'
                       + '</div>'
-                      + '<div style="font-size:0.75rem;color:#ddd;line-height:1.5;white-space:pre-line;">' + n.message + '</div>'
+                      + '<div class="notif-body" style="display:none;padding:0 14px 12px;font-size:0.75rem;color:#ddd;line-height:1.5;white-space:pre-wrap;word-break:break-word;">' + n.message + '</div>'
                       + '</div>';
                   });
                   content.innerHTML = html;
@@ -174,16 +183,24 @@
                     });
                   });
 
-                  // Clic sur la ligne → marquer comme lu
-                  content.querySelectorAll('[data-id]').forEach(function(el) {
-                    el.addEventListener('click', function(e) {
+                  // Clic sur l'en-tête → ouvrir/fermer le message (accordéon)
+                  content.querySelectorAll('.notif-header').forEach(function(header) {
+                    header.addEventListener('click', function(e) {
                       if (e.target.classList.contains('notif-del')) return;
-                      var nid = this.getAttribute('data-id');
-                      sbClient.from('notifications').update({read:true}).eq('id', nid).then(function(){});
-                      this.style.background = 'rgba(255,255,255,0.03)';
-                      var d = this.querySelector('.notif-dot');
-                      if (d) d.remove();
-                      updateBadge();
+                      var row = this.closest('[data-id]');
+                      var nid = row.getAttribute('data-id');
+                      var body = row.querySelector('.notif-body');
+                      var arrow = row.querySelector('.notif-arrow');
+                      var isOpen = body.style.display !== 'none';
+                      body.style.display = isOpen ? 'none' : 'block';
+                      if (arrow) arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
+                      if (!isOpen) {
+                        sbClient.from('notifications').update({read:true}).eq('id', nid).then(function(){});
+                        row.style.background = 'rgba(255,255,255,0.03)';
+                        var d = row.querySelector('.notif-dot');
+                        if (d) d.remove();
+                        updateBadge();
+                      }
                     });
                   });
                 }).catch(function() { content.innerHTML = '<div style="padding:12px;color:#f66;font-size:0.78rem;text-align:center;">Erreur de chargement</div>'; });

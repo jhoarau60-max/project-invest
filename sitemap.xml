@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.projectinvest.net/home.html</loc><priority>1.0</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.projectinvest.net/investissements.html</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.projectinvest.net/roue.html</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.projectinvest.net/planning-webinaire.html</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.projectinvest.net/journal.html</loc><priority>0.7</priority><changefreq>daily</changefreq></url>
+  <url><loc>https://www.projectinvest.net/pdf-societe.html</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+</urlset>

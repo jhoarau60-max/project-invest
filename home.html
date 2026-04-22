@@ -3,7 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project inves'T - Accueil</title>
+    <title>Project inves'T - Communauté d'investissement francophone</title>
+    <meta name="description" content="Project inves'T est une communauté d'investisseurs francophones. Découvrez l'immobilier tokenisé, le trading automatique, le MLM, le portage salarial et bien plus. Rejoignez-nous sur www.projectinvest.net">
+    <meta name="keywords" content="investissement, communauté investisseurs, trading automatique, immobilier tokenisé, MLM, portage salarial, crypto, revenus passifs, francophone, Project inves'T">
+    <meta name="author" content="Project inves'T">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.projectinvest.net">
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.projectinvest.net">
+    <meta property="og:title" content="Project inves'T - Communauté d'investissement francophone">
+    <meta property="og:description" content="Rejoignez une communauté d'investisseurs passionnés. Trading automatique, immobilier, crypto, coffre fort avec jackpot mensuel. Accessible à tous les budgets.">
+    <meta property="og:image" content="https://www.projectinvest.net/logo.png">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Project inves'T - Communauté d'investissement francophone">
+    <meta name="twitter:description" content="Rejoignez une communauté d'investisseurs passionnés. Trading automatique, immobilier, crypto et plus.">
+    <meta name="twitter:image" content="https://www.projectinvest.net/logo.png">
+    <meta name="google-site-verification" content="ekvUympctcIzhZNdjrwoOl7M6xOmojXgXZ12QckI7is" />
     <link rel="stylesheet" href="style.css">
     <style>
       .line-anim  { stroke-dasharray: 40 960; animation: snake 6s linear infinite, rainbow 5s linear infinite; }
@@ -194,7 +211,7 @@ const _sb = window.supabase.createClient(
   <div style="max-width:860px; margin:0 auto; text-align:center;">
     <p id="zoom-banner-msg" style="color:#ff4444; font-size:1.3rem; font-weight:700; animation:pulse-live 1.5s infinite; margin-bottom:14px;"></p>
     <a id="zoom-banner-btn" href="#" target="_blank" style="background:#ff4444;color:#fff;padding:10px 24px;border-radius:8px;text-decoration:none;font-weight:700;font-size:1rem;">
-      Rejoindre le Zoom
+      Rejoindre le Meet
     </a>
   </div>
 </div>
@@ -217,9 +234,9 @@ const _sb = window.supabase.createClient(
   // ▶ LAISSER VIDE quand pas en direct : ""
   var YOUTUBE_LIVE_ID = "";
 
-  // Liens Zoom
-  var ZOOM_JEUDI = "https://us06web.zoom.us/j/81085168637?pwd=GF0VuD3kpQq8UPoilGrJwj9ubJVQly.1";
-  var ZOOM_SAMEDI = "https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1";
+  // Liens Meet
+  var ZOOM_JEUDI = "https://meet.google.com/vqs-hzfs-qyy";
+  var ZOOM_SAMEDI = "https://meet.google.com/rzy-bgok-mwz";
 
   // Vérifie si on est 10 min avant un Zoom (jeudi 21h ou samedi 17h)
   function checkZoomSoon() {
@@ -245,12 +262,12 @@ const _sb = window.supabase.createClient(
       btn.style.display = 'inline-block';
       btn.href = zoomLink;
       if (diff > 0) {
-        msg.textContent = '🔴 Le Zoom commence dans ' + diff + ' minute' + (diff > 1 ? 's' : '') + ' !';
+        msg.textContent = '🔴 Le Meet commence dans ' + diff + ' minute' + (diff > 1 ? 's' : '') + ' !';
       } else if (diff === 0) {
-        msg.textContent = '🔴 Le Zoom commence maintenant !';
+        msg.textContent = '🔴 Le Meet commence maintenant !';
       } else {
         // Retard : entre T+1 et T+5
-        msg.textContent = '⏳ Restez connectés — le Zoom a pris quelques minutes de retard, nous arrivons !';
+        msg.textContent = '⏳ Restez connectés — le Meet a pris quelques minutes de retard, nous arrivons !';
       }
     } else {
       banner.style.display = 'none';
@@ -412,9 +429,9 @@ const _sb = window.supabase.createClient(
       <h3 style="color:#00c8ff;">Jeudi — 21h00</h3>
       <p style="color:#aaa; font-size:0.9rem; margin:8px 0;">Présentation E-estate</p>
       <p id="countdown-thursday" style="color:#00c8ff; font-size:1.3rem; font-weight:700; margin:12px 0;">--:--:--</p>
-      <a href="https://us06web.zoom.us/j/81085168637?pwd=GF0VuD3kpQq8UPoilGrJwj9ubJVQly.1" target="_blank"
+      <a href="https://meet.google.com/vqs-hzfs-qyy" target="_blank"
         style="background:#00c8ff;color:#ffffff;padding:8px 18px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.85rem;">
-        Rejoindre le Zoom
+        Rejoindre le Meet
       </a>
     </div>
 
@@ -424,9 +441,21 @@ const _sb = window.supabase.createClient(
       <h3 style="color:#c9a84c;">Samedi — 17h00</h3>
       <p style="color:#aaa; font-size:0.9rem; margin:8px 0;">Présentation E-estate</p>
       <p id="countdown-saturday" style="color:#c9a84c; font-size:1.3rem; font-weight:700; margin:12px 0;">--:--:--</p>
-      <a href="https://us06web.zoom.us/j/89429860873?pwd=D7CfdDkmbjvJVgSj9MWsvGb2u3AF1E.1" target="_blank"
+      <a href="https://meet.google.com/rzy-bgok-mwz" target="_blank"
         style="background:#c9a84c;color:#ffffff;padding:8px 18px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.85rem;">
-        Rejoindre le Zoom
+        Rejoindre le Meet
+      </a>
+    </div>
+
+    <!-- Lundi Smart Bot -->
+    <div class="card" style="text-align:center; min-width:260px; flex:1; max-width:340px;">
+      <div style="margin-bottom:12px;"><i class="fa-solid fa-robot" style="font-size:2.2rem;color:#7850ff;filter:drop-shadow(0 0 10px rgba(120,80,255,0.6));"></i></div>
+      <h3 style="color:#7850ff;">Lundi — 19h00</h3>
+      <p style="color:#aaa; font-size:0.9rem; margin:8px 0;">Présentation Smart Bot</p>
+      <p id="countdown-monday" style="color:#7850ff; font-size:1.3rem; font-weight:700; margin:12px 0;">--:--:--</p>
+      <a href="https://meet.google.com/ymf-oouu-txa" target="_blank"
+        style="background:#7850ff;color:#ffffff;padding:8px 18px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.85rem;">
+        Rejoindre le Meet
       </a>
     </div>
 
@@ -466,6 +495,16 @@ function updateCountdowns() {
   document.getElementById('countdown-saturday').textContent =
     (hS > 23 ? Math.floor(hS/24) + 'j ' + (hS%24) : hS) + 'h ' +
     String(mS).padStart(2,'0') + 'min ' + String(sS).padStart(2,'0') + 'sec';
+
+  // Lundi = 1, 19h00
+  var nextMonday = getNextDay(1, 19, 0);
+  var diffM = nextMonday - now;
+  var hM = Math.floor(diffM / 3600000);
+  var mM = Math.floor((diffM % 3600000) / 60000);
+  var sM = Math.floor((diffM % 60000) / 1000);
+  document.getElementById('countdown-monday').textContent =
+    (hM > 23 ? Math.floor(hM/24) + 'j ' + (hM%24) : hM) + 'h ' +
+    String(mM).padStart(2,'0') + 'min ' + String(sM).padStart(2,'0') + 'sec';
 }
 
 updateCountdowns();
@@ -612,19 +651,7 @@ _sb.auth.getSession().then(function(res) {
 <script src="menu.js"></script>
 <script src="audio.js"></script>
 <script src="translator.js"></script>
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/69c1c8abf9f0211c36fde03a/1jkeffnrd';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
+
 </body>
 </html>
 
