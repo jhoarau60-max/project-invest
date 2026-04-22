@@ -31,16 +31,22 @@ export default async function handler(req, res) {
     });
     if (!userRes.ok) return res.status(401).json({ error: 'Non autorisé' });
 
-    await fetch(`${SUPABASE_URL}/rest/v1/settings?key=eq.john_status`, {
-      method: 'PATCH',
+    const updateRes = await fetch(`${SUPABASE_URL}/rest/v1/settings`, {
+      method: 'POST',
       headers: {
         apikey: KEY,
         Authorization: `Bearer ${KEY}`,
         'Content-Type': 'application/json',
-        Prefer: 'return=minimal'
+        Prefer: 'resolution=merge-duplicates,return=minimal'
       },
-      body: JSON.stringify({ value: status })
+      body: JSON.stringify({ key: 'john_status', value: status })
     });
+
+    if (!updateRes.ok) {
+      const err = await updateRes.text();
+      console.error('Supabase update error:', err);
+      return res.status(500).json({ ok: false, error: err });
+    }
 
     return res.status(200).json({ ok: true, status });
   }
