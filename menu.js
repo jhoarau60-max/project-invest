@@ -987,7 +987,7 @@ window.addEventListener('load', function() {
     input.focus();
   }
 
-  wrap.addEventListener('click', function(e){ if(!document.getElementById('sofia-panel').contains(e.target)) togglePanel(); });
+  wrap.addEventListener('click', togglePanel);
   document.getElementById('sofia-close').addEventListener('click', togglePanel);
   document.getElementById('sofia-send').addEventListener('click', sendMessage);
   document.getElementById('sofia-input').addEventListener('keydown', function(e) {
