@@ -2,6 +2,8 @@
   var chatHistory = [];
   var isFirstMessage = true;
   var isOpen = false;
+  var inactivityTimer = null;
+  var INACTIVITY_MS = 5 * 60 * 1000;
 
   var style = document.createElement('style');
   style.textContent = `
@@ -182,11 +184,30 @@
     msgs.scrollTop = msgs.scrollHeight;
   }
 
+  function resetChat() {
+    chatHistory = [];
+    isFirstMessage = true;
+    document.getElementById('sofia-messages').innerHTML = '';
+    document.getElementById('sofia-input-row').style.display = 'none';
+  }
+
+  function startInactivityTimer() {
+    if (inactivityTimer) clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(function() {
+      if (isOpen) togglePanel();
+    }, INACTIVITY_MS);
+  }
+
   function togglePanel() {
     isOpen = !isOpen;
     panel.style.display = isOpen ? 'flex' : 'none';
     wrap.style.display = isOpen ? 'none' : 'flex';
-    if (isOpen && chatHistory.length === 0) {
+    if (!isOpen) {
+      if (inactivityTimer) { clearTimeout(inactivityTimer); inactivityTimer = null; }
+      resetChat();
+    }
+    if (isOpen) {
+      startInactivityTimer();
       setTimeout(async function() {
         addMsg('Bonjour ! Sofia vous répondra à toutes vos questions 😊\n\nComment souhaitez-vous être aidé ?', 'bot');
         var johnOnline = true;
@@ -230,6 +251,7 @@
       chatHistory.push({ role: 'model', content: data.reply });
       if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
       isFirstMessage = false;
+      startInactivityTimer();
     } catch(e) {
       typing.remove();
       addMsg("Une erreur s'est produite. Veuillez réessayer.", 'bot');
