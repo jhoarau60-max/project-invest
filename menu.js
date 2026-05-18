@@ -357,8 +357,16 @@ if ('serviceWorker' in navigator) {
       font-weight: 300 !important;
       transition: transform 0.2s !important;
       flex-shrink: 0 !important;
-      display: inline-block !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 28px !important;
+      height: 28px !important;
+      border-radius: 6px !important;
       animation: arrowShimmer 2.5s ease-in-out infinite !important;
+    }
+    .nav-has-sub > a .nav-arrow:hover {
+      background: rgba(0,200,255,0.15) !important;
     }
     .nav-has-sub.open > a .nav-arrow {
       transform: rotate(90deg) !important;
@@ -698,11 +706,16 @@ if ('serviceWorker' in navigator) {
         });
         li.appendChild(subUl);
 
-        // Clic n'importe où sur le lien → ouvre/ferme le sous-menu uniquement
-        a.addEventListener('click', function (e) {
+        // Clic sur la flèche → ouvre/ferme le sous-menu ; clic sur le reste → navigation normale
+        arrow.addEventListener('click', function (e) {
           e.preventDefault();
+          e.stopPropagation();
           li.classList.toggle('open');
           subUl.classList.toggle('open');
+        });
+        a.addEventListener('click', function (e) {
+          if (e.target === arrow) return;
+          // Navigation normale vers la page parente
         });
       }
     });
@@ -735,11 +748,15 @@ if ('serviceWorker' in navigator) {
         subLi.appendChild(subA);
         subUl.appendChild(subLi);
       });
-      a.addEventListener('click', function(e) {
-        e.preventDefault();
-        li.classList.toggle('open');
-        subUl.classList.toggle('open');
-      });
+      var arrowSpan = a.querySelector('.nav-arrow');
+      if (arrowSpan) {
+        arrowSpan.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          li.classList.toggle('open');
+          subUl.classList.toggle('open');
+        });
+      }
       li.appendChild(a);
       li.appendChild(subUl);
       var anchor = nav.querySelector('ul li a[href="' + insertAfterHref + '"]');
