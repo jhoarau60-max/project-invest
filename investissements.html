@@ -146,12 +146,21 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
         </thead>
         <tbody>
             <tr>
-                <td><strong style="display:inline-block;padding:4px 12px;background:linear-gradient(135deg,#0080c0,#00c8ff);color:#ffffff;border-radius:20px;font-size:0.85rem;font-weight:700;">E-state Immobilier</strong></td>
-                <td>Immobilier Tokénisé</td>
-                <td>0.40% à 1% / mois</td>
-                <td>10 $</td>
-                <td><a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:88db548b-52c9-48b9-8593-904d3cd8575e" target="_blank" style="display:inline-block;padding:4px 12px;background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.4);border-radius:20px;font-size:0.78rem;font-weight:700;text-decoration:none;">📄 PDF</a></td>
-                <td><a href="https://e-estate.co/agent/953277721577" target="_blank" style="padding:4px 12px;background:linear-gradient(135deg,#1a7fdb,#00c8ff);color:#fff;border:none;border-radius:20px;font-size:0.78rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;">Inscription</a></td>
+                <td><strong style="display:inline-block;padding:4px 12px;background:linear-gradient(135deg,#0080c0,#00c8ff);color:#ffffff;border-radius:20px;font-size:0.85rem;font-weight:700;"><i class="fa-solid fa-chart-line" style="font-size:0.8rem;margin-right:5px;color:#c9a84c;"></i> ArbCore</strong></td>
+                <td>Arbitrage Crypto</td>
+                <td>~33% / mois (250% total)</td>
+                <td>50 $</td>
+                <td><a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:e912d680-b12a-4dab-9fe9-c506fcc115d8" target="_blank" style="display:inline-block;padding:4px 12px;background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.4);border-radius:20px;font-size:0.78rem;font-weight:700;text-decoration:none;">📄 PDF</a></td>
+                <td><a href="https://arbcore.app/?frenID=IFK2MAN6" target="_blank" style="padding:4px 12px;background:linear-gradient(135deg,#1a7fdb,#00c8ff);color:#fff;border:none;border-radius:20px;font-size:0.78rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;">Inscription</a></td>
+                <td><span style="color:#4caf50;">✅ Actif</span></td>
+            </tr>
+            <tr>
+                <td><strong style="display:inline-block;padding:4px 12px;background:linear-gradient(135deg,#0080c0,#00c8ff);color:#ffffff;border-radius:20px;font-size:0.85rem;font-weight:700;">Artena</strong></td>
+                <td>Club DeFi Privé</td>
+                <td>Rendements hebdomadaires</td>
+                <td>À partir de 100 $</td>
+                <td><a href="pdf-arthena.html" style="display:inline-block;padding:4px 12px;background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.4);border-radius:20px;font-size:0.78rem;font-weight:700;text-decoration:none;">📄 PDF</a></td>
+                <td><button onclick="obtenirLien()" style="padding:4px 12px;background:linear-gradient(135deg,#1a7fdb,#00c8ff);color:#fff;border:none;border-radius:20px;font-size:0.78rem;font-weight:700;cursor:pointer;">Inscription</button></td>
                 <td><span style="color:#4caf50;">✅ Actif</span></td>
             </tr>
             <tr>
@@ -164,32 +173,15 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
                 <td><span style="color:#4caf50;">✅ Actif</span></td>
             </tr>
             <tr>
-                <td><strong style="display:inline-block;padding:4px 12px;background:linear-gradient(135deg,#0080c0,#00c8ff);color:#ffffff;border-radius:20px;font-size:0.85rem;font-weight:700;"><i class="fa-solid fa-chart-line" style="font-size:0.8rem;margin-right:5px;color:#c9a84c;"></i> ArbCore</strong></td>
-                <td>Arbitrage Crypto</td>
-                <td>~33% / mois (250% total)</td>
-                <td>50 $</td>
-                <td><a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:e912d680-b12a-4dab-9fe9-c506fcc115d8" target="_blank" style="display:inline-block;padding:4px 12px;background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.4);border-radius:20px;font-size:0.78rem;font-weight:700;text-decoration:none;">📄 PDF</a></td>
-                <td><a href="https://arbcore.app/?frenID=IFK2MAN6" target="_blank" style="padding:4px 12px;background:linear-gradient(135deg,#1a7fdb,#00c8ff);color:#fff;border:none;border-radius:20px;font-size:0.78rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;">Inscription</a></td>
+                <td><strong style="display:inline-block;padding:4px 12px;background:linear-gradient(135deg,#0080c0,#00c8ff);color:#ffffff;border-radius:20px;font-size:0.85rem;font-weight:700;">E-state Immobilier</strong></td>
+                <td>Immobilier Tokénisé</td>
+                <td>0.40% à 1% / mois</td>
+                <td>10 $</td>
+                <td><a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:88db548b-52c9-48b9-8593-904d3cd8575e" target="_blank" style="display:inline-block;padding:4px 12px;background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.4);border-radius:20px;font-size:0.78rem;font-weight:700;text-decoration:none;">📄 PDF</a></td>
+                <td><a href="https://e-estate.co/agent/953277721577" target="_blank" style="padding:4px 12px;background:linear-gradient(135deg,#1a7fdb,#00c8ff);color:#fff;border:none;border-radius:20px;font-size:0.78rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;">Inscription</a></td>
                 <td><span style="color:#4caf50;">✅ Actif</span></td>
             </tr>
-            <tr>
-                <td><strong style="display:inline-block;padding:4px 12px;background:linear-gradient(135deg,#0080c0,#00c8ff);color:#ffffff;border-radius:20px;font-size:0.85rem;font-weight:700;">MLM Center</strong></td>
-                <td>Système Matriciel</td>
-                <td>Selon les matrices</td>
-                <td>10 TRX (~3 $)</td>
-                <td><a href="https://acrobat.adobe.com/id/urn:aaid:sc:EU:01bb7d2d-b091-4aa0-97a9-e408b11ff9f5" target="_blank" style="display:inline-block;padding:4px 12px;background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.4);border-radius:20px;font-size:0.78rem;font-weight:700;text-decoration:none;">📄 PDF</a></td>
-                <td><a href="https://mlm.center/landing/link/?token=53e2ef5c-2825-486a-b12f-09efae8f2836" target="_blank" style="padding:4px 12px;background:linear-gradient(135deg,#1a7fdb,#00c8ff);color:#fff;border:none;border-radius:20px;font-size:0.78rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;">Inscription</a></td>
-                <td><span style="color:#4caf50;">✅ Actif</span></td>
-            </tr>
-            <tr>
-                <td><strong style="display:inline-block;padding:4px 12px;background:linear-gradient(135deg,#0080c0,#00c8ff);color:#ffffff;border-radius:20px;font-size:0.85rem;font-weight:700;">Artena</strong></td>
-                <td>Club DeFi Privé</td>
-                <td>Rendements hebdomadaires</td>
-                <td>À partir de 100 $</td>
-                <td><a href="pdf-arthena.html" style="display:inline-block;padding:4px 12px;background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.4);border-radius:20px;font-size:0.78rem;font-weight:700;text-decoration:none;">📄 PDF</a></td>
-                <td><button onclick="obtenirLien()" style="padding:4px 12px;background:linear-gradient(135deg,#1a7fdb,#00c8ff);color:#fff;border:none;border-radius:20px;font-size:0.78rem;font-weight:700;cursor:pointer;">Inscription</button></td>
-                <td><span style="color:#4caf50;">✅ Actif</span></td>
-            </tr>
+
             <tr>
                 <td><strong style="display:inline-block;padding:4px 12px;background:linear-gradient(135deg,#7850ff,#00c8ff);color:#ffffff;border-radius:20px;font-size:0.85rem;font-weight:700;">Polar Tensor</strong></td>
                 <td>Trading Crypto IA</td>
