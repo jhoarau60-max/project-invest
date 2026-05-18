@@ -72,6 +72,9 @@ if ('serviceWorker' in navigator) {
   var HREF_REDIRECT = {
   };
 
+  // Pages masquées du sidebar
+  var HIDE_ITEMS = ['journal.html', 'bibliotheque-mlm.html', 'boutique.html', 'mlm-center.html'];
+
   // Sous-menus
   var SUB_ITEMS = {
     'arbcore.html': [
@@ -647,6 +650,7 @@ if ('serviceWorker' in navigator) {
       if (!a) return;
       if (a.id === 'btn-surprise') return; // déjà stylisé manuellement
       var href = a.getAttribute('href');
+      if (HIDE_ITEMS.indexOf(href) !== -1) { li.style.display = 'none'; return; }
 
       // Renommer le label (avant redirection pour garder la bonne clé)
       if (RENAME_MAP[href]) {
@@ -703,14 +707,7 @@ if ('serviceWorker' in navigator) {
       }
     });
 
-    // ── Numérique sous Paramètres ──
-    var paramLi = nav.querySelector('ul li a[href="parametres.html"]');
-    if (paramLi) {
-      var liNum = document.createElement('li');
-      btnNum.style.cssText = 'display:flex;align-items:center;gap:11px;color:#ff9500;text-decoration:none;padding:10px 12px;font-size:0.85rem;border-radius:8px;background:linear-gradient(135deg,rgba(255,149,0,0.12),rgba(230,92,0,0.07));border:1px solid rgba(255,149,0,0.35);margin:2px 0;transition:all 0.2s;white-space:nowrap;overflow:hidden;';
-      liNum.appendChild(btnNum);
-      paramLi.closest('li').insertAdjacentElement('afterend', liNum);
-    }
+    // Numérique masqué — retiré du sidebar
 
     // ── Outils (pdf-societe.html) → juste après Conférences (planning-webinaire.html) ──
     var outilsLi   = nav.querySelector('ul li a[href="pdf-societe.html"]');
