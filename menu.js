@@ -53,6 +53,7 @@ if ('serviceWorker' in navigator) {
     'pdf-arthena.html':              'fa-file-pdf',
     'videos-arthena.html':           'fa-video',
     'polar-tensor.html':             'fa-robot',
+    'pdf-polar-tensor.html':         'fa-file-pdf',
     'videos-polar-tensor.html':      'fa-video',
   };
 
@@ -89,7 +90,7 @@ if ('serviceWorker' in navigator) {
     ],
     'polar-tensor.html': [
       { href: 'polar-tensor.html',         label: 'Polar Tensor',      icon: 'fa-robot' },
-      { href: 'polar-tensor.pdf',          label: 'Documentation PDF', icon: 'fa-file-pdf' },
+      { href: 'pdf-polar-tensor.html',     label: 'Documentation PDF', icon: 'fa-file-pdf' },
       { href: 'videos-polar-tensor.html',  label: 'Vidéos',            icon: 'fa-video' },
     ],
     'e-state-immobilier.html': [
