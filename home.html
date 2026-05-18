@@ -447,15 +447,15 @@ const _sb = window.supabase.createClient(
       </a>
     </div>
 
-    <!-- Lundi AURUM -->
+    <!-- Mardi AURUM -->
     <div class="card" style="text-align:center; min-width:260px; flex:1; max-width:340px;">
       <div style="margin-bottom:12px;"><i class="fa-solid fa-robot" style="font-size:2.2rem;color:#2060ff;filter:drop-shadow(0 0 10px rgba(32,96,255,0.6));"></i></div>
-      <h3 style="color:#2060ff;">Lundi — 19h00</h3>
+      <h3 style="color:#2060ff;">Mardi — 20h30</h3>
       <p style="color:#aaa; font-size:0.9rem; margin:8px 0;">Présentation AURUM</p>
-      <p id="countdown-monday" style="color:#2060ff; font-size:1.3rem; font-weight:700; margin:12px 0;">--:--:--</p>
-      <a href="https://meet.google.com/ymf-oouu-txa" target="_blank"
+      <p id="countdown-tuesday" style="color:#2060ff; font-size:1.3rem; font-weight:700; margin:12px 0;">--:--:--</p>
+      <a href="https://us02web.zoom.us/j/4452970429" target="_blank"
         style="background:#2060ff;color:#ffffff;padding:8px 18px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.85rem;">
-        Rejoindre le Meet
+        Rejoindre le Zoom
       </a>
     </div>
 
@@ -496,13 +496,13 @@ function updateCountdowns() {
     (hS > 23 ? Math.floor(hS/24) + 'j ' + (hS%24) : hS) + 'h ' +
     String(mS).padStart(2,'0') + 'min ' + String(sS).padStart(2,'0') + 'sec';
 
-  // Lundi = 1, 19h00
-  var nextMonday = getNextDay(1, 19, 0);
-  var diffM = nextMonday - now;
+  // Mardi = 2, 20h30
+  var nextTuesday = getNextDay(2, 20, 30);
+  var diffM = nextTuesday - now;
   var hM = Math.floor(diffM / 3600000);
   var mM = Math.floor((diffM % 3600000) / 60000);
   var sM = Math.floor((diffM % 60000) / 1000);
-  document.getElementById('countdown-monday').textContent =
+  document.getElementById('countdown-tuesday').textContent =
     (hM > 23 ? Math.floor(hM/24) + 'j ' + (hM%24) : hM) + 'h ' +
     String(mM).padStart(2,'0') + 'min ' + String(sM).padStart(2,'0') + 'sec';
 }
