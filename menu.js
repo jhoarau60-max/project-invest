@@ -623,6 +623,24 @@ if ('serviceWorker' in navigator) {
     })();
 
 
+    // Injection automatique des pages absentes du nav
+    (function() {
+      var injectItems = [
+        { href: 'polar-tensor.html', label: 'Polar Tensor', after: 'arbcore.html' },
+      ];
+      injectItems.forEach(function(item) {
+        if (ulEl && !ulEl.querySelector('a[href="' + item.href + '"]')) {
+          var newLi = document.createElement('li');
+          newLi.innerHTML = '<a href="' + item.href + '">' + item.label + '</a>';
+          var afterLi = Array.from(ulEl.querySelectorAll('li')).find(function(li) {
+            var a = li.querySelector('a'); return a && a.getAttribute('href') === item.after;
+          });
+          if (afterLi) ulEl.insertBefore(newLi, afterLi.nextSibling);
+          else ulEl.appendChild(newLi);
+        }
+      });
+    })();
+
     // Renommer + icônes + sous-menus
     nav.querySelectorAll('ul > li').forEach(function (li) {
       var a = li.querySelector('a');
