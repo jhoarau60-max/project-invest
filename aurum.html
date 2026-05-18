@@ -90,24 +90,9 @@ setTimeout(()=>{_sb.auth.getSession().then(({data})=>{if(!data.session)window.lo
 <!-- HERO -->
 <div class="page-header">
   <div style="display:flex;justify-content:center;margin-bottom:18px;">
-    <svg class="aurum-logo-anim" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="140" height="140">
-      <defs>
-        <linearGradient id="ag1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2060ff"/><stop offset="100%" stop-color="#00aaff"/></linearGradient>
-        <linearGradient id="ag2" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#1a3a8c"/><stop offset="100%" stop-color="#0a1840"/></linearGradient>
-        <filter id="aglow"><feGaussianBlur stdDeviation="3" result="cb"/><feMerge><feMergeNode in="cb"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-      </defs>
-      <!-- Cercle extérieur -->
-      <circle cx="100" cy="100" r="90" fill="url(#ag2)" stroke="url(#ag1)" stroke-width="2.5" filter="url(#aglow)"/>
-      <circle cx="100" cy="100" r="75" fill="none" stroke="rgba(32,96,255,0.3)" stroke-width="1"/>
-      <!-- Lettre A centrale -->
-      <text x="100" y="120" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="72" font-weight="900" fill="url(#ag1)" filter="url(#aglow)" letter-spacing="-2">A</text>
-      <!-- Petits accents décoratifs -->
-      <circle cx="100" cy="42" r="5" fill="#2060ff" filter="url(#aglow)"/>
-      <line x1="60" y1="160" x2="140" y2="160" stroke="url(#ag1)" stroke-width="2" opacity="0.5"/>
-      <text x="100" y="180" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="rgba(255,255,255,0.5)" letter-spacing="4">AURUM</text>
-    </svg>
+    <img src="logo-aurum.png" alt="AURUM" class="aurum-logo-anim" style="max-width:280px;max-height:140px;object-fit:contain;">
   </div>
-  <h1><i class="fa-solid fa-robot" style="margin-right:12px;color:#2060ff;"></i>AURUM — Bot Trading IA</h1>
+  <h1><i class="fa-solid fa-robot" style="margin-right:12px;color:#2060ff;"></i>AURUM Bot Trading IA</h1>
   <p>Fintech décentralisée · Trading automatique 24h/7j · IA avancée sur cryptomonnaies</p>
 </div>
 
