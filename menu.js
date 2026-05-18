@@ -30,7 +30,7 @@ if ('serviceWorker' in navigator) {
     'pdf-societe.html':              'fa-screwdriver-wrench',
     'planning-webinaire.html':       'fa-video',
     'e-state-immobilier.html':       'fa-building',
-    'smart-mev-trading.html':        'fa-robot',
+    'aurum.html':                    'fa-robot',
     'mlm-center.html':               'fa-sitemap',
     'portage-salarial.html':         'fa-briefcase',
     'pdf-portage.html':              'fa-file-pdf',
@@ -59,7 +59,7 @@ if ('serviceWorker' in navigator) {
     'pdf-societe.html':        'Outils',
     'planning-webinaire.html': 'Conférences',
     'e-state-immobilier.html': 'Immobilier Digital',
-    'smart-mev-trading.html':  'Bot Trading',
+    'aurum.html':              'Bot Trading',
     'mlm-center.html':         'Système Matriciel',
     'bibliotheque-mlm.html':   'Avis Clients',
     'admin.html':              '⚙ Admin',
@@ -87,8 +87,8 @@ if ('serviceWorker' in navigator) {
       { href: 'videos-immobilier.html',       label: 'Outils Vidéo',     icon: 'fa-video' },
       { href: 'pdf-immobilier.html',          label: 'Documents Officiels', icon: 'fa-file-pdf' },
     ],
-    'smart-mev-trading.html': [
-      { href: 'bibliotheque-trading.html', label: 'Smart Bot',           icon: 'fa-robot' },
+    'aurum.html': [
+      { href: 'aurum.html',                label: 'AURUM',               icon: 'fa-robot' },
       { href: 'videos-trading.html',       label: 'Outils Vidéo',        icon: 'fa-video' },
       { href: 'pdf-trading.html',          label: 'Documents Officiels', icon: 'fa-file-pdf' },
     ],
