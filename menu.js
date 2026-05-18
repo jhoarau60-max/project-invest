@@ -637,7 +637,7 @@ if ('serviceWorker' in navigator) {
     // Injection automatique des pages absentes du nav
     (function() {
       var injectItems = [
-        { href: 'polar-tensor.html', label: 'Polar Tensor', after: 'arbcore.html' },
+        { href: 'polar-tensor.html', label: 'Polar Tensor', after: 'aurum.html' },
       ];
       injectItems.forEach(function(item) {
         if (ulEl && !ulEl.querySelector('a[href="' + item.href + '"]')) {
