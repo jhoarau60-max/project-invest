@@ -770,7 +770,7 @@ setTimeout(function(){
             <li><a href="e-state-immobilier.html">E-state Immobilier Tokénisé</a></li>
             <li><a href="arthena.html">Artena</a></li>
             <li><a href="arbcore.html"><i class="fa-solid fa-chart-line" style="color:#c9a84c;font-size:0.85rem;"></i> ArbCore</a></li>
-            <li><a href="smart-mev-trading.html">SMART MEV Trading</a></li>
+            <li><a href="aurum.html">Bot Trading</a></li>
             <li><a href="portage-salarial.html">Portage salarial</a></li>
             <li><a href="parametres.html">&#9881; Paramètres</a></li>
             <li><a href="pdf-societe.html">PDF de société</a></li>
@@ -793,7 +793,7 @@ setTimeout(function(){
     <div class="journal-filtres">
         <button class="filtre-btn actif" data-cat="tous" onclick="filtrer('tous',this)"><span class="dot"></span> Tous</button>
         <button class="filtre-btn" data-cat="estate" onclick="filtrer('estate',this)"><span class="dot"></span> E-Estate</button>
-        <button class="filtre-btn" data-cat="smart" onclick="filtrer('smart',this)"><span class="dot"></span> Smart Bot</button>
+        <button class="filtre-btn" data-cat="smart" onclick="filtrer('smart',this)"><span class="dot"></span> AURUM</button>
         <button class="filtre-btn" data-cat="mlm" onclick="filtrer('mlm',this)"><span class="dot"></span> MLM</button>
         <button class="filtre-btn" data-cat="arbcore" onclick="filtrer('arbcore',this)"><span class="dot"></span> ArbCore</button>
         <button class="filtre-btn" data-cat="arthena" onclick="filtrer('arthena',this)"><span class="dot"></span> Artena</button>
@@ -845,8 +845,8 @@ setTimeout(function(){
 
 <script>
 var catBadge  = { general:'badge-general', trading:'badge-trading', estate:'badge-estate', mlm:'badge-mlm', portage:'badge-portage', site:'badge-site', smart:'badge-trading', arbcore:'badge-general' };
-var catLabel  = { general:'Général', trading:'Bot Trading', estate:'E-Estate', mlm:'MLM Center', portage:'Portage', site:'Site', smart:'Smart Bot', arbcore:'ArbCore', arthena:'Artena' };
-var catLogo   = { estate:'logo-estate.png', smart:'logo-smarts.png', mlm:'logo-mlm.png', arbcore:'logo-project-invest.jpg', general:'logo-project-invest.jpg' };
+var catLabel  = { general:'Général', trading:'Bot Trading', estate:'E-Estate', mlm:'MLM Center', portage:'Portage', site:'Site', smart:'AURUM', arbcore:'ArbCore', arthena:'Artena' };
+var catLogo   = { estate:'logo-estate.png', smart:'logo-aurum.png', mlm:'logo-mlm.png', arbcore:'logo-project-invest.jpg', general:'logo-project-invest.jpg' };
 var catColor  = { estate:'#2ecc71', smart:'#3498db', mlm:'#e67e22', arbcore:'#9b59b6', general:'#c9a84c' };
 var romans    = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX'];
 var CAT_ORDER = ['estate','smart','mlm','arbcore'];

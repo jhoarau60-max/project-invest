@@ -59,7 +59,7 @@ if ('serviceWorker' in navigator) {
     'pdf-societe.html':        'Outils',
     'planning-webinaire.html': 'Conférences',
     'e-state-immobilier.html': 'Immobilier Digital',
-    'aurum.html':              'Bot Trading',
+    'aurum.html':              'AURUM',
     'mlm-center.html':         'Système Matriciel',
     'bibliotheque-mlm.html':   'Avis Clients',
     'admin.html':              '⚙ Admin',
