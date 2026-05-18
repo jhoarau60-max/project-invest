@@ -134,7 +134,7 @@ setTimeout(function(){ _sb.auth.getSession().then(function(r){ if(!r.data.sessio
     <div class="cat-tabs">
         <button class="cat-tab active" data-cat="tous"    onclick="changerCat('tous',this)">&#11088; Tous les avis</button>
         <button class="cat-tab"        data-cat="site"    onclick="changerCat('site',this)">&#127760; Avis du site</button>
-        <button class="cat-tab"        data-cat="trading" onclick="changerCat('trading',this)">&#129302; Avis Bot Trading</button>
+        <button class="cat-tab"        data-cat="trading" onclick="changerCat('trading',this)">&#129302; Avis AURUM</button>
         <button class="cat-tab"        data-cat="estate"  onclick="changerCat('estate',this)">&#127968; Avis E-Estate</button>
         <button class="cat-tab"        data-cat="mlm"     onclick="changerCat('mlm',this)">&#128279; Avis MLM Center</button>
     </div>
@@ -163,7 +163,7 @@ setTimeout(function(){ _sb.auth.getSession().then(function(r){ if(!r.data.sessio
             <label style="color:#aaa;font-size:0.82rem;display:block;margin-bottom:8px;">Catégorie de votre avis</label>
             <div class="cat-select-group">
                 <button class="cat-select-btn selected" data-val="site"    onclick="selCat(this)">&#127760; Site</button>
-                <button class="cat-select-btn"           data-val="trading" onclick="selCat(this)">&#129302; Bot Trading</button>
+                <button class="cat-select-btn"           data-val="trading" onclick="selCat(this)">&#129302; AURUM</button>
                 <button class="cat-select-btn"           data-val="estate"  onclick="selCat(this)">&#127968; E-Estate</button>
                 <button class="cat-select-btn"           data-val="mlm"     onclick="selCat(this)">&#128279; MLM Center</button>
             </div>
@@ -213,9 +213,9 @@ setTimeout(function(){ _sb.auth.getSession().then(function(r){ if(!r.data.sessio
 
 <script>
 var catActuelle = 'tous';
-var catLabels = { tous:'Tous les avis', site:'Avis du site', trading:'Avis Bot Trading', estate:'Avis E-Estate', mlm:'Avis MLM Center' };
+var catLabels = { tous:'Tous les avis', site:'Avis du site', trading:'Avis AURUM', estate:'Avis E-Estate', mlm:'Avis MLM Center' };
 var catBadgeClass = { site:'cat-site', trading:'cat-trading', estate:'cat-estate', mlm:'cat-mlm' };
-var catBadgeLabel = { site:'Site', trading:'Bot Trading', estate:'E-Estate', mlm:'MLM Center' };
+var catBadgeLabel = { site:'Site', trading:'AURUM', estate:'E-Estate', mlm:'MLM Center' };
 
 var sliderNote = document.getElementById('avis-note');
 var noteVal    = document.getElementById('note-val');
