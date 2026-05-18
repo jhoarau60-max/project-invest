@@ -34,7 +34,7 @@
         0%,100% { box-shadow:0 0 30px var(--pt-glow); }
         50%      { box-shadow:0 0 50px var(--pt-glow), 0 0 80px rgba(120,80,255,0.3); }
       }
-      .pt-logo-wrap span { font-size:3rem; }
+      .pt-logo-wrap img { width:75px; height:75px; object-fit:contain; border-radius:8px; }
       .pt-title { font-family:'Arial Black',sans-serif; font-size:2.8rem; font-weight:900; letter-spacing:6px; color:#fff; text-shadow:0 0 30px var(--pt-glow); margin-bottom:6px; }
       .pt-subtitle { color:var(--pt); font-size:0.9rem; letter-spacing:3px; text-transform:uppercase; margin-bottom:30px; }
 
@@ -135,7 +135,7 @@ setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window
 
 <!-- HERO -->
 <div class="pt-hero">
-    <div class="pt-logo-wrap"><span>🤖</span></div>
+    <div class="pt-logo-wrap"><img src="logo-polar-tensor.png" alt="Polar Tensor"></div>
     <div class="pt-title">POLAR TENSOR</div>
     <div class="pt-subtitle">Trading Crypto IA — Deep Learning sur Binance</div>
     <div class="legal-badge">&#9989; Enregistré — Panama · Pologne · Wyoming · Hong Kong</div>
