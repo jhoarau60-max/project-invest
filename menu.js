@@ -52,6 +52,8 @@ if ('serviceWorker' in navigator) {
     'arthena.html':                  'fa-gem',
     'pdf-arthena.html':              'fa-file-pdf',
     'videos-arthena.html':           'fa-video',
+    'polar-tensor.html':             'fa-robot',
+    'videos-polar-tensor.html':      'fa-video',
   };
 
   // Renommer les onglets
@@ -81,6 +83,11 @@ if ('serviceWorker' in navigator) {
       { href: 'arthena.html',        label: 'Artena',           icon: 'fa-gem' },
       { href: 'pdf-arthena.html',    label: 'Documents PDF',    icon: 'fa-file-pdf' },
       { href: 'videos-arthena.html', label: 'Vidéos',           icon: 'fa-video' },
+    ],
+    'polar-tensor.html': [
+      { href: 'polar-tensor.html',         label: 'Polar Tensor',      icon: 'fa-robot' },
+      { href: 'polar-tensor.pdf',          label: 'Documentation PDF', icon: 'fa-file-pdf' },
+      { href: 'videos-polar-tensor.html',  label: 'Vidéos',            icon: 'fa-video' },
     ],
     'e-state-immobilier.html': [
       { href: 'bibliotheque-immobilier.html', label: 'Biens Immobiliers', icon: 'fa-building' },

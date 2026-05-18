@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project inves'T - Polar Tensor</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+      .line-anim  { stroke-dasharray: 40 960; animation: snake 6s linear infinite, rainbow 5s linear infinite; }
+      .line-anim2 { stroke-dasharray: 40 960; animation: snake 8s linear infinite reverse, rainbow 5s linear infinite 1.5s; }
+      .line-anim3 { stroke-dasharray: 40 960; animation: snake 7s linear infinite, rainbow 5s linear infinite 3s; }
+      @keyframes snake { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: -1000; } }
+      @keyframes rainbow {
+        0%   { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
+        20%  { stroke: #7850ff; filter: drop-shadow(0 0 6px #7850ff); }
+        40%  { stroke: #ff3399; filter: drop-shadow(0 0 6px #ff3399); }
+        60%  { stroke: #ffaa00; filter: drop-shadow(0 0 6px #ffaa00); }
+        80%  { stroke: #00ff99; filter: drop-shadow(0 0 6px #00ff99); }
+        100% { stroke: #00c8ff; filter: drop-shadow(0 0 6px #00c8ff); }
+      }
+      :root { --pt: #7850ff; --pt-light: rgba(120,80,255,0.12); --pt-glow: rgba(120,80,255,0.45); }
+
+      .pt-hero { display:flex; flex-direction:column; align-items:center; text-align:center; padding:40px 20px 20px; }
+      .pt-logo-wrap {
+        width:110px; height:110px; border-radius:50%;
+        border:2px solid var(--pt);
+        box-shadow:0 0 30px var(--pt-glow), 0 0 60px rgba(120,80,255,0.2);
+        display:flex; align-items:center; justify-content:center;
+        margin-bottom:20px;
+        background:radial-gradient(circle, rgba(120,80,255,0.15) 0%, transparent 70%);
+        animation:ptPulse 3s ease-in-out infinite;
+      }
+      @keyframes ptPulse {
+        0%,100% { box-shadow:0 0 30px var(--pt-glow); }
+        50%      { box-shadow:0 0 50px var(--pt-glow), 0 0 80px rgba(120,80,255,0.3); }
+      }
+      .pt-logo-wrap span { font-size:3rem; }
+      .pt-title { font-family:'Arial Black',sans-serif; font-size:2.8rem; font-weight:900; letter-spacing:6px; color:#fff; text-shadow:0 0 30px var(--pt-glow); margin-bottom:6px; }
+      .pt-subtitle { color:var(--pt); font-size:0.9rem; letter-spacing:3px; text-transform:uppercase; margin-bottom:30px; }
+
+      .pt-stats { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; margin:30px 0; }
+      .pt-stat { background:var(--pt-light); border:1px solid rgba(120,80,255,0.35); border-radius:14px; padding:20px 28px; text-align:center; min-width:130px; transition:all 0.3s; }
+      .pt-stat:hover { border-color:var(--pt); box-shadow:0 0 20px var(--pt-glow); transform:translateY(-3px); }
+      .pt-stat-val { font-size:1.8rem; font-weight:900; color:var(--pt); line-height:1; margin-bottom:6px; }
+      .pt-stat-label { font-size:0.72rem; color:#aaa; text-transform:uppercase; letter-spacing:1px; }
+
+      .pt-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; margin:30px 0; }
+      .pt-card { background:rgba(120,80,255,0.05); border:1px solid rgba(120,80,255,0.2); border-radius:14px; padding:24px; transition:all 0.3s; }
+      .pt-card:hover { border-color:rgba(120,80,255,0.5); background:rgba(120,80,255,0.08); }
+      .pt-card-icon { font-size:1.8rem; margin-bottom:12px; }
+      .pt-card h3 { color:var(--pt); font-size:1rem; font-weight:700; margin-bottom:10px; text-transform:uppercase; letter-spacing:1px; }
+      .pt-card p { color:#ccc; font-size:0.88rem; line-height:1.7; }
+      .pt-card ul { list-style:none; padding:0; margin:0; }
+      .pt-card ul li { color:#ccc; font-size:0.87rem; padding:5px 0; border-bottom:1px solid rgba(120,80,255,0.1); display:flex; align-items:center; gap:8px; }
+      .pt-card ul li:last-child { border-bottom:none; }
+      .pt-card ul li::before { content:'▸'; color:var(--pt); }
+
+      .pt-table-wrap { overflow-x:auto; margin:20px 0; }
+      .pt-table { width:100%; border-collapse:collapse; font-size:0.82rem; }
+      .pt-table th { background:rgba(120,80,255,0.2); color:var(--pt); padding:10px 14px; text-align:center; font-weight:700; text-transform:uppercase; letter-spacing:1px; border:1px solid rgba(120,80,255,0.2); }
+      .pt-table td { padding:9px 14px; text-align:center; color:#ccc; border:1px solid rgba(120,80,255,0.1); }
+      .pt-table tr:nth-child(even) td { background:rgba(120,80,255,0.04); }
+      .pt-table tr:hover td { background:rgba(120,80,255,0.1); }
+
+      .plan-badge { display:inline-block; padding:3px 12px; border-radius:20px; font-weight:700; font-size:0.8rem; }
+      .plan-debutant   { background:rgba(100,200,100,0.15);  color:#64c864; border:1px solid #64c864; }
+      .plan-essentiel  { background:rgba(0,200,255,0.15);    color:#00c8ff; border:1px solid #00c8ff; }
+      .plan-avance     { background:rgba(120,80,255,0.2);    color:#7850ff; border:1px solid #7850ff; }
+      .plan-pro        { background:rgba(255,200,0,0.15);    color:#ffc800; border:1px solid #ffc800; }
+      .plan-elite      { background:rgba(255,100,200,0.15);  color:#ff64c8; border:1px solid #ff64c8; }
+      .plan-entreprise { background:rgba(229,228,226,0.15);  color:#e5e4e2; border:1px solid #e5e4e2; }
+
+      .pt-cta { text-align:center; padding:40px 20px; background:linear-gradient(135deg,rgba(120,80,255,0.08) 0%,transparent 100%); border:1px solid rgba(120,80,255,0.2); border-radius:16px; margin:30px 0; }
+      .pt-cta h2 { color:#fff; font-size:1.5rem; margin-bottom:12px; }
+      .pt-cta p  { color:#aaa; margin-bottom:24px; }
+      .pt-btn { display:inline-block; background:linear-gradient(135deg,#7850ff,#00c8ff); color:#fff; padding:13px 32px; border-radius:30px; font-weight:700; font-size:0.95rem; text-decoration:none; letter-spacing:1px; box-shadow:0 0 20px var(--pt-glow); transition:all 0.3s; }
+      .pt-btn:hover { box-shadow:0 0 35px var(--pt-glow); transform:translateY(-2px); }
+
+      .section-title-pt { color:var(--pt); font-size:1.1rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; margin:40px 0 20px; display:flex; align-items:center; gap:10px; }
+      .section-title-pt::after { content:''; flex:1; height:1px; background:linear-gradient(to right,rgba(120,80,255,0.4),transparent); }
+
+      .legal-badge { display:inline-flex; align-items:center; gap:6px; background:rgba(46,204,113,0.1); border:1px solid rgba(46,204,113,0.3); color:#2ecc71; padding:5px 14px; border-radius:20px; font-size:0.78rem; font-weight:600; margin-bottom:16px; }
+
+      .reflink-box { background:rgba(120,80,255,0.08); border:1px solid rgba(120,80,255,0.3); border-radius:12px; padding:16px 20px; margin:20px 0; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+      .reflink-box a { color:var(--pt); font-weight:700; font-size:0.88rem; word-break:break-all; }
+    </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const _sb=window.supabase.createClient("https://cvggxktybzbrtskcwlxp.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Z2d4a3R5YnpicnRza2N3bHhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyODM2MjcsImV4cCI6MjA4OTg1OTYyN30.cfHsAvmgcXYvedCz1fZCHlxOApupKCxnt8t9e8KzNBs");
+setTimeout(()=>{ _sb.auth.getSession().then(({data})=>{ if(!data.session) window.location.href="index.html"; }); }, 800);
+</script>
+<link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#00c8ff">
+</head>
+<body>
+
+<div id="bg-curves">
+  <svg viewBox="0 0 1700 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs><filter id="glow-line"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    <path class="line-anim"  d="M-100,300 C200,100 400,500 800,250 S1200,50 1700,300"  fill="none" stroke="rgba(120,80,255,0.2)"  stroke-width="2" filter="url(#glow-line)"/>
+    <path class="line-anim2" d="M-100,600 C300,400 600,800 1000,550 S1400,300 1700,600" fill="none" stroke="rgba(120,80,255,0.15)" stroke-width="2" filter="url(#glow-line)"/>
+    <path class="line-anim3" d="M-100,150 C300,50 700,350 1100,150 S1450,0 1700,180"   fill="none" stroke="rgba(120,80,255,0.1)" stroke-width="1.5" filter="url(#glow-line)"/>
+    <circle cx="200" cy="180" r="130" fill="none" stroke="rgba(120,80,255,0.15)" stroke-width="1.5"/>
+    <circle cx="1500" cy="700" r="160" fill="none" stroke="rgba(120,80,255,0.12)" stroke-width="1.5"/>
+  </svg>
+</div>
+
+<header>
+    <div class="header-top">
+        <a href="home.html" class="logo-svg">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 75" height="70" width="310">
+    <defs><filter id="glow"><feGaussianBlur stdDeviation="2.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    <path d="M 51,15 A 28,28 0 1,0 51,60" fill="none" stroke="#00c8ff" stroke-width="2.5" filter="url(#glow)"/>
+    <path d="M 46,22 A 20,20 0 1,0 46,53" fill="none" stroke="#1a7fdb" stroke-width="1.2" opacity="0.6"/>
+    <line x1="51" y1="15" x2="305" y2="15" stroke="#00c8ff" stroke-width="1.8" opacity="0.9" filter="url(#glow)"/>
+    <line x1="51" y1="60" x2="305" y2="60" stroke="#1a9fff" stroke-width="1.8" opacity="0.9" filter="url(#glow)"/>
+    <text x="20" y="44" font-family="Arial Black,sans-serif" font-size="23" font-weight="900" fill="#ffffff" filter="url(#glow)">P</text>
+    <text x="57" y="47" font-family="Arial Black,sans-serif" font-size="28" font-weight="900" fill="#ffffff" letter-spacing="1">inves<tspan fill="#00c8ff" filter="url(#glow)">'T</tspan></text>
+  </svg>
+</a>
+        <div class="social-links">
+            <a href="https://t.me/+X55Bl0qpvx42ZmE0" target="_blank" style="background:#229ED9;color:#fff;border-color:#229ED9;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-telegram"></i> Telegram</a>
+            <a href="http://www.youtube.com/@Projectinvest-q3o" target="_blank" style="background:#FF0000;color:#fff;border-color:#FF0000;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;">&#9654; YouTube</a>
+            <a href="https://wa.me/320492931040" target="_blank" style="background:#25D366;color:#fff;border-color:#25D366;border-radius:20px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+            <a href="#" onclick="_sb.auth.signOut().then(()=>window.location.href='index.html')" style="background:#00c8ff;color:#ffffff;border-color:#00c8ff;font-weight:700;">&#9211; Déconnexion</a>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="home.html">Accueil</a></li>
+            <li><a href="investissements.html">Investissements</a></li>
+            <li><a href="polar-tensor.html" class="active">Polar Tensor</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- HERO -->
+<div class="pt-hero">
+    <div class="pt-logo-wrap"><span>🤖</span></div>
+    <div class="pt-title">POLAR TENSOR</div>
+    <div class="pt-subtitle">Trading Crypto IA — Deep Learning sur Binance</div>
+    <div class="legal-badge">&#9989; Enregistré — Panama · Pologne · Wyoming · Hong Kong</div>
+</div>
+
+<!-- STATS -->
+<div class="section">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:16px;margin:30px 0;">
+        <div class="pt-stat"><div class="pt-stat-val">100</div><div class="pt-stat-label">USDT minimum</div></div>
+        <div class="pt-stat"><div class="pt-stat-val">2018</div><div class="pt-stat-label">Fondé</div></div>
+        <div class="pt-stat"><div class="pt-stat-val">2024</div><div class="pt-stat-label">Version live</div></div>
+        <div class="pt-stat"><div class="pt-stat-val">Lun–Ven</div><div class="pt-stat-label">8h–22h UTC</div></div>
+        <div class="pt-stat"><div class="pt-stat-val">20%</div><div class="pt-stat-label">Frais perf. max Élite</div></div>
+    </div>
+
+    <!-- COMMENT ÇA FONCTIONNE -->
+    <div class="section-title-pt">&#9881; Comment fonctionne Polar One</div>
+    <div class="pt-grid" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr));">
+        <div class="pt-card">
+            <div class="pt-card-icon">🧠</div>
+            <h3>Deep Learning IA</h3>
+            <p>Deux types de réseaux neuronaux travaillent ensemble : les <strong style="color:var(--pt)">Trend Networks</strong> analysent les conditions globales (dominance BTC, données on-chain) et les <strong style="color:var(--pt)">Direction Networks</strong> traitent en temps réel le carnet d'ordres, le sentiment et les métriques blockchain pour prédire les mouvements de prix.</p>
+        </div>
+        <div class="pt-card">
+            <div class="pt-card-icon">⚡</div>
+            <h3>Trading Haute Fréquence</h3>
+            <p>Lorsque le modèle affiche un haut niveau de confiance, le système exécute des trades haute fréquence automatiquement. Opérationnel du lundi au vendredi de 8h00 à 22h00 UTC pour garantir une liquidité suffisante.</p>
+        </div>
+        <div class="pt-card">
+            <div class="pt-card-icon">📈</div>
+            <h3>Rendements Composés</h3>
+            <p>La taille des positions augmente automatiquement au fur et à mesure que le solde croît, tout en maintenant le même niveau de risque. Les bénéfices sont distribués chaque <strong style="color:var(--pt)">vendredi à 23h00 UTC</strong>.</p>
+        </div>
+        <div class="pt-card">
+            <div class="pt-card-icon">🔒</div>
+            <h3>Sécurité & Transparence</h3>
+            <ul>
+                <li>Actif sur Binance depuis début 2024</li>
+                <li>1,5 an d'optimisation post-FTX (2022–2024)</li>
+                <li>Licences réglementaires : Panama, Pologne, Wyoming</li>
+                <li>Numéro SEC USA CIK : 0002085242</li>
+                <li>Numéro FINCEN : 31000321683570</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- PLANS -->
+    <div class="section-title-pt">💼 Plans disponibles</div>
+    <p style="color:#aaa;font-size:0.88rem;margin-bottom:16px;">Des frais de licence uniques de <strong style="color:var(--pt)">10%</strong> sont déduits du montant déposé. Des frais de performance sont appliqués sur les bénéfices générés, selon le plan choisi.</p>
+    <div class="pt-table-wrap">
+        <table class="pt-table">
+            <thead>
+                <tr>
+                    <th>Plan</th>
+                    <th>Montant minimum</th>
+                    <th>Frais de performance</th>
+                    <th>Retrait</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="plan-badge plan-debutant">DÉBUTANT</span></td>
+                    <td>100 USDT</td><td>50%</td><td>À tout moment</td>
+                </tr>
+                <tr>
+                    <td><span class="plan-badge plan-essentiel">ESSENTIEL</span></td>
+                    <td>500 USDT</td><td>40%</td><td>À tout moment</td>
+                </tr>
+                <tr>
+                    <td><span class="plan-badge plan-avance">AVANCÉ</span></td>
+                    <td>2 000 USDT</td><td>35%</td><td>À tout moment</td>
+                </tr>
+                <tr>
+                    <td><span class="plan-badge plan-pro">PROFESSIONNEL</span></td>
+                    <td>8 000 USDT</td><td>30%</td><td>À tout moment</td>
+                </tr>
+                <tr>
+                    <td><span class="plan-badge plan-elite">ÉLITE</span></td>
+                    <td>25 000 USDT</td><td>25%</td><td>À tout moment</td>
+                </tr>
+                <tr>
+                    <td><span class="plan-badge plan-entreprise">ENTREPRISE</span></td>
+                    <td>100 000 USDT</td><td>20%</td><td>À tout moment</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <p style="color:#888;font-size:0.8rem;margin-top:8px;">⚠️ Frais de retrait uniques de 10% (réduits à 5% après 12 mois, supprimés après 24 mois).</p>
+
+    <!-- PARRAINAGE -->
+    <div class="section-title-pt">🤝 Récompenses parrainage (3 niveaux)</div>
+    <div class="pt-grid" style="grid-template-columns:repeat(3,1fr);">
+        <div class="pt-card" style="text-align:center;">
+            <div class="pt-card-icon">1️⃣</div>
+            <h3>Niveau 1</h3>
+            <div style="font-size:2rem;font-weight:900;color:var(--pt);margin:10px 0;">20%</div>
+            <p>Sur les frais de licence de chaque personne directement parrainée</p>
+        </div>
+        <div class="pt-card" style="text-align:center;">
+            <div class="pt-card-icon">2️⃣</div>
+            <h3>Niveau 2</h3>
+            <div style="font-size:2rem;font-weight:900;color:var(--pt);margin:10px 0;">15%</div>
+            <p>Sur les frais de licence des personnes parrainées par votre niveau 1</p>
+        </div>
+        <div class="pt-card" style="text-align:center;">
+            <div class="pt-card-icon">3️⃣</div>
+            <h3>Niveau 3</h3>
+            <div style="font-size:2rem;font-weight:900;color:var(--pt);margin:10px 0;">10%</div>
+            <p>Sur les frais de licence des personnes parrainées par votre niveau 2</p>
+        </div>
+    </div>
+
+    <!-- LIEN PARRAINAGE -->
+    <div class="section-title-pt">🔗 Votre lien de parrainage</div>
+    <div class="reflink-box">
+        <span style="color:#aaa;font-size:0.85rem;">Parrainez avec ce lien :</span>
+        <a href="https://polar-tensor.com/sign/up/jonas05" target="_blank">https://polar-tensor.com/sign/up/jonas05</a>
+    </div>
+
+    <!-- PDF -->
+    <div class="section-title-pt">📄 Documentation</div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:30px;">
+        <a href="polar-tensor.pdf" target="_blank" class="pt-btn" style="background:rgba(120,80,255,0.15);border:1px solid var(--pt);color:var(--pt);box-shadow:none;">📄 Télécharger la présentation PDF</a>
+        <a href="videos-polar-tensor.html" class="pt-btn" style="background:rgba(120,80,255,0.15);border:1px solid var(--pt);color:var(--pt);box-shadow:none;">▶ Vidéos de présentation</a>
+    </div>
+
+    <!-- CTA -->
+    <div class="pt-cta">
+        <h2>Commencer avec Polar Tensor</h2>
+        <p>Créez votre compte et commencez à générer des rendements dès aujourd'hui avec l'IA de trading haute fréquence.</p>
+        <a href="https://polar-tensor.com/sign/up/jonas05" target="_blank" class="pt-btn">S'inscrire maintenant →</a>
+    </div>
+</div>
+
+<footer>
+    <p>&#169; 2026 Project inves'T — Site personnel, non professionnel. Les investissements comportent des risques.</p>
+</footer>
+
+<script src="menu.js"></script>
+<script src="sofia-chat.js?v=7"></script>
+<script src="audio.js"></script>
+<script src="translator.js"></script>
+</body>
+</html>
