@@ -74,7 +74,7 @@ if ('serviceWorker' in navigator) {
   };
 
   // Pages masquées du sidebar
-  var HIDE_ITEMS = ['journal.html', 'bibliotheque-mlm.html', 'boutique.html', 'mlm-center.html'];
+  var HIDE_ITEMS = ['journal.html', 'bibliotheque-mlm.html', 'boutique.html', 'mlm-center.html', 'e-state-immobilier.html'];
 
   // Sous-menus
   var SUB_ITEMS = {
