@@ -290,7 +290,7 @@ const _sb = window.supabase.createClient(
         Plateforme d'investissement privée
     </div>
     <h1 id="welcome-title">Bienvenue sur Project inves'T</h1>
-    <p>Rejoignez une communauté d'investisseurs passionnés. Découvrez des opportunités d'investissement sélectionnées dans l'immobilier tokenisé, le trading algorithmique et le MLM.</p>
+    <p>Rejoignez une communauté d'investisseurs passionnés. Découvrez des opportunités d'investissement sélectionnées dans le trading algorithmique et le MLM.</p>
     <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:8px;">
         <a href="investissements.html" class="btn">Découvrir les opportunités</a>
         <a href="https://www.skool.com/academie-invest-3966" target="_blank" class="btn btn-outline">Rejoindre la communauté</a>
@@ -417,99 +417,6 @@ const _sb = window.supabase.createClient(
 })();
 </script>
 
-<!-- CADRAN PROCHAIN ZOOM -->
-<div class="section" style="padding:30px 20px;">
-  <h2 class="section-title"><i class="fa-solid fa-calendar-days" style="font-size:1.6rem;margin-right:10px;background:linear-gradient(135deg,#00c8ff,#7850ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;"></i>Prochains Webinaires</h2>
-  <div class="divider"></div>
-  <div style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center; margin-top:20px;">
-
-    <!-- Jeudi -->
-    <div class="card" style="text-align:center; min-width:260px; flex:1; max-width:340px;">
-      <div style="margin-bottom:12px;"><i class="fa-solid fa-video" style="font-size:2.2rem;color:#00c8ff;filter:drop-shadow(0 0 10px rgba(0,200,255,0.6));"></i></div>
-      <h3 style="color:#00c8ff;">Jeudi — 21h00</h3>
-      <p style="color:#aaa; font-size:0.9rem; margin:8px 0;">Présentation E-estate</p>
-      <p id="countdown-thursday" style="color:#00c8ff; font-size:1.3rem; font-weight:700; margin:12px 0;">--:--:--</p>
-      <a href="https://meet.google.com/vqs-hzfs-qyy" target="_blank"
-        style="background:#00c8ff;color:#ffffff;padding:8px 18px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.85rem;">
-        Rejoindre le Meet
-      </a>
-    </div>
-
-    <!-- Samedi -->
-    <div class="card" style="text-align:center; min-width:260px; flex:1; max-width:340px;">
-      <div style="margin-bottom:12px;"><i class="fa-solid fa-calendar-check" style="font-size:2.2rem;color:#c9a84c;filter:drop-shadow(0 0 10px rgba(201,168,76,0.6));"></i></div>
-      <h3 style="color:#c9a84c;">Samedi — 17h00</h3>
-      <p style="color:#aaa; font-size:0.9rem; margin:8px 0;">Présentation E-estate</p>
-      <p id="countdown-saturday" style="color:#c9a84c; font-size:1.3rem; font-weight:700; margin:12px 0;">--:--:--</p>
-      <a href="https://meet.google.com/rzy-bgok-mwz" target="_blank"
-        style="background:#c9a84c;color:#ffffff;padding:8px 18px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.85rem;">
-        Rejoindre le Meet
-      </a>
-    </div>
-
-    <!-- Mardi AURUM -->
-    <div class="card" style="text-align:center; min-width:260px; flex:1; max-width:340px;">
-      <div style="margin-bottom:12px;"><i class="fa-solid fa-robot" style="font-size:2.2rem;color:#2060ff;filter:drop-shadow(0 0 10px rgba(32,96,255,0.6));"></i></div>
-      <h3 style="color:#2060ff;">Mardi — 20h30</h3>
-      <p style="color:#aaa; font-size:0.9rem; margin:8px 0;">Présentation AURUM</p>
-      <p id="countdown-tuesday" style="color:#2060ff; font-size:1.3rem; font-weight:700; margin:12px 0;">--:--:--</p>
-      <a href="https://us02web.zoom.us/j/4452970429" target="_blank"
-        style="background:#2060ff;color:#ffffff;padding:8px 18px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.85rem;">
-        Rejoindre le Zoom
-      </a>
-    </div>
-
-  </div>
-</div>
-
-<script>
-function getNextDay(dayOfWeek, hour, minute) {
-  var now = new Date();
-  var next = new Date();
-  next.setHours(hour, minute, 0, 0);
-  var diff = dayOfWeek - now.getDay();
-  if (diff < 0 || (diff === 0 && now >= next)) diff += 7;
-  next.setDate(now.getDate() + diff);
-  return next;
-}
-
-function updateCountdowns() {
-  var now = new Date();
-
-  // Jeudi = 4, 21h00
-  var nextThursday = getNextDay(4, 21, 0);
-  var diffT = nextThursday - now;
-  var hT = Math.floor(diffT / 3600000);
-  var mT = Math.floor((diffT % 3600000) / 60000);
-  var sT = Math.floor((diffT % 60000) / 1000);
-  document.getElementById('countdown-thursday').textContent =
-    (hT > 23 ? Math.floor(hT/24) + 'j ' + (hT%24) : hT) + 'h ' +
-    String(mT).padStart(2,'0') + 'min ' + String(sT).padStart(2,'0') + 'sec';
-
-  // Samedi = 6, 17h00
-  var nextSaturday = getNextDay(6, 17, 0);
-  var diffS = nextSaturday - now;
-  var hS = Math.floor(diffS / 3600000);
-  var mS = Math.floor((diffS % 3600000) / 60000);
-  var sS = Math.floor((diffS % 60000) / 1000);
-  document.getElementById('countdown-saturday').textContent =
-    (hS > 23 ? Math.floor(hS/24) + 'j ' + (hS%24) : hS) + 'h ' +
-    String(mS).padStart(2,'0') + 'min ' + String(sS).padStart(2,'0') + 'sec';
-
-  // Mardi = 2, 20h30
-  var nextTuesday = getNextDay(2, 20, 30);
-  var diffM = nextTuesday - now;
-  var hM = Math.floor(diffM / 3600000);
-  var mM = Math.floor((diffM % 3600000) / 60000);
-  var sM = Math.floor((diffM % 60000) / 1000);
-  document.getElementById('countdown-tuesday').textContent =
-    (hM > 23 ? Math.floor(hM/24) + 'j ' + (hM%24) : hM) + 'h ' +
-    String(mM).padStart(2,'0') + 'min ' + String(sM).padStart(2,'0') + 'sec';
-}
-
-updateCountdowns();
-setInterval(updateCountdowns, 1000);
-</script>
 
 <!-- PRÉSENTATION -->
 <div>
@@ -596,32 +503,7 @@ setInterval(updateCountdowns, 1000);
             <br>
             <a href="pdf-societe.html" style="color:#c9a84c; text-decoration:none; font-weight:600;">Télécharger →</a>
         </div>
-        <a href="aurum.html" class="card" style="display:block;text-decoration:none;cursor:pointer;">
-            <div class="card-icon"><img src="logo-aurum.png" alt="AURUM" style="max-width:140px;max-height:60px;object-fit:contain;"></div>
-            <h3>AURUM — Bot Trading IA</h3>
-            <p>Trading automatique par intelligence artificielle. Rendement 10 à 17%/mois selon le plan. Technologie EX-AI BOT, équipe ex-Binance.</p>
-            <br>
-            <span style="color:#c9a84c; font-weight:600;">En savoir plus →</span>
-        </a>
     </div>
-</div>
-
-
-<!-- WEBINAIRE -->
-<div>
-<div class="section">
-    <h2 class="section-title">Prochain Webinaire</h2>
-    <div class="divider"></div>
-    <div class="card" style="max-width:600px; margin:0 auto; text-align:center;">
-        <div class="card-icon">🎥</div>
-        <h3>Webinaire — Tous les jeudis & samedis</h3>
-        <p>Rejoignez nos webinaires en direct sur Zoom et YouTube. Posez vos questions en temps réel.</p>
-        <br>
-        <p style="color:#c9a84c; font-size:1.1rem; font-weight:700;">📅 Jeudis à 21h00 — Samedis à 17h00</p>
-        <br>
-        <a href="planning-webinaire.html" class="btn">Voir tout le planning</a>
-    </div>
-</div>
 </div>
 
 <footer>
